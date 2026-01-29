@@ -1,0 +1,43 @@
+# Experiment Configuration
+models:
+  - name: gemini-2.5-flash-lite
+    adapter_type: gemini
+    model_identifier: gemini-2.5-flash-lite
+    decoding_overrides: {}
+    rate_limit:
+      requests_per_minute: 2000 # Gemini API limit (reduced to 1000 for stability)
+      max_retries: 2 # Retry on rate limit errors
+      max_concurrent_requests: 28 # Allow up to 100 concurrent requests
+
+  - name: gpt-4o
+    adapter_type: openai
+    model_identifier: gpt-4o
+    rate_limit:
+      requests_per_minute: 500 # OpenAI has higher limits
+      max_retries: 2
+      max_concurrent_requests: 7 # Allow up to 50 concurrent requests
+
+  - name: claude-4.5
+    adapter_type: anthropic
+    model_identifier: claude-haiku-4-5-20251001
+    rate_limit:
+      requests_per_minute: 5 # Anthropic limits
+      max_retries: 2
+
+  - name: local-qwen0.5b
+    adapter_type: vllm
+    model_identifier: Qwen/Qwen2.5-0.5B-Instruct
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models
+
+  - name: llama3.1-8b
+    adapter_type: vllm
+    model_identifier: meta-llama/Llama-3.1-8B
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models
+
+  - name: deepseek-coder-v2-lite
+    adapter_type: vllm
+    model_identifier: deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models
