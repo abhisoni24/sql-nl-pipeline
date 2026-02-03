@@ -60,7 +60,8 @@ class SQLToNLRenderer:
             "gte": "greater than or equal to",
             "lte": "less than or equal to",
             "eq": "equals",
-            "neq": "is not equal to"
+            "neq": "is not equal to",
+            "not": "not"
         }
         
         self.fillers = {
@@ -98,6 +99,20 @@ class SQLToNLRenderer:
             "MAX": ["maximum", "highest", "largest"],
             "MIN": ["minimum", "lowest", "smallest"]
         }
+
+
+
+    def _is_technical_alias(self, alias: str) -> bool:
+        """Check if an alias is likely machine-generated or boilerplate."""
+        if not alias:
+            return False
+        # Matches u1, f1, p2, etc. (table first letter + number)
+        if re.match(r'^[a-z]\d+$', alias.lower()):
+            return True
+        # Matches inner_..., sub_..., subquery, derived_table, subq
+        if any(alias.lower().startswith(prefix) for prefix in ['inner_', 'sub_', 'subquery', 'derived_table', 'subq']):
+            return True
+        return False
 
     def _get_rng(self, extra_seed: str = "") -> random.Random:
         return random.Random(f"{self.config.seed}_{extra_seed}")
@@ -181,7 +196,7 @@ class SQLToNLRenderer:
         if from_node:
             table_name = self._render_table(from_node.this, "main_table")
             alias = from_node.this.alias if hasattr(from_node.this, 'alias') else ""
-            if alias and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
+            if alias and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES) and not self._is_technical_alias(alias):
                 parts.append(f"{table_name} (as {alias})")
             else:
                 parts.append(table_name)
@@ -198,21 +213,14 @@ class SQLToNLRenderer:
             parts.append(self._render_expression(where_node.this, "where_cond"))
         
         # Bug 4 Fix: ORDER BY clause
-        order_node = node.args.get('order')
-        if order_node:
-            order_cols = ", ".join([
-                self._render_order_key(e, f"ord_{i}") 
-                for i, e in enumerate(order_node.expressions)
-            ])
-            parts.append(f"ordered by {order_cols}")
+        order_parts = self._render_order_clause(node, "select_ord")
+        if order_parts:
+            parts.append(order_parts)
         
         # Bug 4 Fix: LIMIT clause
-        # V2 Bug 2 Fix: Use grammatically correct phrasing
-        limit_node = node.args.get('limit')
-        if limit_node:
-            limit_expr = limit_node.expression
-            limit_val = limit_expr.this if hasattr(limit_expr, 'this') else str(limit_expr)
-            parts.append(f"limited to {limit_val} results")
+        limit_parts = self._render_limit_clause(node)
+        if limit_parts:
+            parts.append(limit_parts)
             
         return " ".join(parts)
 
@@ -234,7 +242,18 @@ class SQLToNLRenderer:
         else:
             connector = "combined with (removing duplicates)"
         
-        return f"{left}, {connector} {right}"
+        result = f"{left}, {connector} {right}"
+        
+        # Add top-level clauses (ORDER BY, LIMIT) for UNION
+        order_parts = self._render_order_clause(node, "union_ord")
+        if order_parts:
+            result += f" {order_parts}"
+            
+        limit_parts = self._render_limit_clause(node)
+        if limit_parts:
+            result += f" {limit_parts}"
+            
+        return result
 
     # Bug 8 Fix: Handle INSERT statements
     def render_insert(self, node) -> str:
@@ -343,7 +362,7 @@ class SQLToNLRenderer:
             return "the current time"
 
         # ID 5: Operators
-        if isinstance(expr, (exp.GT, exp.LT, exp.GTE, exp.LTE)):
+        if isinstance(expr, (exp.GT, exp.LT, exp.GTE, exp.LTE, exp.EQ, exp.NEQ)):
             left = self._render_expression(expr.left, context+'_l')
             right = self._render_expression(expr.right, context+'_r')
             if self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
@@ -428,7 +447,8 @@ class SQLToNLRenderer:
             
             # Build description preserving conditions
             if source_table and inner_where:
-                return f"{source_table} filtered by {inner_where}"
+                # V4 Optimization: Use "where" instead of "filtered by" for subqueries
+                return f"{source_table} where {inner_where}"
             elif source_table:
                 return f"{source_table} results"
             return "a derived query"
@@ -449,7 +469,7 @@ class SQLToNLRenderer:
             if syns: name = self._get_rng(context).choice(syns)
             
         # Default to table.column prefix to match original prompt style
-        if table and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
+        if table and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES) and not self._is_technical_alias(table):
             return f"{table}.{name}"
         return name
 
@@ -495,8 +515,32 @@ class SQLToNLRenderer:
             # V3 Bug 3 Fix: Capitalize 'Select' for casing consistency
             return f"Select {cols} from {table}{where_str}"
         
+        # Handle Union within subqueries (nesting)
+        if isinstance(subquery, exp.Union):
+            return self.render_union(subquery)
+        
         # Fallback for non-Select subqueries
         return str(subquery)
+
+    def _render_order_clause(self, node, context: str) -> Optional[str]:
+        """Helper to render ORDER BY clause for Select or Set operations."""
+        order_node = node.args.get('order')
+        if order_node:
+            order_cols = ", ".join([
+                self._render_order_key(e, f"{context}_{i}") 
+                for i, e in enumerate(order_node.expressions)
+            ])
+            return f"ordered by {order_cols}"
+        return None
+
+    def _render_limit_clause(self, node) -> Optional[str]:
+        """Helper to render LIMIT clause for Select or Set operations."""
+        limit_node = node.args.get('limit')
+        if limit_node:
+            limit_expr = limit_node.expression
+            limit_val = limit_expr.this if hasattr(limit_expr, 'this') else str(limit_expr)
+            return f"limited to {limit_val} results"
+        return None
 
     def _render_date_sub(self, expr: exp.DateSub, context: str) -> str:
         """
@@ -553,7 +597,8 @@ class SQLToNLRenderer:
                 modifier = str(expressions[1].this) if hasattr(expressions[1], 'this') else str(expressions[1])
                 # Parse modifier like '-30 days'
                 import re
-                match = re.match(r'([+-]?)(\d+)\s*(\w+)', modifier)
+                # Fix: Make the modifier parsing more robust for spaces and signs
+                match = re.match(r'([+-]?)\s*(\d+)\s*(\w+)', modifier)
                 if match:
                     sign, value, unit = match.groups()
                     unit = unit.lower().rstrip('s')  # Normalize: days -> day

@@ -126,8 +126,8 @@ class DQLEquivalenceChecker:
                     query_type="SELECT",
                     databases_tested=test_databases.index(db_path) + 1,
                     failed_database=db_path,
-                    gold_result=str(gold_result[:5]) + "..." if len(gold_result) > 5 else str(gold_result),
-                    candidate_result=str(cand_result[:5]) + "..." if len(cand_result) > 5 else str(cand_result)
+                    gold_result=str(gold_result[0][:5]) + "..." if len(gold_result[0]) > 5 else str(gold_result[0]),
+                    candidate_result=str(cand_result[0][:5]) + "..." if len(cand_result[0]) > 5 else str(cand_result[0])
                 )
         
         # All databases matched
@@ -150,7 +150,7 @@ class DQLEquivalenceChecker:
         Execute a SELECT query on a database.
         
         Returns:
-            (status, result) where status is "result" or "error"
+            (status, (result, col_count)) where status is "result" or "error"
         """
         try:
             conn = sqlite3.connect(db_path)
@@ -158,15 +158,16 @@ class DQLEquivalenceChecker:
             cursor = conn.cursor()
             cursor.execute(query)
             result = cursor.fetchall()
+            col_count = len(cursor.description) if cursor.description else 0
             conn.close()
-            return ("result", result)
+            return ("result", (result, col_count))
         except Exception as e:
             return ("error", str(e))
     
     def _compare_denotations(
         self,
-        result1: List[Tuple],
-        result2: List[Tuple]
+        result1_data: Tuple[List[Tuple], int],
+        result2_data: Tuple[List[Tuple], int]
     ) -> bool:
         """
         Compare two query results for equivalence.
@@ -176,24 +177,26 @@ class DQLEquivalenceChecker:
         - Column permutations (treats column order as not significant)
         - Type coercion for comparable values
         """
-        # Empty results
-        if len(result1) == 0 and len(result2) == 0:
+        rows1, cols1 = result1_data
+        rows2, cols2 = result2_data
+        
+        # Check column count (ALWAYS)
+        if cols1 != cols2:
+            return False
+            
+        # Empty results (now checking columns first)
+        if len(rows1) == 0 and len(rows2) == 0:
             return True
         
         # Different number of rows
-        if len(result1) != len(result2):
+        if len(rows1) != len(rows2):
             return False
-        
-        # Check column count
-        if result1 and result2:
-            if len(result1[0]) != len(result2[0]):
-                return False
-        
+            
         if self.order_matters:
-            return result1 == result2
+            return rows1 == rows2
         else:
             # Compare as multisets with column permutation support
-            return self._multiset_equal_with_column_permutation(result1, result2)
+            return self._multiset_equal_with_column_permutation(rows1, rows2)
     
     def _multiset_equal_with_column_permutation(
         self, 

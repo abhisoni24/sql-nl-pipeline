@@ -8,7 +8,7 @@ import sys
 import os
 
 # Ensure project root is in path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from sqlglot import parse_one
 from src.core.nl_renderer import SQLToNLRenderer

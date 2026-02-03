@@ -6,7 +6,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.signup_date, u1.id, u1.country_code, u1.is_verified from users (as u1)."
+    "nl_prompt": "Get signup_date, id, country_code, is_verified from users."
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get all columns from users (as u1) where u1.is_verified eq 0."
+    "nl_prompt": "Get all columns from users where is_verified equals 0."
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.comment_text, c1.id, c1.user_id, c1.post_id from comments (as c1) ordered by c1.user_id."
+    "nl_prompt": "Get comment_text, id, user_id, post_id from comments ordered by user_id."
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get f1.followed_at, f1.followee_id, f1.follower_id from follows (as f1) where f1.followed_at less than or equal to 28 days ago ordered by f1.follower_id limited to 87 results."
+    "nl_prompt": "Get followed_at, followee_id, follower_id from follows where followed_at less than or equal to 28 days ago ordered by follower_id limited to 87 results."
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.id, c1.post_id, c1.comment_text from comments (as c1) limited to 35 results."
+    "nl_prompt": "Get id, post_id, comment_text from comments limited to 35 results."
   },
   {
     "id": 6,
@@ -51,7 +51,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get all columns from comments (as c1)."
+    "nl_prompt": "Get all columns from comments."
   },
   {
     "id": 7,
@@ -60,7 +60,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.username, u1.is_verified, u1.id from users (as u1)."
+    "nl_prompt": "Get username, is_verified, id from users."
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.comment_text, c1.created_at from comments (as c1)."
+    "nl_prompt": "Get comment_text, created_at from comments."
   },
   {
     "id": 9,
@@ -78,7 +78,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.id, u1.signup_date from users (as u1) where u1.country_code eq 'admin'."
+    "nl_prompt": "Get id, signup_date from users where country_code equals 'admin'."
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) where c1.user_id greater than or equal to 560."
+    "nl_prompt": "Get all columns from comments where user_id greater than or equal to 560."
   },
   {
     "id": 11,
@@ -97,7 +97,7 @@
       "comments",
       "posts"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) FULL JOIN posts on c1.post_id eq p4.id."
+    "nl_prompt": "Get all columns from comments FULL JOIN posts on post_id equals id."
   },
   {
     "id": 12,
@@ -107,7 +107,7 @@
       "comments",
       "posts"
     ],
-    "nl_prompt": "Get p7.content, p7.user_id, p7.id, p7.posted_at from comments (as c1) LEFT JOIN posts on c1.post_id eq p7.id where p7.id greater than or equal to 925."
+    "nl_prompt": "Get content, user_id, id, posted_at from comments LEFT JOIN posts on post_id equals id where id greater than or equal to 925."
   },
   {
     "id": 13,
@@ -117,7 +117,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get all columns from follows (as f1) RIGHT JOIN users on f1.follower_id eq u5.id."
+    "nl_prompt": "Get all columns from follows RIGHT JOIN users on follower_id equals id."
   },
   {
     "id": 14,
@@ -127,7 +127,7 @@
       "users",
       "follows"
     ],
-    "nl_prompt": "Get all columns from users (as u1) FULL JOIN follows on u1.id eq f4.follower_id."
+    "nl_prompt": "Get all columns from users FULL JOIN follows on id equals follower_id."
   },
   {
     "id": 15,
@@ -137,7 +137,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get u6.country_code, f1.followee_id, u6.is_verified from follows (as f1) RIGHT JOIN users on f1.follower_id eq u6.id where u6.id less than or equal to 408."
+    "nl_prompt": "Get country_code, followee_id, is_verified from follows RIGHT JOIN users on follower_id equals id where id less than or equal to 408."
   },
   {
     "id": 16,
@@ -147,7 +147,7 @@
       "posts",
       "likes"
     ],
-    "nl_prompt": "Get all columns from posts (as p1) RIGHT JOIN likes on p1.id eq l7.post_id where l7.post_id neq 846."
+    "nl_prompt": "Get all columns from posts RIGHT JOIN likes on id equals post_id where post_id is not equal to 846."
   },
   {
     "id": 17,
@@ -157,7 +157,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get u2.id, u2.username, f1.follower_id, f1.followee_id from follows (as f1) FULL JOIN users on f1.follower_id eq u2.id where u2.is_verified eq 0."
+    "nl_prompt": "Get id, username, follower_id, followee_id from follows FULL JOIN users on follower_id equals id where is_verified equals 0."
   },
   {
     "id": 18,
@@ -167,7 +167,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) RIGHT JOIN users on c1.user_id eq u6.id."
+    "nl_prompt": "Get all columns from comments RIGHT JOIN users on user_id equals id."
   },
   {
     "id": 19,
@@ -177,7 +177,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get u5.id, f1.followed_at, u5.email, u5.country_code from follows (as f1) FULL JOIN users on f1.follower_id eq u5.id where u5.email neq 'user7@example.com'."
+    "nl_prompt": "Get id, followed_at, email, country_code from follows FULL JOIN users on follower_id equals id where email is not equal to 'user7@example.com'."
   },
   {
     "id": 20,
@@ -187,7 +187,7 @@
       "users",
       "follows"
     ],
-    "nl_prompt": "Get all columns from users (as u1) LEFT JOIN follows on u1.id eq f5.follower_id."
+    "nl_prompt": "Get all columns from users LEFT JOIN follows on id equals follower_id."
   },
   {
     "id": 21,
@@ -196,7 +196,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get all columns from users filtered by inner_users.is_verified eq 1 (as derived_table) where derived_table.id less than or equal to 493."
+    "nl_prompt": "Get all columns from users where is_verified equals 1 where id less than or equal to 493."
   },
   {
     "id": 22,
@@ -205,7 +205,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get all columns from posts filtered by inner_posts.view_count eq 270 (as derived_table)."
+    "nl_prompt": "Get all columns from posts where view_count equals 270."
   },
   {
     "id": 23,
@@ -215,7 +215,7 @@
       "likes",
       "users"
     ],
-    "nl_prompt": "Get l1.user_id, l1.post_id from likes (as l1) where l1.user_id is in (Select sub_u.id from users where sub_u.signup_date less than or equal to 10 days ago)."
+    "nl_prompt": "Get user_id, post_id from likes where user_id is in (Select id from users where signup_date less than or equal to 10 days ago)."
   },
   {
     "id": 24,
@@ -225,7 +225,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id where f1.follower_id neq f2.followee_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id where follower_id is not equal to followee_id."
   },
   {
     "id": 25,
@@ -235,7 +235,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id where f1.follower_id neq f2.followee_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id where follower_id is not equal to followee_id."
   },
   {
     "id": 26,
@@ -244,7 +244,7 @@
     "tables": [
       "likes"
     ],
-    "nl_prompt": "Get all columns from likes filtered by inner_likes.user_id greater than or equal to 266 (as derived_table) where derived_table.liked_at less than or equal to 23 days ago."
+    "nl_prompt": "Get all columns from likes where user_id greater than or equal to 266 where liked_at less than or equal to 23 days ago."
   },
   {
     "id": 27,
@@ -254,7 +254,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id where f1.follower_id neq f2.followee_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id where follower_id is not equal to followee_id."
   },
   {
     "id": 28,
@@ -263,7 +263,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get all columns from follows filtered by inner_follows.followed_at less than 15 days ago (as derived_table)."
+    "nl_prompt": "Get all columns from follows where followed_at less than 15 days ago."
   },
   {
     "id": 29,
@@ -273,7 +273,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id where f1.follower_id neq f2.followee_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id where follower_id is not equal to followee_id."
   },
   {
     "id": 30,
@@ -283,7 +283,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id where f1.follower_id neq f2.followee_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id where follower_id is not equal to followee_id."
   },
   {
     "id": 31,
@@ -436,7 +436,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Update users set is_verified = 0 where users.is_verified eq 0."
+    "nl_prompt": "Update users set is_verified = 0 where users.is_verified equals 0."
   },
   {
     "id": 48,
@@ -463,7 +463,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Update users set signup_date = the current time where users.is_verified eq 1."
+    "nl_prompt": "Update users set signup_date = the current time where users.is_verified equals 1."
   },
   {
     "id": 51,
@@ -472,7 +472,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Delete from users where users.is_verified eq 1."
+    "nl_prompt": "Delete from users where users.is_verified equals 1."
   },
   {
     "id": 52,
@@ -490,7 +490,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Delete from posts where posts.content eq 'user'."
+    "nl_prompt": "Delete from posts where posts.content equals 'user'."
   },
   {
     "id": 54,
@@ -499,7 +499,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Delete from users where users.is_verified eq 1."
+    "nl_prompt": "Delete from users where users.is_verified equals 1."
   },
   {
     "id": 55,
@@ -526,7 +526,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Delete from comments where comments.comment_text neq '123'."
+    "nl_prompt": "Delete from comments where comments.comment_text is not equal to '123'."
   },
   {
     "id": 58,

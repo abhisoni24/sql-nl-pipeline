@@ -21,7 +21,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 INPUT_FILE = "./dataset/current/nl_social_media_queries_20.json"    
 OUTPUT_FILE = "./dataset/current/nl_social_media_queries_llm_perturbed_20.json"
 MODEL_NAME = "gemini-2.5-flash-lite"
-CACHE_TTL = "12600s"
+CACHE_TTL = "3600s"
 DEFAULT_MAX_RPM = 4000
 
 
@@ -35,7 +35,7 @@ def setup_client() -> genai.Client:
 
 def load_cached_info_text() -> str:
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-    cached_info_path = os.path.join(base_dir, "src/scripts/cached_info.py")
+    cached_info_path = os.path.join(base_dir, "./cached_info.py")
     with open(cached_info_path, "r") as f:
         return f.read()
 

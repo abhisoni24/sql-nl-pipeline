@@ -21,7 +21,7 @@ models:
     adapter_type: anthropic
     model_identifier: claude-haiku-4-5-20251001
     rate_limit:
-      requests_per_minute: 5 # Anthropic limits
+      requests_per_minute: 50 # Anthropic limits
       max_retries: 2
 
   - name: local-qwen0.5b

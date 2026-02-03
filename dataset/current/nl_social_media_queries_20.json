@@ -6,7 +6,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.email, u1.signup_date from users (as u1)."
+    "nl_prompt": "Get email, signup_date from users."
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get all columns from follows (as f1)."
+    "nl_prompt": "Get all columns from follows."
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get all columns from follows (as f1) limited to 41 results."
+    "nl_prompt": "Get all columns from follows limited to 41 results."
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "tables": [
       "likes"
     ],
-    "nl_prompt": "Get l1.post_id, l1.liked_at, l1.user_id from likes (as l1) ordered by l1.user_id."
+    "nl_prompt": "Get post_id, liked_at, user_id from likes ordered by user_id."
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@
     "tables": [
       "likes"
     ],
-    "nl_prompt": "Get l1.liked_at from likes (as l1) where l1.user_id greater than or equal to 615."
+    "nl_prompt": "Get liked_at from likes where user_id greater than or equal to 615."
   },
   {
     "id": 6,
@@ -51,7 +51,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.email, u1.username from users (as u1) where u1.id eq 692."
+    "nl_prompt": "Get email, username from users where id equals 692."
   },
   {
     "id": 7,
@@ -60,7 +60,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.user_id, c1.created_at from comments (as c1) ordered by c1.id."
+    "nl_prompt": "Get user_id, created_at from comments ordered by id."
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.comment_text, c1.created_at, c1.post_id from comments (as c1) where c1.post_id less than or equal to 886."
+    "nl_prompt": "Get comment_text, created_at, post_id from comments where post_id less than or equal to 886."
   },
   {
     "id": 9,
@@ -78,7 +78,7 @@
     "tables": [
       "likes"
     ],
-    "nl_prompt": "Get l1.liked_at, l1.user_id, l1.post_id from likes (as l1) where l1.liked_at less than or equal to 23 days ago ordered by l1.user_id."
+    "nl_prompt": "Get liked_at, user_id, post_id from likes where liked_at less than or equal to 23 days ago ordered by user_id."
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f1.followee_id, f1.followed_at from follows (as f1) where f1.followee_id eq 856."
+    "nl_prompt": "Get follower_id, followee_id, followed_at from follows where followee_id equals 856."
   },
   {
     "id": 11,
@@ -96,7 +96,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.country_code from users (as u1) ordered by u1.username."
+    "nl_prompt": "Get country_code from users ordered by username."
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Get f1.followed_at, f1.followee_id, f1.follower_id from follows (as f1)."
+    "nl_prompt": "Get followed_at, followee_id, follower_id from follows."
   },
   {
     "id": 13,
@@ -114,7 +114,7 @@
     "tables": [
       "likes"
     ],
-    "nl_prompt": "Get all columns from likes (as l1)."
+    "nl_prompt": "Get all columns from likes."
   },
   {
     "id": 14,
@@ -123,7 +123,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get p1.content from posts (as p1) where p1.user_id less than 485."
+    "nl_prompt": "Get content from posts where user_id less than 485."
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.id, c1.post_id, c1.created_at from comments (as c1)."
+    "nl_prompt": "Get id, post_id, created_at from comments."
   },
   {
     "id": 16,
@@ -141,7 +141,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get p1.id from posts (as p1) ordered by p1.view_count limited to 28 results."
+    "nl_prompt": "Get id from posts ordered by view_count limited to 28 results."
   },
   {
     "id": 17,
@@ -150,7 +150,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get p1.posted_at, p1.content, p1.id, p1.view_count from posts (as p1) where p1.view_count eq 379."
+    "nl_prompt": "Get posted_at, content, id, view_count from posts where view_count equals 379."
   },
   {
     "id": 18,
@@ -159,7 +159,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get u1.signup_date from users (as u1) where u1.is_verified eq 0."
+    "nl_prompt": "Get signup_date from users where is_verified equals 0."
   },
   {
     "id": 19,
@@ -168,7 +168,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get all columns from users (as u1) ordered by u1.email limited to 68 results."
+    "nl_prompt": "Get all columns from users ordered by email limited to 68 results."
   },
   {
     "id": 20,
@@ -177,7 +177,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get c1.id, c1.user_id, c1.post_id, c1.comment_text from comments (as c1) ordered by c1.id."
+    "nl_prompt": "Get id, user_id, post_id, comment_text from comments ordered by id."
   },
   {
     "id": 21,
@@ -187,7 +187,7 @@
       "posts",
       "comments"
     ],
-    "nl_prompt": "Get all columns from posts (as p1) RIGHT JOIN comments on p1.id eq c7.post_id where c7.post_id neq 707."
+    "nl_prompt": "Get all columns from posts RIGHT JOIN comments on id equals post_id where post_id is not equal to 707."
   },
   {
     "id": 22,
@@ -197,7 +197,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get all columns from follows (as f1) FULL JOIN users on f1.follower_id eq u2.id."
+    "nl_prompt": "Get all columns from follows FULL JOIN users on follower_id equals id."
   },
   {
     "id": 23,
@@ -207,7 +207,7 @@
       "users",
       "likes"
     ],
-    "nl_prompt": "Get l5.liked_at, u1.signup_date, l5.post_id, l5.user_id from users (as u1) LEFT JOIN likes on u1.id eq l5.user_id where l5.post_id less than or equal to 633."
+    "nl_prompt": "Get liked_at, signup_date, post_id, user_id from users LEFT JOIN likes on id equals user_id where post_id less than or equal to 633."
   },
   {
     "id": 24,
@@ -217,7 +217,7 @@
       "users",
       "posts"
     ],
-    "nl_prompt": "Get all columns from users (as u1) INNER JOIN posts on u1.id eq p2.user_id."
+    "nl_prompt": "Get all columns from users INNER JOIN posts on id equals user_id."
   },
   {
     "id": 25,
@@ -227,7 +227,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) LEFT JOIN users on c1.user_id eq u9.id where u9.id less than 933."
+    "nl_prompt": "Get all columns from comments LEFT JOIN users on user_id equals id where id less than 933."
   },
   {
     "id": 26,
@@ -237,7 +237,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get u4.username, u4.country_code, c1.post_id, u4.email from comments (as c1) INNER JOIN users on c1.user_id eq u4.id."
+    "nl_prompt": "Get username, country_code, post_id, email from comments INNER JOIN users on user_id equals id."
   },
   {
     "id": 27,
@@ -247,7 +247,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get all columns from follows (as f1) FULL JOIN users on f1.follower_id eq u1.id."
+    "nl_prompt": "Get all columns from follows FULL JOIN users on follower_id equals id."
   },
   {
     "id": 28,
@@ -257,7 +257,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get c1.post_id, u2.username, c1.id, c1.created_at from comments (as c1) INNER JOIN users on c1.user_id eq u2.id where u2.signup_date greater than or equal to 23 days ago."
+    "nl_prompt": "Get post_id, username, id, created_at from comments INNER JOIN users on user_id equals id where signup_date greater than or equal to 23 days ago."
   },
   {
     "id": 29,
@@ -267,7 +267,7 @@
       "likes",
       "posts"
     ],
-    "nl_prompt": "Get all columns from likes (as l1) INNER JOIN posts on l1.post_id eq p8.id."
+    "nl_prompt": "Get all columns from likes INNER JOIN posts on post_id equals id."
   },
   {
     "id": 30,
@@ -277,7 +277,7 @@
       "follows",
       "users"
     ],
-    "nl_prompt": "Get u6.username, u6.id, f1.followed_at, f1.follower_id from follows (as f1) LEFT JOIN users on f1.follower_id eq u6.id."
+    "nl_prompt": "Get username, id, followed_at, follower_id from follows LEFT JOIN users on follower_id equals id."
   },
   {
     "id": 31,
@@ -287,7 +287,7 @@
       "posts",
       "users"
     ],
-    "nl_prompt": "Get p1.posted_at, u2.signup_date, u2.username, u2.country_code from posts (as p1) LEFT JOIN users on p1.user_id eq u2.id."
+    "nl_prompt": "Get posted_at, signup_date, username, country_code from posts LEFT JOIN users on user_id equals id."
   },
   {
     "id": 32,
@@ -297,7 +297,7 @@
       "users",
       "posts"
     ],
-    "nl_prompt": "Get all columns from users (as u1) INNER JOIN posts on u1.id eq p6.user_id where p6.view_count eq 964."
+    "nl_prompt": "Get all columns from users INNER JOIN posts on id equals user_id where view_count equals 964."
   },
   {
     "id": 33,
@@ -307,7 +307,7 @@
       "likes",
       "users"
     ],
-    "nl_prompt": "Get u7.country_code, l1.post_id, u7.id, l1.user_id from likes (as l1) FULL JOIN users on l1.user_id eq u7.id where u7.signup_date greater than or equal to 2 days ago."
+    "nl_prompt": "Get country_code, post_id, id, user_id from likes FULL JOIN users on user_id equals id where signup_date greater than or equal to 2 days ago."
   },
   {
     "id": 34,
@@ -317,7 +317,7 @@
       "comments",
       "posts"
     ],
-    "nl_prompt": "Get p5.view_count, c1.comment_text, c1.post_id, c1.created_at from comments (as c1) RIGHT JOIN posts on c1.post_id eq p5.id."
+    "nl_prompt": "Get view_count, comment_text, post_id, created_at from comments RIGHT JOIN posts on post_id equals id."
   },
   {
     "id": 35,
@@ -327,7 +327,7 @@
       "posts",
       "comments"
     ],
-    "nl_prompt": "Get all columns from posts (as p1) INNER JOIN comments on p1.id eq c7.post_id."
+    "nl_prompt": "Get all columns from posts INNER JOIN comments on id equals post_id."
   },
   {
     "id": 36,
@@ -337,7 +337,7 @@
       "users",
       "posts"
     ],
-    "nl_prompt": "Get u1.email, u1.signup_date, p1.content, p1.user_id from users (as u1) INNER JOIN posts on u1.id eq p1.user_id."
+    "nl_prompt": "Get email, signup_date, content, user_id from users INNER JOIN posts on id equals user_id."
   },
   {
     "id": 37,
@@ -347,7 +347,7 @@
       "users",
       "likes"
     ],
-    "nl_prompt": "Get all columns from users (as u1) FULL JOIN likes on u1.id eq l2.user_id."
+    "nl_prompt": "Get all columns from users FULL JOIN likes on id equals user_id."
   },
   {
     "id": 38,
@@ -357,7 +357,7 @@
       "likes",
       "users"
     ],
-    "nl_prompt": "Get all columns from likes (as l1) INNER JOIN users on l1.user_id eq u7.id where u7.email like 'user%@%'."
+    "nl_prompt": "Get all columns from likes INNER JOIN users on user_id equals id where email like 'user%@%'."
   },
   {
     "id": 39,
@@ -367,7 +367,7 @@
       "posts",
       "likes"
     ],
-    "nl_prompt": "Get p1.user_id, p1.id, p1.view_count, l9.liked_at from posts (as p1) FULL JOIN likes on p1.id eq l9.post_id where l9.user_id greater than 823."
+    "nl_prompt": "Get user_id, id, view_count, liked_at from posts FULL JOIN likes on id equals post_id where user_id greater than 823."
   },
   {
     "id": 40,
@@ -377,7 +377,7 @@
       "posts",
       "users"
     ],
-    "nl_prompt": "Get p1.posted_at, u6.email, p1.view_count from posts (as p1) INNER JOIN users on p1.user_id eq u6.id."
+    "nl_prompt": "Get posted_at, email, view_count from posts INNER JOIN users on user_id equals id."
   },
   {
     "id": 41,
@@ -387,7 +387,7 @@
       "users",
       "posts"
     ],
-    "nl_prompt": "Get u1.username, u1.id, u1.email, u1.is_verified from users (as u1) where u1.id is in (Select sub_p.user_id from posts where sub_p.posted_at greater than 23 days ago)."
+    "nl_prompt": "Get username, id, email, is_verified from users where id is in (Select user_id from posts where posted_at greater than 23 days ago)."
   },
   {
     "id": 42,
@@ -397,7 +397,7 @@
       "comments",
       "posts"
     ],
-    "nl_prompt": "Get c1.user_id from comments (as c1) where c1.post_id is in (Select sub_p.id from posts where sub_p.content like '%a%')."
+    "nl_prompt": "Get user_id from comments where post_id is in (Select id from posts where content like '%a%')."
   },
   {
     "id": 43,
@@ -407,7 +407,7 @@
       "likes",
       "posts"
     ],
-    "nl_prompt": "Get all columns from likes (as l1) where exists (Select 1 from posts where sub_p.id eq l1.post_id and sub_p.id neq 27)."
+    "nl_prompt": "Get all columns from likes where exists (Select 1 from posts where id equals post_id and id is not equal to 27)."
   },
   {
     "id": 44,
@@ -416,7 +416,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get all columns from users filtered by inner_users.username neq 'test' (as derived_table) where derived_table.signup_date greater than 17 days ago."
+    "nl_prompt": "Get all columns from users where username is not equal to 'test' where signup_date greater than 17 days ago."
   },
   {
     "id": 45,
@@ -426,7 +426,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) where c1.user_id is in (Select sub_u.id from users where sub_u.email like 'user%@%')."
+    "nl_prompt": "Get all columns from comments where user_id is in (Select id from users where email like 'user%@%')."
   },
   {
     "id": 46,
@@ -435,7 +435,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Get all columns from users filtered by inner_users.username neq '123' (as derived_table) where derived_table.signup_date greater than 20 days ago."
+    "nl_prompt": "Get all columns from users where username is not equal to '123' where signup_date greater than 20 days ago."
   },
   {
     "id": 47,
@@ -445,7 +445,7 @@
       "posts",
       "users"
     ],
-    "nl_prompt": "Get all columns from posts (as p1) where p1.user_id is in (Select sub_u.id from users where sub_u.username eq 'admin')."
+    "nl_prompt": "Get all columns from posts where user_id is in (Select id from users where username equals 'admin')."
   },
   {
     "id": 48,
@@ -455,7 +455,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get c1.user_id, c1.created_at, c1.post_id from comments (as c1) where c1.user_id is in (Select sub_u.id from users where sub_u.is_verified eq 1)."
+    "nl_prompt": "Get user_id, created_at, post_id from comments where user_id is in (Select id from users where is_verified equals 1)."
   },
   {
     "id": 49,
@@ -464,7 +464,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get all columns from posts filtered by inner_posts.content neq 'test' (as derived_table) where derived_table.posted_at greater than 10 days ago."
+    "nl_prompt": "Get all columns from posts where content is not equal to 'test' where posted_at greater than 10 days ago."
   },
   {
     "id": 50,
@@ -474,7 +474,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.username, u2.username, u1.country_code from users (as u1) JOIN users on u1.country_code eq u2.country_code and u1.id neq u2.id."
+    "nl_prompt": "Get u1.username, u2.username, country_code from users JOIN users on country_code equals country_code and id is not equal to id."
   },
   {
     "id": 51,
@@ -484,7 +484,7 @@
       "comments",
       "users"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) where c1.user_id is in (Select sub_u.id from users where sub_u.is_verified eq 0)."
+    "nl_prompt": "Get all columns from comments where user_id is in (Select id from users where is_verified equals 0)."
   },
   {
     "id": 52,
@@ -494,7 +494,7 @@
       "users",
       "posts"
     ],
-    "nl_prompt": "Get u1.country_code, u1.signup_date, u1.id, u1.email from users (as u1) where exists (Select 1 from posts where sub_p.user_id eq u1.id and sub_p.id eq 998)."
+    "nl_prompt": "Get country_code, signup_date, id, email from users where exists (Select 1 from posts where user_id equals id and id equals 998)."
   },
   {
     "id": 53,
@@ -503,7 +503,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Get all columns from comments filtered by inner_comments.user_id greater than 823 (as derived_table)."
+    "nl_prompt": "Get all columns from comments where user_id greater than 823."
   },
   {
     "id": 54,
@@ -512,7 +512,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Get all columns from posts filtered by inner_posts.posted_at less than 9 days ago (as derived_table)."
+    "nl_prompt": "Get all columns from posts where posted_at less than 9 days ago."
   },
   {
     "id": 55,
@@ -522,7 +522,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.username, u2.username, u1.country_code from users (as u1) JOIN users on u1.country_code eq u2.country_code and u1.id neq u2.id."
+    "nl_prompt": "Get u1.username, u2.username, country_code from users JOIN users on country_code equals country_code and id is not equal to id."
   },
   {
     "id": 56,
@@ -532,7 +532,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id."
   },
   {
     "id": 57,
@@ -542,7 +542,7 @@
       "likes",
       "users"
     ],
-    "nl_prompt": "Get l1.post_id from likes (as l1) where l1.user_id is in (Select sub_u.id from users where sub_u.id less than or equal to 658)."
+    "nl_prompt": "Get post_id from likes where user_id is in (Select id from users where id less than or equal to 658)."
   },
   {
     "id": 58,
@@ -552,7 +552,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows (as f1) JOIN follows on f1.followee_id eq f2.follower_id limited to 11 results."
+    "nl_prompt": "Get f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id limited to 11 results."
   },
   {
     "id": 59,
@@ -562,7 +562,7 @@
       "posts",
       "posts"
     ],
-    "nl_prompt": "Get p1.id, p2.id, p1.user_id from posts (as p1) JOIN posts on p1.user_id eq p2.user_id and p1.id less than p2.id."
+    "nl_prompt": "Get p1.id, p2.id, user_id from posts JOIN posts on user_id equals user_id and id less than id."
   },
   {
     "id": 60,
@@ -572,7 +572,7 @@
       "comments",
       "posts"
     ],
-    "nl_prompt": "Get all columns from comments (as c1) where NOT exists (Select 1 from posts where sub_p.id eq c1.post_id and sub_p.user_id less than 725)."
+    "nl_prompt": "Get all columns from comments where NOT exists (Select 1 from posts where id equals post_id and user_id less than 725)."
   },
   {
     "id": 61,
@@ -582,7 +582,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.country_code, u1.username, u1.id, u1.signup_date from users (as u1) where u1.username like 'b%', combined with (removing duplicates) Get u2.country_code, u2.username, u2.id, u2.signup_date from users (as u2) where u2.is_verified eq 0."
+    "nl_prompt": "Get country_code, username, id, signup_date from users where username like 'b%', combined with (removing duplicates) Get country_code, username, id, signup_date from users where is_verified equals 0."
   },
   {
     "id": 62,
@@ -592,7 +592,7 @@
       "posts",
       "posts"
     ],
-    "nl_prompt": "Get p1.content, p1.user_id, p1.view_count from posts (as p1) where p1.view_count less than or equal to 737, combined with (including duplicates) Get p2.content, p2.user_id, p2.view_count from posts (as p2) where p2.id greater than 361."
+    "nl_prompt": "Get content, user_id, view_count from posts where view_count less than or equal to 737, combined with (including duplicates) Get content, user_id, view_count from posts where id greater than 361."
   },
   {
     "id": 63,
@@ -602,7 +602,7 @@
       "posts",
       "posts"
     ],
-    "nl_prompt": "Get p1.user_id, p1.content, p1.posted_at, p1.view_count from posts (as p1) where p1.posted_at greater than or equal to 29 days ago, combined with (removing duplicates) Get p2.user_id, p2.content, p2.posted_at, p2.view_count from posts (as p2) where p2.id greater than or equal to 979."
+    "nl_prompt": "Get user_id, content, posted_at, view_count from posts where posted_at greater than or equal to 29 days ago, combined with (removing duplicates) Get user_id, content, posted_at, view_count from posts where id greater than or equal to 979 ordered by user_id."
   },
   {
     "id": 64,
@@ -612,7 +612,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.user_id, l1.liked_at, l1.post_id from likes (as l1) where l1.user_id greater than or equal to 362, combined with (including duplicates) Get l2.user_id, l2.liked_at, l2.post_id from likes (as l2) where l2.post_id less than 914."
+    "nl_prompt": "Get user_id, liked_at, post_id from likes where user_id greater than or equal to 362, combined with (including duplicates) Get user_id, liked_at, post_id from likes where post_id less than 914."
   },
   {
     "id": 65,
@@ -622,7 +622,7 @@
       "posts",
       "posts"
     ],
-    "nl_prompt": "Get p1.posted_at, p1.user_id, p1.view_count from posts (as p1) where p1.id neq 626, combined with (removing duplicates) Get p2.posted_at, p2.user_id, p2.view_count from posts (as p2) where p2.view_count less than or equal to 106."
+    "nl_prompt": "Get posted_at, user_id, view_count from posts where id is not equal to 626, combined with (removing duplicates) Get posted_at, user_id, view_count from posts where view_count less than or equal to 106."
   },
   {
     "id": 66,
@@ -632,7 +632,7 @@
       "comments",
       "comments"
     ],
-    "nl_prompt": "Get c1.user_id, c1.id from comments (as c1) where c1.created_at less than or equal to 15 days ago, combined with (removing duplicates) Get c2.user_id, c2.id from comments (as c2) where c2.id greater than or equal to 308."
+    "nl_prompt": "Get user_id, id from comments where created_at less than or equal to 15 days ago, combined with (removing duplicates) Get user_id, id from comments where id greater than or equal to 308."
   },
   {
     "id": 67,
@@ -642,7 +642,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.post_id, l1.user_id, l1.liked_at from likes (as l1) where l1.liked_at greater than 13 days ago, combined with (removing duplicates) Get l2.post_id, l2.user_id, l2.liked_at from likes (as l2) where l2.post_id eq 641."
+    "nl_prompt": "Get post_id, user_id, liked_at from likes where liked_at greater than 13 days ago, combined with (removing duplicates) Get post_id, user_id, liked_at from likes where post_id equals 641."
   },
   {
     "id": 68,
@@ -652,7 +652,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.liked_at, l1.user_id from likes (as l1) where l1.liked_at less than 21 days ago, combined with (removing duplicates) Get l2.liked_at, l2.user_id from likes (as l2) where l2.post_id neq 455."
+    "nl_prompt": "Get liked_at, user_id from likes where liked_at less than 21 days ago, combined with (removing duplicates) Get liked_at, user_id from likes where post_id is not equal to 455."
   },
   {
     "id": 69,
@@ -662,7 +662,7 @@
       "comments",
       "comments"
     ],
-    "nl_prompt": "Get c1.post_id, c1.comment_text from comments (as c1) where c1.id eq 926, combined with (including duplicates) Get c2.post_id, c2.comment_text from comments (as c2) where c2.post_id less than or equal to 312."
+    "nl_prompt": "Get post_id, comment_text from comments where id equals 926, combined with (including duplicates) Get post_id, comment_text from comments where post_id less than or equal to 312 ordered by post_id limited to 25 results."
   },
   {
     "id": 70,
@@ -672,7 +672,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.post_id, l1.liked_at from likes (as l1) where l1.liked_at less than or equal to 22 days ago, combined with (removing duplicates) Get l2.post_id, l2.liked_at from likes (as l2) where l2.post_id greater than or equal to 327."
+    "nl_prompt": "Get post_id, liked_at from likes where liked_at less than or equal to 22 days ago, combined with (removing duplicates) Get post_id, liked_at from likes where post_id greater than or equal to 327."
   },
   {
     "id": 71,
@@ -682,7 +682,7 @@
       "posts",
       "posts"
     ],
-    "nl_prompt": "Get p1.posted_at, p1.user_id, p1.view_count, p1.content from posts (as p1) where p1.user_id greater than 431, combined with (including duplicates) Get p2.posted_at, p2.user_id, p2.view_count, p2.content from posts (as p2) where p2.content neq 'user'."
+    "nl_prompt": "Get posted_at, user_id, view_count, content from posts where user_id greater than 431, combined with (including duplicates) Get posted_at, user_id, view_count, content from posts where content is not equal to 'user'."
   },
   {
     "id": 72,
@@ -692,7 +692,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.is_verified, u1.country_code, u1.username from users (as u1) where u1.username neq 'admin', combined with (removing duplicates) Get u2.is_verified, u2.country_code, u2.username from users (as u2) where u2.email neq 'user25@example.com'."
+    "nl_prompt": "Get is_verified, country_code, username from users where username is not equal to 'admin', combined with (removing duplicates) Get is_verified, country_code, username from users where email is not equal to 'user25@example.com' limited to 29 results."
   },
   {
     "id": 73,
@@ -702,7 +702,7 @@
       "comments",
       "comments"
     ],
-    "nl_prompt": "Get c1.comment_text, c1.user_id from comments (as c1) where c1.id greater than or equal to 423, combined with (removing duplicates) Get c2.comment_text, c2.user_id from comments (as c2) where c2.comment_text eq '123'."
+    "nl_prompt": "Get comment_text, user_id from comments where id greater than or equal to 423, combined with (removing duplicates) Get comment_text, user_id from comments where comment_text equals '123'."
   },
   {
     "id": 74,
@@ -712,7 +712,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.email, u1.id, u1.signup_date from users (as u1) where u1.is_verified eq 1, combined with (including duplicates) Get u2.email, u2.id, u2.signup_date from users (as u2) where u2.country_code like 'b%'."
+    "nl_prompt": "Get email, id, signup_date from users where is_verified equals 1, combined with (including duplicates) Get email, id, signup_date from users where country_code like 'b%' ordered by email limited to 12 results."
   },
   {
     "id": 75,
@@ -722,7 +722,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.liked_at, l1.user_id from likes (as l1) where l1.liked_at less than or equal to 14 days ago, combined with (removing duplicates) Get l2.liked_at, l2.user_id from likes (as l2) where l2.user_id less than or equal to 819."
+    "nl_prompt": "Get liked_at, user_id from likes where liked_at less than or equal to 14 days ago, combined with (removing duplicates) Get liked_at, user_id from likes where user_id less than or equal to 819 ordered by liked_at."
   },
   {
     "id": 76,
@@ -732,7 +732,7 @@
       "follows",
       "follows"
     ],
-    "nl_prompt": "Get f1.followed_at, f1.follower_id from follows (as f1) where f1.follower_id less than or equal to 578, combined with (removing duplicates) Get f2.followed_at, f2.follower_id from follows (as f2) where f2.followed_at less than or equal to 8 days ago."
+    "nl_prompt": "Get followed_at, follower_id from follows where follower_id less than or equal to 578, combined with (removing duplicates) Get followed_at, follower_id from follows where followed_at less than or equal to 8 days ago ordered by followed_at limited to 10 results."
   },
   {
     "id": 77,
@@ -742,7 +742,7 @@
       "comments",
       "comments"
     ],
-    "nl_prompt": "Get c1.created_at, c1.id, c1.comment_text from comments (as c1) where c1.post_id less than or equal to 542, combined with (including duplicates) Get c2.created_at, c2.id, c2.comment_text from comments (as c2) where c2.created_at less than or equal to 25 days ago."
+    "nl_prompt": "Get created_at, id, comment_text from comments where post_id less than or equal to 542, combined with (including duplicates) Get created_at, id, comment_text from comments where created_at less than or equal to 25 days ago."
   },
   {
     "id": 78,
@@ -752,7 +752,7 @@
       "users",
       "users"
     ],
-    "nl_prompt": "Get u1.username, u1.email, u1.country_code from users (as u1) where u1.signup_date greater than or equal to 26 days ago, combined with (removing duplicates) Get u2.username, u2.email, u2.country_code from users (as u2) where u2.is_verified eq 0."
+    "nl_prompt": "Get username, email, country_code from users where signup_date greater than or equal to 26 days ago, combined with (removing duplicates) Get username, email, country_code from users where is_verified equals 0 ordered by username limited to 29 results."
   },
   {
     "id": 79,
@@ -762,7 +762,7 @@
       "comments",
       "comments"
     ],
-    "nl_prompt": "Get c1.id, c1.user_id, c1.created_at, c1.post_id from comments (as c1) where c1.comment_text eq 'test', combined with (including duplicates) Get c2.id, c2.user_id, c2.created_at, c2.post_id from comments (as c2) where c2.id less than or equal to 830."
+    "nl_prompt": "Get id, user_id, created_at, post_id from comments where comment_text equals 'test', combined with (including duplicates) Get id, user_id, created_at, post_id from comments where id less than or equal to 830."
   },
   {
     "id": 80,
@@ -772,7 +772,7 @@
       "likes",
       "likes"
     ],
-    "nl_prompt": "Get l1.post_id, l1.user_id from likes (as l1) where l1.user_id neq 896, combined with (including duplicates) Get l2.post_id, l2.user_id from likes (as l2) where l2.user_id less than 634."
+    "nl_prompt": "Get post_id, user_id from likes where user_id is not equal to 896, combined with (including duplicates) Get post_id, user_id from likes where user_id less than 634."
   },
   {
     "id": 81,
@@ -979,7 +979,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Update users set username = 'Updated text 10' where users.username neq 'test'."
+    "nl_prompt": "Update users set username = 'Updated text 10' where users.username is not equal to 'test'."
   },
   {
     "id": 104,
@@ -997,7 +997,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Update comments set post_id = 585 where comments.user_id eq 172."
+    "nl_prompt": "Update comments set post_id = 585 where comments.user_id equals 172."
   },
   {
     "id": 106,
@@ -1006,7 +1006,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Update follows set followed_at = the current time where follows.follower_id eq 517."
+    "nl_prompt": "Update follows set followed_at = the current time where follows.follower_id equals 517."
   },
   {
     "id": 107,
@@ -1024,7 +1024,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Update users set username = 'Updated text 50' where users.email eq 'user13@example.com'."
+    "nl_prompt": "Update users set username = 'Updated text 50' where users.email equals 'user13@example.com'."
   },
   {
     "id": 109,
@@ -1042,7 +1042,7 @@
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Update posts set posted_at = the current time where posts.id eq 283."
+    "nl_prompt": "Update posts set posted_at = the current time where posts.id equals 283."
   },
   {
     "id": 111,
@@ -1078,7 +1078,7 @@
     "tables": [
       "comments"
     ],
-    "nl_prompt": "Update comments set created_at = the current time where comments.post_id neq 933."
+    "nl_prompt": "Update comments set created_at = the current time where comments.post_id is not equal to 933."
   },
   {
     "id": 115,
@@ -1177,7 +1177,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Delete from users where users.country_code neq 'test'."
+    "nl_prompt": "Delete from users where users.country_code is not equal to 'test'."
   },
   {
     "id": 126,
@@ -1240,7 +1240,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Delete from follows where follows.follower_id eq 572."
+    "nl_prompt": "Delete from follows where follows.follower_id equals 572."
   },
   {
     "id": 133,
@@ -1258,7 +1258,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Delete from users where users.country_code neq 'activity'."
+    "nl_prompt": "Delete from users where users.country_code is not equal to 'activity'."
   },
   {
     "id": 135,
@@ -1285,7 +1285,7 @@
     "tables": [
       "users"
     ],
-    "nl_prompt": "Delete from users where users.is_verified eq 1."
+    "nl_prompt": "Delete from users where users.is_verified equals 1."
   },
   {
     "id": 138,
@@ -1303,7 +1303,7 @@
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Delete from follows where follows.follower_id neq 891."
+    "nl_prompt": "Delete from follows where follows.follower_id is not equal to 891."
   },
   {
     "id": 140,
