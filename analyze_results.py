@@ -21,10 +21,10 @@ from src.equivalence.equivalence_engine import SQLEquivalenceEngine
 from src.equivalence.config import EquivalenceConfig
 
 # Configuration Defaults
-LOCAL_BASE = os.getenv('LOCAL_BASE', '/content/experiment_workspace')
-REPO_PATH = os.getenv('REPO_PATH', f'{LOCAL_BASE}/sql-nl')
+LOCAL_BASE = os.getenv('LOCAL_BASE', './')
+REPO_PATH = os.getenv('REPO_PATH', f'{LOCAL_BASE}/')
 
-def setup_equivalence_engine(local_workspace='/content/local_eval_workspace'):
+def setup_equivalence_engine(local_workspace='./local_eval_workspace'):
     """Copy DBs locally and init engine."""
     if os.path.exists(local_workspace):
         shutil.rmtree(local_workspace)

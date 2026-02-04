@@ -22,6 +22,8 @@ class AnthropicAdapter(BaseModelAdapter):
         self.api_key = os.getenv("CLAUDE_API_KEY")
         if not self.api_key:
             raise ValueError("CLAUDE_API_KEY not found in environment.")
+        # Sanitize key
+        self.api_key = self.api_key.strip().splitlines()[0]
             
         self.client = Anthropic(api_key=self.api_key)
 

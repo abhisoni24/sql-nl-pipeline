@@ -24,6 +24,9 @@ class OpenAIAdapter(BaseModelAdapter):
         self.api_key = os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY not found in environment.")
+        
+        # Sanitize key: handle cases where user might have pasted multiple lines or whitespace
+        self.api_key = self.api_key.strip().splitlines()[0]
             
         self.client = OpenAI(api_key=self.api_key)
 
@@ -32,17 +35,22 @@ class OpenAIAdapter(BaseModelAdapter):
         for prompt in prompts:
             try:
                 formatted_prompt = self.format_prompt(prompt)
-                response = self.client.responses.create(
+                response = self.client.chat.completions.create(
                     model=self._model_name,
-                    #instructions="You are a helpful assistant.",
-                    input=formatted_prompt,
-                    temperature=0.0
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": formatted_prompt}
+                    ],
+                    temperature=0.0,
+                    max_tokens=512
                 )
-                results.append(response.output_text)
+                results.append(response.choices[0].message.content)
             except Exception as e:
                 import logging
-                logging.error(f"OpenAI API error: {str(e)}")
-                results.append("")  # Empty result indicates failure
+                import traceback
+                # Log full traceback to help debug "Connection error"
+                logging.error(f"OpenAI API error detailed: {traceback.format_exc()}")
+                results.append(f"ERROR: {str(e)}")  # Return error string so we see it in results
         return results
 
     def model_name(self) -> str:
