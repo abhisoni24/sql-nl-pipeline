@@ -12,6 +12,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'
 
 from sqlglot import parse_one
 from src.core.nl_renderer import SQLToNLRenderer, PerturbationType, PerturbationConfig
+from src.core.schema import USED_SQL_DIALECT
 
 INPUT_FILE = './dataset/current/nl_social_media_queries_20.json'
 OUTPUT_FILE = './dataset/current/nl_social_media_queries_systematic_20.json'
@@ -59,7 +60,7 @@ def main():
         }
         
         try:
-            ast = parse_one(sql, dialect='mysql')
+            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
         except Exception:
             continue
 
@@ -69,11 +70,19 @@ def main():
             entry = {"perturbation_name": p_type.value, "applicable": is_app, "perturbed_nl_prompt": None}
             
             if is_app:
-                config = PerturbationConfig(active_perturbations={p_type}, seed=i*100)
+                config = PerturbationConfig(active_perturbations={p_type}, seed=42 + i)
                 try:
-                    entry["perturbed_nl_prompt"] = SQLToNLRenderer(config).render(ast)
-                    entry["changes_made"] = PERTURBATION_DESCRIPTIONS[p_type]
-                    applicable_count += 1
+                    perturbed = SQLToNLRenderer(config).render(ast)
+                    original = output_item["generated_perturbations"]["original"]["nl_prompt"]
+                    
+                    # FINAL DIFF CHECK: Only mark truly applicable if it actually changed the string
+                    if perturbed == original:
+                        entry["applicable"] = False
+                        entry["perturbed_nl_prompt"] = None
+                    else:
+                        entry["perturbed_nl_prompt"] = perturbed
+                        entry["changes_made"] = PERTURBATION_DESCRIPTIONS[p_type]
+                        applicable_count += 1
                 except Exception as e:
                     entry["applicable"] = False
             

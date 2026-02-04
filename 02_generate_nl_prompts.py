@@ -40,7 +40,8 @@ def generate_nl_prompts(input_file='./dataset/current/raw_social_media_queries_2
             # Parse SQL
             ast = parse_one(sql, dialect=USED_SQL_DIALECT)
             
-            # Generate vanilla
+            # Generate vanilla with unique seed per query
+            renderer.config.seed = 42 + i
             vanilla_prompt = renderer.render(ast)
             
             # Add to data

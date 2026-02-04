@@ -352,7 +352,7 @@ perturbation_types = [
       "examples": [
         {
           "original": "Get all users where is_verified equals true and country_code equals 'US'.",
-          "perturbed": "Get all users, where is_verified equals true, and country_code equals 'US'."
+          "perturbed": "Get all users, where is_verified, equals true, and country_code, equals 'US'."
         },
         {
           "original": "Select posts with view_count greater than 1000 and posted_at after '2024-01-01'.",
