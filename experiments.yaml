@@ -24,20 +24,24 @@ models:
       requests_per_minute: 50 # Anthropic limits
       max_retries: 2
 
-  - name: local-qwen0.5b
+  - name: local-qwen3-coder-30b-a3b
     adapter_type: vllm
-    model_identifier: Qwen/Qwen2.5-0.5B-Instruct
+    model_identifier: Qwen/Qwen3-Coder-30B-A3B-Instruct
+    max_model_len: 8192
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
 
   - name: llama3.1-8b
     adapter_type: vllm
     model_identifier: meta-llama/Llama-3.1-8B
+    max_model_len: 8192
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
 
   - name: deepseek-coder-v2-lite
     adapter_type: vllm
     model_identifier: deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct
+    max_model_len: 8192
+    tp_size: 1
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
