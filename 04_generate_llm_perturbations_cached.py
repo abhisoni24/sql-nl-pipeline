@@ -15,7 +15,7 @@ from google import genai
 from google.genai import types
 
 # Ensure project root is in path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Constants
 INPUT_FILE = "./dataset/current/nl_social_media_queries_20.json"    
@@ -34,8 +34,8 @@ def setup_client() -> genai.Client:
 
 
 def load_cached_info_text() -> str:
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-    cached_info_path = os.path.join(base_dir, "./cached_info.py")
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    cached_info_path = os.path.join(base_dir, "cached_info.py")
     with open(cached_info_path, "r") as f:
         return f.read()
 
@@ -90,14 +90,15 @@ def build_prompt(query: Dict[str, Any]) -> str:
 
     return f"""
 # Task
-Generate 14 single-perturbation versions and 1 compound-perturbation version
-(with 2-5 perturbations) of the given natural language prompt.
+Following the instructions in the cached content, generate 14 single-perturbation versions and 1 compound-perturbation version (with 2-5 perturbations) of the given natural language prompt.
 
 # Input Data
 nl_prompt: {nl_prompt}
 sql: {sql}
 tables: {tables}
 complexity: {complexity}
+
+Ensure you return ONLY the JSON object as specified in the output format instructions.
 """
 
 
@@ -106,7 +107,7 @@ def process_queries(
     max_rpm: int = DEFAULT_MAX_RPM,
     limit: int | None = None,
 ) -> None:
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+    base_dir = os.path.abspath(os.path.dirname(__file__))
     input_path = os.path.join(base_dir, INPUT_FILE)
     output_path = os.path.join(base_dir, OUTPUT_FILE)
 
