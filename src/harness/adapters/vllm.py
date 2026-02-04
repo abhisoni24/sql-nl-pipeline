@@ -12,7 +12,7 @@ except ImportError:
 class VLLMAdapter(BaseModelAdapter):
     """Adapter for local open models via vLLM."""
 
-    def __init__(self, model_name: str, tensor_parallel_size: int = 1):
+    def __init__(self, model_name: str, **kwargs):
         if LLM is None:
             raise ImportError("vllm package is required for VLLMAdapter")
         
@@ -22,15 +22,27 @@ class VLLMAdapter(BaseModelAdapter):
         import os
         os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
         
-        # Initialize vLLM engine with Colab-friendly settings
+        # Extract VLLM specific args from kwargs, with defaults for Colab
+        tensor_parallel_size = kwargs.get('tensor_parallel_size', 1)
+        max_model_len = kwargs.get('max_model_len') # Default None = auto
+        quantization = kwargs.get('quantization')
+        gpu_memory_utilization = kwargs.get('gpu_memory_utilization', 0.85)
+        enforce_eager = kwargs.get('enforce_eager', True)
+        trust_remote_code = kwargs.get('trust_remote_code', True)
+        dtype = kwargs.get('dtype', 'auto')
+
+        # Initialize vLLM engine
         self.llm = LLM(
             model=model_name,
             tensor_parallel_size=tensor_parallel_size, 
-            trust_remote_code=True,
-            # Add these Colab-specific parameters:
+            trust_remote_code=trust_remote_code,
+            max_model_len=max_model_len,
+            quantization=quantization,
+            dtype=dtype,
+            # Colab stability settings:
             disable_log_stats=True,
-            enforce_eager=True,  # Disable CUDA graph for stability
-            gpu_memory_utilization=0.85  # Leave some GPU memory free
+            enforce_eager=enforce_eager,
+            gpu_memory_utilization=gpu_memory_utilization
         )
         
         # Fixed decoding parameters as per requirements

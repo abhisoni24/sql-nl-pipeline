@@ -24,11 +24,13 @@ class LLMWorker:
         self,
         adapter_type: str,
         model_identifier: str,
-        rate_limit: Optional[Dict[str, Any]] = None
+        rate_limit: Optional[Dict[str, Any]] = None,
+        **kwargs
     ):
         self.adapter_type = adapter_type
         self.model_identifier = model_identifier
         self.rate_limit = rate_limit or {}
+        self.adapter_config = kwargs
         self._adapter = None
         self._initialize_adapter()
     
@@ -37,7 +39,8 @@ class LLMWorker:
         # Dynamic imports to avoid loading unnecessary heavy libraries
         if self.adapter_type == 'vllm':
             from src.harness.adapters.vllm import VLLMAdapter
-            self._adapter = VLLMAdapter(model_name=self.model_identifier)
+            # Pass all extra config args to VLLM adapter
+            self._adapter = VLLMAdapter(model_name=self.model_identifier, **self.adapter_config)
         elif self.adapter_type == 'gemini':
             from src.harness.adapters.gemini import GeminiAdapter
             self._adapter = GeminiAdapter(model_name=self.model_identifier)

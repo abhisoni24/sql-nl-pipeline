@@ -105,10 +105,16 @@ def main():
             
         try:
             # Init Worker
+            # Pass all model config items as kwargs (excludes keys handled explicitly if we want, but **model_config is easiest)
+            # We filter out keys that map to explicit args to avoid dupes or handle them cleanly
+            worker_args = model_config.copy()
+            worker_args.pop('name', None) # Remove internal name
+            
             worker = LLMWorker(
-                adapter_type=model_config['adapter_type'],
-                model_identifier=model_config['model_identifier'],
-                rate_limit=model_config.get('rate_limit')
+                adapter_type=worker_args.pop('adapter_type'),
+                model_identifier=worker_args.pop('model_identifier'),
+                rate_limit=worker_args.pop('rate_limit', None),
+                **worker_args # Pass remaining config (max_model_len, quantization, etc.)
             )
             
             # Run
