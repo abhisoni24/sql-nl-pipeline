@@ -8,13 +8,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Show the email, country_code, signup_date, username users id greater than 479",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Produce a listing of the email, country_code, signup_date, username in users looking only at id greater than 479",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -77,7 +77,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -96,13 +96,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the liked_at likes ordered by post_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the liked_at within likes ordered by post_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -164,7 +164,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -183,13 +183,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the view_count, content, posted_at posts id equals 780",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the view_count, content, posted_at within posts filtered for id equals 780",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -252,7 +252,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -271,13 +271,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the view_count, content, user_id, posted_at posts",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the view_count, content, user_id, posted_at within posts",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -339,7 +339,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -358,13 +358,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the liked_at, post_id, user_id likes user_id greater than 661",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the liked_at, post_id, user_id in likes for which user_id greater than 661",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -427,7 +427,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the liked_at, post_id, user_id out of likes where this field greater than 661",
           "changes_made": "Replaced one reference with it/that."
@@ -447,13 +447,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Select the follower_id, followee_id, followed_at follows followed_at less than or equal to 13 days ago ordered by follower_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "choose the follower_id, followee_id, followed_at out of follows looking only at followed_at less than or equal to 13 days ago ordered by follower_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -518,7 +518,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Select the follower_id, followee_id, followed_at in follows filtered for that value less than or equal to 13 days ago ordered by follower_id",
           "changes_made": "Replaced one reference with it/that."
@@ -538,13 +538,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the id comments user_id less than 984 ordered by created_at",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Produce a listing of the id from comments where user_id less than 984 ordered by created_at",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -606,7 +606,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -625,13 +625,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the content posts id greater than 490 ordered by id limited to 91 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the content from posts filtered for id greater than 490 ordered by id limited to 91 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -694,7 +694,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Find the content within posts that have id greater than 490 ordered by the latter limited to 91 results",
           "changes_made": "Replaced one reference with it/that."
@@ -714,13 +714,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Spot all columns comments created_at less than 21 days ago ordered by post_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out all columns within comments for which created_at less than 21 days ago ordered by post_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -784,7 +784,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -803,13 +803,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the liked_at, user_id, post_id likes limited to 4 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the liked_at, user_id, post_id from likes limited to 4 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -871,7 +871,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -890,13 +890,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns comments post_id equals 147 limited to 84 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out all columns in comments that have post_id equals 147 limited to 84 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -958,7 +958,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -977,13 +977,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display all columns likes post_id greater than 834",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Show all columns within likes filtered for post_id greater than 834",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1046,7 +1046,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1065,13 +1065,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up all columns follows",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Go get all columns from follows",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1133,7 +1133,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1152,13 +1152,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the followee_id, followed_at, follower_id follows ordered by followee_id limited to 6 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the followee_id, followed_at, follower_id within follows ordered by followee_id limited to 6 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1220,7 +1220,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1239,13 +1239,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Show the comment_text, created_at, post_id, user_id comments post_id less than 597 limited to 12 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the comment_text, created_at, post_id, user_id out of comments that have post_id less than 597 limited to 12 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1309,7 +1309,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Show the comment_text, created_at, post_id, user_id in comments for which the aforementioned column less than 597 limited to 12 results",
           "changes_made": "Replaced one reference with it/that."
@@ -1329,13 +1329,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the email, signup_date users id greater than or equal to 744 limited to 16 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Get the email, signup_date from users where id greater than or equal to 744 limited to 16 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1399,7 +1399,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1418,13 +1418,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display the followee_id follows",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Show the followee_id in follows",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1486,7 +1486,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1505,13 +1505,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Get the followee_id, followed_at follows limited to 48 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the followee_id, followed_at out of follows limited to 48 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1573,7 +1573,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1592,13 +1592,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the posted_at, id, view_count posts limited to 12 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select the posted_at, id, view_count from posts limited to 12 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1661,7 +1661,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1680,13 +1680,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the posted_at, user_id posts id is not equal to 215 limited to 29 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the posted_at, user_id in posts that have id is not equal to 215 limited to 29 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1749,7 +1749,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1768,13 +1768,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display all columns posts LEFT JOIN users on user_id equals id signup_date less than or equal to 17 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Show all columns from posts LEFT JOIN users on user_id equals id for which signup_date less than or equal to 17 days ago",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1839,7 +1839,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1858,13 +1858,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the followee_id, email, signup_date follows and their users",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "choose the followee_id, email, signup_date out of follows and their users",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -1926,7 +1926,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -1945,13 +1945,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns comments RIGHT JOIN posts on post_id equals id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out all columns within comments RIGHT JOIN posts on post_id equals id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2014,7 +2014,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2033,13 +2033,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Spot all columns follows LEFT JOIN users on follower_id equals id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out all columns within follows LEFT JOIN users on follower_id equals id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2102,7 +2102,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2121,13 +2121,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the liked_at, user_id, post_id, id posts LEFT JOIN likes on id equals post_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the liked_at, user_id, post_id, id from posts LEFT JOIN likes on id equals post_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2190,7 +2190,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Find the liked_at, user_id, post_id, id in posts LEFT JOIN likes on it equals post_id",
           "changes_made": "Replaced one reference with it/that."
@@ -2210,13 +2210,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Get all columns comments and their users email equals 'user41@example.com'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Find all columns from comments and their users looking only at email equals 'user41@example.com'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2279,7 +2279,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2298,13 +2298,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at all columns likes LEFT JOIN posts on post_id equals id content is not equal to '123'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for all columns within likes LEFT JOIN posts on post_id equals id looking only at content is not equal to '123'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2367,7 +2367,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2386,13 +2386,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Show all columns likes FULL JOIN posts on post_id equals id user_id less than 606",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up all columns within likes FULL JOIN posts on post_id equals id filtered for user_id less than 606",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2456,7 +2456,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2475,13 +2475,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the created_at, user_id, posted_at, user_id comments LEFT JOIN posts on post_id equals id content equals 'user'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the created_at, user_id, posted_at, user_id from comments LEFT JOIN posts on post_id equals id where content equals 'user'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2545,7 +2545,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2564,13 +2564,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the post_id, id, created_at, username comments LEFT JOIN users on user_id equals id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the post_id, id, created_at, username from comments LEFT JOIN users on user_id equals id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2633,7 +2633,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "choose the post_id, id, created_at, username within comments LEFT JOIN users on user_id equals it",
           "changes_made": "Replaced one reference with it/that."
@@ -2653,13 +2653,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me all columns comments RIGHT JOIN posts on post_id equals id id is not equal to 582",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Go get all columns out of comments RIGHT JOIN posts on post_id equals id for which id is not equal to 582",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2722,7 +2722,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2741,13 +2741,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns users RIGHT JOIN posts on id equals user_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Spot all columns out of users RIGHT JOIN posts on id equals user_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2811,7 +2811,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2830,13 +2830,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for all columns follows RIGHT JOIN users on follower_id equals id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at all columns from follows RIGHT JOIN users on follower_id equals id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2900,7 +2900,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -2919,13 +2919,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose all columns likes FULL JOIN posts on post_id equals id content equals 'user'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns in likes FULL JOIN posts on post_id equals id where content equals 'user'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -2989,7 +2989,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3008,13 +3008,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the id, created_at, content, id comments RIGHT JOIN posts on post_id equals id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select the id, created_at, content, id from comments RIGHT JOIN posts on post_id equals id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3077,7 +3077,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the id, created_at, content, it out of comments RIGHT JOIN posts on post_id equals id",
           "changes_made": "Replaced one reference with it/that."
@@ -3097,13 +3097,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the liked_at, user_id, post_id, id users RIGHT JOIN likes on id equals user_id user_id is not equal to 789",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the liked_at, user_id, post_id, id within users RIGHT JOIN likes on id equals user_id for which user_id is not equal to 789",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3166,7 +3166,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the liked_at, user_id, post_id, id out of users RIGHT JOIN likes on the aforementioned column equals user_id that have user_id is not equal to 789",
           "changes_made": "Replaced one reference with it/that."
@@ -3186,13 +3186,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Get all columns comments RIGHT JOIN users on user_id equals id email like '%@gmail.com'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Find all columns from comments RIGHT JOIN users on user_id equals id for which email like '%@gmail.com'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3255,7 +3255,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3274,13 +3274,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up all columns comments RIGHT JOIN users on user_id equals id id equals 579",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out all columns out of comments RIGHT JOIN users on user_id equals id that have id equals 579",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3343,7 +3343,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3362,13 +3362,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out all columns follows and their users",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns in follows and their users",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3430,7 +3430,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3449,13 +3449,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at all columns comments FULL JOIN users on user_id equals id is_verified equals 1",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Show all columns in comments FULL JOIN users on user_id equals id looking only at is_verified equals 1",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3518,7 +3518,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3537,13 +3537,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the is_verified, id users id is in (Select user_id from posts where posted_at less than or equal to 28 days ago)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the is_verified, id from users where id is in (Select user_id from posts where posted_at less than or equal to 28 days ago)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3607,7 +3607,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3626,13 +3626,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out all columns posts where user_id is not equal to 445 content equals 'admin'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns out of posts where user_id is not equal to 445 that have content equals 'admin'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3694,7 +3694,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3713,13 +3713,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the f1.follower_id, f2.followee_id follows JOIN follows on followee_id equals follower_id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the f1.follower_id, f2.followee_id in follows JOIN follows on followee_id equals follower_id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3781,7 +3781,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the f1.follower_id, f2.followee_id out of follows JOIN that table on followee_id equals follower_id",
           "changes_made": "Replaced one reference with it/that."
@@ -3801,13 +3801,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the content, view_count, id posts exists (Select 1 from comments where post_id equals id and post_id less than or equal to 355)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the content, view_count, id from posts where exists (Select 1 from comments where post_id equals id and post_id less than or equal to 355)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3870,7 +3870,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the content, view_count, id out of posts filtered for exists (Select 1 from comments where post_id equals that value and post_id less than or equal to 355)",
           "changes_made": "Replaced one reference with it/that."
@@ -3890,13 +3890,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out all columns likes where liked_at greater than or equal to 18 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me all columns in likes where liked_at greater than or equal to 18 days ago",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -3960,7 +3960,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -3979,13 +3979,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the follower_id, followed_at follows exists (Select 1 from users where id equals follower_id and signup_date less than 12 days ago)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Get the follower_id, followed_at within follows that have exists (Select 1 from users where id equals follower_id and signup_date less than 12 days ago)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4050,7 +4050,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the follower_id, followed_at from follows filtered for exists (Select 1 from users where id equals this field and signup_date less than 12 days ago)",
           "changes_made": "Replaced one reference with it/that."
@@ -4070,13 +4070,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the liked_at, post_id likes user_id is in (Select id from users where id less than 72)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the liked_at, post_id from likes for which user_id is in (Select id from users where id less than 72)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4140,7 +4140,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the liked_at, post_id in likes filtered for user_id is in (Select id from users where the aforementioned column less than 72)",
           "changes_made": "Replaced one reference with it/that."
@@ -4160,13 +4160,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the content, posted_at, user_id posts id is in (Select post_id from likes where liked_at less than or equal to 15 days ago)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Get the content, posted_at, user_id out of posts that have id is in (Select post_id from likes where liked_at less than or equal to 15 days ago)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4231,7 +4231,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4250,13 +4250,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the follower_id follows follower_id is in (Select id from users where email is not equal to 'user62@example.com')",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the follower_id in follows looking only at follower_id is in (Select id from users where email is not equal to 'user62@example.com')",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4319,7 +4319,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4338,13 +4338,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the f1.follower_id, f2.followee_id follows JOIN follows on followee_id equals follower_id limited to 20 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Get the f1.follower_id, f2.followee_id in follows JOIN follows on followee_id equals follower_id limited to 20 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4407,7 +4407,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4426,13 +4426,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose all columns posts where id greater than or equal to 347 content is not equal to '123'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select all columns out of posts where id greater than or equal to 347 for which content is not equal to '123'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4495,7 +4495,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4514,13 +4514,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the view_count, id, content, posted_at posts exists (Select 1 from comments where post_id equals id and comment_text is not equal to 'test')",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the view_count, id, content, posted_at from posts filtered for exists (Select 1 from comments where post_id equals id and comment_text is not equal to 'test')",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4581,7 +4581,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "choose the view_count, id, content, posted_at in posts where exists (Select 1 from comments where post_id equals it and comment_text is not equal to 'test')",
           "changes_made": "Replaced one reference with it/that."
@@ -4601,13 +4601,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display the c1.id, c2.id, post_id comments JOIN comments on post_id equals post_id and id is not equal to id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the c1.id, c2.id, post_id within comments JOIN comments on post_id equals post_id and id is not equal to id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4670,7 +4670,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4689,13 +4689,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the id comments post_id is in (Select id from posts where view_count equals 662)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the id out of comments filtered for post_id is in (Select id from posts where view_count equals 662)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4757,7 +4757,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the id from comments that have post_id is in (Select this field from posts where view_count equals 662)",
           "changes_made": "Replaced one reference with it/that."
@@ -4777,13 +4777,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Spot all columns users id is in (Select user_id from likes where post_id less than 719)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "choose all columns from users that have id is in (Select user_id from likes where post_id less than 719)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4847,7 +4847,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -4866,13 +4866,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the user_id, liked_at, post_id likes post_id is in (Select id from posts where view_count less than 860)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the user_id, liked_at, post_id in likes that have post_id is in (Select id from posts where view_count less than 860)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -4935,7 +4935,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the user_id, liked_at, post_id out of likes filtered for this field is in (Select id from posts where view_count less than 860)",
           "changes_made": "Replaced one reference with it/that."
@@ -4955,13 +4955,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the f1.follower_id, f2.followee_id follows JOIN follows on followee_id equals follower_id limited to 11 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select the f1.follower_id, f2.followee_id within follows JOIN follows on followee_id equals follower_id limited to 11 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5025,7 +5025,7 @@
           "changes_made": "Omitted explicit JOIN/ON syntax."
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "choose the f1.follower_id, f2.followee_id from follows JOIN that table on followee_id equals follower_id limited to 11 results",
           "changes_made": "Replaced one reference with it/that."
@@ -5045,13 +5045,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Single out all columns follows where followee_id is not equal to 23",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Spot all columns within follows where followee_id is not equal to 23",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5112,7 +5112,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -5131,13 +5131,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up all columns posts where posted_at less than 12 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me all columns within posts where posted_at less than 12 days ago",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5201,7 +5201,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -5220,13 +5220,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display all columns likes exists (Select 1 from users where id equals user_id and id less than or equal to 866)",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for all columns from likes where exists (Select 1 from users where id equals user_id and id less than or equal to 866)",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5289,7 +5289,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Display all columns out of likes filtered for exists (Select 1 from users where id equals user_id and it less than or equal to 866)",
           "changes_made": "Replaced one reference with it/that."
@@ -5309,13 +5309,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the id, signup_date users signup_date greater than 13 days ago, combined with (removing duplicates) Go get the id, signup_date users id greater than or equal to 595",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Pull up the id, signup_date within users looking only at signup_date greater than 13 days ago, combined with (removing duplicates) Pull up the id, signup_date within users looking only at id greater than or equal to 595",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5380,7 +5380,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the id, signup_date out of users where signup_date greater than 13 days ago, combined with (removing duplicates) Go get the id, signup_date out of users where that value greater than or equal to 595",
           "changes_made": "Replaced one reference with it/that."
@@ -5400,13 +5400,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at the liked_at, user_id, post_id likes user_id equals 153, combined with (removing duplicates) Give me a look at the liked_at, user_id, post_id likes liked_at greater than or equal to 1 day ago ordered by liked_at limited to 24 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Display the liked_at, user_id, post_id in likes looking only at user_id equals 153, combined with (removing duplicates) Display the liked_at, user_id, post_id in likes looking only at liked_at greater than or equal to 1 day ago ordered by liked_at limited to 24 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5471,7 +5471,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at the liked_at, user_id, post_id out of likes that have the aforementioned column equals 153, combined with (removing duplicates) Give me a look at the liked_at, user_id, post_id out of likes that have the aforementioned column greater than or equal to 1 day ago ordered by liked_at limited to 24 results",
           "changes_made": "Replaced one reference with it/that."
@@ -5491,13 +5491,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the followed_at, follower_id, followee_id follows followee_id equals 152, combined with (removing duplicates) Fetch me the followed_at, follower_id, followee_id follows followee_id equals 606",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the followed_at, follower_id, followee_id in follows looking only at followee_id equals 152, combined with (removing duplicates) Retrieve the followed_at, follower_id, followee_id in follows looking only at followee_id equals 606",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5560,7 +5560,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the followed_at, follower_id, followee_id within follows that have it equals 152, combined with (removing duplicates) Fetch me the followed_at, follower_id, followee_id within follows that have it equals 606",
           "changes_made": "Replaced one reference with it/that."
@@ -5580,13 +5580,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the followed_at, follower_id, followee_id follows follower_id equals 476, combined with (including duplicates) Bring up the followed_at, follower_id, followee_id follows follower_id less than 303 limited to 44 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Produce a listing of the followed_at, follower_id, followee_id within follows looking only at follower_id equals 476, combined with (including duplicates) Produce a listing of the followed_at, follower_id, followee_id within follows looking only at follower_id less than 303 limited to 44 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5650,7 +5650,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -5669,13 +5669,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at the post_id, liked_at likes post_id greater than or equal to 376, combined with (including duplicates) Give me a look at the post_id, liked_at likes liked_at less than 9 days ago ordered by post_id limited to 34 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the post_id, liked_at in likes that have post_id greater than or equal to 376, combined with (including duplicates) Bring up the post_id, liked_at in likes that have liked_at less than 9 days ago ordered by post_id limited to 34 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5740,7 +5740,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Give me a look at the post_id, liked_at out of likes filtered for this field greater than or equal to 376, combined with (including duplicates) Give me a look at the post_id, liked_at out of likes filtered for this field less than 9 days ago ordered by post_id limited to 34 results",
           "changes_made": "Replaced one reference with it/that."
@@ -5760,13 +5760,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the username, id users email is not equal to 'user32@example.com', combined with (including duplicates) Dig out the username, id users email like 'user%@%'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the username, id from users filtered for email is not equal to 'user32@example.com', combined with (including duplicates) Retrieve the username, id from users filtered for email like 'user%@%'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5828,7 +5828,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -5847,13 +5847,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the id, user_id comments id greater than 770, combined with (removing duplicates) Go get the id, user_id comments user_id less than 683 ordered by id limited to 14 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Find the id, user_id within comments where id greater than 770, combined with (removing duplicates) Find the id, user_id within comments where user_id less than 683 ordered by id limited to 14 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -5917,7 +5917,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the id, user_id from comments that have id greater than 770, combined with (removing duplicates) Go get the id, user_id from comments that have user_id less than 683 ordered by the aforementioned column limited to 14 results",
           "changes_made": "Replaced one reference with it/that."
@@ -5937,13 +5937,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the country_code, is_verified, signup_date users id is not equal to 325, combined with (removing duplicates) Pick out the country_code, is_verified, signup_date users username like '%a%'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "choose the country_code, is_verified, signup_date from users where id is not equal to 325, combined with (removing duplicates) choose the country_code, is_verified, signup_date from users where username like '%a%'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6006,7 +6006,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -6025,13 +6025,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the country_code, is_verified, username users signup_date greater than 22 days ago, combined with (including duplicates) choose the country_code, is_verified, username users username equals 'admin' limited to 25 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the country_code, is_verified, username out of users where signup_date greater than 22 days ago, combined with (including duplicates) Single out the country_code, is_verified, username out of users where username equals 'admin' limited to 25 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6096,7 +6096,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "choose the country_code, is_verified, username within users that have signup_date greater than 22 days ago, combined with (including duplicates) choose the country_code, is_verified, username within users that have that value equals 'admin' limited to 25 results",
           "changes_made": "Replaced one reference with it/that."
@@ -6116,13 +6116,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Find the user_id, content, posted_at posts posted_at less than or equal to 4 days ago, combined with (removing duplicates) Find the user_id, content, posted_at posts view_count is not equal to 832 limited to 42 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the user_id, content, posted_at within posts filtered for posted_at less than or equal to 4 days ago, combined with (removing duplicates) Retrieve the user_id, content, posted_at within posts filtered for view_count is not equal to 832 limited to 42 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6187,7 +6187,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Find the user_id, content, posted_at from posts for which the aforementioned column less than or equal to 4 days ago, combined with (removing duplicates) Find the user_id, content, posted_at from posts for which view_count is not equal to 832 limited to 42 results",
           "changes_made": "Replaced one reference with it/that."
@@ -6207,13 +6207,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "choose the id, country_code, signup_date, email users id less than 11, combined with (removing duplicates) choose the id, country_code, signup_date, email users signup_date greater than 25 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Select the id, country_code, signup_date, email out of users where id less than 11, combined with (removing duplicates) Select the id, country_code, signup_date, email out of users where signup_date greater than 25 days ago",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6278,7 +6278,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -6297,13 +6297,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the email, is_verified, id users id greater than 256, combined with (including duplicates) Go get the email, is_verified, id users username like '%c'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the email, is_verified, id from users for which id greater than 256, combined with (including duplicates) Dig out the email, is_verified, id from users for which username like '%c'",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6367,7 +6367,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Go get the email, is_verified, id out of users looking only at this field greater than 256, combined with (including duplicates) Go get the email, is_verified, id out of users looking only at username like '%c'",
           "changes_made": "Replaced one reference with it/that."
@@ -6387,13 +6387,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the id, user_id comments comment_text equals 'test', combined with (including duplicates) Dig out the id, user_id comments user_id equals 980 ordered by id",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the id, user_id out of comments looking only at comment_text equals 'test', combined with (including duplicates) Fetch me the id, user_id out of comments looking only at user_id equals 980 ordered by id",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6456,7 +6456,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Dig out the id, user_id from comments for which comment_text equals 'test', combined with (including duplicates) Dig out the id, user_id from comments for which the aforementioned column equals 980 ordered by id",
           "changes_made": "Replaced one reference with it/that."
@@ -6476,13 +6476,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the post_id, id, comment_text comments created_at less than or equal to 23 days ago, combined with (removing duplicates) Pick out the post_id, id, comment_text comments post_id less than or equal to 404 limited to 45 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Single out the post_id, id, comment_text within comments where created_at less than or equal to 23 days ago, combined with (removing duplicates) Single out the post_id, id, comment_text within comments where post_id less than or equal to 404 limited to 45 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6546,7 +6546,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the post_id, id, comment_text in comments for which created_at less than or equal to 23 days ago, combined with (removing duplicates) Pick out the post_id, id, comment_text in comments for which this field less than or equal to 404 limited to 45 results",
           "changes_made": "Replaced one reference with it/that."
@@ -6566,13 +6566,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the id, signup_date users country_code like '%a%', combined with (removing duplicates) Run a check for the id, signup_date users signup_date less than or equal to 10 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Bring up the id, signup_date out of users that have country_code like '%a%', combined with (removing duplicates) Bring up the id, signup_date out of users that have signup_date less than or equal to 10 days ago",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6636,7 +6636,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Run a check for the id, signup_date from users looking only at country_code like '%a%', combined with (removing duplicates) Run a check for the id, signup_date from users looking only at the latter less than or equal to 10 days ago",
           "changes_made": "Replaced one reference with it/that."
@@ -6656,13 +6656,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the user_id, post_id likes post_id is not equal to 293, combined with (including duplicates) Retrieve the user_id, post_id likes user_id less than or equal to 777",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Fetch me the user_id, post_id from likes looking only at post_id is not equal to 293, combined with (including duplicates) Fetch me the user_id, post_id from likes looking only at user_id less than or equal to 777",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6725,7 +6725,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the user_id, post_id within likes for which that value is not equal to 293, combined with (including duplicates) Retrieve the user_id, post_id within likes for which that value less than or equal to 777",
           "changes_made": "Replaced one reference with it/that."
@@ -6745,13 +6745,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Produce a listing of the post_id, liked_at, user_id likes post_id is not equal to 443, combined with (removing duplicates) Produce a listing of the post_id, liked_at, user_id likes liked_at greater than or equal to 20 days ago limited to 15 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Display the post_id, liked_at, user_id in likes that have post_id is not equal to 443, combined with (removing duplicates) Display the post_id, liked_at, user_id in likes that have liked_at greater than or equal to 20 days ago limited to 15 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6816,7 +6816,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Produce a listing of the post_id, liked_at, user_id from likes looking only at it is not equal to 443, combined with (removing duplicates) Produce a listing of the post_id, liked_at, user_id from likes looking only at this field greater than or equal to 20 days ago limited to 15 results",
           "changes_made": "Replaced one reference with it/that."
@@ -6836,13 +6836,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Pick out the comment_text, id comments id less than 320, combined with (removing duplicates) Pick out the comment_text, id comments post_id greater than or equal to 923",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Spot the comment_text, id out of comments where id less than 320, combined with (removing duplicates) Spot the comment_text, id out of comments where post_id greater than or equal to 923",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6906,7 +6906,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -6925,13 +6925,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Display the liked_at, post_id likes liked_at greater than 13 days ago, combined with (removing duplicates) Display the liked_at, post_id likes liked_at less than 7 days ago limited to 30 results",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Show the liked_at, post_id in likes for which liked_at greater than 13 days ago, combined with (removing duplicates) Show the liked_at, post_id in likes for which liked_at less than 7 days ago limited to 30 results",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -6996,7 +6996,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7015,13 +7015,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the is_verified, id, email, username users username is not equal to 'activity', combined with (removing duplicates) Retrieve the is_verified, id, email, username users country_code like 'b%' ordered by is_verified",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": true,
           "perturbed_nl_prompt": "Get the is_verified, id, email, username within users for which username is not equal to 'activity', combined with (removing duplicates) Get the is_verified, id, email, username within users for which country_code like 'b%' ordered by is_verified",
           "changes_made": "Replaced query action verbs with synonyms."
@@ -7084,7 +7084,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "Retrieve the is_verified, id, email, username in users looking only at this field is not equal to 'activity', combined with (removing duplicates) Retrieve the is_verified, id, email, username in users looking only at country_code like 'b%' ordered by it",
           "changes_made": "Replaced one reference with it/that."
@@ -7104,12 +7104,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7169,7 +7169,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7188,12 +7188,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7253,7 +7253,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7272,12 +7272,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7337,7 +7337,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7356,12 +7356,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7421,7 +7421,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7440,12 +7440,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7505,7 +7505,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7524,12 +7524,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7589,7 +7589,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7608,12 +7608,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7674,7 +7674,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7693,12 +7693,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7759,7 +7759,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7778,12 +7778,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7843,7 +7843,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7862,12 +7862,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -7927,7 +7927,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -7946,12 +7946,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8012,7 +8012,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8031,12 +8031,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8096,7 +8096,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8115,12 +8115,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8180,7 +8180,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8199,12 +8199,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8264,7 +8264,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8283,12 +8283,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8349,7 +8349,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8368,12 +8368,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8434,7 +8434,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8453,12 +8453,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8519,7 +8519,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8538,12 +8538,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8603,7 +8603,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8622,12 +8622,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8688,7 +8688,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8707,12 +8707,12 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8772,7 +8772,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8791,13 +8791,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update liked_at to the current time for the like user_id less than or equal to 349",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8860,7 +8860,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8879,13 +8879,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update is_verified to 0 for the user email equals 'user73@example.com'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -8946,7 +8946,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -8965,13 +8965,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update is_verified to 1 for the user id equals 625",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9032,7 +9032,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9051,13 +9051,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update content to 'Updated text 51' for the post posted_at less than 18 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9120,7 +9120,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9139,13 +9139,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update content to 'Updated text 38' for the post posted_at greater than or equal to 22 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9208,7 +9208,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9227,13 +9227,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update view_count to 294 for the post user_id greater than or equal to 416",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9295,7 +9295,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9314,13 +9314,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user id is not equal to 134",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9381,7 +9381,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9400,13 +9400,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user signup_date less than or equal to 9 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9469,7 +9469,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user where that value less than or equal to 9 days ago",
           "changes_made": "Replaced one reference with it/that."
@@ -9489,13 +9489,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update country_code to 'Updated text 49' for the user signup_date greater than or equal to 7 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9558,7 +9558,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9577,13 +9577,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user signup_date greater than 30 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9647,7 +9647,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user where this field greater than 30 days ago",
           "changes_made": "Replaced one reference with it/that."
@@ -9667,13 +9667,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user id greater than or equal to 391",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9735,7 +9735,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9754,13 +9754,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update followed_at to the current time for the follow follower_id is not equal to 533",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9821,7 +9821,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9840,13 +9840,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update followed_at to the current time for the follow followee_id equals 186",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9907,7 +9907,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -9926,13 +9926,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update username to 'Updated text 86' for the user id less than or equal to 187",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -9994,7 +9994,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10013,13 +10013,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update liked_at to the current time for the like post_id is not equal to 694",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10081,7 +10081,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10100,13 +10100,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update user_id to 951 for the comment post_id greater than 551",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10168,7 +10168,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10187,13 +10187,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update posted_at to the current time for the post user_id less than 533",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10255,7 +10255,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10274,13 +10274,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update signup_date to the current time for the user is_verified equals 1",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10341,7 +10341,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10360,13 +10360,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update view_count to 820 for the post user_id greater than or equal to 129",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10428,7 +10428,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10447,13 +10447,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "update username to 'Updated text 89' for the user username is not equal to 'admin'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10515,7 +10515,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10534,13 +10534,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete posts posted_at greater than or equal to 9 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10603,7 +10603,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10622,13 +10622,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete follows followed_at greater than or equal to 17 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10691,7 +10691,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10710,13 +10710,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete users signup_date greater than 13 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10779,7 +10779,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10798,13 +10798,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete users email is not equal to 'user79@example.com'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10865,7 +10865,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10884,13 +10884,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete users is_verified equals 0",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -10950,7 +10950,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -10969,13 +10969,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete follows followed_at less than 28 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11037,7 +11037,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11056,13 +11056,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete likes liked_at greater than or equal to 25 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11124,7 +11124,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11143,13 +11143,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete users country_code like '%c'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11210,7 +11210,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11229,13 +11229,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete comments id greater than 725",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11297,7 +11297,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11316,13 +11316,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete comments created_at greater than or equal to 25 days ago",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11385,7 +11385,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11404,13 +11404,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete follows followee_id equals 582",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11471,7 +11471,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11490,13 +11490,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete posts content like 'b%'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11557,7 +11557,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11576,13 +11576,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete likes user_id greater than or equal to 376",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11644,7 +11644,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11663,13 +11663,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete follows follower_id greater than 275",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11732,7 +11732,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11751,13 +11751,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete likes post_id greater than 306",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11819,7 +11819,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11838,13 +11838,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete comments user_id greater than 65",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11907,7 +11907,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -11926,13 +11926,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete likes user_id less than 532",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -11995,7 +11995,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -12014,13 +12014,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete users email equals 'user64@example.com'",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -12081,7 +12081,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -12100,13 +12100,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete comments user_id greater than 875",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -12168,7 +12168,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
@@ -12187,13 +12187,13 @@
       },
       "single_perturbations": [
         {
-          "perturbation_name": "omit_obvious_clauses",
+          "perturbation_name": "omit_obvious_operation_markers",
           "applicable": true,
           "perturbed_nl_prompt": "delete posts view_count greater than 490",
           "changes_made": "Removed explicit SQL clause keywords."
         },
         {
-          "perturbation_name": "synonym_substitution",
+          "perturbation_name": "phrasal_and_idiomatic_action_substitution",
           "applicable": false,
           "perturbed_nl_prompt": null
         },
@@ -12255,7 +12255,7 @@
           "perturbed_nl_prompt": null
         },
         {
-          "perturbation_name": "ambiguous_pronouns",
+          "perturbation_name": "anchored_pronoun_references",
           "applicable": false,
           "perturbed_nl_prompt": null
         }
