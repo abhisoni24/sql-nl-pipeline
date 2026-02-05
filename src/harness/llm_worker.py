@@ -3,9 +3,12 @@ import asyncio
 from typing import List, Dict, Any, Optional
 from tqdm.auto import tqdm
 
+from src.core.schema import USED_SQL_DIALECT
+
 # System prompt for SQL generation (consistent across all models)
-SYSTEM_PROMPT = """You are a SQL expert. Given the database schema and a natural language query,
-provide ONLY the SQL code. No explanations. No preamble. Return only valid SQL."""
+SYSTEM_PROMPT = f"""You are a SQL expert. Given the database schema and a natural language query,
+provide ONLY the SQL code. No explanations. No preamble. Return only valid SQL.
+IMPORTANT: Generate SQL compatible with the {USED_SQL_DIALECT.upper()} dialect."""
 
 # Database schema context
 SCHEMA_CONTEXT = """

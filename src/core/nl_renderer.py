@@ -13,8 +13,8 @@ from src.core.schema import FOREIGN_KEYS
 
 class PerturbationType(Enum):
     """Enumeration of the 13 active perturbation categories."""
-    OMIT_OBVIOUS_CLAUSES = "omit_obvious_clauses"              # ID 1
-    SYNONYM_SUBSTITUTION = "synonym_substitution"              # ID 2
+    OMIT_OBVIOUS_CLAUSES = "omit_obvious_operation_markers"              # ID 1
+    SYNONYM_SUBSTITUTION = "phrasal_and_idiomatic_action_substitution"              # ID 2
     VERBOSITY_VARIATION = "verbosity_variation"                # ID 4
     OPERATOR_AGGREGATE_VARIATION = "operator_aggregate_variation" # ID 5
     TYPOS = "typos"                                            # ID 6
@@ -25,7 +25,7 @@ class PerturbationType(Enum):
     MIXED_SQL_NL = "mixed_sql_nl"                              # ID 11
     TABLE_COLUMN_SYNONYMS = "table_column_synonyms"            # ID 12
     INCOMPLETE_JOIN_SPEC = "incomplete_join_spec"              # ID 13
-    AMBIGUOUS_PRONOUNS = "ambiguous_pronouns"                  # ID 14
+    AMBIGUOUS_PRONOUNS = "anchored_pronoun_references"                  # ID 14
 
 @dataclass
 class PerturbationConfig:

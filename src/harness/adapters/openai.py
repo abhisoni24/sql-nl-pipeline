@@ -33,24 +33,18 @@ class OpenAIAdapter(BaseModelAdapter):
     def generate(self, prompts: List[str]) -> List[str]:
         results = []
         for prompt in prompts:
-            try:
-                formatted_prompt = self.format_prompt(prompt)
-                response = self.client.chat.completions.create(
-                    model=self._model_name,
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": formatted_prompt}
-                    ],
-                    temperature=0.0,
-                    max_tokens=512
-                )
-                results.append(response.choices[0].message.content)
-            except Exception as e:
-                import logging
-                import traceback
-                # Log full traceback to help debug "Connection error"
-                logging.error(f"OpenAI API error detailed: {traceback.format_exc()}")
-                results.append(f"ERROR: {str(e)}")  # Return error string so we see it in results
+            formatted_prompt = self.format_prompt(prompt)
+            # Let exceptions propagate to LLMWorker for retry logic
+            response = self.client.chat.completions.create(
+                model=self._model_name,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": formatted_prompt}
+                ],
+                temperature=0.0,
+                max_tokens=512
+            )
+            results.append(response.choices[0].message.content)
         return results
 
     def model_name(self) -> str:

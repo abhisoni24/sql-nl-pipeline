@@ -30,22 +30,18 @@ class AnthropicAdapter(BaseModelAdapter):
     def generate(self, prompts: List[str]) -> List[str]:
         results = []
         for prompt in prompts:
-            try:
-                formatted_prompt = self.format_prompt(prompt)
-                response = self.client.messages.create(
-                    model=self._model_name,
-                    max_tokens=512,
-                    temperature=0.0,
-                    messages=[
-                        {"role": "user", "content": formatted_prompt}
-                    ]
-                )
-                #results.append(response. content)
-                results.append(response.content[0].text)
-            except Exception as e:
-                import logging
-                logging.error(f"Anthropic API error: {str(e)}")
-                results.append("")  # Empty result indicates failure
+            formatted_prompt = self.format_prompt(prompt)
+            # Let exceptions propagate to LLMWorker for retry logic
+            response = self.client.messages.create(
+                model=self._model_name,
+                max_tokens=512,
+                temperature=0.0,
+                messages=[
+                    {"role": "user", "content": formatted_prompt}
+                ]
+            )
+            #results.append(response. content)
+            results.append(response.content[0].text)
         return results
 
     def model_name(self) -> str:

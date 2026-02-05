@@ -43,18 +43,30 @@ def setup_equivalence_engine(local_workspace='./local_eval_workspace'):
     )
     return SQLEquivalenceEngine(config)
 
-def aggregate_results(run_outputs_dir: str) -> pd.DataFrame:
-    """Load all results_*.jsonl files from the output directory."""
+def aggregate_results(run_outputs_dir: str = None, file_list: list = None) -> pd.DataFrame:
+    """Load results from formatted directory OR specific file list."""
     all_records = []
-    pattern = f'{run_outputs_dir}/results_*.jsonl'
-    files = glob.glob(pattern)
+    
+    if file_list:
+        files = file_list
+        print(f"📋 processing {len(files)} manually specified files.")
+    elif run_outputs_dir:
+        pattern = f'{run_outputs_dir}/results_*.jsonl'
+        files = glob.glob(pattern)
+        print(f"📋 Found {len(files)} result files in {run_outputs_dir}")
+    else:
+        print("⚠️ No directory or files provided.")
+        return pd.DataFrame()
     
     if not files:
-        print(f"⚠️ No result files found in {run_outputs_dir}")
+        print(f"⚠️ No result files found.")
         return pd.DataFrame()
         
-    print(f"📋 Found {len(files)} result files. Aggregating...")
     for fpath in files:
+        if not os.path.exists(fpath):
+            print(f"⚠️ File not found: {fpath}")
+            continue
+            
         with open(fpath, 'r') as f:
             for line in f:
                 if line.strip():
@@ -117,20 +129,26 @@ def generate_plots(df: pd.DataFrame, output_dir: str):
     
     print(f"📊 Plots saved to {output_dir}")
 
-def main(run_outputs_dir):
+def main(run_outputs_dir=None, input_files=None):
     # 1. Init Engine
     engine = setup_equivalence_engine()
     
     # 2. Aggregate
-    df = aggregate_results(run_outputs_dir)
+    df = aggregate_results(run_outputs_dir, input_files)
     if df.empty:
         return
         
     # 3. Evaluate
     eval_df = evaluate_dataframe(df, engine)
     
-    # 4. Save Evaluated Results (Single aggregated file)
-    eval_path = f'{run_outputs_dir}/evaluated_results.jsonl'
+    # 4. Save Evaluated Results
+    # If explicit files provided, use current dir or first file's dir
+    if run_outputs_dir:
+        output_dir = run_outputs_dir
+    else:
+        output_dir = os.path.dirname(input_files[0]) if input_files else '.'
+        
+    eval_path = f'{output_dir}/evaluated_results_aggregated.jsonl'
     eval_df.to_json(eval_path, orient='records', lines=True)
     print(f"💾 Evaluated results saved to {eval_path}")
     
@@ -141,12 +159,20 @@ def main(run_outputs_dir):
     print(eval_df.groupby('model_name')['is_equivalent'].mean() * 100)
     
     # 6. Plot
-    generate_plots(eval_df, run_outputs_dir)
+    generate_plots(eval_df, output_dir)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python analyze_results.py <outputs_dir>")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('output_dir', nargs='?', help='Directory containing results')
+    parser.add_argument('--files', nargs='+', help='Specific result files to process')
+    
+    args = parser.parse_args()
+    
+    if args.files:
+        main(input_files=args.files)
+    elif args.output_dir:
+        main(run_outputs_dir=args.output_dir)
+    else:
+        print("Usage: python analyze_results.py <output_dir> OR python analyze_results.py --files file1 file2 ...")
         sys.exit(1)
-        
-    outputs_dir = sys.argv[1]
-    main(outputs_dir)

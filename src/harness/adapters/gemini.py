@@ -35,29 +35,23 @@ class GeminiAdapter(BaseModelAdapter):
     def generate(self, prompts: List[str]) -> List[str]:
         results = []
         for prompt in prompts:
-            try:
-                # Apply model-specific formatting
-                formatted_prompt = self.format_prompt(prompt)
-                
-                # Explicit decoding parameters as per requirements
-                response = self.client.models.generate_content(
-                    model=self._model_name,
-                    contents=formatted_prompt,
-                    config=types.GenerateContentConfig(
-                        temperature=0.0,
-                        max_output_tokens=512
-                    )
+            # Apply model-specific formatting
+            formatted_prompt = self.format_prompt(prompt)
+            
+            # Explicit decoding parameters as per requirements
+            # Let exceptions propagate to LLMWorker for retry logic
+            response = self.client.models.generate_content(
+                model=self._model_name,
+                contents=formatted_prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.0,
+                    max_output_tokens=512
                 )
-                if response.text:
-                    results.append(response.text)
-                else:
-                    results.append("") # Handle empty response safely
-            except Exception as e:
-                # Return empty string on error so downstream processing handles it cleanly
-                # Error is logged via execution engine's error tracking
-                import logging
-                logging.error(f"Gemini API error: {str(e)}")
-                results.append("")  # Empty result indicates failure
+            )
+            if response.text:
+                results.append(response.text)
+            else:
+                results.append("") # Handle empty response safely (safety filters)
         return results
 
     def model_name(self) -> str:
