@@ -16,6 +16,7 @@ anthropic>=0.20.0            # Anthropic adapter
 
 # --- Local Model Inference ---
 vllm>=0.4.0                  # vLLM adapter (installs torch automatically)
+bitsandbytes>=0.46.1
 
 # --- Analysis & Plotting ---
 pandas>=2.0.0
