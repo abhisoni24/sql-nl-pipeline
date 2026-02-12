@@ -2,15 +2,15 @@
   {
     "id": 1,
     "complexity": "simple",
-    "sql": "SELECT c1.comment_text, c1.created_at, c1.user_id, c1.post_id FROM comments AS c1 WHERE c1.user_id < 785",
+    "sql": "SELECT * FROM users AS u1 ORDER BY u1.email",
     "tables": [
-      "comments"
+      "users"
     ]
   },
   {
     "id": 2,
     "complexity": "simple",
-    "sql": "SELECT p1.content, p1.posted_at, p1.id FROM posts AS p1 ORDER BY p1.posted_at",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-22 days')",
     "tables": [
       "posts"
     ]
@@ -18,23 +18,23 @@
   {
     "id": 3,
     "complexity": "simple",
-    "sql": "SELECT c1.post_id, c1.user_id, c1.id FROM comments AS c1 WHERE c1.id > 62 LIMIT 16",
+    "sql": "SELECT l1.liked_at FROM likes AS l1 WHERE l1.liked_at >= DATETIME('now', '-21 days') ORDER BY l1.liked_at",
     "tables": [
-      "comments"
+      "likes"
     ]
   },
   {
     "id": 4,
     "complexity": "simple",
-    "sql": "SELECT * FROM posts AS p1 WHERE p1.view_count = 375",
+    "sql": "SELECT u1.email FROM users AS u1",
     "tables": [
-      "posts"
+      "users"
     ]
   },
   {
     "id": 5,
     "complexity": "simple",
-    "sql": "SELECT u1.email, u1.country_code, u1.is_verified FROM users AS u1",
+    "sql": "SELECT u1.is_verified, u1.country_code, u1.username, u1.email FROM users AS u1 WHERE u1.is_verified = 0",
     "tables": [
       "users"
     ]
@@ -42,45 +42,117 @@
   {
     "id": 6,
     "complexity": "simple",
-    "sql": "SELECT u1.signup_date FROM users AS u1 WHERE u1.country_code LIKE 'b%' ORDER BY u1.is_verified",
+    "sql": "SELECT * FROM likes AS l1",
     "tables": [
-      "users"
+      "likes"
     ]
   },
   {
     "id": 7,
     "complexity": "simple",
-    "sql": "SELECT u1.is_verified, u1.id, u1.signup_date FROM users AS u1 WHERE u1.username <> '123'",
+    "sql": "SELECT p1.content, p1.user_id, p1.posted_at, p1.id FROM posts AS p1 ORDER BY p1.id",
     "tables": [
-      "users"
+      "posts"
     ]
   },
   {
     "id": 8,
     "complexity": "simple",
-    "sql": "SELECT f1.follower_id, f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at >= DATETIME('now', '-15 days') LIMIT 81",
+    "sql": "SELECT p1.view_count, p1.id, p1.posted_at FROM posts AS p1 WHERE p1.posted_at > DATETIME('now', '-30 days')",
     "tables": [
-      "follows"
+      "posts"
     ]
   },
   {
     "id": 9,
     "complexity": "simple",
-    "sql": "SELECT p1.view_count, p1.id, p1.content, p1.posted_at FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-5 days') LIMIT 16",
+    "sql": "SELECT * FROM likes AS l1 WHERE l1.liked_at <= DATETIME('now', '-13 days')",
     "tables": [
-      "posts"
+      "likes"
     ]
   },
   {
     "id": 10,
     "complexity": "simple",
-    "sql": "SELECT p1.id, p1.posted_at, p1.view_count FROM posts AS p1 LIMIT 100",
+    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.post_id > 97 ORDER BY l1.liked_at",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 11,
+    "complexity": "simple",
+    "sql": "SELECT p1.view_count, p1.content, p1.id, p1.user_id FROM posts AS p1",
     "tables": [
       "posts"
     ]
   },
   {
-    "id": 11,
+    "id": 12,
+    "complexity": "simple",
+    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followed_at >= DATETIME('now', '-9 days') ORDER BY f1.follower_id",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 13,
+    "complexity": "simple",
+    "sql": "SELECT l1.post_id FROM likes AS l1",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 14,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.country_code = '123'",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 15,
+    "complexity": "simple",
+    "sql": "SELECT c1.user_id, c1.post_id, c1.created_at FROM comments AS c1",
+    "tables": [
+      "comments"
+    ]
+  },
+  {
+    "id": 16,
+    "complexity": "simple",
+    "sql": "SELECT f1.follower_id FROM follows AS f1 WHERE f1.followee_id > 332 ORDER BY f1.follower_id LIMIT 69",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 17,
+    "complexity": "simple",
+    "sql": "SELECT p1.view_count, p1.posted_at, p1.id, p1.content FROM posts AS p1 LIMIT 98",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 18,
+    "complexity": "simple",
+    "sql": "SELECT c1.comment_text, c1.user_id FROM comments AS c1 WHERE c1.comment_text <> '123' ORDER BY c1.post_id",
+    "tables": [
+      "comments"
+    ]
+  },
+  {
+    "id": 19,
+    "complexity": "simple",
+    "sql": "SELECT l1.post_id, l1.user_id FROM likes AS l1",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 20,
     "complexity": "simple",
     "sql": "SELECT * FROM users AS u1",
     "tables": [
@@ -88,81 +160,9 @@
     ]
   },
   {
-    "id": 12,
-    "complexity": "simple",
-    "sql": "SELECT p1.user_id, p1.id FROM posts AS p1 ORDER BY p1.posted_at",
-    "tables": [
-      "posts"
-    ]
-  },
-  {
-    "id": 13,
-    "complexity": "simple",
-    "sql": "SELECT c1.created_at, c1.post_id, c1.comment_text FROM comments AS c1 ORDER BY c1.id",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 14,
-    "complexity": "simple",
-    "sql": "SELECT f1.followed_at, f1.follower_id, f1.followee_id FROM follows AS f1 ORDER BY f1.followee_id",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 15,
-    "complexity": "simple",
-    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 ORDER BY l1.post_id",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 16,
-    "complexity": "simple",
-    "sql": "SELECT * FROM users AS u1 ORDER BY u1.country_code",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 17,
-    "complexity": "simple",
-    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 LIMIT 36",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 18,
-    "complexity": "simple",
-    "sql": "SELECT l1.post_id FROM likes AS l1 WHERE l1.post_id < 601",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 19,
-    "complexity": "simple",
-    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 20,
-    "complexity": "simple",
-    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followed_at >= DATETIME('now', '-11 days')",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
     "id": 21,
     "complexity": "join",
-    "sql": "SELECT * FROM posts AS p1 LEFT JOIN comments AS c9 ON p1.id = c9.post_id WHERE c9.comment_text LIKE '%a%'",
+    "sql": "SELECT c3.created_at, c3.id, p1.view_count, c3.user_id FROM posts AS p1 INNER JOIN comments AS c3 ON p1.id = c3.post_id",
     "tables": [
       "posts",
       "comments"
@@ -171,113 +171,14 @@
   {
     "id": 22,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 LEFT JOIN posts AS p5 ON l1.post_id = p5.id WHERE p5.view_count = 928",
+    "sql": "SELECT * FROM follows AS f1 RIGHT JOIN users AS u2 ON f1.follower_id = u2.id",
     "tables": [
-      "likes",
-      "posts"
+      "follows",
+      "users"
     ]
   },
   {
     "id": 23,
-    "complexity": "join",
-    "sql": "SELECT u7.username, u7.signup_date, f1.follower_id, u7.country_code FROM follows AS f1 RIGHT JOIN users AS u7 ON f1.follower_id = u7.id",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 24,
-    "complexity": "join",
-    "sql": "SELECT * FROM posts AS p1 FULL JOIN likes AS l4 ON p1.id = l4.post_id",
-    "tables": [
-      "posts",
-      "likes"
-    ]
-  },
-  {
-    "id": 25,
-    "complexity": "join",
-    "sql": "SELECT * FROM users AS u1 FULL JOIN comments AS c6 ON u1.id = c6.user_id",
-    "tables": [
-      "users",
-      "comments"
-    ]
-  },
-  {
-    "id": 26,
-    "complexity": "join",
-    "sql": "SELECT u5.username, p1.id, u5.id, u5.email FROM posts AS p1 RIGHT JOIN users AS u5 ON p1.user_id = u5.id",
-    "tables": [
-      "posts",
-      "users"
-    ]
-  },
-  {
-    "id": 27,
-    "complexity": "join",
-    "sql": "SELECT u7.signup_date, u7.id, u7.country_code, l1.liked_at FROM likes AS l1 RIGHT JOIN users AS u7 ON l1.user_id = u7.id",
-    "tables": [
-      "likes",
-      "users"
-    ]
-  },
-  {
-    "id": 28,
-    "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 LEFT JOIN posts AS p7 ON c1.post_id = p7.id WHERE p7.id > 990",
-    "tables": [
-      "comments",
-      "posts"
-    ]
-  },
-  {
-    "id": 29,
-    "complexity": "join",
-    "sql": "SELECT * FROM follows AS f1 RIGHT JOIN users AS u8 ON f1.follower_id = u8.id",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 30,
-    "complexity": "join",
-    "sql": "SELECT u4.country_code, f1.followed_at FROM follows AS f1 RIGHT JOIN users AS u4 ON f1.follower_id = u4.id",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 31,
-    "complexity": "join",
-    "sql": "SELECT u3.is_verified, u3.username, f1.followed_at FROM follows AS f1 RIGHT JOIN users AS u3 ON f1.follower_id = u3.id WHERE u3.id <> 614",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 32,
-    "complexity": "join",
-    "sql": "SELECT f1.followed_at, u5.email, u5.signup_date FROM follows AS f1 INNER JOIN users AS u5 ON f1.follower_id = u5.id WHERE u5.is_verified = 0",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 33,
-    "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN users AS u8 ON c1.user_id = u8.id WHERE u8.email = 'user86@example.com'",
-    "tables": [
-      "comments",
-      "users"
-    ]
-  },
-  {
-    "id": 34,
     "complexity": "join",
     "sql": "SELECT * FROM users AS u1 FULL JOIN posts AS p6 ON u1.id = p6.user_id",
     "tables": [
@@ -286,36 +187,135 @@
     ]
   },
   {
-    "id": 35,
+    "id": 24,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 FULL JOIN users AS u2 ON l1.user_id = u2.id",
+    "sql": "SELECT c1.post_id, c1.id, u5.is_verified, u5.email FROM comments AS c1 INNER JOIN users AS u5 ON c1.user_id = u5.id",
     "tables": [
-      "likes",
+      "comments",
       "users"
     ]
   },
   {
-    "id": 36,
+    "id": 25,
     "complexity": "join",
-    "sql": "SELECT p5.user_id, c1.comment_text, c1.user_id FROM comments AS c1 RIGHT JOIN posts AS p5 ON c1.post_id = p5.id",
+    "sql": "SELECT * FROM comments AS c1 INNER JOIN posts AS p5 ON c1.post_id = p5.id WHERE p5.content LIKE '%a%'",
     "tables": [
       "comments",
       "posts"
     ]
   },
   {
-    "id": 37,
+    "id": 26,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 FULL JOIN users AS u7 ON l1.user_id = u7.id",
+    "sql": "SELECT * FROM follows AS f1 INNER JOIN users AS u8 ON f1.follower_id = u8.id WHERE u8.is_verified = 1",
+    "tables": [
+      "follows",
+      "users"
+    ]
+  },
+  {
+    "id": 27,
+    "complexity": "join",
+    "sql": "SELECT * FROM follows AS f1 INNER JOIN users AS u8 ON f1.follower_id = u8.id WHERE u8.is_verified = 1",
+    "tables": [
+      "follows",
+      "users"
+    ]
+  },
+  {
+    "id": 28,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 LEFT JOIN posts AS p7 ON u1.id = p7.user_id",
+    "tables": [
+      "users",
+      "posts"
+    ]
+  },
+  {
+    "id": 29,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 FULL JOIN posts AS p1 ON c1.post_id = p1.id",
+    "tables": [
+      "comments",
+      "posts"
+    ]
+  },
+  {
+    "id": 30,
+    "complexity": "join",
+    "sql": "SELECT u4.signup_date, u4.username, l1.post_id FROM likes AS l1 FULL JOIN users AS u4 ON l1.user_id = u4.id WHERE u4.id <> 75",
     "tables": [
       "likes",
       "users"
     ]
   },
   {
+    "id": 31,
+    "complexity": "join",
+    "sql": "SELECT p3.id, p3.view_count, c1.user_id, p3.posted_at FROM comments AS c1 LEFT JOIN posts AS p3 ON c1.post_id = p3.id",
+    "tables": [
+      "comments",
+      "posts"
+    ]
+  },
+  {
+    "id": 32,
+    "complexity": "join",
+    "sql": "SELECT * FROM follows AS f1 RIGHT JOIN users AS u5 ON f1.follower_id = u5.id WHERE u5.id <> 396",
+    "tables": [
+      "follows",
+      "users"
+    ]
+  },
+  {
+    "id": 33,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 INNER JOIN users AS u5 ON c1.user_id = u5.id",
+    "tables": [
+      "comments",
+      "users"
+    ]
+  },
+  {
+    "id": 34,
+    "complexity": "join",
+    "sql": "SELECT p1.user_id, p1.view_count, l6.liked_at FROM posts AS p1 LEFT JOIN likes AS l6 ON p1.id = l6.post_id WHERE l6.post_id = 64",
+    "tables": [
+      "posts",
+      "likes"
+    ]
+  },
+  {
+    "id": 35,
+    "complexity": "join",
+    "sql": "SELECT c3.id, c3.comment_text, c3.post_id, p1.user_id FROM posts AS p1 FULL JOIN comments AS c3 ON p1.id = c3.post_id WHERE c3.comment_text = 'admin'",
+    "tables": [
+      "posts",
+      "comments"
+    ]
+  },
+  {
+    "id": 36,
+    "complexity": "join",
+    "sql": "SELECT * FROM follows AS f1 LEFT JOIN users AS u5 ON f1.follower_id = u5.id",
+    "tables": [
+      "follows",
+      "users"
+    ]
+  },
+  {
+    "id": 37,
+    "complexity": "join",
+    "sql": "SELECT c1.user_id, c1.id, p8.posted_at, c1.created_at FROM comments AS c1 INNER JOIN posts AS p8 ON c1.post_id = p8.id WHERE p8.id < 83",
+    "tables": [
+      "comments",
+      "posts"
+    ]
+  },
+  {
     "id": 38,
     "complexity": "join",
-    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id, u5.username FROM likes AS l1 RIGHT JOIN users AS u5 ON l1.user_id = u5.id WHERE u5.username LIKE '%a%'",
+    "sql": "SELECT u6.is_verified, u6.country_code, l1.user_id, u6.email FROM likes AS l1 RIGHT JOIN users AS u6 ON l1.user_id = u6.id WHERE u6.id >= 213",
     "tables": [
       "likes",
       "users"
@@ -324,108 +324,23 @@
   {
     "id": 39,
     "complexity": "join",
-    "sql": "SELECT * FROM posts AS p1 LEFT JOIN users AS u6 ON p1.user_id = u6.id",
+    "sql": "SELECT c2.post_id, p1.view_count, p1.content, c2.comment_text FROM posts AS p1 INNER JOIN comments AS c2 ON p1.id = c2.post_id WHERE c2.user_id < 635",
     "tables": [
       "posts",
-      "users"
+      "comments"
     ]
   },
   {
     "id": 40,
     "complexity": "join",
-    "sql": "SELECT c1.created_at, c1.comment_text, u2.email, u2.id FROM comments AS c1 LEFT JOIN users AS u2 ON c1.user_id = u2.id",
+    "sql": "SELECT p3.id, p3.user_id, p3.content, p3.view_count FROM users AS u1 LEFT JOIN posts AS p3 ON u1.id = p3.user_id",
     "tables": [
-      "comments",
-      "users"
+      "users",
+      "posts"
     ]
   },
   {
     "id": 41,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.country_code LIKE '%a%') AS derived_table WHERE derived_table.signup_date > DATETIME('now', '-25 days')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 42,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followed_at > DATETIME('now', '-28 days')) AS derived_table",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 43,
-    "complexity": "advanced",
-    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE NOT EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.email = 'user62@example.com')",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 44,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followee_id < 590) AS derived_table",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 45,
-    "complexity": "advanced",
-    "sql": "SELECT l1.user_id, l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.email = 'user67@example.com')",
-    "tables": [
-      "likes",
-      "users"
-    ]
-  },
-  {
-    "id": 46,
-    "complexity": "advanced",
-    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code LIKE '%a%')",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 47,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.email <> 'user12@example.com') AS derived_table",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 48,
-    "complexity": "advanced",
-    "sql": "SELECT f1.followed_at FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.is_verified = 0)",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 49,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code = 'test')",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 50,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.id < 22) AS derived_table",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 51,
     "complexity": "advanced",
     "sql": "SELECT c1.id AS comment1, c2.id AS comment2, c1.post_id FROM comments AS c1 JOIN comments AS c2 ON c1.post_id = c2.post_id AND c1.id <> c2.id",
     "tables": [
@@ -434,106 +349,191 @@
     ]
   },
   {
-    "id": 52,
+    "id": 42,
     "complexity": "advanced",
-    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.username LIKE 'b%')",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.signup_date <= DATETIME('now', '-27 days')) AS derived_table WHERE derived_table.id <> 285",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 43,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.post_id <> 247) AS derived_table WHERE derived_table.user_id = 709",
+    "tables": [
+      "comments"
+    ]
+  },
+  {
+    "id": 44,
+    "complexity": "advanced",
+    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.is_verified = 0)",
     "tables": [
       "follows",
       "users"
     ]
   },
   {
-    "id": 53,
+    "id": 45,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.id >= 278) AS derived_table WHERE derived_table.username LIKE '%c'",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.id = 258) AS derived_table",
     "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 54,
-    "complexity": "advanced",
-    "sql": "SELECT f1.followed_at, f1.followee_id, f1.follower_id FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.email LIKE '%@example.com')",
-    "tables": [
-      "follows",
-      "users"
-    ]
-  },
-  {
-    "id": 55,
-    "complexity": "advanced",
-    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.user_id >= 494)",
-    "tables": [
-      "likes",
       "posts"
     ]
   },
   {
-    "id": 56,
+    "id": 46,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.id >= 726) AS derived_table WHERE derived_table.id < 542",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 57,
-    "complexity": "advanced",
-    "sql": "SELECT c1.id AS comment1, c2.id AS comment2, c1.post_id FROM comments AS c1 JOIN comments AS c2 ON c1.post_id = c2.post_id AND c1.id <> c2.id LIMIT 20",
-    "tables": [
-      "comments",
-      "comments"
-    ]
-  },
-  {
-    "id": 58,
-    "complexity": "advanced",
-    "sql": "SELECT u1.username AS user1, u2.username AS user2, u1.country_code FROM users AS u1 JOIN users AS u2 ON u1.country_code = u2.country_code AND u1.id <> u2.id",
-    "tables": [
-      "users",
-      "users"
-    ]
-  },
-  {
-    "id": 59,
-    "complexity": "advanced",
-    "sql": "SELECT u1.id, u1.username, u1.email, u1.is_verified FROM users AS u1 WHERE u1.id IN (SELECT sub_f.follower_id FROM follows AS sub_f WHERE sub_f.followee_id < 65)",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.id IN (SELECT sub_f.follower_id FROM follows AS sub_f WHERE sub_f.follower_id <> 729)",
     "tables": [
       "users",
       "follows"
     ]
   },
   {
-    "id": 60,
+    "id": 47,
     "complexity": "advanced",
-    "sql": "SELECT u1.username, u1.id FROM users AS u1 WHERE EXISTS(SELECT 1 FROM likes AS sub_l WHERE sub_l.user_id = u1.id AND sub_l.user_id <= 96)",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.view_count <> 395) AS derived_table",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 48,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.post_id >= 307) AS derived_table WHERE derived_table.post_id < 599",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 49,
+    "complexity": "advanced",
+    "sql": "SELECT f1.follower_id AS user, f2.followee_id AS friend_of_friend FROM follows AS f1 JOIN follows AS f2 ON f1.followee_id = f2.follower_id",
+    "tables": [
+      "follows",
+      "follows"
+    ]
+  },
+  {
+    "id": 50,
+    "complexity": "advanced",
+    "sql": "SELECT p1.user_id, p1.id FROM posts AS p1 WHERE p1.id IN (SELECT sub_c.post_id FROM comments AS sub_c WHERE sub_c.id >= 990)",
+    "tables": [
+      "posts",
+      "comments"
+    ]
+  },
+  {
+    "id": 51,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM users AS u1 WHERE EXISTS(SELECT 1 FROM follows AS sub_f WHERE sub_f.follower_id = u1.id AND sub_f.followed_at < DATETIME('now', '-12 days'))",
+    "tables": [
+      "users",
+      "follows"
+    ]
+  },
+  {
+    "id": 52,
+    "complexity": "advanced",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE EXISTS(SELECT 1 FROM posts AS sub_p WHERE sub_p.id = l1.post_id AND sub_p.user_id >= 829)",
+    "tables": [
+      "likes",
+      "posts"
+    ]
+  },
+  {
+    "id": 53,
+    "complexity": "advanced",
+    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.posted_at >= DATETIME('now', '-15 days'))",
+    "tables": [
+      "likes",
+      "posts"
+    ]
+  },
+  {
+    "id": 54,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.id IN (SELECT sub_l.user_id FROM likes AS sub_l WHERE sub_l.post_id > 900)",
     "tables": [
       "users",
       "likes"
     ]
   },
   {
-    "id": 61,
-    "complexity": "union",
-    "sql": "SELECT u1.is_verified, u1.signup_date FROM users AS u1 WHERE u1.is_verified = 1 UNION ALL SELECT u2.is_verified, u2.signup_date FROM users AS u2 WHERE u2.country_code LIKE '%c'",
+    "id": 55,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.signup_date > DATETIME('now', '-1 days'))",
     "tables": [
-      "users",
+      "posts",
       "users"
     ]
   },
   {
-    "id": 62,
-    "complexity": "union",
-    "sql": "SELECT c1.post_id, c1.comment_text FROM comments AS c1 WHERE c1.post_id <= 927 UNION SELECT c2.post_id, c2.comment_text FROM comments AS c2 WHERE c2.user_id = 622 LIMIT 46",
+    "id": 56,
+    "complexity": "advanced",
+    "sql": "SELECT p1.user_id, p1.posted_at FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code LIKE 'b%')",
+    "tables": [
+      "posts",
+      "users"
+    ]
+  },
+  {
+    "id": 57,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.id <> 230) AS derived_table WHERE derived_table.signup_date > DATETIME('now', '-5 days')",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 58,
+    "complexity": "advanced",
+    "sql": "SELECT c1.id AS comment1, c2.id AS comment2, c1.post_id FROM comments AS c1 JOIN comments AS c2 ON c1.post_id = c2.post_id AND c1.id <> c2.id",
     "tables": [
       "comments",
       "comments"
     ]
   },
   {
+    "id": 59,
+    "complexity": "advanced",
+    "sql": "SELECT u1.id FROM users AS u1 WHERE u1.id IN (SELECT sub_l.user_id FROM likes AS sub_l WHERE sub_l.liked_at >= DATETIME('now', '-4 days'))",
+    "tables": [
+      "users",
+      "likes"
+    ]
+  },
+  {
+    "id": 60,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.user_id > 381) AS derived_table WHERE derived_table.user_id <> 156",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 61,
+    "complexity": "union",
+    "sql": "SELECT p1.view_count, p1.id, p1.content FROM posts AS p1 WHERE p1.user_id > 180 UNION SELECT p2.view_count, p2.id, p2.content FROM posts AS p2 WHERE p2.user_id <> 606",
+    "tables": [
+      "posts",
+      "posts"
+    ]
+  },
+  {
+    "id": 62,
+    "complexity": "union",
+    "sql": "SELECT f1.followed_at, f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.followed_at > DATETIME('now', '-4 days') UNION SELECT f2.followed_at, f2.followee_id, f2.follower_id FROM follows AS f2 WHERE f2.follower_id >= 661",
+    "tables": [
+      "follows",
+      "follows"
+    ]
+  },
+  {
     "id": 63,
     "complexity": "union",
-    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.user_id <= 316 UNION ALL SELECT l2.post_id, l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.user_id > 545 ORDER BY post_id LIMIT 34",
+    "sql": "SELECT l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.liked_at < DATETIME('now', '-11 days') UNION ALL SELECT l2.post_id, l2.user_id FROM likes AS l2 WHERE l2.user_id <> 971",
     "tables": [
       "likes",
       "likes"
@@ -542,70 +542,70 @@
   {
     "id": 64,
     "complexity": "union",
-    "sql": "SELECT p1.posted_at, p1.user_id, p1.view_count, p1.content FROM posts AS p1 WHERE p1.id < 178 UNION SELECT p2.posted_at, p2.user_id, p2.view_count, p2.content FROM posts AS p2 WHERE p2.posted_at < DATETIME('now', '-23 days')",
-    "tables": [
-      "posts",
-      "posts"
-    ]
-  },
-  {
-    "id": 65,
-    "complexity": "union",
-    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id <= 879 UNION SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 843 LIMIT 25",
-    "tables": [
-      "likes",
-      "likes"
-    ]
-  },
-  {
-    "id": 66,
-    "complexity": "union",
-    "sql": "SELECT p1.user_id, p1.posted_at, p1.id FROM posts AS p1 WHERE p1.view_count > 107 UNION SELECT p2.user_id, p2.posted_at, p2.id FROM posts AS p2 WHERE p2.posted_at < DATETIME('now', '-21 days') LIMIT 21",
-    "tables": [
-      "posts",
-      "posts"
-    ]
-  },
-  {
-    "id": 67,
-    "complexity": "union",
-    "sql": "SELECT p1.id, p1.user_id FROM posts AS p1 WHERE p1.view_count = 807 UNION SELECT p2.id, p2.user_id FROM posts AS p2 WHERE p2.id <= 844 ORDER BY id LIMIT 46",
-    "tables": [
-      "posts",
-      "posts"
-    ]
-  },
-  {
-    "id": 68,
-    "complexity": "union",
-    "sql": "SELECT u1.country_code, u1.signup_date FROM users AS u1 WHERE u1.country_code = 'test' UNION SELECT u2.country_code, u2.signup_date FROM users AS u2 WHERE u2.country_code LIKE '%a%' ORDER BY country_code LIMIT 14",
-    "tables": [
-      "users",
-      "users"
-    ]
-  },
-  {
-    "id": 69,
-    "complexity": "union",
-    "sql": "SELECT f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at < DATETIME('now', '-9 days') UNION SELECT f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followee_id > 209 LIMIT 36",
+    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followee_id = 536 UNION ALL SELECT f2.follower_id, f2.followee_id FROM follows AS f2 WHERE f2.followee_id <= 244 ORDER BY follower_id LIMIT 21",
     "tables": [
       "follows",
       "follows"
     ]
   },
   {
+    "id": 65,
+    "complexity": "union",
+    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.followed_at <= DATETIME('now', '-17 days') UNION SELECT f2.followee_id, f2.followed_at FROM follows AS f2 WHERE f2.followed_at > DATETIME('now', '-29 days')",
+    "tables": [
+      "follows",
+      "follows"
+    ]
+  },
+  {
+    "id": 66,
+    "complexity": "union",
+    "sql": "SELECT c1.id, c1.created_at, c1.user_id, c1.comment_text FROM comments AS c1 WHERE c1.post_id <> 498 UNION SELECT c2.id, c2.created_at, c2.user_id, c2.comment_text FROM comments AS c2 WHERE c2.post_id > 539",
+    "tables": [
+      "comments",
+      "comments"
+    ]
+  },
+  {
+    "id": 67,
+    "complexity": "union",
+    "sql": "SELECT u1.signup_date, u1.is_verified, u1.username FROM users AS u1 WHERE u1.email <> 'user42@example.com' UNION SELECT u2.signup_date, u2.is_verified, u2.username FROM users AS u2 WHERE u2.country_code = 'admin'",
+    "tables": [
+      "users",
+      "users"
+    ]
+  },
+  {
+    "id": 68,
+    "complexity": "union",
+    "sql": "SELECT p1.user_id, p1.id, p1.view_count FROM posts AS p1 WHERE p1.view_count > 459 UNION SELECT p2.user_id, p2.id, p2.view_count FROM posts AS p2 WHERE p2.view_count > 946 LIMIT 33",
+    "tables": [
+      "posts",
+      "posts"
+    ]
+  },
+  {
+    "id": 69,
+    "complexity": "union",
+    "sql": "SELECT u1.country_code, u1.id, u1.username, u1.is_verified FROM users AS u1 WHERE u1.signup_date < DATETIME('now', '-2 days') UNION SELECT u2.country_code, u2.id, u2.username, u2.is_verified FROM users AS u2 WHERE u2.email <> 'user72@example.com'",
+    "tables": [
+      "users",
+      "users"
+    ]
+  },
+  {
     "id": 70,
     "complexity": "union",
-    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.liked_at < DATETIME('now', '-2 days') UNION SELECT l2.post_id, l2.user_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 598",
+    "sql": "SELECT c1.user_id, c1.id, c1.post_id FROM comments AS c1 WHERE c1.id = 367 UNION SELECT c2.user_id, c2.id, c2.post_id FROM comments AS c2 WHERE c2.created_at > DATETIME('now', '-21 days') ORDER BY user_id",
     "tables": [
-      "likes",
-      "likes"
+      "comments",
+      "comments"
     ]
   },
   {
     "id": 71,
     "complexity": "union",
-    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id < 172 UNION ALL SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 838 ORDER BY user_id",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id = 609 UNION ALL SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.liked_at < DATETIME('now', '-30 days') LIMIT 20",
     "tables": [
       "likes",
       "likes"
@@ -614,79 +614,79 @@
   {
     "id": 72,
     "complexity": "union",
-    "sql": "SELECT c1.user_id, c1.post_id FROM comments AS c1 WHERE c1.post_id > 174 UNION ALL SELECT c2.user_id, c2.post_id FROM comments AS c2 WHERE c2.created_at > DATETIME('now', '-27 days') ORDER BY user_id",
+    "sql": "SELECT p1.id, p1.user_id, p1.content FROM posts AS p1 WHERE p1.content LIKE '%c' UNION SELECT p2.id, p2.user_id, p2.content FROM posts AS p2 WHERE p2.content LIKE '%a%' ORDER BY id",
     "tables": [
-      "comments",
-      "comments"
+      "posts",
+      "posts"
     ]
   },
   {
     "id": 73,
     "complexity": "union",
-    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.followed_at <= DATETIME('now', '-23 days') UNION ALL SELECT f2.followee_id, f2.followed_at, f2.follower_id FROM follows AS f2 WHERE f2.followed_at >= DATETIME('now', '-20 days')",
+    "sql": "SELECT p1.view_count, p1.user_id, p1.posted_at, p1.id FROM posts AS p1 WHERE p1.posted_at > DATETIME('now', '-14 days') UNION SELECT p2.view_count, p2.user_id, p2.posted_at, p2.id FROM posts AS p2 WHERE p2.user_id > 42 ORDER BY view_count LIMIT 37",
     "tables": [
-      "follows",
-      "follows"
+      "posts",
+      "posts"
     ]
   },
   {
     "id": 74,
     "complexity": "union",
-    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followee_id <> 17 UNION SELECT f2.follower_id, f2.followee_id FROM follows AS f2 WHERE f2.followee_id > 521 ORDER BY follower_id",
+    "sql": "SELECT l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.post_id <> 784 UNION ALL SELECT l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.user_id = 870 ORDER BY liked_at LIMIT 34",
     "tables": [
-      "follows",
-      "follows"
+      "likes",
+      "likes"
     ]
   },
   {
     "id": 75,
     "complexity": "union",
-    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.followee_id = 411 UNION SELECT f2.followee_id, f2.follower_id FROM follows AS f2 WHERE f2.follower_id >= 173",
-    "tables": [
-      "follows",
-      "follows"
-    ]
-  },
-  {
-    "id": 76,
-    "complexity": "union",
-    "sql": "SELECT f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.follower_id = 375 UNION ALL SELECT f2.followed_at, f2.follower_id FROM follows AS f2 WHERE f2.followee_id >= 90",
-    "tables": [
-      "follows",
-      "follows"
-    ]
-  },
-  {
-    "id": 77,
-    "complexity": "union",
-    "sql": "SELECT f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followee_id <> 863 UNION ALL SELECT f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followed_at >= DATETIME('now', '-5 days')",
-    "tables": [
-      "follows",
-      "follows"
-    ]
-  },
-  {
-    "id": 78,
-    "complexity": "union",
-    "sql": "SELECT u1.id, u1.country_code, u1.email, u1.signup_date FROM users AS u1 WHERE u1.email <> 'user19@example.com' UNION SELECT u2.id, u2.country_code, u2.email, u2.signup_date FROM users AS u2 WHERE u2.id < 884 ORDER BY id",
-    "tables": [
-      "users",
-      "users"
-    ]
-  },
-  {
-    "id": 79,
-    "complexity": "union",
-    "sql": "SELECT c1.comment_text, c1.id, c1.user_id FROM comments AS c1 WHERE c1.post_id <> 381 UNION ALL SELECT c2.comment_text, c2.id, c2.user_id FROM comments AS c2 WHERE c2.user_id <> 978 ORDER BY comment_text",
+    "sql": "SELECT c1.id, c1.comment_text, c1.created_at FROM comments AS c1 WHERE c1.post_id <> 74 UNION SELECT c2.id, c2.comment_text, c2.created_at FROM comments AS c2 WHERE c2.post_id <= 501",
     "tables": [
       "comments",
       "comments"
     ]
   },
   {
+    "id": 76,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.user_id >= 474 UNION ALL SELECT l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.liked_at > DATETIME('now', '-9 days') LIMIT 50",
+    "tables": [
+      "likes",
+      "likes"
+    ]
+  },
+  {
+    "id": 77,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.liked_at < DATETIME('now', '-2 days') UNION SELECT l2.liked_at, l2.post_id FROM likes AS l2 WHERE l2.post_id = 35 ORDER BY liked_at LIMIT 45",
+    "tables": [
+      "likes",
+      "likes"
+    ]
+  },
+  {
+    "id": 78,
+    "complexity": "union",
+    "sql": "SELECT c1.post_id, c1.user_id, c1.id, c1.comment_text FROM comments AS c1 WHERE c1.user_id = 472 UNION SELECT c2.post_id, c2.user_id, c2.id, c2.comment_text FROM comments AS c2 WHERE c2.post_id = 580 ORDER BY post_id LIMIT 30",
+    "tables": [
+      "comments",
+      "comments"
+    ]
+  },
+  {
+    "id": 79,
+    "complexity": "union",
+    "sql": "SELECT f1.follower_id, f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.follower_id < 594 UNION SELECT f2.follower_id, f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followee_id > 434",
+    "tables": [
+      "follows",
+      "follows"
+    ]
+  },
+  {
     "id": 80,
     "complexity": "union",
-    "sql": "SELECT c1.post_id, c1.user_id, c1.created_at, c1.id FROM comments AS c1 WHERE c1.user_id = 804 UNION SELECT c2.post_id, c2.user_id, c2.created_at, c2.id FROM comments AS c2 WHERE c2.id <= 812 ORDER BY post_id",
+    "sql": "SELECT c1.id, c1.comment_text, c1.user_id, c1.created_at FROM comments AS c1 WHERE c1.comment_text LIKE 'b%' UNION ALL SELECT c2.id, c2.comment_text, c2.user_id, c2.created_at FROM comments AS c2 WHERE c2.created_at < DATETIME('now', '-22 days') LIMIT 14",
     "tables": [
       "comments",
       "comments"
@@ -695,39 +695,39 @@
   {
     "id": 81,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (499, 430, DATETIME('now'))",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (992, 119, 'Sample text 71', DATETIME('now'))",
     "tables": [
-      "follows"
+      "comments"
     ]
   },
   {
     "id": 82,
     "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user267', 'user283@example.com', DATETIME('now'), 0, 'Sample text 87')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 83,
-    "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (852, 784, DATETIME('now'))",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 84,
-    "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (91, 896, DATETIME('now'))",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (890, 444, DATETIME('now'))",
     "tables": [
       "follows"
     ]
   },
   {
+    "id": 83,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (594, 'Sample text 46', DATETIME('now'), 580)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 84,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (273, 'Sample text 95', DATETIME('now'), 484)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
     "id": 85,
     "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (446, 'Sample text 3', DATETIME('now'), 287)",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (48, 'Sample text 2', DATETIME('now'), 835)",
     "tables": [
       "posts"
     ]
@@ -735,7 +735,7 @@
   {
     "id": 86,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (81, 137, DATETIME('now'))",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (634, 384, DATETIME('now'))",
     "tables": [
       "likes"
     ]
@@ -743,127 +743,127 @@
   {
     "id": 87,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (771, 911, DATETIME('now'))",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 88,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user745', 'user77@example.com', DATETIME('now'), 0, 'Sample text 59')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 89,
-    "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (434, 698, 'Sample text 95', DATETIME('now'))",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 90,
-    "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (453, 579, 'Sample text 10', DATETIME('now'))",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 91,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user248', 'user791@example.com', DATETIME('now'), 0, 'Sample text 77')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 92,
-    "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (162, 297, 'Sample text 51', DATETIME('now'))",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 93,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user212', 'user488@example.com', DATETIME('now'), 0, 'Sample text 99')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 94,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user904', 'user28@example.com', DATETIME('now'), 0, 'Sample text 45')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 95,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user29', 'user914@example.com', DATETIME('now'), 0, 'Sample text 67')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 96,
-    "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (93, 528, 'Sample text 61', DATETIME('now'))",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 97,
-    "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (515, 83, DATETIME('now'))",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 98,
-    "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user833', 'user435@example.com', DATETIME('now'), 0, 'Sample text 59')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 99,
-    "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (652, 653, 'Sample text 94', DATETIME('now'))",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 100,
-    "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (409, 'Sample text 20', DATETIME('now'), 22)",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (580, 'Sample text 54', DATETIME('now'), 478)",
     "tables": [
       "posts"
     ]
   },
   {
+    "id": 88,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (720, 'Sample text 10', DATETIME('now'), 407)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 89,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user374', 'user535@example.com', DATETIME('now'), 0, 'Sample text 94')",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 90,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (173, 'Sample text 31', DATETIME('now'), 248)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 91,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (96, 'Sample text 80', DATETIME('now'), 954)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 92,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user631', 'user329@example.com', DATETIME('now'), 0, 'Sample text 92')",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 93,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (149, 481, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 94,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (260, 927, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 95,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (65, 977, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 96,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (23, 615, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 97,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (685, 129, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 98,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (665, 'Sample text 52', DATETIME('now'), 738)",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 99,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (723, 283, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 100,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user734', 'user169@example.com', DATETIME('now'), 1, 'Sample text 85')",
+    "tables": [
+      "users"
+    ]
+  },
+  {
     "id": 101,
     "complexity": "update",
-    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.created_at >= DATETIME('now', '-9 days')",
+    "sql": "UPDATE users SET email = 'updated_user29@example.com' WHERE users.email = 'user25@example.com'",
     "tables": [
-      "comments"
+      "users"
     ]
   },
   {
     "id": 102,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at <= DATETIME('now', '-21 days')",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id = 832",
     "tables": [
       "likes"
     ]
@@ -871,23 +871,23 @@
   {
     "id": 103,
     "complexity": "update",
-    "sql": "UPDATE posts SET content = 'Updated text 77' WHERE posts.id <= 527",
-    "tables": [
-      "posts"
-    ]
-  },
-  {
-    "id": 104,
-    "complexity": "update",
-    "sql": "UPDATE comments SET comment_text = 'Updated text 95' WHERE comments.user_id >= 289",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.comment_text = 'activity'",
     "tables": [
       "comments"
     ]
   },
   {
+    "id": 104,
+    "complexity": "update",
+    "sql": "UPDATE posts SET user_id = 356 WHERE posts.id < 324",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
     "id": 105,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id = 442",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id >= 501",
     "tables": [
       "likes"
     ]
@@ -895,79 +895,79 @@
   {
     "id": 106,
     "complexity": "update",
-    "sql": "UPDATE users SET country_code = 'Updated text 94' WHERE users.is_verified = 0",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.post_id > 634",
     "tables": [
-      "users"
+      "comments"
     ]
   },
   {
     "id": 107,
     "complexity": "update",
-    "sql": "UPDATE users SET country_code = 'Updated text 92' WHERE users.email = 'user80@example.com'",
+    "sql": "UPDATE posts SET content = 'Updated text 23' WHERE posts.posted_at > DATETIME('now', '-21 days')",
     "tables": [
-      "users"
+      "posts"
     ]
   },
   {
     "id": 108,
     "complexity": "update",
-    "sql": "UPDATE comments SET post_id = 455 WHERE comments.id = 262",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 109,
-    "complexity": "update",
-    "sql": "UPDATE comments SET post_id = 750 WHERE comments.user_id < 623",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 110,
-    "complexity": "update",
-    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id = 346",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 111,
-    "complexity": "update",
-    "sql": "UPDATE users SET country_code = 'Updated text 76' WHERE users.email = 'user99@example.com'",
+    "sql": "UPDATE users SET username = 'Updated text 10' WHERE users.is_verified = 1",
     "tables": [
       "users"
     ]
   },
   {
-    "id": 112,
+    "id": 109,
     "complexity": "update",
-    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id = 335",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followed_at <= DATETIME('now', '-9 days')",
     "tables": [
       "follows"
     ]
   },
   {
-    "id": 113,
+    "id": 110,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at < DATETIME('now', '-27 days')",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id <= 175",
     "tables": [
       "likes"
     ]
   },
   {
-    "id": 114,
+    "id": 111,
     "complexity": "update",
-    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.user_id < 961",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 30' WHERE comments.id >= 307",
     "tables": [
       "comments"
     ]
   },
   {
+    "id": 112,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id >= 385",
+    "tables": [
+      "likes"
+    ]
+  },
+  {
+    "id": 113,
+    "complexity": "update",
+    "sql": "UPDATE users SET username = 'Updated text 22' WHERE users.is_verified = 0",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 114,
+    "complexity": "update",
+    "sql": "UPDATE posts SET view_count = 441 WHERE posts.content = 'test'",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
     "id": 115,
     "complexity": "update",
-    "sql": "UPDATE comments SET post_id = 889 WHERE comments.id > 921",
+    "sql": "UPDATE comments SET user_id = 465 WHERE comments.created_at < DATETIME('now', '-29 days')",
     "tables": [
       "comments"
     ]
@@ -975,15 +975,15 @@
   {
     "id": 116,
     "complexity": "update",
-    "sql": "UPDATE users SET is_verified = 0 WHERE users.username LIKE '%a%'",
+    "sql": "UPDATE posts SET user_id = 118 WHERE posts.content LIKE '%a%'",
     "tables": [
-      "users"
+      "posts"
     ]
   },
   {
     "id": 117,
     "complexity": "update",
-    "sql": "UPDATE comments SET comment_text = 'Updated text 91' WHERE comments.user_id >= 673",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 51' WHERE comments.user_id < 292",
     "tables": [
       "comments"
     ]
@@ -991,119 +991,119 @@
   {
     "id": 118,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.signup_date >= DATETIME('now', '-26 days')",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at > DATETIME('now', '-12 days')",
     "tables": [
-      "users"
+      "likes"
     ]
   },
   {
     "id": 119,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id >= 695",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 120,
-    "complexity": "update",
-    "sql": "UPDATE users SET country_code = 'Updated text 52' WHERE users.signup_date > DATETIME('now', '-15 days')",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 121,
-    "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.follower_id = 67",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 122,
-    "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.followee_id > 876",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 123,
-    "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.user_id > 864",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 124,
-    "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.user_id >= 176",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 125,
-    "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.user_id > 349",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 126,
-    "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.post_id <> 394",
-    "tables": [
-      "comments"
-    ]
-  },
-  {
-    "id": 127,
-    "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.is_verified = 0",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 128,
-    "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.followee_id <= 149",
-    "tables": [
-      "follows"
-    ]
-  },
-  {
-    "id": 129,
-    "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.post_id > 286",
-    "tables": [
-      "likes"
-    ]
-  },
-  {
-    "id": 130,
-    "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.email = 'user76@example.com'",
-    "tables": [
-      "users"
-    ]
-  },
-  {
-    "id": 131,
-    "complexity": "delete",
-    "sql": "DELETE FROM posts WHERE posts.content <> 'activity'",
+    "sql": "UPDATE posts SET user_id = 920 WHERE posts.id <= 65",
     "tables": [
       "posts"
     ]
   },
   {
+    "id": 120,
+    "complexity": "update",
+    "sql": "UPDATE posts SET user_id = 64 WHERE posts.content <> 'admin'",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 121,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.country_code = '123'",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 122,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.country_code LIKE '%c'",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 123,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.id <> 262",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 124,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at < DATETIME('now', '-21 days')",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 125,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.id = 97",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 126,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.id = 141",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 127,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at < DATETIME('now', '-13 days')",
+    "tables": [
+      "follows"
+    ]
+  },
+  {
+    "id": 128,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.id = 511",
+    "tables": [
+      "users"
+    ]
+  },
+  {
+    "id": 129,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.user_id = 676",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 130,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.user_id < 364",
+    "tables": [
+      "posts"
+    ]
+  },
+  {
+    "id": 131,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.id < 479",
+    "tables": [
+      "users"
+    ]
+  },
+  {
     "id": 132,
     "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.post_id >= 778",
+    "sql": "DELETE FROM comments WHERE comments.created_at >= DATETIME('now', '-1 days')",
     "tables": [
       "comments"
     ]
@@ -1111,23 +1111,23 @@
   {
     "id": 133,
     "complexity": "delete",
-    "sql": "DELETE FROM posts WHERE posts.id <> 360",
+    "sql": "DELETE FROM follows WHERE follows.follower_id <= 824",
     "tables": [
-      "posts"
+      "follows"
     ]
   },
   {
     "id": 134,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.signup_date < DATETIME('now', '-21 days')",
+    "sql": "DELETE FROM posts WHERE posts.content LIKE 'b%'",
     "tables": [
-      "users"
+      "posts"
     ]
   },
   {
     "id": 135,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.is_verified = 1",
+    "sql": "DELETE FROM users WHERE users.email LIKE '%@gmail.com'",
     "tables": [
       "users"
     ]
@@ -1135,41 +1135,41 @@
   {
     "id": 136,
     "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.post_id >= 445",
+    "sql": "DELETE FROM users WHERE users.username <> 'admin'",
     "tables": [
-      "likes"
+      "users"
     ]
   },
   {
     "id": 137,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.email = 'user24@example.com'",
+    "sql": "DELETE FROM comments WHERE comments.created_at > DATETIME('now', '-25 days')",
     "tables": [
-      "users"
+      "comments"
     ]
   },
   {
     "id": 138,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.id <= 810",
+    "sql": "DELETE FROM likes WHERE likes.user_id = 669",
     "tables": [
-      "users"
+      "likes"
     ]
   },
   {
     "id": 139,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.username LIKE 'b%'",
+    "sql": "DELETE FROM likes WHERE likes.liked_at <= DATETIME('now', '-9 days')",
     "tables": [
-      "users"
+      "likes"
     ]
   },
   {
     "id": 140,
     "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.liked_at >= DATETIME('now', '-20 days')",
+    "sql": "DELETE FROM comments WHERE comments.user_id >= 797",
     "tables": [
-      "likes"
+      "comments"
     ]
   }
 ]

@@ -2,6 +2,8 @@
 
 This document outlines the active pipeline for the SQL -> NL -> SQL\* experiment.
 
+IMPORTANT: Use the conda environment `sqlGen` to run the scripts.
+
 ## 1. Data Generation Phase
 
 These scripts generate the training/evaluation data.
