@@ -140,6 +140,52 @@ class SQLToNLRenderer:
             return True
         return False
 
+    def _analyze_aliases(self, node) -> Dict[str, int]:
+        """
+        Analyze the query to count occurrences of table types.
+        Returns a dict mapping base table type to count (e.g., {'users': 1, 'posts': 2}).
+        Used for deciding if 'u1' can be safely mapped to "the user's" (count=1) or must be preserved (count>1).
+        """
+        counts = {}
+        # Find all table aliases in the scope
+        # We need to look at FROM and JOINs
+        # Simple heuristic: scan for aliases u1, p1, etc.
+        # This is a bit tricky because we only have the AST node.
+        # Let's iterate over tables in the node.
+        for table in node.find_all(exp.Table):
+            alias = table.alias
+            if alias:
+                base_type = self._get_base_type_from_alias(alias)
+                if base_type:
+                    counts[base_type] = counts.get(base_type, 0) + 1
+        return counts
+
+    def _is_single_table_context(self, node) -> bool:
+        """Helper to determine if the query involves only one table (Phase 4 Bug D)."""
+        tables = list(node.find_all(exp.Table))
+        if len(tables) != 1:
+            return False
+        
+        # Also check if there's a self-join alias logic active?
+        # If there's only 1 table node, it can't be a join.
+        # But wait, find_all(exp.Table) finds all tables in the tree.
+        # If I have SELECT ... FROM users, len is 1.
+        # If I have SELECT ... FROM users JOIN posts, len is 2.
+        # If I have SELECT ... FROM users JOIN users, len is 2.
+        # So len(tables) == 1 is a good proxy for "single table context".
+        return True
+
+    def _get_base_type_from_alias(self, alias: str) -> Optional[str]:
+        """Heuristic to get base table type from alias (u1 -> users)."""
+        if not alias: return None
+        a = alias.lower()
+        if a.startswith('u') and a[1:].isdigit(): return 'users'
+        if a.startswith('p') and a[1:].isdigit(): return 'posts'
+        if a.startswith('c') and a[1:].isdigit(): return 'comments'
+        if a.startswith('l') and a[1:].isdigit(): return 'likes'
+        if a.startswith('f') and a[1:].isdigit(): return 'follows'
+        return None
+
     def _get_rng(self, context: str = "") -> random.Random:
         # For backward compatibility with existing calls, but we use the stateful self._rng
         return self._rng
@@ -229,7 +275,13 @@ class SQLToNLRenderer:
         return base_nl
 
 
+
     def render_select(self, node):
+        # Phase 2 Bug 1 Fix: Analyze alias ambiguity scope
+        self._alias_counts = self._analyze_aliases(node)
+        # Phase 4 Bug D Fix: Check for single table context to omit redundant qualifiers
+        self._is_single_table = self._is_single_table_context(node)
+        
         parts = []
         # SELECT keyword - ALWAYS keep a verb even if omitting clauses
         # We must ALWAYS roll the dice to keep the sequence in sync
@@ -246,7 +298,12 @@ class SQLToNLRenderer:
         if "all columns" in col_list:
              parts.append(col_list)
         else:
-             parts.append(f"the {col_list}")
+             # Bug E Fix: Prevent "the the user's"
+             # If col_list starts with "the ", don't add another "the"
+             if col_list.lower().startswith("the "):
+                 parts.append(col_list)
+             else:
+                 parts.append(f"the {col_list}")
         
         # FROM keyword
         if not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
@@ -324,6 +381,9 @@ class SQLToNLRenderer:
     # Bug 8 Fix: Handle INSERT statements
     def render_insert(self, node) -> str:
         """Render INSERT statement to natural language."""
+        # Phase 4 Bug D: Check for single table context
+        self._is_single_table = self._is_single_table_context(node)
+
         # Get table name from Schema node
         schema = node.this
         table = schema.this.name if hasattr(schema, 'this') else str(schema)
@@ -360,6 +420,9 @@ class SQLToNLRenderer:
     # Bug 8 Fix: Handle UPDATE statements
     def render_update(self, node) -> str:
         """Render UPDATE statement to natural language."""
+        # Phase 4 Bug D: Check for single table context
+        self._is_single_table = self._is_single_table_context(node)
+
         # Get table name
         table_nl = self._render_table(node.this, "upd_table")
         
@@ -390,6 +453,9 @@ class SQLToNLRenderer:
     # Bug 8 Fix: Handle DELETE statements
     def render_delete(self, node) -> str:
         """Render DELETE statement to natural language."""
+        # Phase 4 Bug D: Check for single table context
+        self._is_single_table = self._is_single_table_context(node)
+
         # Get table name
         table_nl = self._render_table(node.this, "del_table")
         
@@ -486,6 +552,10 @@ class SQLToNLRenderer:
         if isinstance(expr, exp.Anonymous) and str(expr.this).lower() == 'datetime':
             return self._render_sqlite_datetime(expr, context)
         
+        # Bug 2 Fix: Handle sqlglot.expressions.Datetime nodes
+        if isinstance(expr, exp.Datetime):
+            return self._render_datetime_node(expr, context)
+        
         # Handle standalone NOW() function calls
         if isinstance(expr, exp.CurrentTimestamp):
             return "the current time"
@@ -500,6 +570,30 @@ class SQLToNLRenderer:
             if self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
                 return f"{left} {op_template} {right}"
             else:
+                # Bug 2 Fix & Bug 5 Fix: Handle Temporal Comparisons (Date Logic)
+                # Check if right side was rendered as a date expression (contains "ago" or "from now")
+                # and operator is GT/LT/GTE/LTE.
+                
+                # Check for "greater than ... ago" -> "within the last ..."
+                if expr.key in ('gt', 'gte'):
+                    if "ago" in right and "within" not in right: 
+                         # e.g. "created_at > 25 days ago" -> "created_at within the last 25 days"
+                         parts = right.split(" ")
+                         if len(parts) >= 2:
+                             duration = " ".join(parts[:-1]) # drop "ago"
+                             suffix = " inclusive" if expr.key == 'gte' else ""
+                             return f"{left} within the last {duration}{suffix}"
+                
+                # Check for "less than ... ago" -> "older than ..."
+                if expr.key in ('lt', 'lte'):
+                    if "ago" in right:
+                         # e.g. "created_at < 25 days ago" -> "created_at older than 25 days"
+                         parts = right.split(" ")
+                         if len(parts) >= 2:
+                             duration = " ".join(parts[:-1])
+                             suffix = " inclusive" if expr.key == 'lte' else ""
+                             return f"{left} older than {duration}{suffix}"
+
                 op_str = self.operators.get(expr.key, expr.key) 
                 return f"{left} {op_str} {right}"
 
@@ -519,6 +613,26 @@ class SQLToNLRenderer:
             if subquery:
                 # V2 Bug 4 Fix: Unwrap Subquery node to get inner Select and avoid double parens
                 inner_query = subquery.this if isinstance(subquery, exp.Subquery) else subquery
+                
+                # Phase 2 Bug 2 Fix: Narratize IN (SELECT ...)
+                if isinstance(inner_query, exp.Select):
+                     # "where [left] matches any of the [col]s from [table] [where]"
+                     # Extract target column
+                     target_cols = [self._render_expression(e, f"{context}_in_col") for e in inner_query.expressions]
+                     target_col = target_cols[0] if target_cols else "value"
+                     
+                     from_node = inner_query.args.get('from_')
+                     table_name = ""
+                     if from_node:
+                         table_name = self._render_table(from_node.this, context + "_in_tbl")
+                     
+                     where_node = inner_query.args.get('where')
+                     where_str = ""
+                     if where_node:
+                         where_str = f" where {self._render_expression(where_node.this, context + '_in_where')}"
+                     
+                     return f"{left} matches any of the {target_col}s from {table_name}{where_str}"
+
                 subquery_nl = self._render_subquery(inner_query, context + '_sub')
                 return f"{left} is in ({subquery_nl})"
             # Handle IN with literal list (IN (1, 2, 3))
@@ -530,10 +644,28 @@ class SQLToNLRenderer:
         # Bug 7 Fix: Handle EXISTS and NOT EXISTS expressions
         if isinstance(expr, exp.Exists):
             subquery = expr.this
+            # Phase 2 Bug 2 Fix: Narratize EXISTS
+            # Try to describe the subquery naturally: "where there is a corresponding [table] who [where]"
+            if isinstance(subquery, exp.Select):
+                from_node = subquery.args.get('from_')
+                if from_node:
+                    table_name = self._render_table(from_node.this, context + "_ex_tbl")
+                    where_node = subquery.args.get('where')
+                    where_str = ""
+                    if where_node:
+                        # Omit "WHERE" keyword for flow
+                        where_str = f" who {self._render_expression(where_node.this, context + '_ex_where')}"
+                    return f"where there is a corresponding {table_name}{where_str}"
+            
             subquery_nl = self._render_subquery(subquery, context + '_exists')
             return f"exists ({subquery_nl})"
         
         if isinstance(expr, exp.Not):
+            # Phase 2 Bug 2 Fix: Handle NOT EXISTS naturally
+            if isinstance(expr.this, exp.Exists):
+                 inner = self._render_expression(expr.this, context + '_not_exists')
+                 return inner.replace("where there is a corresponding", "where there is no corresponding")
+            
             inner = self._render_expression(expr.this, context + '_not')
             return f"NOT {inner}"
 
@@ -581,6 +713,15 @@ class SQLToNLRenderer:
             return "a derived query"
         
         table_name = table_node.name if isinstance(table_node, exp.Table) else str(table_node)
+        
+        # Phase 2 Bug 3 Fix: Internal Artifacts
+        # Strip 'inner_' prefix (e.g., inner_users -> users)
+        if table_name.startswith('inner_'):
+             table_name = table_name.replace('inner_', '')
+        
+        # Rename derived_table
+        if table_name == 'derived_table':
+             return "the results"
         
         # ID 14 Pronoun Logic: ALWAYS roll to keep sequence in sync
         roll = self._rng.random()
@@ -650,9 +791,79 @@ class SQLToNLRenderer:
         if self.config.is_active(PerturbationType.TABLE_COLUMN_SYNONYMS) and not self._is_technical_alias(col_name):
             col_name = synonym
             
-        # Default to table.column prefix if appropriate
-        if table and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES) and not self._is_technical_alias(table):
-            return f"{table}.{col_name}"
+        # Bug 1 (Twins) Fix: Disambiguate columns by keeping table name if alias is stripped
+        # If we have a table qualifier
+        if table:
+            # Phase 2 Bug 3 Fix: Internal Artifacts (Column Qualifiers)
+            # Strip 'inner_' prefix for internal tables
+            if table.startswith('inner_'):
+                table = table.replace('inner_', '')
+            
+            # Phase 4 Bug C Fix: Derived Table Leakage
+            # Map 'derived_table' to "the result's"
+            if table == 'derived_table':
+                return f"the result's {col_name}"
+            
+            # Phase 4 Bug D Fix: Redundant Qualification
+            # If single table context, omit the table prefix
+            # UNLESS it's a technical alias we prefer to keep? 
+            # If it's single table, there's no other table, so "u1.email" -> "email" is fine.
+            # But earlier logic maps u1 -> "the user's email".
+            # If we have single table "SELECT * FROM users u1", 
+            # _alias_counts = {'users': 1}, _is_single_table = True.
+            # We want "ordered by email", NOT "ordered by the user's email".
+            # So this check should come BEFORE the technical alias mapping.
+            
+            # Check if we should skip qualification
+            # We access _is_single_table safely (default False if not set, e.g. fragment rendering)
+            is_single = getattr(self, '_is_single_table', False)
+            # Only skip if it's single table AND NOT a technical alias we might want to expand
+            if is_single and not self._is_technical_alias(table):
+                 return col_name
+        
+            # If the config says omit obvious clauses, checking if we should really omit it
+            # For "technical" aliases (e.g. p1, u5), we should replace them with real table names
+            # to avoid "id equals id" ambiguity
+            if self._is_technical_alias(table):
+                # We need to guess the table name from the alias (p1 -> posts, u1 -> users)
+                # Heuristic based on standard project aliasing
+                base_table = None
+                if table.lower().startswith('u'): base_table = 'users'
+                elif table.lower().startswith('p'): base_table = 'posts'
+                elif table.lower().startswith('c'): base_table = 'comments'
+                elif table.lower().startswith('l'): base_table = 'likes'
+                elif table.lower().startswith('f'): base_table = 'follows'
+                
+                # Phase 2 Bug 1 Fix: Alias Leakage
+                # Only map alias to natural language if it is UNAMBIGUOUS (count == 1)
+                # If ambiguous (self-join), keep the alias or use "user u1's"
+                if base_table:
+                    # Check ambiguity scope (default to 1 if not analyzed yet, e.g. snippet rendering)
+                    count = getattr(self, '_alias_counts', {}).get(base_table, 1)
+                    
+                    if count == 1:
+                        # Unambiguous: u1 -> "the user's"
+                        # Make it possessive "the user's" if it's a field
+                        # Or just "user's"
+                        noun = base_table.rstrip('s') # user
+                        return f"the {noun}'s {col_name}"
+                    else:
+                        # Ambiguous: Keep alias or strictly "u1.id"
+                        # We keep "u1.id" as "users.id" is also ambiguous here.
+                        # But wait, earlier fix mapped it to "base_table.col_name" which caused "id, id" error?
+                        # No, "id, id" was caused by stripping.
+                        # Should we return "u1.id"?
+                        # The implementation plan says: "Preserve u1, u2"
+                        return f"{table}.{col_name}"
+
+                # return f"{table}.{col_name}" # Fallback to keeping alias if unknown
+        
+            if not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
+                return f"{table}.{col_name}"
+            
+            # Phase 2: Removed duplicated technical alias check block because logic is now above
+            return f"{table}.{col_name}" if self._is_technical_alias(table) else col_name
+
         return col_name
 
 
@@ -775,20 +986,64 @@ class SQLToNLRenderer:
                 # Parse modifier like '-30 days'
                 import re
                 # Fix: Make the modifier parsing more robust for spaces and signs
-                match = re.match(r'([+-]?)\s*(\d+)\s*(\w+)', modifier)
+                # Remove quotes if present
+                modifier = modifier.strip("'")
+                match = re.search(r'([+-]?)\s*(\d+)\s*(\w+)', modifier)
                 if match:
                     sign, value, unit = match.groups()
                     unit = unit.lower().rstrip('s')  # Normalize: days -> day
+                    if not sign: sign = '+' # Default to add if no sign
+                    
                     unit_str = unit if value == '1' else f"{unit}s"
                     if sign == '-':
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
                              return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"since {value} {unit_str} ago"])
                         return f"{value} {unit_str} ago"
-                    else: # Assuming this else is for the sign, not the match
+                    else: 
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
                              return self._rng.choice([f"in {value} {unit_str}", f"{value} {unit_str} out"])
                         return f"{value} {unit_str} from now"
                 return f"{base} with modifier" # This line was outside the if/else for sign, keeping it that way
+            
+            if base.lower() == 'now':
+                return "the current time"
+            return base
+        except Exception:
+            return "a date"
+
+    def _render_datetime_node(self, expr: exp.Datetime, context: str) -> str:
+        """
+        Render sqlglot.expressions.Datetime nodes (e.g. DATETIME('now', '-25 days'))
+        Structure:
+          - expr.this: base date (Literal 'now')
+          - expr.expression: modifier (Literal '-25 days')
+        """
+        try:
+            base = str(expr.this.this) if hasattr(expr.this, 'this') else str(expr.this)
+            
+            # If modifier exists
+            if expr.expression:
+                modifier = str(expr.expression.this) if hasattr(expr.expression, 'this') else str(expr.expression)
+                
+                # Logic copied from _render_sqlite_datetime
+                import re
+                modifier = modifier.strip("'")
+                match = re.search(r'([+-]?)\s*(\d+)\s*(\w+)', modifier)
+                if match:
+                    sign, value, unit = match.groups()
+                    unit = unit.lower().rstrip('s') 
+                    if not sign: sign = '+' 
+                    
+                    unit_str = unit if value == '1' else f"{unit}s"
+                    if sign == '-':
+                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
+                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"since {value} {unit_str} ago"])
+                        return f"{value} {unit_str} ago"
+                    else: 
+                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
+                             return self._rng.choice([f"in {value} {unit_str}", f"{value} {unit_str} out"])
+                        return f"{value} {unit_str} from now"
+                return f"{base} with modifier" 
             
             if base.lower() == 'now':
                 return "the current time"
