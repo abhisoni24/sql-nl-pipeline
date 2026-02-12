@@ -22,6 +22,8 @@ from src.utils.data_loader import (
     load_llm_perturbations
 )
 
+from src.utils.storage_manager import StorageManager
+
 # Configuration Defaults (Can be overridden by env vars)
 LOCAL_BASE = os.getenv('LOCAL_BASE', '/content/experiment_workspace')
 REPO_PATH = os.getenv('REPO_PATH', f'{LOCAL_BASE}/sql-nl')
@@ -60,8 +62,12 @@ def main():
     run_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     local_run_dir, inputs_dir, outputs_dir = setup_directories(run_timestamp)
     
+    # Initialize Storage Manager
+    storage_mgr = StorageManager()
+    
     print(f"🚀 Starting Experiment Run: {run_timestamp}")
     print(f"   📂 Output Dir: {outputs_dir}")
+    print(f"   💾 Free Disk Space: {storage_mgr.get_free_space_gb():.1f}GB")
     
     # 2. Load Config
     with open(CONFIG_PATH, 'r') as f:
@@ -78,12 +84,16 @@ def main():
     # 4. Determine Models to Run
     # Default list, can be modified via script args in future
     models_to_run = [
-        'gemini-2.5-flash-lite',
-        # 'gpt-4o',
-        # 'claude-4.5',
-        # 'local-qwen3-coder-30b-a3b',
-        # 'llama3.1-8b',
-        # 'deepseek-coder-v2-lite'
+        # 'gemini-2.5-flash-lite',
+        # # 'gpt-4o',
+        # # 'claude-4.5',
+        'local-qwen3-coder-30b-a3b',
+        'gpt-oss-20b',
+        'llama-3-sqlcoder-8b',
+        'sqlcoder-34b-alpha',
+        'llama3.1-8b',
+        'deepseek-coder-v2-lite',
+        'gpt-oss-120b'
     ]
     
     print(f"🎯 Targeted Models: {models_to_run}")
@@ -105,6 +115,13 @@ def main():
             print(f"⚠️ SKIPPING {model_name}: Config not found")
             continue
             
+        # Storage Check: Ensure space exists BEFORE potentially downloading
+        if model_config.get('adapter_type') == 'vllm':
+            model_id = model_config.get('model_identifier', '')
+            if not storage_mgr.ensure_capacity(model_id, min_free_gb=20.0):
+                print(f"❌ SKIPPING {model_name}: Insufficient disk space and pruning failed.")
+                continue
+
         try:
             # Init Worker
             # Pass all model config items as kwargs (excludes keys handled explicitly if we want, but **model_config is easiest)
