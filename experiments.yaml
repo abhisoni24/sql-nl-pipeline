@@ -33,9 +33,41 @@ models:
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
 
+  - name: gpt-oss-120b
+    adapter_type: vllm
+    model_identifier: openai/gpt-oss-120b
+    max_model_len: 8192
+    quantization: bitsandbytes
+    load_format: bitsandbytes
+    hardware_notes: "A100 40GB"
+
+  - name: gpt-oss-20b
+    adapter_type: vllm
+    model_identifier: openai/gpt-oss-20b
+    max_model_len: 8192
+    quantization: bitsandbytes
+    load_format: bitsandbytes
+    hardware_notes: "A100 40GB"
+
   - name: llama3.1-8b
     adapter_type: vllm
     model_identifier: meta-llama/Llama-3.1-8B
+    max_model_len: 8192
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models
+
+  - name: llama-3-sqlcoder-8b
+    adapter_type: vllm
+    model_identifier: defog/llama-3-sqlcoder-8b
+    max_model_len: 8192
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models
+
+  - name: sqlcoder-34b-alpha
+    adapter_type: vllm
+    model_identifier: defog/sqlcoder-34b-alpha
+    quantization: bitsandbytes
+    load_format: bitsandbytes
     max_model_len: 8192
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
