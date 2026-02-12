@@ -5,3 +5,5 @@ temp.__pycache__
 misc_unrelated
 dataset/archived
 ignored_for_now
+.DS_Store
+exp.zip
