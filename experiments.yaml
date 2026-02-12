@@ -37,16 +37,12 @@ models:
     adapter_type: vllm
     model_identifier: openai/gpt-oss-120b
     max_model_len: 8192
-    quantization: bitsandbytes
-    load_format: bitsandbytes
     hardware_notes: "A100 40GB"
 
   - name: gpt-oss-20b
     adapter_type: vllm
     model_identifier: openai/gpt-oss-20b
     max_model_len: 8192
-    quantization: bitsandbytes
-    load_format: bitsandbytes
     hardware_notes: "A100 40GB"
 
   - name: llama3.1-8b

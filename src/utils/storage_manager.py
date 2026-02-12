@@ -65,11 +65,34 @@ class StorageManager:
             # print(f"⚠️ Could not estimate size for {model_id} via API: {e}")
             return 50.0
 
+    def is_model_cached(self, model_id: str) -> bool:
+        """Check if the model is already present in the local HF cache."""
+        if not HF_AVAILABLE:
+            return False
+            
+        try:
+            scan = scan_cache_dir(self.cache_dir)
+            for repo in scan.repos:
+                if repo.repo_type == 'model' and repo.repo_id == model_id:
+                    # Check if it has any revisions (it should if it's in the list)
+                    # We assume if it's here, it's usable. 
+                    # For stricter checks, we might want to check for 'main' branch or specific revision.
+                    return True
+            return False
+        except Exception as e:
+            print(f"⚠️ Failed to scan cache for {model_id}: {e}")
+            return False
+
     def ensure_capacity(self, model_id: str, min_free_gb: float = 20.0) -> bool:
         """
         Ensure enough disk space exists for the model + buffer.
         Deletes old cached models if necessary.
         """
+        # 1. Check if already cached (no download needed)
+        if self.is_model_cached(model_id):
+            print(f"✅ Model {model_id} found in local cache. No download needed.")
+            return True
+
         est_size = self.estimate_model_size_gb(model_id)
         if est_size == 0: est_size = 50.0 # safe default
         

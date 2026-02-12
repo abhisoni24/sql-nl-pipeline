@@ -87,12 +87,12 @@ def main():
         # 'gemini-2.5-flash-lite',
         # # 'gpt-4o',
         # # 'claude-4.5',
-        'local-qwen3-coder-30b-a3b',
+        # 'local-qwen3-coder-30b-a3b',
         'gpt-oss-20b',
-        'llama-3-sqlcoder-8b',
-        'sqlcoder-34b-alpha',
-        'llama3.1-8b',
-        'deepseek-coder-v2-lite',
+        # 'llama-3-sqlcoder-8b',
+        # 'sqlcoder-34b-alpha',
+        # 'llama3.1-8b',
+        # 'deepseek-coder-v2-lite',
         'gpt-oss-120b'
     ]
     
