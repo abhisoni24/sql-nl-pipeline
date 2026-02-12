@@ -52,3 +52,10 @@ Tools for validating the equivalence logic itself.
 
 - `experiments.yaml`: Defines active models, rate limits, and parameters.
 - `cached_info.py`: System prompt context for LLM perturbations.
+
+## 7. Regression Testing
+
+Use this script to verify pipeline integrity after any code changes.
+
+- `verify_pipeline.py`: Runs a subset of all generation steps and the equivalence test suite to ensure no regressions.
+  - Usage: `python3 verify_pipeline.py`

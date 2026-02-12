@@ -8,7 +8,7 @@ import sys
 import json
 import time
 import argparse
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from tqdm import tqdm
 from dotenv import load_dotenv
 from google import genai
@@ -105,7 +105,7 @@ Ensure you return ONLY the JSON object as specified in the output format instruc
 def process_queries(
     mock: bool = False,
     max_rpm: int = DEFAULT_MAX_RPM,
-    limit: int | None = None,
+    limit: Optional[int] = None,
 ) -> None:
     base_dir = os.path.abspath(os.path.dirname(__file__))
     input_path = os.path.join(base_dir, INPUT_FILE)

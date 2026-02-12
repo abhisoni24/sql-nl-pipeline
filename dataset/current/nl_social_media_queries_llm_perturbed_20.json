@@ -22185,5 +22185,26 @@
         "applicability_rate": 0.714
       }
     }
+  },
+  {
+    "id": 106,
+    "complexity": "update",
+    "sql": "UPDATE users SET country_code = 'Updated text 94' WHERE users.is_verified = 0",
+    "tables": [
+      "users"
+    ],
+    "nl_prompt": "update country_code to 'Updated text 94' for the user where users.is_verified equals 0",
+    "generated_perturbations": {
+      "original": {
+        "nl_prompt": "update country_code to 'Updated text 94' for the user where users.is_verified equals 0"
+      },
+      "single_perturbations": [],
+      "compound_perturbation": {
+        "perturbations_applied": [],
+        "perturbed_nl_prompt": "update country_code to 'Updated text 94' for the user where users.is_verified equals 0",
+        "changes_made": "mock"
+      },
+      "metadata": {}
+    }
   }
 ]

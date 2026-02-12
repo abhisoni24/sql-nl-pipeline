@@ -2,1176 +2,1192 @@
   {
     "id": 1,
     "complexity": "simple",
-    "sql": "SELECT u1.email, u1.country_code, u1.signup_date, u1.username FROM users AS u1 WHERE u1.id > 479",
+    "sql": "SELECT c1.comment_text, c1.created_at, c1.user_id, c1.post_id FROM comments AS c1 WHERE c1.user_id < 785",
     "tables": [
-      "users"
+      "comments"
     ],
-    "nl_prompt": "Show the email, country_code, signup_date, username within users where id greater than 479"
+    "nl_prompt": "Show the comment_text, created_at, user_id, post_id from comments looking only at user_id less than 785"
   },
   {
     "id": 2,
     "complexity": "simple",
-    "sql": "SELECT l1.liked_at FROM likes AS l1 ORDER BY l1.post_id",
+    "sql": "SELECT p1.content, p1.posted_at, p1.id FROM posts AS p1 ORDER BY p1.posted_at",
     "tables": [
-      "likes"
+      "posts"
     ],
-    "nl_prompt": "Find the liked_at out of likes ordered by post_id"
+    "nl_prompt": "Find the content, posted_at, id in posts ordered by posted_at"
   },
   {
     "id": 3,
     "complexity": "simple",
-    "sql": "SELECT p1.view_count, p1.content, p1.posted_at FROM posts AS p1 WHERE p1.id = 780",
+    "sql": "SELECT c1.post_id, c1.user_id, c1.id FROM comments AS c1 WHERE c1.id > 62 LIMIT 16",
     "tables": [
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "choose the view_count, content, posted_at from posts looking only at id equals 780"
+    "nl_prompt": "choose the post_id, user_id, id in comments where id greater than 62 limited to 16 results"
   },
   {
     "id": 4,
     "complexity": "simple",
-    "sql": "SELECT p1.view_count, p1.content, p1.user_id, p1.posted_at FROM posts AS p1",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.view_count = 375",
     "tables": [
       "posts"
     ],
-    "nl_prompt": "Single out the view_count, content, user_id, posted_at in posts"
+    "nl_prompt": "Single out all columns within posts where view_count equals 375"
   },
   {
     "id": 5,
     "complexity": "simple",
-    "sql": "SELECT l1.liked_at, l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.user_id > 661",
+    "sql": "SELECT u1.email, u1.country_code, u1.is_verified FROM users AS u1",
     "tables": [
-      "likes"
+      "users"
     ],
-    "nl_prompt": "Pull up the liked_at, post_id, user_id out of likes where user_id greater than 661"
+    "nl_prompt": "Pull up the email, country_code, is_verified out of users"
   },
   {
     "id": 6,
     "complexity": "simple",
-    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.followed_at <= DATETIME('now', '-13 days') ORDER BY f1.follower_id",
+    "sql": "SELECT u1.signup_date FROM users AS u1 WHERE u1.country_code LIKE 'b%' ORDER BY u1.is_verified",
     "tables": [
-      "follows"
+      "users"
     ],
-    "nl_prompt": "Select the follower_id, followee_id, followed_at in follows filtered for followed_at less than or equal to 13 days ago ordered by follower_id"
+    "nl_prompt": "Select the signup_date from users where country_code like 'b%' ordered by is_verified"
   },
   {
     "id": 7,
     "complexity": "simple",
-    "sql": "SELECT c1.id FROM comments AS c1 WHERE c1.user_id < 984 ORDER BY c1.created_at",
+    "sql": "SELECT u1.is_verified, u1.id, u1.signup_date FROM users AS u1 WHERE u1.username <> '123'",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "Bring up the id in comments filtered for user_id less than 984 ordered by created_at"
+    "nl_prompt": "Bring up the is_verified, id, signup_date in users where username is not equal to '123'"
   },
   {
     "id": 8,
     "complexity": "simple",
-    "sql": "SELECT p1.content FROM posts AS p1 WHERE p1.id > 490 ORDER BY p1.id LIMIT 91",
+    "sql": "SELECT f1.follower_id, f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at >= DATETIME('now', '-15 days') LIMIT 81",
     "tables": [
-      "posts"
+      "follows"
     ],
-    "nl_prompt": "Find the content within posts that have id greater than 490 ordered by id limited to 91 results"
+    "nl_prompt": "Find the follower_id, followed_at, followee_id out of follows looking only at followed_at greater than or equal to 15 days ago limited to 81 results"
   },
   {
     "id": 9,
     "complexity": "simple",
-    "sql": "SELECT * FROM comments AS c1 WHERE c1.created_at < DATETIME('now', '-21 days') ORDER BY c1.post_id",
+    "sql": "SELECT p1.view_count, p1.id, p1.content, p1.posted_at FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-5 days') LIMIT 16",
     "tables": [
-      "comments"
+      "posts"
     ],
-    "nl_prompt": "Spot all columns in comments that have created_at less than 21 days ago ordered by post_id"
+    "nl_prompt": "Spot the view_count, id, content, posted_at from posts where posted_at greater than or equal to 5 days ago limited to 16 results"
   },
   {
     "id": 10,
     "complexity": "simple",
-    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 LIMIT 4",
+    "sql": "SELECT p1.id, p1.posted_at, p1.view_count FROM posts AS p1 LIMIT 100",
     "tables": [
-      "likes"
+      "posts"
     ],
-    "nl_prompt": "Fetch me the liked_at, user_id, post_id out of likes limited to 4 results"
+    "nl_prompt": "Fetch me the id, posted_at, view_count out of posts limited to 100 results"
   },
   {
     "id": 11,
     "complexity": "simple",
-    "sql": "SELECT * FROM comments AS c1 WHERE c1.post_id = 147 LIMIT 84",
+    "sql": "SELECT * FROM users AS u1",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "Select all columns within comments for which post_id equals 147 limited to 84 results"
+    "nl_prompt": "Select all columns within users"
   },
   {
     "id": 12,
     "complexity": "simple",
-    "sql": "SELECT * FROM likes AS l1 WHERE l1.post_id > 834",
+    "sql": "SELECT p1.user_id, p1.id FROM posts AS p1 ORDER BY p1.posted_at",
     "tables": [
-      "likes"
+      "posts"
     ],
-    "nl_prompt": "Display all columns out of likes where post_id greater than 834"
+    "nl_prompt": "Display the user_id, id from posts ordered by posted_at"
   },
   {
     "id": 13,
     "complexity": "simple",
-    "sql": "SELECT * FROM follows AS f1",
+    "sql": "SELECT c1.created_at, c1.post_id, c1.comment_text FROM comments AS c1 ORDER BY c1.id",
     "tables": [
-      "follows"
+      "comments"
     ],
-    "nl_prompt": "Pull up all columns out of follows"
+    "nl_prompt": "Pull up the created_at, post_id, comment_text in comments ordered by id"
   },
   {
     "id": 14,
     "complexity": "simple",
-    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 ORDER BY f1.followee_id LIMIT 6",
+    "sql": "SELECT f1.followed_at, f1.follower_id, f1.followee_id FROM follows AS f1 ORDER BY f1.followee_id",
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Retrieve the followee_id, followed_at, follower_id out of follows ordered by followee_id limited to 6 results"
+    "nl_prompt": "Retrieve the followed_at, follower_id, followee_id out of follows ordered by followee_id"
   },
   {
     "id": 15,
     "complexity": "simple",
-    "sql": "SELECT c1.comment_text, c1.created_at, c1.post_id, c1.user_id FROM comments AS c1 WHERE c1.post_id < 597 LIMIT 12",
+    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 ORDER BY l1.post_id",
     "tables": [
-      "comments"
+      "likes"
     ],
-    "nl_prompt": "Show the comment_text, created_at, post_id, user_id in comments for which post_id less than 597 limited to 12 results"
+    "nl_prompt": "Show the liked_at, user_id, post_id from likes ordered by post_id"
   },
   {
     "id": 16,
     "complexity": "simple",
-    "sql": "SELECT u1.email, u1.signup_date FROM users AS u1 WHERE u1.id >= 744 LIMIT 16",
+    "sql": "SELECT * FROM users AS u1 ORDER BY u1.country_code",
     "tables": [
       "users"
     ],
-    "nl_prompt": "Find the email, signup_date within users for which id greater than or equal to 744 limited to 16 results"
+    "nl_prompt": "Find all columns in users ordered by country_code"
   },
   {
     "id": 17,
     "complexity": "simple",
-    "sql": "SELECT f1.followee_id FROM follows AS f1",
+    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 LIMIT 36",
     "tables": [
       "follows"
     ],
-    "nl_prompt": "Display the followee_id within follows"
+    "nl_prompt": "Display the follower_id, followee_id from follows limited to 36 results"
   },
   {
     "id": 18,
     "complexity": "simple",
-    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1 LIMIT 48",
+    "sql": "SELECT l1.post_id FROM likes AS l1 WHERE l1.post_id < 601",
     "tables": [
-      "follows"
+      "likes"
     ],
-    "nl_prompt": "Get the followee_id, followed_at within follows limited to 48 results"
+    "nl_prompt": "Get the post_id out of likes that have post_id less than 601"
   },
   {
     "id": 19,
     "complexity": "simple",
-    "sql": "SELECT p1.posted_at, p1.id, p1.view_count FROM posts AS p1 LIMIT 12",
+    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1",
     "tables": [
-      "posts"
+      "follows"
     ],
-    "nl_prompt": "Spot the posted_at, id, view_count in posts limited to 12 results"
+    "nl_prompt": "Spot the followee_id, followed_at from follows"
   },
   {
     "id": 20,
     "complexity": "simple",
-    "sql": "SELECT p1.posted_at, p1.user_id FROM posts AS p1 WHERE p1.id <> 215 LIMIT 29",
+    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followed_at >= DATETIME('now', '-11 days')",
     "tables": [
-      "posts"
+      "follows"
     ],
-    "nl_prompt": "Pick out the posted_at, user_id within posts looking only at id is not equal to 215 limited to 29 results"
+    "nl_prompt": "Pick out the follower_id, followee_id within follows looking only at followed_at greater than or equal to 11 days ago"
   },
   {
     "id": 21,
     "complexity": "join",
-    "sql": "SELECT * FROM posts AS p1 LEFT JOIN users AS u3 ON p1.user_id = u3.id WHERE u3.signup_date <= DATETIME('now', '-17 days')",
+    "sql": "SELECT * FROM posts AS p1 LEFT JOIN comments AS c9 ON p1.id = c9.post_id WHERE c9.comment_text LIKE '%a%'",
     "tables": [
       "posts",
-      "users"
+      "comments"
     ],
-    "nl_prompt": "Display all columns in posts LEFT JOIN users on user_id equals id where signup_date less than or equal to 17 days ago"
+    "nl_prompt": "Display all columns in posts LEFT JOIN comments on id equals post_id that have comment_text like '%a%'"
   },
   {
     "id": 22,
     "complexity": "join",
-    "sql": "SELECT f1.followee_id, u9.email, u9.signup_date FROM follows AS f1 INNER JOIN users AS u9 ON f1.follower_id = u9.id",
+    "sql": "SELECT * FROM likes AS l1 LEFT JOIN posts AS p5 ON l1.post_id = p5.id WHERE p5.view_count = 928",
     "tables": [
-      "follows",
-      "users"
+      "likes",
+      "posts"
     ],
-    "nl_prompt": "Single out the followee_id, email, signup_date in follows and their users"
+    "nl_prompt": "Single out all columns within likes LEFT JOIN posts on post_id equals id filtered for view_count equals 928"
   },
   {
     "id": 23,
     "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN posts AS p5 ON c1.post_id = p5.id",
+    "sql": "SELECT u7.username, u7.signup_date, f1.follower_id, u7.country_code FROM follows AS f1 RIGHT JOIN users AS u7 ON f1.follower_id = u7.id",
     "tables": [
-      "comments",
-      "posts"
+      "follows",
+      "users"
     ],
-    "nl_prompt": "Select all columns from comments RIGHT JOIN posts on post_id equals id"
+    "nl_prompt": "Select the username, signup_date, follower_id, country_code in follows RIGHT JOIN users on follower_id equals id"
   },
   {
     "id": 24,
     "complexity": "join",
-    "sql": "SELECT * FROM follows AS f1 LEFT JOIN users AS u6 ON f1.follower_id = u6.id",
+    "sql": "SELECT * FROM posts AS p1 FULL JOIN likes AS l4 ON p1.id = l4.post_id",
     "tables": [
-      "follows",
-      "users"
+      "posts",
+      "likes"
     ],
-    "nl_prompt": "Spot all columns in follows LEFT JOIN users on follower_id equals id"
+    "nl_prompt": "Spot all columns in posts FULL JOIN likes on id equals post_id"
   },
   {
     "id": 25,
     "complexity": "join",
-    "sql": "SELECT l3.liked_at, l3.user_id, l3.post_id, p1.id FROM posts AS p1 LEFT JOIN likes AS l3 ON p1.id = l3.post_id",
+    "sql": "SELECT * FROM users AS u1 FULL JOIN comments AS c6 ON u1.id = c6.user_id",
     "tables": [
-      "posts",
-      "likes"
+      "users",
+      "comments"
     ],
-    "nl_prompt": "Find the liked_at, user_id, post_id, id in posts LEFT JOIN likes on id equals post_id"
+    "nl_prompt": "Find all columns in users FULL JOIN comments on id equals user_id"
   },
   {
     "id": 26,
     "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 INNER JOIN users AS u5 ON c1.user_id = u5.id WHERE u5.email = 'user41@example.com'",
+    "sql": "SELECT u5.username, p1.id, u5.id, u5.email FROM posts AS p1 RIGHT JOIN users AS u5 ON p1.user_id = u5.id",
     "tables": [
-      "comments",
+      "posts",
       "users"
     ],
-    "nl_prompt": "Get all columns out of comments and their users that have email equals 'user41@example.com'"
+    "nl_prompt": "Get the username, id, id, email in posts RIGHT JOIN users on user_id equals id"
   },
   {
     "id": 27,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 LEFT JOIN posts AS p8 ON l1.post_id = p8.id WHERE p8.content <> '123'",
+    "sql": "SELECT u7.signup_date, u7.id, u7.country_code, l1.liked_at FROM likes AS l1 RIGHT JOIN users AS u7 ON l1.user_id = u7.id",
     "tables": [
       "likes",
-      "posts"
+      "users"
     ],
-    "nl_prompt": "Give me a look at all columns in likes LEFT JOIN posts on post_id equals id for which content is not equal to '123'"
+    "nl_prompt": "Give me a look at the signup_date, id, country_code, liked_at in likes RIGHT JOIN users on user_id equals id"
   },
   {
     "id": 28,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 FULL JOIN posts AS p4 ON l1.post_id = p4.id WHERE p4.user_id < 606",
+    "sql": "SELECT * FROM comments AS c1 LEFT JOIN posts AS p7 ON c1.post_id = p7.id WHERE p7.id > 990",
     "tables": [
-      "likes",
+      "comments",
       "posts"
     ],
-    "nl_prompt": "Show all columns in likes FULL JOIN posts on post_id equals id that have user_id less than 606"
+    "nl_prompt": "Show all columns in comments LEFT JOIN posts on post_id equals id that have id greater than 990"
   },
   {
     "id": 29,
     "complexity": "join",
-    "sql": "SELECT c1.created_at, c1.user_id, p7.posted_at, p7.user_id FROM comments AS c1 LEFT JOIN posts AS p7 ON c1.post_id = p7.id WHERE p7.content = 'user'",
+    "sql": "SELECT * FROM follows AS f1 RIGHT JOIN users AS u8 ON f1.follower_id = u8.id",
     "tables": [
-      "comments",
-      "posts"
+      "follows",
+      "users"
     ],
-    "nl_prompt": "Find the created_at, user_id, posted_at, user_id out of comments LEFT JOIN posts on post_id equals id looking only at content equals 'user'"
+    "nl_prompt": "Find all columns out of follows RIGHT JOIN users on follower_id equals id"
   },
   {
     "id": 30,
     "complexity": "join",
-    "sql": "SELECT c1.post_id, c1.id, c1.created_at, u1.username FROM comments AS c1 LEFT JOIN users AS u1 ON c1.user_id = u1.id",
+    "sql": "SELECT u4.country_code, f1.followed_at FROM follows AS f1 RIGHT JOIN users AS u4 ON f1.follower_id = u4.id",
     "tables": [
-      "comments",
+      "follows",
       "users"
     ],
-    "nl_prompt": "choose the post_id, id, created_at, username within comments LEFT JOIN users on user_id equals id"
+    "nl_prompt": "choose the country_code, followed_at within follows RIGHT JOIN users on follower_id equals id"
   },
   {
     "id": 31,
     "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN posts AS p1 ON c1.post_id = p1.id WHERE p1.id <> 582",
+    "sql": "SELECT u3.is_verified, u3.username, f1.followed_at FROM follows AS f1 RIGHT JOIN users AS u3 ON f1.follower_id = u3.id WHERE u3.id <> 614",
     "tables": [
-      "comments",
-      "posts"
+      "follows",
+      "users"
     ],
-    "nl_prompt": "Fetch me all columns within comments RIGHT JOIN posts on post_id equals id looking only at id is not equal to 582"
+    "nl_prompt": "Fetch me the is_verified, username, followed_at within follows RIGHT JOIN users on follower_id equals id where id is not equal to 614"
   },
   {
     "id": 32,
     "complexity": "join",
-    "sql": "SELECT * FROM users AS u1 RIGHT JOIN posts AS p4 ON u1.id = p4.user_id",
+    "sql": "SELECT f1.followed_at, u5.email, u5.signup_date FROM follows AS f1 INNER JOIN users AS u5 ON f1.follower_id = u5.id WHERE u5.is_verified = 0",
     "tables": [
-      "users",
-      "posts"
+      "follows",
+      "users"
     ],
-    "nl_prompt": "Select all columns in users RIGHT JOIN posts on id equals user_id"
+    "nl_prompt": "Select the followed_at, email, signup_date out of follows and their users where is_verified equals 0"
   },
   {
     "id": 33,
     "complexity": "join",
-    "sql": "SELECT * FROM follows AS f1 RIGHT JOIN users AS u1 ON f1.follower_id = u1.id",
+    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN users AS u8 ON c1.user_id = u8.id WHERE u8.email = 'user86@example.com'",
     "tables": [
-      "follows",
+      "comments",
       "users"
     ],
-    "nl_prompt": "Run a check for all columns within follows RIGHT JOIN users on follower_id equals id"
+    "nl_prompt": "Run a check for all columns within comments RIGHT JOIN users on user_id equals id looking only at email equals 'user86@example.com'"
   },
   {
     "id": 34,
     "complexity": "join",
-    "sql": "SELECT * FROM likes AS l1 FULL JOIN posts AS p7 ON l1.post_id = p7.id WHERE p7.content = 'user'",
+    "sql": "SELECT * FROM users AS u1 FULL JOIN posts AS p6 ON u1.id = p6.user_id",
     "tables": [
-      "likes",
+      "users",
       "posts"
     ],
-    "nl_prompt": "choose all columns out of likes FULL JOIN posts on post_id equals id that have content equals 'user'"
+    "nl_prompt": "choose all columns out of users FULL JOIN posts on id equals user_id"
   },
   {
     "id": 35,
     "complexity": "join",
-    "sql": "SELECT c1.id, c1.created_at, p4.content, p4.id FROM comments AS c1 RIGHT JOIN posts AS p4 ON c1.post_id = p4.id",
-    "tables": [
-      "comments",
-      "posts"
-    ],
-    "nl_prompt": "Single out the id, created_at, content, id out of comments RIGHT JOIN posts on post_id equals id"
-  },
-  {
-    "id": 36,
-    "complexity": "join",
-    "sql": "SELECT l9.liked_at, l9.user_id, l9.post_id, u1.id FROM users AS u1 RIGHT JOIN likes AS l9 ON u1.id = l9.user_id WHERE l9.user_id <> 789",
-    "tables": [
-      "users",
-      "likes"
-    ],
-    "nl_prompt": "Spot the liked_at, user_id, post_id, id out of users RIGHT JOIN likes on id equals user_id that have user_id is not equal to 789"
-  },
-  {
-    "id": 37,
-    "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN users AS u3 ON c1.user_id = u3.id WHERE u3.email LIKE '%@gmail.com'",
-    "tables": [
-      "comments",
-      "users"
-    ],
-    "nl_prompt": "Get all columns within comments RIGHT JOIN users on user_id equals id filtered for email like '%@gmail.com'"
-  },
-  {
-    "id": 38,
-    "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN users AS u2 ON c1.user_id = u2.id WHERE u2.id = 579",
-    "tables": [
-      "comments",
-      "users"
-    ],
-    "nl_prompt": "Pull up all columns in comments RIGHT JOIN users on user_id equals id looking only at id equals 579"
-  },
-  {
-    "id": 39,
-    "complexity": "join",
-    "sql": "SELECT * FROM follows AS f1 INNER JOIN users AS u3 ON f1.follower_id = u3.id",
-    "tables": [
-      "follows",
-      "users"
-    ],
-    "nl_prompt": "Single out all columns within follows and their users"
-  },
-  {
-    "id": 40,
-    "complexity": "join",
-    "sql": "SELECT * FROM comments AS c1 FULL JOIN users AS u7 ON c1.user_id = u7.id WHERE u7.is_verified = 1",
-    "tables": [
-      "comments",
-      "users"
-    ],
-    "nl_prompt": "Give me a look at all columns out of comments FULL JOIN users on user_id equals id for which is_verified equals 1"
-  },
-  {
-    "id": 41,
-    "complexity": "advanced",
-    "sql": "SELECT u1.is_verified, u1.id FROM users AS u1 WHERE u1.id IN (SELECT sub_p.user_id FROM posts AS sub_p WHERE sub_p.posted_at <= DATETIME('now', '-28 days'))",
-    "tables": [
-      "users",
-      "posts"
-    ],
-    "nl_prompt": "Fetch me the is_verified, id within users for which id is in (Select user_id from posts where posted_at less than or equal to 28 days ago)"
-  },
-  {
-    "id": 42,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.user_id <> 445) AS derived_table WHERE derived_table.content = 'admin'",
-    "tables": [
-      "posts"
-    ],
-    "nl_prompt": "Single out all columns in posts where user_id is not equal to 445 looking only at content equals 'admin'"
-  },
-  {
-    "id": 43,
-    "complexity": "advanced",
-    "sql": "SELECT f1.follower_id AS user, f2.followee_id AS friend_of_friend FROM follows AS f1 JOIN follows AS f2 ON f1.followee_id = f2.follower_id",
-    "tables": [
-      "follows",
-      "follows"
-    ],
-    "nl_prompt": "Bring up the f1.follower_id, f2.followee_id out of follows JOIN follows on followee_id equals follower_id"
-  },
-  {
-    "id": 44,
-    "complexity": "advanced",
-    "sql": "SELECT p1.content, p1.view_count, p1.id FROM posts AS p1 WHERE EXISTS(SELECT 1 FROM comments AS sub_c WHERE sub_c.post_id = p1.id AND sub_c.post_id <= 355)",
-    "tables": [
-      "posts",
-      "comments"
-    ],
-    "nl_prompt": "Go get the content, view_count, id out of posts filtered for exists (Select 1 from comments where post_id equals id and post_id less than or equal to 355)"
-  },
-  {
-    "id": 45,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.liked_at >= DATETIME('now', '-18 days')) AS derived_table",
-    "tables": [
-      "likes"
-    ],
-    "nl_prompt": "Dig out all columns from likes where liked_at greater than or equal to 18 days ago"
-  },
-  {
-    "id": 46,
-    "complexity": "advanced",
-    "sql": "SELECT f1.follower_id, f1.followed_at FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.signup_date < DATETIME('now', '-12 days'))",
-    "tables": [
-      "follows",
-      "users"
-    ],
-    "nl_prompt": "Go get the follower_id, followed_at from follows filtered for exists (Select 1 from users where id equals follower_id and signup_date less than 12 days ago)"
-  },
-  {
-    "id": 47,
-    "complexity": "advanced",
-    "sql": "SELECT l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.id < 72)",
+    "sql": "SELECT * FROM likes AS l1 FULL JOIN users AS u2 ON l1.user_id = u2.id",
     "tables": [
       "likes",
       "users"
     ],
-    "nl_prompt": "Pick out the liked_at, post_id in likes filtered for user_id is in (Select id from users where id less than 72)"
+    "nl_prompt": "Single out all columns in likes FULL JOIN users on user_id equals id"
   },
   {
-    "id": 48,
-    "complexity": "advanced",
-    "sql": "SELECT p1.content, p1.posted_at, p1.user_id FROM posts AS p1 WHERE p1.id IN (SELECT sub_l.post_id FROM likes AS sub_l WHERE sub_l.liked_at <= DATETIME('now', '-15 days'))",
+    "id": 36,
+    "complexity": "join",
+    "sql": "SELECT p5.user_id, c1.comment_text, c1.user_id FROM comments AS c1 RIGHT JOIN posts AS p5 ON c1.post_id = p5.id",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "nl_prompt": "Spot the user_id, comment_text, user_id in comments RIGHT JOIN posts on post_id equals id"
+  },
+  {
+    "id": 37,
+    "complexity": "join",
+    "sql": "SELECT * FROM likes AS l1 FULL JOIN users AS u7 ON l1.user_id = u7.id",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "nl_prompt": "Get all columns within likes FULL JOIN users on user_id equals id"
+  },
+  {
+    "id": 38,
+    "complexity": "join",
+    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id, u5.username FROM likes AS l1 RIGHT JOIN users AS u5 ON l1.user_id = u5.id WHERE u5.username LIKE '%a%'",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "nl_prompt": "Pull up the post_id, liked_at, user_id, username within likes RIGHT JOIN users on user_id equals id filtered for username like '%a%'"
+  },
+  {
+    "id": 39,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 LEFT JOIN users AS u6 ON p1.user_id = u6.id",
     "tables": [
       "posts",
-      "likes"
+      "users"
     ],
-    "nl_prompt": "Fetch me the content, posted_at, user_id from posts for which id is in (Select post_id from likes where liked_at less than or equal to 15 days ago)"
+    "nl_prompt": "Single out all columns within posts LEFT JOIN users on user_id equals id"
   },
   {
-    "id": 49,
+    "id": 40,
+    "complexity": "join",
+    "sql": "SELECT c1.created_at, c1.comment_text, u2.email, u2.id FROM comments AS c1 LEFT JOIN users AS u2 ON c1.user_id = u2.id",
+    "tables": [
+      "comments",
+      "users"
+    ],
+    "nl_prompt": "Give me a look at the created_at, comment_text, email, id out of comments LEFT JOIN users on user_id equals id"
+  },
+  {
+    "id": 41,
     "complexity": "advanced",
-    "sql": "SELECT f1.follower_id FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.email <> 'user62@example.com')",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.country_code LIKE '%a%') AS derived_table WHERE derived_table.signup_date > DATETIME('now', '-25 days')",
+    "tables": [
+      "users"
+    ],
+    "nl_prompt": "Fetch me all columns within users where country_code like '%a%' for which signup_date greater than 25 days ago"
+  },
+  {
+    "id": 42,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followed_at > DATETIME('now', '-28 days')) AS derived_table",
+    "tables": [
+      "follows"
+    ],
+    "nl_prompt": "Single out all columns in follows where followed_at greater than 28 days ago"
+  },
+  {
+    "id": 43,
+    "complexity": "advanced",
+    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE NOT EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.email = 'user62@example.com')",
     "tables": [
       "follows",
       "users"
     ],
-    "nl_prompt": "Go get the follower_id out of follows for which follower_id is in (Select id from users where email is not equal to 'user62@example.com')"
+    "nl_prompt": "Bring up the followee_id, followed_at, follower_id in follows that have NOT exists (Select 1 from users where id equals follower_id and email equals 'user62@example.com')"
+  },
+  {
+    "id": 44,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followee_id < 590) AS derived_table",
+    "tables": [
+      "follows"
+    ],
+    "nl_prompt": "Go get all columns within follows where followee_id less than 590"
+  },
+  {
+    "id": 45,
+    "complexity": "advanced",
+    "sql": "SELECT l1.user_id, l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.email = 'user67@example.com')",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "nl_prompt": "Dig out the user_id, liked_at, post_id out of likes for which user_id is in (Select id from users where email equals 'user67@example.com')"
+  },
+  {
+    "id": 46,
+    "complexity": "advanced",
+    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code LIKE '%a%')",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "nl_prompt": "Go get the followee_id, follower_id from follows filtered for follower_id is in (Select id from users where country_code like '%a%')"
+  },
+  {
+    "id": 47,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.email <> 'user12@example.com') AS derived_table",
+    "tables": [
+      "users"
+    ],
+    "nl_prompt": "Pick out all columns in users where email is not equal to 'user12@example.com'"
+  },
+  {
+    "id": 48,
+    "complexity": "advanced",
+    "sql": "SELECT f1.followed_at FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.is_verified = 0)",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "nl_prompt": "Fetch me the followed_at within follows where follower_id is in (Select id from users where is_verified equals 0)"
+  },
+  {
+    "id": 49,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code = 'test')",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "nl_prompt": "Go get all columns out of follows for which follower_id is in (Select id from users where country_code equals 'test')"
   },
   {
     "id": 50,
     "complexity": "advanced",
-    "sql": "SELECT f1.follower_id AS user, f2.followee_id AS friend_of_friend FROM follows AS f1 JOIN follows AS f2 ON f1.followee_id = f2.follower_id LIMIT 20",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.id < 22) AS derived_table",
     "tables": [
-      "follows",
-      "follows"
+      "users"
     ],
-    "nl_prompt": "Dig out the f1.follower_id, f2.followee_id out of follows JOIN follows on followee_id equals follower_id limited to 20 results"
+    "nl_prompt": "Dig out all columns in users where id less than 22"
   },
   {
     "id": 51,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.id >= 347) AS derived_table WHERE derived_table.content <> '123'",
-    "tables": [
-      "posts"
-    ],
-    "nl_prompt": "choose all columns from posts where id greater than or equal to 347 that have content is not equal to '123'"
-  },
-  {
-    "id": 52,
-    "complexity": "advanced",
-    "sql": "SELECT p1.view_count, p1.id, p1.content, p1.posted_at FROM posts AS p1 WHERE EXISTS(SELECT 1 FROM comments AS sub_c WHERE sub_c.post_id = p1.id AND sub_c.comment_text <> 'test')",
-    "tables": [
-      "posts",
-      "comments"
-    ],
-    "nl_prompt": "choose the view_count, id, content, posted_at in posts where exists (Select 1 from comments where post_id equals id and comment_text is not equal to 'test')"
-  },
-  {
-    "id": 53,
     "complexity": "advanced",
     "sql": "SELECT c1.id AS comment1, c2.id AS comment2, c1.post_id FROM comments AS c1 JOIN comments AS c2 ON c1.post_id = c2.post_id AND c1.id <> c2.id",
     "tables": [
       "comments",
       "comments"
     ],
-    "nl_prompt": "Display the c1.id, c2.id, post_id out of comments JOIN comments on post_id equals post_id and id is not equal to id"
+    "nl_prompt": "choose the c1.id, c2.id, post_id in comments JOIN comments on post_id equals post_id and id is not equal to id"
+  },
+  {
+    "id": 52,
+    "complexity": "advanced",
+    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.username LIKE 'b%')",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "nl_prompt": "choose the followee_id, follower_id out of follows filtered for follower_id is in (Select id from users where username like 'b%')"
+  },
+  {
+    "id": 53,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.id >= 278) AS derived_table WHERE derived_table.username LIKE '%c'",
+    "tables": [
+      "users"
+    ],
+    "nl_prompt": "Display all columns within users where id greater than or equal to 278 where username like '%c'"
   },
   {
     "id": 54,
     "complexity": "advanced",
-    "sql": "SELECT c1.id FROM comments AS c1 WHERE c1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.view_count = 662)",
+    "sql": "SELECT f1.followed_at, f1.followee_id, f1.follower_id FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.email LIKE '%@example.com')",
     "tables": [
-      "comments",
-      "posts"
+      "follows",
+      "users"
     ],
-    "nl_prompt": "Run a check for the id from comments that have post_id is in (Select id from posts where view_count equals 662)"
+    "nl_prompt": "Run a check for the followed_at, followee_id, follower_id in follows filtered for exists (Select 1 from users where id equals follower_id and email like '%@example.com')"
   },
   {
     "id": 55,
     "complexity": "advanced",
-    "sql": "SELECT * FROM users AS u1 WHERE u1.id IN (SELECT sub_l.user_id FROM likes AS sub_l WHERE sub_l.post_id < 719)",
+    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.user_id >= 494)",
     "tables": [
-      "users",
-      "likes"
+      "likes",
+      "posts"
     ],
-    "nl_prompt": "Spot all columns in users where id is in (Select user_id from likes where post_id less than 719)"
+    "nl_prompt": "Spot the post_id, user_id, liked_at out of likes that have post_id is in (Select id from posts where user_id greater than or equal to 494)"
   },
   {
     "id": 56,
     "complexity": "advanced",
-    "sql": "SELECT l1.user_id, l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.view_count < 860)",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.id >= 726) AS derived_table WHERE derived_table.id < 542",
     "tables": [
-      "likes",
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "Pull up the user_id, liked_at, post_id out of likes filtered for post_id is in (Select id from posts where view_count less than 860)"
+    "nl_prompt": "Pull up all columns from comments where id greater than or equal to 726 where id less than 542"
   },
   {
     "id": 57,
     "complexity": "advanced",
-    "sql": "SELECT f1.follower_id AS user, f2.followee_id AS friend_of_friend FROM follows AS f1 JOIN follows AS f2 ON f1.followee_id = f2.follower_id LIMIT 11",
+    "sql": "SELECT c1.id AS comment1, c2.id AS comment2, c1.post_id FROM comments AS c1 JOIN comments AS c2 ON c1.post_id = c2.post_id AND c1.id <> c2.id LIMIT 20",
     "tables": [
-      "follows",
-      "follows"
+      "comments",
+      "comments"
     ],
-    "nl_prompt": "choose the f1.follower_id, f2.followee_id from follows JOIN follows on followee_id equals follower_id limited to 11 results"
+    "nl_prompt": "choose the c1.id, c2.id, post_id from comments JOIN comments on post_id equals post_id and id is not equal to id limited to 20 results"
   },
   {
     "id": 58,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followee_id <> 23) AS derived_table",
+    "sql": "SELECT u1.username AS user1, u2.username AS user2, u1.country_code FROM users AS u1 JOIN users AS u2 ON u1.country_code = u2.country_code AND u1.id <> u2.id",
     "tables": [
-      "follows"
+      "users",
+      "users"
     ],
-    "nl_prompt": "Single out all columns in follows where followee_id is not equal to 23"
+    "nl_prompt": "Single out the u1.username, u2.username, country_code in users JOIN users on country_code equals country_code and id is not equal to id"
   },
   {
     "id": 59,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.posted_at < DATETIME('now', '-12 days')) AS derived_table",
+    "sql": "SELECT u1.id, u1.username, u1.email, u1.is_verified FROM users AS u1 WHERE u1.id IN (SELECT sub_f.follower_id FROM follows AS sub_f WHERE sub_f.followee_id < 65)",
     "tables": [
-      "posts"
+      "users",
+      "follows"
     ],
-    "nl_prompt": "Pull up all columns in posts where posted_at less than 12 days ago"
+    "nl_prompt": "Pull up the id, username, email, is_verified out of users filtered for id is in (Select follower_id from follows where followee_id less than 65)"
   },
   {
     "id": 60,
     "complexity": "advanced",
-    "sql": "SELECT * FROM likes AS l1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = l1.user_id AND sub_u.id <= 866)",
+    "sql": "SELECT u1.username, u1.id FROM users AS u1 WHERE EXISTS(SELECT 1 FROM likes AS sub_l WHERE sub_l.user_id = u1.id AND sub_l.user_id <= 96)",
     "tables": [
-      "likes",
-      "users"
+      "users",
+      "likes"
     ],
-    "nl_prompt": "Display all columns out of likes filtered for exists (Select 1 from users where id equals user_id and id less than or equal to 866)"
+    "nl_prompt": "Display the username, id from users for which exists (Select 1 from likes where user_id equals id and user_id less than or equal to 96)"
   },
   {
     "id": 61,
     "complexity": "union",
-    "sql": "SELECT u1.id, u1.signup_date FROM users AS u1 WHERE u1.signup_date > DATETIME('now', '-13 days') UNION SELECT u2.id, u2.signup_date FROM users AS u2 WHERE u2.id >= 595",
+    "sql": "SELECT u1.is_verified, u1.signup_date FROM users AS u1 WHERE u1.is_verified = 1 UNION ALL SELECT u2.is_verified, u2.signup_date FROM users AS u2 WHERE u2.country_code LIKE '%c'",
     "tables": [
       "users",
       "users"
     ],
-    "nl_prompt": "Go get the id, signup_date out of users where signup_date greater than 13 days ago, combined with (removing duplicates) Go get the id, signup_date out of users where id greater than or equal to 595"
+    "nl_prompt": "Go get the is_verified, signup_date out of users where is_verified equals 1, combined with (including duplicates) Go get the is_verified, signup_date out of users where country_code like '%c'"
   },
   {
     "id": 62,
     "complexity": "union",
-    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.user_id = 153 UNION SELECT l2.liked_at, l2.user_id, l2.post_id FROM likes AS l2 WHERE l2.liked_at >= DATETIME('now', '-1 days') ORDER BY liked_at LIMIT 24",
+    "sql": "SELECT c1.post_id, c1.comment_text FROM comments AS c1 WHERE c1.post_id <= 927 UNION SELECT c2.post_id, c2.comment_text FROM comments AS c2 WHERE c2.user_id = 622 LIMIT 46",
     "tables": [
-      "likes",
-      "likes"
+      "comments",
+      "comments"
     ],
-    "nl_prompt": "Give me a look at the liked_at, user_id, post_id out of likes that have user_id equals 153, combined with (removing duplicates) Give me a look at the liked_at, user_id, post_id out of likes that have liked_at greater than or equal to 1 day ago ordered by liked_at limited to 24 results"
+    "nl_prompt": "Give me a look at the post_id, comment_text from comments that have post_id less than or equal to 927, combined with (removing duplicates) Give me a look at the post_id, comment_text from comments that have user_id equals 622 limited to 46 results"
   },
   {
     "id": 63,
     "complexity": "union",
-    "sql": "SELECT f1.followed_at, f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followee_id = 152 UNION SELECT f2.followed_at, f2.follower_id, f2.followee_id FROM follows AS f2 WHERE f2.followee_id = 606",
+    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.user_id <= 316 UNION ALL SELECT l2.post_id, l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.user_id > 545 ORDER BY post_id LIMIT 34",
     "tables": [
-      "follows",
-      "follows"
+      "likes",
+      "likes"
     ],
-    "nl_prompt": "Fetch me the followed_at, follower_id, followee_id within follows that have followee_id equals 152, combined with (removing duplicates) Fetch me the followed_at, follower_id, followee_id within follows that have followee_id equals 606"
+    "nl_prompt": "Fetch me the post_id, liked_at, user_id within likes that have user_id less than or equal to 316, combined with (including duplicates) Fetch me the post_id, liked_at, user_id within likes that have user_id greater than 545 ordered by post_id limited to 34 results"
   },
   {
     "id": 64,
     "complexity": "union",
-    "sql": "SELECT f1.followed_at, f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.follower_id = 476 UNION ALL SELECT f2.followed_at, f2.follower_id, f2.followee_id FROM follows AS f2 WHERE f2.follower_id < 303 LIMIT 44",
-    "tables": [
-      "follows",
-      "follows"
-    ],
-    "nl_prompt": "Bring up the followed_at, follower_id, followee_id out of follows that have follower_id equals 476, combined with (including duplicates) Bring up the followed_at, follower_id, followee_id out of follows that have follower_id less than 303 limited to 44 results"
-  },
-  {
-    "id": 65,
-    "complexity": "union",
-    "sql": "SELECT l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id >= 376 UNION ALL SELECT l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.liked_at < DATETIME('now', '-9 days') ORDER BY post_id LIMIT 34",
-    "tables": [
-      "likes",
-      "likes"
-    ],
-    "nl_prompt": "Give me a look at the post_id, liked_at out of likes filtered for post_id greater than or equal to 376, combined with (including duplicates) Give me a look at the post_id, liked_at out of likes filtered for liked_at less than 9 days ago ordered by post_id limited to 34 results"
-  },
-  {
-    "id": 66,
-    "complexity": "union",
-    "sql": "SELECT u1.username, u1.id FROM users AS u1 WHERE u1.email <> 'user32@example.com' UNION ALL SELECT u2.username, u2.id FROM users AS u2 WHERE u2.email LIKE 'user%@%'",
-    "tables": [
-      "users",
-      "users"
-    ],
-    "nl_prompt": "Dig out the username, id in users that have email is not equal to 'user32@example.com', combined with (including duplicates) Dig out the username, id in users that have email like 'user%@%'"
-  },
-  {
-    "id": 67,
-    "complexity": "union",
-    "sql": "SELECT c1.id, c1.user_id FROM comments AS c1 WHERE c1.id > 770 UNION SELECT c2.id, c2.user_id FROM comments AS c2 WHERE c2.user_id < 683 ORDER BY id LIMIT 14",
-    "tables": [
-      "comments",
-      "comments"
-    ],
-    "nl_prompt": "Go get the id, user_id from comments that have id greater than 770, combined with (removing duplicates) Go get the id, user_id from comments that have user_id less than 683 ordered by id limited to 14 results"
-  },
-  {
-    "id": 68,
-    "complexity": "union",
-    "sql": "SELECT u1.country_code, u1.is_verified, u1.signup_date FROM users AS u1 WHERE u1.id <> 325 UNION SELECT u2.country_code, u2.is_verified, u2.signup_date FROM users AS u2 WHERE u2.username LIKE '%a%'",
-    "tables": [
-      "users",
-      "users"
-    ],
-    "nl_prompt": "Pick out the country_code, is_verified, signup_date in users that have id is not equal to 325, combined with (removing duplicates) Pick out the country_code, is_verified, signup_date in users that have username like '%a%'"
-  },
-  {
-    "id": 69,
-    "complexity": "union",
-    "sql": "SELECT u1.country_code, u1.is_verified, u1.username FROM users AS u1 WHERE u1.signup_date > DATETIME('now', '-22 days') UNION ALL SELECT u2.country_code, u2.is_verified, u2.username FROM users AS u2 WHERE u2.username = 'admin' LIMIT 25",
-    "tables": [
-      "users",
-      "users"
-    ],
-    "nl_prompt": "choose the country_code, is_verified, username within users that have signup_date greater than 22 days ago, combined with (including duplicates) choose the country_code, is_verified, username within users that have username equals 'admin' limited to 25 results"
-  },
-  {
-    "id": 70,
-    "complexity": "union",
-    "sql": "SELECT p1.user_id, p1.content, p1.posted_at FROM posts AS p1 WHERE p1.posted_at <= DATETIME('now', '-4 days') UNION SELECT p2.user_id, p2.content, p2.posted_at FROM posts AS p2 WHERE p2.view_count <> 832 LIMIT 42",
+    "sql": "SELECT p1.posted_at, p1.user_id, p1.view_count, p1.content FROM posts AS p1 WHERE p1.id < 178 UNION SELECT p2.posted_at, p2.user_id, p2.view_count, p2.content FROM posts AS p2 WHERE p2.posted_at < DATETIME('now', '-23 days')",
     "tables": [
       "posts",
       "posts"
     ],
-    "nl_prompt": "Find the user_id, content, posted_at from posts for which posted_at less than or equal to 4 days ago, combined with (removing duplicates) Find the user_id, content, posted_at from posts for which view_count is not equal to 832 limited to 42 results"
+    "nl_prompt": "Bring up the posted_at, user_id, view_count, content from posts filtered for id less than 178, combined with (removing duplicates) Bring up the posted_at, user_id, view_count, content from posts filtered for posted_at less than 23 days ago"
+  },
+  {
+    "id": 65,
+    "complexity": "union",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id <= 879 UNION SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 843 LIMIT 25",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "nl_prompt": "Give me a look at the user_id, post_id, liked_at within likes looking only at post_id less than or equal to 879, combined with (removing duplicates) Give me a look at the user_id, post_id, liked_at within likes looking only at user_id equals 843 limited to 25 results"
+  },
+  {
+    "id": 66,
+    "complexity": "union",
+    "sql": "SELECT p1.user_id, p1.posted_at, p1.id FROM posts AS p1 WHERE p1.view_count > 107 UNION SELECT p2.user_id, p2.posted_at, p2.id FROM posts AS p2 WHERE p2.posted_at < DATETIME('now', '-21 days') LIMIT 21",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "nl_prompt": "Dig out the user_id, posted_at, id in posts filtered for view_count greater than 107, combined with (removing duplicates) Dig out the user_id, posted_at, id in posts filtered for posted_at less than 21 days ago limited to 21 results"
+  },
+  {
+    "id": 67,
+    "complexity": "union",
+    "sql": "SELECT p1.id, p1.user_id FROM posts AS p1 WHERE p1.view_count = 807 UNION SELECT p2.id, p2.user_id FROM posts AS p2 WHERE p2.id <= 844 ORDER BY id LIMIT 46",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "nl_prompt": "Go get the id, user_id from posts that have view_count equals 807, combined with (removing duplicates) Go get the id, user_id from posts that have id less than or equal to 844 ordered by id limited to 46 results"
+  },
+  {
+    "id": 68,
+    "complexity": "union",
+    "sql": "SELECT u1.country_code, u1.signup_date FROM users AS u1 WHERE u1.country_code = 'test' UNION SELECT u2.country_code, u2.signup_date FROM users AS u2 WHERE u2.country_code LIKE '%a%' ORDER BY country_code LIMIT 14",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "nl_prompt": "Pick out the country_code, signup_date in users that have country_code equals 'test', combined with (removing duplicates) Pick out the country_code, signup_date in users that have country_code like '%a%' ordered by country_code limited to 14 results"
+  },
+  {
+    "id": 69,
+    "complexity": "union",
+    "sql": "SELECT f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at < DATETIME('now', '-9 days') UNION SELECT f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followee_id > 209 LIMIT 36",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "nl_prompt": "choose the followed_at, followee_id out of follows filtered for followed_at less than 9 days ago, combined with (removing duplicates) choose the followed_at, followee_id out of follows filtered for followee_id greater than 209 limited to 36 results"
+  },
+  {
+    "id": 70,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.liked_at < DATETIME('now', '-2 days') UNION SELECT l2.post_id, l2.user_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 598",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "nl_prompt": "Find the post_id, user_id, liked_at from likes for which liked_at less than 2 days ago, combined with (removing duplicates) Find the post_id, user_id, liked_at from likes for which user_id equals 598"
   },
   {
     "id": 71,
     "complexity": "union",
-    "sql": "SELECT u1.id, u1.country_code, u1.signup_date, u1.email FROM users AS u1 WHERE u1.id < 11 UNION SELECT u2.id, u2.country_code, u2.signup_date, u2.email FROM users AS u2 WHERE u2.signup_date > DATETIME('now', '-25 days')",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id < 172 UNION ALL SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id = 838 ORDER BY user_id",
     "tables": [
-      "users",
-      "users"
+      "likes",
+      "likes"
     ],
-    "nl_prompt": "choose the id, country_code, signup_date, email from users for which id less than 11, combined with (removing duplicates) choose the id, country_code, signup_date, email from users for which signup_date greater than 25 days ago"
+    "nl_prompt": "choose the user_id, post_id, liked_at within likes where post_id less than 172, combined with (including duplicates) choose the user_id, post_id, liked_at within likes where user_id equals 838 ordered by user_id"
   },
   {
     "id": 72,
     "complexity": "union",
-    "sql": "SELECT u1.email, u1.is_verified, u1.id FROM users AS u1 WHERE u1.id > 256 UNION ALL SELECT u2.email, u2.is_verified, u2.id FROM users AS u2 WHERE u2.username LIKE '%c'",
+    "sql": "SELECT c1.user_id, c1.post_id FROM comments AS c1 WHERE c1.post_id > 174 UNION ALL SELECT c2.user_id, c2.post_id FROM comments AS c2 WHERE c2.created_at > DATETIME('now', '-27 days') ORDER BY user_id",
     "tables": [
-      "users",
-      "users"
+      "comments",
+      "comments"
     ],
-    "nl_prompt": "Go get the email, is_verified, id out of users looking only at id greater than 256, combined with (including duplicates) Go get the email, is_verified, id out of users looking only at username like '%c'"
+    "nl_prompt": "Go get the user_id, post_id within comments filtered for post_id greater than 174, combined with (including duplicates) Go get the user_id, post_id within comments filtered for created_at greater than 27 days ago ordered by user_id"
   },
   {
     "id": 73,
     "complexity": "union",
-    "sql": "SELECT c1.id, c1.user_id FROM comments AS c1 WHERE c1.comment_text = 'test' UNION ALL SELECT c2.id, c2.user_id FROM comments AS c2 WHERE c2.user_id = 980 ORDER BY id",
+    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.followed_at <= DATETIME('now', '-23 days') UNION ALL SELECT f2.followee_id, f2.followed_at, f2.follower_id FROM follows AS f2 WHERE f2.followed_at >= DATETIME('now', '-20 days')",
     "tables": [
-      "comments",
-      "comments"
+      "follows",
+      "follows"
     ],
-    "nl_prompt": "Dig out the id, user_id from comments for which comment_text equals 'test', combined with (including duplicates) Dig out the id, user_id from comments for which user_id equals 980 ordered by id"
+    "nl_prompt": "Dig out the followee_id, followed_at, follower_id out of follows filtered for followed_at less than or equal to 23 days ago, combined with (including duplicates) Dig out the followee_id, followed_at, follower_id out of follows filtered for followed_at greater than or equal to 20 days ago"
   },
   {
     "id": 74,
     "complexity": "union",
-    "sql": "SELECT c1.post_id, c1.id, c1.comment_text FROM comments AS c1 WHERE c1.created_at <= DATETIME('now', '-23 days') UNION SELECT c2.post_id, c2.id, c2.comment_text FROM comments AS c2 WHERE c2.post_id <= 404 LIMIT 45",
+    "sql": "SELECT f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followee_id <> 17 UNION SELECT f2.follower_id, f2.followee_id FROM follows AS f2 WHERE f2.followee_id > 521 ORDER BY follower_id",
     "tables": [
-      "comments",
-      "comments"
+      "follows",
+      "follows"
     ],
-    "nl_prompt": "Pick out the post_id, id, comment_text in comments for which created_at less than or equal to 23 days ago, combined with (removing duplicates) Pick out the post_id, id, comment_text in comments for which post_id less than or equal to 404 limited to 45 results"
+    "nl_prompt": "Pick out the follower_id, followee_id from follows that have followee_id is not equal to 17, combined with (removing duplicates) Pick out the follower_id, followee_id from follows that have followee_id greater than 521 ordered by follower_id"
   },
   {
     "id": 75,
     "complexity": "union",
-    "sql": "SELECT u1.id, u1.signup_date FROM users AS u1 WHERE u1.country_code LIKE '%a%' UNION SELECT u2.id, u2.signup_date FROM users AS u2 WHERE u2.signup_date <= DATETIME('now', '-10 days')",
+    "sql": "SELECT f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.followee_id = 411 UNION SELECT f2.followee_id, f2.follower_id FROM follows AS f2 WHERE f2.follower_id >= 173",
     "tables": [
-      "users",
-      "users"
+      "follows",
+      "follows"
     ],
-    "nl_prompt": "Run a check for the id, signup_date from users looking only at country_code like '%a%', combined with (removing duplicates) Run a check for the id, signup_date from users looking only at signup_date less than or equal to 10 days ago"
+    "nl_prompt": "Run a check for the followee_id, follower_id out of follows where followee_id equals 411, combined with (removing duplicates) Run a check for the followee_id, follower_id out of follows where follower_id greater than or equal to 173"
   },
   {
     "id": 76,
     "complexity": "union",
-    "sql": "SELECT l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.post_id <> 293 UNION ALL SELECT l2.user_id, l2.post_id FROM likes AS l2 WHERE l2.user_id <= 777",
+    "sql": "SELECT f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.follower_id = 375 UNION ALL SELECT f2.followed_at, f2.follower_id FROM follows AS f2 WHERE f2.followee_id >= 90",
     "tables": [
-      "likes",
-      "likes"
+      "follows",
+      "follows"
     ],
-    "nl_prompt": "Retrieve the user_id, post_id within likes for which post_id is not equal to 293, combined with (including duplicates) Retrieve the user_id, post_id within likes for which user_id less than or equal to 777"
+    "nl_prompt": "Retrieve the followed_at, follower_id within follows for which follower_id equals 375, combined with (including duplicates) Retrieve the followed_at, follower_id within follows for which followee_id greater than or equal to 90"
   },
   {
     "id": 77,
     "complexity": "union",
-    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.post_id <> 443 UNION SELECT l2.post_id, l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.liked_at >= DATETIME('now', '-20 days') LIMIT 15",
+    "sql": "SELECT f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followee_id <> 863 UNION ALL SELECT f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followed_at >= DATETIME('now', '-5 days')",
     "tables": [
-      "likes",
-      "likes"
+      "follows",
+      "follows"
     ],
-    "nl_prompt": "Produce a listing of the post_id, liked_at, user_id from likes looking only at post_id is not equal to 443, combined with (removing duplicates) Produce a listing of the post_id, liked_at, user_id from likes looking only at liked_at greater than or equal to 20 days ago limited to 15 results"
+    "nl_prompt": "Produce a listing of the followed_at, followee_id from follows looking only at followee_id is not equal to 863, combined with (including duplicates) Produce a listing of the followed_at, followee_id from follows looking only at followed_at greater than or equal to 5 days ago"
   },
   {
     "id": 78,
     "complexity": "union",
-    "sql": "SELECT c1.comment_text, c1.id FROM comments AS c1 WHERE c1.id < 320 UNION SELECT c2.comment_text, c2.id FROM comments AS c2 WHERE c2.post_id >= 923",
-    "tables": [
-      "comments",
-      "comments"
-    ],
-    "nl_prompt": "Pick out the comment_text, id within comments filtered for id less than 320, combined with (removing duplicates) Pick out the comment_text, id within comments filtered for post_id greater than or equal to 923"
-  },
-  {
-    "id": 79,
-    "complexity": "union",
-    "sql": "SELECT l1.liked_at, l1.post_id FROM likes AS l1 WHERE l1.liked_at > DATETIME('now', '-13 days') UNION SELECT l2.liked_at, l2.post_id FROM likes AS l2 WHERE l2.liked_at < DATETIME('now', '-7 days') LIMIT 30",
-    "tables": [
-      "likes",
-      "likes"
-    ],
-    "nl_prompt": "Display the liked_at, post_id within likes filtered for liked_at greater than 13 days ago, combined with (removing duplicates) Display the liked_at, post_id within likes filtered for liked_at less than 7 days ago limited to 30 results"
-  },
-  {
-    "id": 80,
-    "complexity": "union",
-    "sql": "SELECT u1.is_verified, u1.id, u1.email, u1.username FROM users AS u1 WHERE u1.username <> 'activity' UNION SELECT u2.is_verified, u2.id, u2.email, u2.username FROM users AS u2 WHERE u2.country_code LIKE 'b%' ORDER BY is_verified",
+    "sql": "SELECT u1.id, u1.country_code, u1.email, u1.signup_date FROM users AS u1 WHERE u1.email <> 'user19@example.com' UNION SELECT u2.id, u2.country_code, u2.email, u2.signup_date FROM users AS u2 WHERE u2.id < 884 ORDER BY id",
     "tables": [
       "users",
       "users"
     ],
-    "nl_prompt": "Retrieve the is_verified, id, email, username in users looking only at username is not equal to 'activity', combined with (removing duplicates) Retrieve the is_verified, id, email, username in users looking only at country_code like 'b%' ordered by is_verified"
+    "nl_prompt": "Pick out the id, country_code, email, signup_date from users for which email is not equal to 'user19@example.com', combined with (removing duplicates) Pick out the id, country_code, email, signup_date from users for which id less than 884 ordered by id"
+  },
+  {
+    "id": 79,
+    "complexity": "union",
+    "sql": "SELECT c1.comment_text, c1.id, c1.user_id FROM comments AS c1 WHERE c1.post_id <> 381 UNION ALL SELECT c2.comment_text, c2.id, c2.user_id FROM comments AS c2 WHERE c2.user_id <> 978 ORDER BY comment_text",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "nl_prompt": "Display the comment_text, id, user_id in comments filtered for post_id is not equal to 381, combined with (including duplicates) Display the comment_text, id, user_id in comments filtered for user_id is not equal to 978 ordered by comment_text"
+  },
+  {
+    "id": 80,
+    "complexity": "union",
+    "sql": "SELECT c1.post_id, c1.user_id, c1.created_at, c1.id FROM comments AS c1 WHERE c1.user_id = 804 UNION SELECT c2.post_id, c2.user_id, c2.created_at, c2.id FROM comments AS c2 WHERE c2.id <= 812 ORDER BY post_id",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "nl_prompt": "Retrieve the post_id, user_id, created_at, id in comments looking only at user_id equals 804, combined with (removing duplicates) Retrieve the post_id, user_id, created_at, id in comments looking only at id less than or equal to 812 ordered by post_id"
   },
   {
     "id": 81,
     "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (198, 963, 'Sample text 10', DATETIME('now'))",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (499, 430, DATETIME('now'))",
     "tables": [
-      "comments"
+      "follows"
     ],
-    "nl_prompt": "insert a new comment with user_id as 198, post_id as 963, comment_text as 'Sample text 10', created_at as the current time."
+    "nl_prompt": "insert a new follow with follower_id as 499, followee_id as 430, followed_at as the current time."
   },
   {
     "id": 82,
     "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (703, 'Sample text 10', DATETIME('now'), 759)",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user267', 'user283@example.com', DATETIME('now'), 0, 'Sample text 87')",
     "tables": [
-      "posts"
+      "users"
     ],
-    "nl_prompt": "insert a new post with user_id as 703, content as 'Sample text 10', posted_at as the current time, view_count as 759."
+    "nl_prompt": "insert a new user with username as 'user267', email as 'user283@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 87'."
   },
   {
     "id": 83,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (59, 684, DATETIME('now'))",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (852, 784, DATETIME('now'))",
     "tables": [
       "likes"
     ],
-    "nl_prompt": "insert a new like with user_id as 59, post_id as 684, liked_at as the current time."
+    "nl_prompt": "insert a new like with user_id as 852, post_id as 784, liked_at as the current time."
   },
   {
     "id": 84,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (292, 848, DATETIME('now'))",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (91, 896, DATETIME('now'))",
     "tables": [
-      "likes"
+      "follows"
     ],
-    "nl_prompt": "insert a new like with user_id as 292, post_id as 848, liked_at as the current time."
+    "nl_prompt": "insert a new follow with follower_id as 91, followee_id as 896, followed_at as the current time."
   },
   {
     "id": 85,
     "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (43, 'Sample text 87', DATETIME('now'), 234)",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (446, 'Sample text 3', DATETIME('now'), 287)",
     "tables": [
       "posts"
     ],
-    "nl_prompt": "insert a new post with user_id as 43, content as 'Sample text 87', posted_at as the current time, view_count as 234."
+    "nl_prompt": "insert a new post with user_id as 446, content as 'Sample text 3', posted_at as the current time, view_count as 287."
   },
   {
     "id": 86,
     "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (826, 'Sample text 17', DATETIME('now'), 665)",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (81, 137, DATETIME('now'))",
     "tables": [
-      "posts"
+      "likes"
     ],
-    "nl_prompt": "insert a new post with user_id as 826, content as 'Sample text 17', posted_at as the current time, view_count as 665."
+    "nl_prompt": "insert a new like with user_id as 81, post_id as 137, liked_at as the current time."
   },
   {
     "id": 87,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (436, 275, DATETIME('now'))",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (771, 911, DATETIME('now'))",
     "tables": [
-      "follows"
+      "likes"
     ],
-    "nl_prompt": "insert a new follow with follower_id as 436, followee_id as 275, followed_at as the current time."
+    "nl_prompt": "insert a new like with user_id as 771, post_id as 911, liked_at as the current time."
   },
   {
     "id": 88,
     "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user421', 'user596@example.com', DATETIME('now'), 0, 'Sample text 59')",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user745', 'user77@example.com', DATETIME('now'), 0, 'Sample text 59')",
     "tables": [
       "users"
     ],
-    "nl_prompt": "insert a new user with username as 'user421', email as 'user596@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 59'."
+    "nl_prompt": "insert a new user with username as 'user745', email as 'user77@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 59'."
   },
   {
     "id": 89,
     "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (228, 4, 'Sample text 39', DATETIME('now'))",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (434, 698, 'Sample text 95', DATETIME('now'))",
     "tables": [
       "comments"
     ],
-    "nl_prompt": "insert a new comment with user_id as 228, post_id as 4, comment_text as 'Sample text 39', created_at as the current time."
+    "nl_prompt": "insert a new comment with user_id as 434, post_id as 698, comment_text as 'Sample text 95', created_at as the current time."
   },
   {
     "id": 90,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (404, 227, DATETIME('now'))",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (453, 579, 'Sample text 10', DATETIME('now'))",
     "tables": [
-      "likes"
+      "comments"
     ],
-    "nl_prompt": "insert a new like with user_id as 404, post_id as 227, liked_at as the current time."
+    "nl_prompt": "insert a new comment with user_id as 453, post_id as 579, comment_text as 'Sample text 10', created_at as the current time."
   },
   {
     "id": 91,
     "complexity": "insert",
-    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (992, 629, DATETIME('now'))",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user248', 'user791@example.com', DATETIME('now'), 0, 'Sample text 77')",
     "tables": [
-      "likes"
+      "users"
     ],
-    "nl_prompt": "insert a new like with user_id as 992, post_id as 629, liked_at as the current time."
+    "nl_prompt": "insert a new user with username as 'user248', email as 'user791@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 77'."
   },
   {
     "id": 92,
     "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user576', 'user616@example.com', DATETIME('now'), 0, 'Sample text 4')",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (162, 297, 'Sample text 51', DATETIME('now'))",
     "tables": [
-      "users"
+      "comments"
     ],
-    "nl_prompt": "insert a new user with username as 'user576', email as 'user616@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 4'."
+    "nl_prompt": "insert a new comment with user_id as 162, post_id as 297, comment_text as 'Sample text 51', created_at as the current time."
   },
   {
     "id": 93,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (23, 969, DATETIME('now'))",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user212', 'user488@example.com', DATETIME('now'), 0, 'Sample text 99')",
     "tables": [
-      "follows"
+      "users"
     ],
-    "nl_prompt": "insert a new follow with follower_id as 23, followee_id as 969, followed_at as the current time."
+    "nl_prompt": "insert a new user with username as 'user212', email as 'user488@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 99'."
   },
   {
     "id": 94,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (643, 276, DATETIME('now'))",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user904', 'user28@example.com', DATETIME('now'), 0, 'Sample text 45')",
     "tables": [
-      "follows"
+      "users"
     ],
-    "nl_prompt": "insert a new follow with follower_id as 643, followee_id as 276, followed_at as the current time."
+    "nl_prompt": "insert a new user with username as 'user904', email as 'user28@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 45'."
   },
   {
     "id": 95,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (847, 265, DATETIME('now'))",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user29', 'user914@example.com', DATETIME('now'), 0, 'Sample text 67')",
     "tables": [
-      "follows"
+      "users"
     ],
-    "nl_prompt": "insert a new follow with follower_id as 847, followee_id as 265, followed_at as the current time."
+    "nl_prompt": "insert a new user with username as 'user29', email as 'user914@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 67'."
   },
   {
     "id": 96,
     "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (825, 544, 'Sample text 90', DATETIME('now'))",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (93, 528, 'Sample text 61', DATETIME('now'))",
     "tables": [
       "comments"
     ],
-    "nl_prompt": "insert a new comment with user_id as 825, post_id as 544, comment_text as 'Sample text 90', created_at as the current time."
+    "nl_prompt": "insert a new comment with user_id as 93, post_id as 528, comment_text as 'Sample text 61', created_at as the current time."
   },
   {
     "id": 97,
     "complexity": "insert",
-    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user387', 'user319@example.com', DATETIME('now'), 0, 'Sample text 68')",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (515, 83, DATETIME('now'))",
     "tables": [
-      "users"
+      "follows"
     ],
-    "nl_prompt": "insert a new user with username as 'user387', email as 'user319@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 68'."
+    "nl_prompt": "insert a new follow with follower_id as 515, followee_id as 83, followed_at as the current time."
   },
   {
     "id": 98,
     "complexity": "insert",
-    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (404, 816, 'Sample text 93', DATETIME('now'))",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user833', 'user435@example.com', DATETIME('now'), 0, 'Sample text 59')",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "insert a new comment with user_id as 404, post_id as 816, comment_text as 'Sample text 93', created_at as the current time."
+    "nl_prompt": "insert a new user with username as 'user833', email as 'user435@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 59'."
   },
   {
     "id": 99,
     "complexity": "insert",
-    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (962, 'Sample text 24', DATETIME('now'), 389)",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (652, 653, 'Sample text 94', DATETIME('now'))",
     "tables": [
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "insert a new post with user_id as 962, content as 'Sample text 24', posted_at as the current time, view_count as 389."
+    "nl_prompt": "insert a new comment with user_id as 652, post_id as 653, comment_text as 'Sample text 94', created_at as the current time."
   },
   {
     "id": 100,
     "complexity": "insert",
-    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (92, 432, DATETIME('now'))",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (409, 'Sample text 20', DATETIME('now'), 22)",
     "tables": [
-      "follows"
+      "posts"
     ],
-    "nl_prompt": "insert a new follow with follower_id as 92, followee_id as 432, followed_at as the current time."
+    "nl_prompt": "insert a new post with user_id as 409, content as 'Sample text 20', posted_at as the current time, view_count as 22."
   },
   {
     "id": 101,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id <= 349",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.created_at >= DATETIME('now', '-9 days')",
     "tables": [
-      "likes"
+      "comments"
     ],
-    "nl_prompt": "update liked_at to the current time for the like where likes.user_id less than or equal to 349"
+    "nl_prompt": "update created_at to the current time for the comment where comments.created_at greater than or equal to 9 days ago"
   },
   {
     "id": 102,
     "complexity": "update",
-    "sql": "UPDATE users SET is_verified = 0 WHERE users.email = 'user73@example.com'",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at <= DATETIME('now', '-21 days')",
     "tables": [
-      "users"
+      "likes"
     ],
-    "nl_prompt": "update is_verified to 0 for the user where users.email equals 'user73@example.com'"
+    "nl_prompt": "update liked_at to the current time for the like where likes.liked_at less than or equal to 21 days ago"
   },
   {
     "id": 103,
     "complexity": "update",
-    "sql": "UPDATE users SET is_verified = 1 WHERE users.id = 625",
+    "sql": "UPDATE posts SET content = 'Updated text 77' WHERE posts.id <= 527",
     "tables": [
-      "users"
+      "posts"
     ],
-    "nl_prompt": "update is_verified to 1 for the user where users.id equals 625"
+    "nl_prompt": "update content to 'Updated text 77' for the post where posts.id less than or equal to 527"
   },
   {
     "id": 104,
     "complexity": "update",
-    "sql": "UPDATE posts SET content = 'Updated text 51' WHERE posts.posted_at < DATETIME('now', '-18 days')",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 95' WHERE comments.user_id >= 289",
     "tables": [
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "update content to 'Updated text 51' for the post where posts.posted_at less than 18 days ago"
+    "nl_prompt": "update comment_text to 'Updated text 95' for the comment where comments.user_id greater than or equal to 289"
   },
   {
     "id": 105,
     "complexity": "update",
-    "sql": "UPDATE posts SET content = 'Updated text 38' WHERE posts.posted_at >= DATETIME('now', '-22 days')",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id = 442",
     "tables": [
-      "posts"
+      "likes"
     ],
-    "nl_prompt": "update content to 'Updated text 38' for the post where posts.posted_at greater than or equal to 22 days ago"
+    "nl_prompt": "update liked_at to the current time for the like where likes.post_id equals 442"
   },
   {
     "id": 106,
     "complexity": "update",
-    "sql": "UPDATE posts SET view_count = 294 WHERE posts.user_id >= 416",
+    "sql": "UPDATE users SET country_code = 'Updated text 94' WHERE users.is_verified = 0",
     "tables": [
-      "posts"
+      "users"
     ],
-    "nl_prompt": "update view_count to 294 for the post where posts.user_id greater than or equal to 416"
+    "nl_prompt": "update country_code to 'Updated text 94' for the user where users.is_verified equals 0"
   },
   {
     "id": 107,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.id <> 134",
+    "sql": "UPDATE users SET country_code = 'Updated text 92' WHERE users.email = 'user80@example.com'",
     "tables": [
       "users"
     ],
-    "nl_prompt": "update signup_date to the current time for the user where users.id is not equal to 134"
+    "nl_prompt": "update country_code to 'Updated text 92' for the user where users.email equals 'user80@example.com'"
   },
   {
     "id": 108,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.signup_date <= DATETIME('now', '-9 days')",
+    "sql": "UPDATE comments SET post_id = 455 WHERE comments.id = 262",
     "tables": [
-      "users"
+      "comments"
     ],
-    "nl_prompt": "update signup_date to the current time for the user where users.signup_date less than or equal to 9 days ago"
+    "nl_prompt": "update post_id to 455 for the comment where comments.id equals 262"
   },
   {
     "id": 109,
     "complexity": "update",
-    "sql": "UPDATE users SET country_code = 'Updated text 49' WHERE users.signup_date >= DATETIME('now', '-7 days')",
+    "sql": "UPDATE comments SET post_id = 750 WHERE comments.user_id < 623",
     "tables": [
-      "users"
+      "comments"
     ],
-    "nl_prompt": "update country_code to 'Updated text 49' for the user where users.signup_date greater than or equal to 7 days ago"
+    "nl_prompt": "update post_id to 750 for the comment where comments.user_id less than 623"
   },
   {
     "id": 110,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.signup_date > DATETIME('now', '-30 days')",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id = 346",
     "tables": [
-      "users"
+      "follows"
     ],
-    "nl_prompt": "update signup_date to the current time for the user where users.signup_date greater than 30 days ago"
+    "nl_prompt": "update followed_at to the current time for the follow where follows.followee_id equals 346"
   },
   {
     "id": 111,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.id >= 391",
+    "sql": "UPDATE users SET country_code = 'Updated text 76' WHERE users.email = 'user99@example.com'",
     "tables": [
       "users"
     ],
-    "nl_prompt": "update signup_date to the current time for the user where users.id greater than or equal to 391"
+    "nl_prompt": "update country_code to 'Updated text 76' for the user where users.email equals 'user99@example.com'"
   },
   {
     "id": 112,
     "complexity": "update",
-    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.follower_id <> 533",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id = 335",
     "tables": [
       "follows"
     ],
-    "nl_prompt": "update followed_at to the current time for the follow where follows.follower_id is not equal to 533"
+    "nl_prompt": "update followed_at to the current time for the follow where follows.followee_id equals 335"
   },
   {
     "id": 113,
     "complexity": "update",
-    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id = 186",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at < DATETIME('now', '-27 days')",
     "tables": [
-      "follows"
+      "likes"
     ],
-    "nl_prompt": "update followed_at to the current time for the follow where follows.followee_id equals 186"
+    "nl_prompt": "update liked_at to the current time for the like where likes.liked_at less than 27 days ago"
   },
   {
     "id": 114,
     "complexity": "update",
-    "sql": "UPDATE users SET username = 'Updated text 86' WHERE users.id <= 187",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.user_id < 961",
     "tables": [
-      "users"
+      "comments"
     ],
-    "nl_prompt": "update username to 'Updated text 86' for the user where users.id less than or equal to 187"
+    "nl_prompt": "update created_at to the current time for the comment where comments.user_id less than 961"
   },
   {
     "id": 115,
     "complexity": "update",
-    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id <> 694",
+    "sql": "UPDATE comments SET post_id = 889 WHERE comments.id > 921",
     "tables": [
-      "likes"
+      "comments"
     ],
-    "nl_prompt": "update liked_at to the current time for the like where likes.post_id is not equal to 694"
+    "nl_prompt": "update post_id to 889 for the comment where comments.id greater than 921"
   },
   {
     "id": 116,
     "complexity": "update",
-    "sql": "UPDATE comments SET user_id = 951 WHERE comments.post_id > 551",
+    "sql": "UPDATE users SET is_verified = 0 WHERE users.username LIKE '%a%'",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "update user_id to 951 for the comment where comments.post_id greater than 551"
+    "nl_prompt": "update is_verified to 0 for the user where users.username like '%a%'"
   },
   {
     "id": 117,
     "complexity": "update",
-    "sql": "UPDATE posts SET posted_at = DATETIME('now') WHERE posts.user_id < 533",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 91' WHERE comments.user_id >= 673",
     "tables": [
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "update posted_at to the current time for the post where posts.user_id less than 533"
+    "nl_prompt": "update comment_text to 'Updated text 91' for the comment where comments.user_id greater than or equal to 673"
   },
   {
     "id": 118,
     "complexity": "update",
-    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.is_verified = 1",
+    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.signup_date >= DATETIME('now', '-26 days')",
     "tables": [
       "users"
     ],
-    "nl_prompt": "update signup_date to the current time for the user where users.is_verified equals 1"
+    "nl_prompt": "update signup_date to the current time for the user where users.signup_date greater than or equal to 26 days ago"
   },
   {
     "id": 119,
     "complexity": "update",
-    "sql": "UPDATE posts SET view_count = 820 WHERE posts.user_id >= 129",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id >= 695",
     "tables": [
-      "posts"
+      "likes"
     ],
-    "nl_prompt": "update view_count to 820 for the post where posts.user_id greater than or equal to 129"
+    "nl_prompt": "update liked_at to the current time for the like where likes.user_id greater than or equal to 695"
   },
   {
     "id": 120,
     "complexity": "update",
-    "sql": "UPDATE users SET username = 'Updated text 89' WHERE users.username <> 'admin'",
+    "sql": "UPDATE users SET country_code = 'Updated text 52' WHERE users.signup_date > DATETIME('now', '-15 days')",
     "tables": [
       "users"
     ],
-    "nl_prompt": "update username to 'Updated text 89' for the user where users.username is not equal to 'admin'"
+    "nl_prompt": "update country_code to 'Updated text 52' for the user where users.signup_date greater than 15 days ago"
   },
   {
     "id": 121,
     "complexity": "delete",
-    "sql": "DELETE FROM posts WHERE posts.posted_at >= DATETIME('now', '-9 days')",
+    "sql": "DELETE FROM follows WHERE follows.follower_id = 67",
     "tables": [
-      "posts"
+      "follows"
     ],
-    "nl_prompt": "delete posts where posts.posted_at greater than or equal to 9 days ago"
+    "nl_prompt": "delete follows where follows.follower_id equals 67"
   },
   {
     "id": 122,
     "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.followed_at >= DATETIME('now', '-17 days')",
+    "sql": "DELETE FROM follows WHERE follows.followee_id > 876",
     "tables": [
       "follows"
     ],
-    "nl_prompt": "delete follows where follows.followed_at greater than or equal to 17 days ago"
+    "nl_prompt": "delete follows where follows.followee_id greater than 876"
   },
   {
     "id": 123,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.signup_date > DATETIME('now', '-13 days')",
+    "sql": "DELETE FROM likes WHERE likes.user_id > 864",
     "tables": [
-      "users"
+      "likes"
     ],
-    "nl_prompt": "delete users where users.signup_date greater than 13 days ago"
+    "nl_prompt": "delete likes where likes.user_id greater than 864"
   },
   {
     "id": 124,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.email <> 'user79@example.com'",
+    "sql": "DELETE FROM likes WHERE likes.user_id >= 176",
     "tables": [
-      "users"
+      "likes"
     ],
-    "nl_prompt": "delete users where users.email is not equal to 'user79@example.com'"
+    "nl_prompt": "delete likes where likes.user_id greater than or equal to 176"
   },
   {
     "id": 125,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.user_id > 349",
+    "tables": [
+      "likes"
+    ],
+    "nl_prompt": "delete likes where likes.user_id greater than 349"
+  },
+  {
+    "id": 126,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.post_id <> 394",
+    "tables": [
+      "comments"
+    ],
+    "nl_prompt": "delete comments where comments.post_id is not equal to 394"
+  },
+  {
+    "id": 127,
     "complexity": "delete",
     "sql": "DELETE FROM users WHERE users.is_verified = 0",
     "tables": [
@@ -1180,138 +1196,120 @@
     "nl_prompt": "delete users where users.is_verified equals 0"
   },
   {
-    "id": 126,
+    "id": 128,
     "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.followed_at < DATETIME('now', '-28 days')",
+    "sql": "DELETE FROM follows WHERE follows.followee_id <= 149",
     "tables": [
       "follows"
     ],
-    "nl_prompt": "delete follows where follows.followed_at less than 28 days ago"
-  },
-  {
-    "id": 127,
-    "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.liked_at >= DATETIME('now', '-25 days')",
-    "tables": [
-      "likes"
-    ],
-    "nl_prompt": "delete likes where likes.liked_at greater than or equal to 25 days ago"
-  },
-  {
-    "id": 128,
-    "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.country_code LIKE '%c'",
-    "tables": [
-      "users"
-    ],
-    "nl_prompt": "delete users where users.country_code like '%c'"
+    "nl_prompt": "delete follows where follows.followee_id less than or equal to 149"
   },
   {
     "id": 129,
     "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.id > 725",
+    "sql": "DELETE FROM likes WHERE likes.post_id > 286",
     "tables": [
-      "comments"
+      "likes"
     ],
-    "nl_prompt": "delete comments where comments.id greater than 725"
+    "nl_prompt": "delete likes where likes.post_id greater than 286"
   },
   {
     "id": 130,
     "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.created_at >= DATETIME('now', '-25 days')",
+    "sql": "DELETE FROM users WHERE users.email = 'user76@example.com'",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "delete comments where comments.created_at greater than or equal to 25 days ago"
+    "nl_prompt": "delete users where users.email equals 'user76@example.com'"
   },
   {
     "id": 131,
     "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.followee_id = 582",
+    "sql": "DELETE FROM posts WHERE posts.content <> 'activity'",
     "tables": [
-      "follows"
+      "posts"
     ],
-    "nl_prompt": "delete follows where follows.followee_id equals 582"
+    "nl_prompt": "delete posts where posts.content is not equal to 'activity'"
   },
   {
     "id": 132,
     "complexity": "delete",
-    "sql": "DELETE FROM posts WHERE posts.content LIKE 'b%'",
+    "sql": "DELETE FROM comments WHERE comments.post_id >= 778",
     "tables": [
-      "posts"
+      "comments"
     ],
-    "nl_prompt": "delete posts where posts.content like 'b%'"
+    "nl_prompt": "delete comments where comments.post_id greater than or equal to 778"
   },
   {
     "id": 133,
     "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.user_id >= 376",
+    "sql": "DELETE FROM posts WHERE posts.id <> 360",
     "tables": [
-      "likes"
+      "posts"
     ],
-    "nl_prompt": "delete likes where likes.user_id greater than or equal to 376"
+    "nl_prompt": "delete posts where posts.id is not equal to 360"
   },
   {
     "id": 134,
     "complexity": "delete",
-    "sql": "DELETE FROM follows WHERE follows.follower_id > 275",
+    "sql": "DELETE FROM users WHERE users.signup_date < DATETIME('now', '-21 days')",
     "tables": [
-      "follows"
+      "users"
     ],
-    "nl_prompt": "delete follows where follows.follower_id greater than 275"
+    "nl_prompt": "delete users where users.signup_date less than 21 days ago"
   },
   {
     "id": 135,
     "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.post_id > 306",
+    "sql": "DELETE FROM users WHERE users.is_verified = 1",
     "tables": [
-      "likes"
+      "users"
     ],
-    "nl_prompt": "delete likes where likes.post_id greater than 306"
+    "nl_prompt": "delete users where users.is_verified equals 1"
   },
   {
     "id": 136,
     "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.user_id > 65",
+    "sql": "DELETE FROM likes WHERE likes.post_id >= 445",
     "tables": [
-      "comments"
+      "likes"
     ],
-    "nl_prompt": "delete comments where comments.user_id greater than 65"
+    "nl_prompt": "delete likes where likes.post_id greater than or equal to 445"
   },
   {
     "id": 137,
     "complexity": "delete",
-    "sql": "DELETE FROM likes WHERE likes.user_id < 532",
+    "sql": "DELETE FROM users WHERE users.email = 'user24@example.com'",
     "tables": [
-      "likes"
+      "users"
     ],
-    "nl_prompt": "delete likes where likes.user_id less than 532"
+    "nl_prompt": "delete users where users.email equals 'user24@example.com'"
   },
   {
     "id": 138,
     "complexity": "delete",
-    "sql": "DELETE FROM users WHERE users.email = 'user64@example.com'",
+    "sql": "DELETE FROM users WHERE users.id <= 810",
     "tables": [
       "users"
     ],
-    "nl_prompt": "delete users where users.email equals 'user64@example.com'"
+    "nl_prompt": "delete users where users.id less than or equal to 810"
   },
   {
     "id": 139,
     "complexity": "delete",
-    "sql": "DELETE FROM comments WHERE comments.user_id > 875",
+    "sql": "DELETE FROM users WHERE users.username LIKE 'b%'",
     "tables": [
-      "comments"
+      "users"
     ],
-    "nl_prompt": "delete comments where comments.user_id greater than 875"
+    "nl_prompt": "delete users where users.username like 'b%'"
   },
   {
     "id": 140,
     "complexity": "delete",
-    "sql": "DELETE FROM posts WHERE posts.view_count > 490",
+    "sql": "DELETE FROM likes WHERE likes.liked_at >= DATETIME('now', '-20 days')",
     "tables": [
-      "posts"
+      "likes"
     ],
-    "nl_prompt": "delete posts where posts.view_count greater than 490"
+    "nl_prompt": "delete likes where likes.liked_at greater than or equal to 20 days ago"
   }
 ]
