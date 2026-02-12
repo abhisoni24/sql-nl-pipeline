@@ -120,6 +120,19 @@ class SQLToNLRenderer:
             "lte": ["at most", "maximum of", "no more than"]
         }
 
+        # Bug 2 Fix: Temporal-safe operator variants (semantically correct for date comparisons)
+        self.temporal_op_variations = {
+            "gt":  ["more recent than", "after", "since"],           # > date = newer
+            "lt":  ["earlier than", "before", "prior to"],           # < date = older
+            "gte": ["on or after", "starting from", "from"],         # >= date = newer inclusive
+            "lte": ["on or before", "up to", "through"],             # <= date = older inclusive
+        }
+        # Temporal ops that need a directional suffix (e.g., "from X ago" -> "from X ago onwards")
+        self.temporal_op_suffixes = {
+            "from": "onwards",
+            "starting from": "onwards",
+        }
+
         self.agg_variations = {
             "COUNT": ["total number of", "how many", "count of", "number of"],
             "SUM": ["total", "sum of", "add up"],
@@ -214,6 +227,17 @@ class SQLToNLRenderer:
         self._mentions = set()
         self._recent_mentions = [] 
         self._use_pronouns = self.config.is_active(PerturbationType.AMBIGUOUS_PRONOUNS)
+
+        # Bug 4 Fix: Detect self-joins (same table name appears 2+ times)
+        # In self-joins, pronouns are impossible to resolve
+        self._is_self_join = False
+        if self._use_pronouns:
+            table_names = []
+            for t in ast.find_all(exp.Table):
+                tname = t.name.lower() if hasattr(t, 'name') else ''
+                if tname and not tname.startswith('inner_') and tname != 'derived_table':
+                    table_names.append(tname)
+            self._is_self_join = len(table_names) != len(set(table_names))
         
         if isinstance(ast, exp.Select):
             base_nl = self.render_select(ast)
@@ -248,15 +272,24 @@ class SQLToNLRenderer:
         if self.config.is_active(PerturbationType.TYPOS):
             words = base_nl.split()
             if words:
-                # Try long words first, then any word
-                targets = [i for i, w in enumerate(words) if len(w) > 3]
-                idx = self._rng.choice(targets) if targets else self._rng.randint(0, len(words) - 1)
-                word = words[idx]
-                if len(word) >= 2:
-                    char_idx = self._rng.randint(0, len(word) - 2)
-                    word_list = list(word)
-                    word_list[char_idx], word_list[char_idx+1] = word_list[char_idx+1], word_list[char_idx]
-                    words[idx] = "".join(word_list)
+                # Target ~30% of words for typos
+                num_typos = max(1, int(len(words) * 0.3))
+                
+                # Get indices of words amenable to typos (len >= 2)
+                candidates = [i for i, w in enumerate(words) if len(w) >= 2]
+                
+                if candidates:
+                    # Sample up to num_typos indices
+                    targets = self._rng.sample(candidates, min(len(candidates), num_typos))
+                    
+                    for idx in targets:
+                        word = words[idx]
+                        if len(word) >= 2:
+                            char_idx = self._rng.randint(0, len(word) - 2)
+                            word_list = list(word)
+                            word_list[char_idx], word_list[char_idx+1] = word_list[char_idx+1], word_list[char_idx]
+                            words[idx] = "".join(word_list)
+                    
                     base_nl = " ".join(words)
 
         # ID 7: Comments (Meta-comments only, no semantic drift)
@@ -567,27 +600,50 @@ class SQLToNLRenderer:
         if isinstance(expr, (exp.GT, exp.LT, exp.GTE, exp.LTE, exp.EQ, exp.NEQ)):
             left = self._render_expression(expr.left, context+'_l')
             right = self._render_expression(expr.right, context+'_r')
+
+            # Detect if right-hand side is a temporal phrase
+            # Self-contained temporal phrases already encode the comparison direction
+            self_contained_temporal = ["within the last", "in the past", "older than", "over the last"]
+            is_self_contained = any(t in right for t in self_contained_temporal)
+            # "ago" and "from now" need an operator to be meaningful
+            has_temporal_anchor = "ago" in right or "from now" in right
+
             if self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
-                return f"{left} {op_template} {right}"
+                if is_self_contained:
+                    # Right side already encodes direction (e.g., "within the last 22 days")
+                    # Drop the operator entirely — it would create Grammar Salad
+                    return f"{left} {right}"
+                elif has_temporal_anchor:
+                    # Right side is "22 days ago" — use temporal-safe operators WITH the anchor
+                    temporal_ops = self.temporal_op_variations.get(expr.key)
+                    if temporal_ops:
+                        temporal_op = self._rng.choice(temporal_ops)
+                        # Bug 5 Fix: Append directional suffix if needed (e.g., "from" -> "from ... onwards")
+                        suffix = self.temporal_op_suffixes.get(temporal_op, "")
+                        suffix_str = f" {suffix}" if suffix else ""
+                        return f"{left} {temporal_op} {right}{suffix_str}"
+                    op_str = self.operators.get(expr.key, expr.key)
+                    return f"{left} {op_str} {right}"
+                else:
+                    # Non-temporal context — safe to use generic operator variation
+                    return f"{left} {op_template} {right}"
             else:
-                # Bug 2 Fix & Bug 5 Fix: Handle Temporal Comparisons (Date Logic)
-                # Check if right side was rendered as a date expression (contains "ago" or "from now")
-                # and operator is GT/LT/GTE/LTE.
-                
-                # Check for "greater than ... ago" -> "within the last ..."
+                # No operator variation active
+                if is_self_contained:
+                    # Temporal phrase already encodes direction — drop the operator
+                    return f"{left} {right}"
+
+                # Legacy date-logic rendering for "X ago" format
                 if expr.key in ('gt', 'gte'):
                     if "ago" in right and "within" not in right: 
-                         # e.g. "created_at > 25 days ago" -> "created_at within the last 25 days"
                          parts = right.split(" ")
                          if len(parts) >= 2:
                              duration = " ".join(parts[:-1]) # drop "ago"
                              suffix = " inclusive" if expr.key == 'gte' else ""
                              return f"{left} within the last {duration}{suffix}"
                 
-                # Check for "less than ... ago" -> "older than ..."
                 if expr.key in ('lt', 'lte'):
                     if "ago" in right:
-                         # e.g. "created_at < 25 days ago" -> "created_at older than 25 days"
                          parts = right.split(" ")
                          if len(parts) >= 2:
                              duration = " ".join(parts[:-1])
@@ -738,7 +794,7 @@ class SQLToNLRenderer:
         pronoun = self._rng.choice(pronoun_options)
         
         entity_key = ('table', table_name.lower())
-        if self._use_pronouns and entity_key in self._mentions and not self._is_technical_alias(table_name):
+        if self._use_pronouns and not self._is_self_join and entity_key in self._mentions and not self._is_technical_alias(table_name):
              if self._ambig_pronoun_count == 0 and use_pron:
                  self._ambig_pronoun_count += 1
                  return pronoun
@@ -775,8 +831,10 @@ class SQLToNLRenderer:
         pronoun = self._rng.choice(pronoun_options)
         
         entity_key = ('column', col_name.lower())
-        if self._use_pronouns and entity_key in self._mentions and not self._is_technical_alias(col_name):
-             if self._ambig_pronoun_count == 0 and use_pron:
+        if self._use_pronouns and not self._is_self_join and entity_key in self._mentions and not self._is_technical_alias(col_name):
+             # Bug 3 Fix: Only substitute if there is exactly ONE prior column mention (unambiguous antecedent)
+             prior_columns = [m for m in self._mentions if m[0] == 'column']
+             if len(prior_columns) == 1 and self._ambig_pronoun_count == 0 and use_pron:
                  self._ambig_pronoun_count += 1
                  return pronoun
         
@@ -997,7 +1055,7 @@ class SQLToNLRenderer:
                     unit_str = unit if value == '1' else f"{unit}s"
                     if sign == '-':
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"since {value} {unit_str} ago"])
+                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"over the last {value} {unit_str}"])
                         return f"{value} {unit_str} ago"
                     else: 
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
@@ -1037,7 +1095,7 @@ class SQLToNLRenderer:
                     unit_str = unit if value == '1' else f"{unit}s"
                     if sign == '-':
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"since {value} {unit_str} ago"])
+                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"over the last {value} {unit_str}"])
                         return f"{value} {unit_str} ago"
                     else: 
                         if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
