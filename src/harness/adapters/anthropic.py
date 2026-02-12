@@ -19,7 +19,7 @@ class AnthropicAdapter(BaseModelAdapter):
             raise ImportError("anthropic package is required for AnthropicAdapter")
 
         self._model_name = model_name
-        self.api_key = os.getenv("CLAUDE_API_KEY")
+        self.api_key = os.getenv("CLAUDE_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
         if not self.api_key:
             raise ValueError("CLAUDE_API_KEY not found in environment.")
         # Sanitize key

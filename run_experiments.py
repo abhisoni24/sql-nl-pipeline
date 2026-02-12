@@ -78,12 +78,12 @@ def main():
     # 4. Determine Models to Run
     # Default list, can be modified via script args in future
     models_to_run = [
-        'gemini-2.5-flash-lite' 
-        'gpt-4o',
-        'claude-4.5',
-        'local-qwen3-coder-30b-a3b',
-        'llama3.1-8b',
-        'deepseek-coder-v2-lite'
+        # 'gemini-2.5-flash-lite' 
+        # 'gpt-4o',
+        'claude-4.5'
+        # 'local-qwen3-coder-30b-a3b',
+        # 'llama3.1-8b',
+        # 'deepseek-coder-v2-lite'
     ]
     
     print(f"🎯 Targeted Models: {models_to_run}")

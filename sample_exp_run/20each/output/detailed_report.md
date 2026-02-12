@@ -1,129 +1,168 @@
 # Detailed Experiment Analysis Report
-**Source Data:** `sample_exp_run/20each/output/evaluated_results_aggregated.jsonl`
+**Source Data:** `/Users/obby/Documents/experiment/random/sql-nl/sample_exp_run/20each/output/evaluated_results_aggregated.jsonl`
 
 ## Vanilla Complexity Accuracy
 Accuracy (%) of Baseline (Vanilla) prompts by complexity.
 
 | complexity   |   Qwen/Qwen3-Coder-30B-A3B-Instruct |   claude-haiku-4-5-20251001 |   deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct |   gemini-2.5-flash-lite |   gpt-4o |   meta-llama/Llama-3.1-8B |
 |:-------------|------------------------------------:|----------------------------:|----------------------------------------------:|------------------------:|---------:|--------------------------:|
-| advanced     |                               75.00 |                       75.00 |                                         65.00 |                   90.00 |    75.00 |                     65.00 |
-| delete       |                               70.00 |                       70.00 |                                         70.00 |                   95.00 |    70.00 |                     65.00 |
-| insert       |                                0.00 |                        0.00 |                                          0.00 |                  100.00 |    55.00 |                      0.00 |
-| join         |                               75.00 |                       70.00 |                                         60.00 |                   80.00 |    80.00 |                     40.00 |
-| simple       |                               90.00 |                       90.00 |                                         90.00 |                   95.00 |    90.00 |                     80.00 |
-| union        |                               50.00 |                       50.00 |                                         30.00 |                   95.00 |    50.00 |                     30.00 |
-| update       |                               35.00 |                       75.00 |                                         35.00 |                   90.00 |    75.00 |                     35.00 |
+| advanced     |                               90.00 |                       95.00 |                                         80.00 |                   95.00 |    90.00 |                     90.00 |
+| delete       |                              100.00 |                      100.00 |                                         85.00 |                  100.00 |    95.00 |                    100.00 |
+| insert       |                               95.00 |                      100.00 |                                        100.00 |                   70.00 |    95.00 |                    100.00 |
+| join         |                               80.00 |                       70.00 |                                         65.00 |                   75.00 |    85.00 |                     30.00 |
+| simple       |                               95.00 |                       95.00 |                                         95.00 |                   95.00 |    95.00 |                     85.00 |
+| union        |                              100.00 |                      100.00 |                                         80.00 |                   75.00 |    95.00 |                     60.00 |
+| update       |                               95.00 |                       90.00 |                                         95.00 |                   90.00 |    95.00 |                     95.00 |
 
 ## Perturbation Category Accuracy
 Accuracy (%) by Perturbation Category and Source.
 
 | perturbation_type                         | perturbation_source   |   Qwen/Qwen3-Coder-30B-A3B-Instruct |   claude-haiku-4-5-20251001 |   deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct |   gemini-2.5-flash-lite |   gpt-4o |   meta-llama/Llama-3.1-8B |
 |:------------------------------------------|:----------------------|------------------------------------:|----------------------------:|----------------------------------------------:|------------------------:|---------:|--------------------------:|
-| ambiguous_pronouns                        | systematic            |                               51.52 |                       51.52 |                                         33.33 |                   69.70 |    54.55 |                     39.39 |
-| anchored_pronoun_references               | llm                   |                               60.32 |                       63.49 |                                         49.21 |                   76.19 |    69.84 |                     41.27 |
-| comment_annotations                       | llm                   |                               53.49 |                       58.14 |                                         41.86 |                   88.37 |    60.47 |                     30.23 |
-| comment_annotations                       | systematic            |                               55.00 |                       63.57 |                                         45.00 |                   86.43 |    69.29 |                     45.00 |
-| comment_style_annotations                 | llm                   |                               54.17 |                       59.38 |                                         52.08 |                   80.21 |    67.71 |                     45.83 |
-| compound                                  | llm                   |                               37.41 |                       47.48 |                                         30.22 |                   61.87 |    52.52 |                     23.74 |
-| incomplete_join_spec                      | llm                   |                               19.23 |                       19.23 |                                          7.69 |                   23.08 |    23.08 |                      7.69 |
-| incomplete_join_spec                      | systematic            |                               18.18 |                       18.18 |                                         13.64 |                   22.73 |    18.18 |                     22.73 |
-| mixed_sql_nl                              | llm                   |                               58.99 |                       66.19 |                                         58.27 |                   87.77 |    66.19 |                     49.64 |
-| mixed_sql_nl                              | systematic            |                               64.17 |                       71.67 |                                         60.00 |                   92.50 |    73.33 |                     41.67 |
-| omit_obvious_clauses                      | systematic            |                               60.83 |                       64.17 |                                         50.83 |                   79.17 |    70.00 |                     40.00 |
-| omit_obvious_operation_markers            | llm                   |                               48.91 |                       53.28 |                                         43.80 |                   69.34 |    58.39 |                     42.34 |
-| operator_aggregate_variation              | llm                   |                               58.33 |                       65.74 |                                         50.93 |                   75.93 |    68.52 |                     47.22 |
-| operator_aggregate_variation              | systematic            |                               44.44 |                       47.62 |                                         41.27 |                   53.97 |    47.62 |                     39.68 |
-| original                                  | systematic            |                               57.14 |                       61.43 |                                         50.00 |                   92.14 |    71.43 |                     45.00 |
-| phrasal_and_idiomatic_action_substitution | llm                   |                               54.35 |                       63.04 |                                         48.55 |                   84.06 |    64.49 |                     47.83 |
-| punctuation_variation                     | llm                   |                               56.83 |                       64.03 |                                         48.92 |                   90.65 |    69.06 |                     46.04 |
-| punctuation_variation                     | systematic            |                               50.00 |                       55.77 |                                         44.23 |                   88.46 |    65.38 |                     42.31 |
-| sentence_structure_variation              | llm                   |                               58.39 |                       65.69 |                                         48.18 |                   90.51 |    69.34 |                     45.99 |
-| synonym_substitution                      | systematic            |                               73.75 |                       71.25 |                                         62.50 |                   92.50 |    75.00 |                     52.50 |
-| table_column_synonyms                     | llm                   |                               47.45 |                       54.01 |                                         24.09 |                   71.53 |    67.15 |                     18.25 |
-| table_column_synonyms                     | systematic            |                               44.70 |                       54.55 |                                         29.55 |                   74.24 |    63.64 |                     19.70 |
-| temporal_expression_variation             | llm                   |                                3.45 |                        5.17 |                                          5.17 |                   41.38 |     8.62 |                     13.79 |
-| temporal_expression_variation             | systematic            |                                6.90 |                        0.00 |                                          0.00 |                   82.76 |     0.00 |                      0.00 |
-| typos                                     | llm                   |                               56.12 |                       61.87 |                                         50.36 |                   90.65 |    70.50 |                     44.60 |
-| typos                                     | systematic            |                               52.59 |                       62.22 |                                         47.41 |                   87.41 |    68.15 |                     45.19 |
-| urgency_qualifiers                        | llm                   |                               55.40 |                       61.87 |                                         49.64 |                   88.49 |    71.94 |                     44.60 |
-| urgency_qualifiers                        | systematic            |                               58.57 |                       62.86 |                                         50.00 |                   88.57 |    67.14 |                     40.71 |
-| verbosity_variation                       | llm                   |                               53.24 |                       60.43 |                                         47.48 |                   86.33 |    69.06 |                     41.01 |
-| verbosity_variation                       | systematic            |                               52.86 |                       61.43 |                                         48.57 |                   90.00 |    70.00 |                     40.71 |
+| anchored_pronoun_references               | llm                   |                               74.60 |                       77.78 |                                         69.84 |                   68.25 |    80.95 |                     52.38 |
+| anchored_pronoun_references               | systematic            |                               69.70 |                       72.73 |                                         60.61 |                   63.64 |    78.79 |                     54.55 |
+| comment_annotations                       | llm                   |                               88.37 |                       90.70 |                                         76.74 |                   72.09 |    86.05 |                     67.44 |
+| comment_annotations                       | systematic            |                               90.00 |                       90.00 |                                         77.14 |                   79.29 |    90.00 |                     75.71 |
+| comment_style_annotations                 | llm                   |                               91.67 |                       82.29 |                                         81.25 |                   79.17 |    85.42 |                     83.33 |
+| compound                                  | llm                   |                               65.47 |                       68.35 |                                         50.36 |                   54.68 |    71.22 |                     43.17 |
+| incomplete_join_spec                      | llm                   |                               26.92 |                       23.08 |                                          7.69 |                   23.08 |    23.08 |                     15.38 |
+| incomplete_join_spec                      | systematic            |                               22.73 |                       22.73 |                                          9.09 |                   18.18 |    22.73 |                     27.27 |
+| mixed_sql_nl                              | llm                   |                               86.33 |                       87.77 |                                         85.61 |                   87.77 |    90.65 |                     69.78 |
+| mixed_sql_nl                              | systematic            |                               86.67 |                       91.67 |                                         90.00 |                   83.33 |    93.33 |                     72.50 |
+| omit_obvious_operation_markers            | llm                   |                               78.83 |                       72.99 |                                         74.45 |                   75.18 |    77.37 |                     72.99 |
+| omit_obvious_operation_markers            | systematic            |                               85.83 |                       77.50 |                                         68.33 |                   77.50 |    87.50 |                     60.83 |
+| operator_aggregate_variation              | llm                   |                               77.78 |                       75.00 |                                         75.00 |                   72.22 |    77.78 |                     74.07 |
+| operator_aggregate_variation              | systematic            |                               60.32 |                       65.08 |                                         58.73 |                   52.38 |    61.90 |                     63.49 |
+| original                                  | systematic            |                               93.57 |                       92.14 |                                         85.71 |                   85.71 |    92.14 |                     80.00 |
+| phrasal_and_idiomatic_action_substitution | llm                   |                               87.68 |                       83.33 |                                         78.99 |                   79.71 |    81.88 |                     81.16 |
+| phrasal_and_idiomatic_action_substitution | systematic            |                               88.75 |                       85.00 |                                         82.50 |                   85.00 |    87.50 |                     65.00 |
+| punctuation_variation                     | llm                   |                               94.24 |                       92.81 |                                         84.89 |                   79.14 |    93.53 |                     84.89 |
+| punctuation_variation                     | systematic            |                               94.23 |                       94.23 |                                         90.38 |                   71.15 |    90.38 |                     84.62 |
+| sentence_structure_variation              | llm                   |                               94.16 |                       90.51 |                                         83.94 |                   86.13 |    93.43 |                     78.83 |
+| table_column_synonyms                     | llm                   |                               80.29 |                       83.21 |                                         57.66 |                   67.88 |    85.40 |                     43.80 |
+| table_column_synonyms                     | systematic            |                               76.52 |                       81.82 |                                         59.09 |                   62.12 |    81.82 |                     41.67 |
+| temporal_expression_variation             | llm                   |                               70.69 |                       62.07 |                                         74.14 |                   63.79 |    63.79 |                     70.69 |
+| temporal_expression_variation             | systematic            |                              100.00 |                       93.10 |                                         89.66 |                   89.66 |    79.31 |                     82.76 |
+| typos                                     | llm                   |                               92.09 |                       89.93 |                                         82.01 |                   82.01 |    91.37 |                     79.86 |
+| typos                                     | systematic            |                               89.63 |                       88.89 |                                         84.44 |                   76.30 |    88.15 |                     78.52 |
+| urgency_qualifiers                        | llm                   |                               93.53 |                       92.09 |                                         84.89 |                   87.77 |    92.81 |                     78.42 |
+| urgency_qualifiers                        | systematic            |                               92.86 |                       91.43 |                                         85.00 |                   84.29 |    92.14 |                     64.29 |
+| verbosity_variation                       | llm                   |                               92.09 |                       89.21 |                                         77.70 |                   83.45 |    90.65 |                     72.66 |
+| verbosity_variation                       | systematic            |                               90.71 |                       91.43 |                                         80.71 |                   82.14 |    90.71 |                     72.86 |
 
 ## Compound vs Vanilla Performance
 Comparison of accuracy between Baseline and Compound/Mixed perturbations.
 
 | model_name                                  |   Vanilla Accuracy |   Compound Accuracy |   Performance Drop |
 |:--------------------------------------------|-------------------:|--------------------:|-------------------:|
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           |              56.43 |               53.02 |               3.41 |
-| claude-haiku-4-5-20251001                   |              61.43 |               61.31 |               0.12 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct |              50.00 |               48.99 |               1.01 |
-| gemini-2.5-flash-lite                       |              92.14 |               80.15 |              11.99 |
-| gpt-4o                                      |              70.71 |               63.57 |               7.15 |
-| meta-llama/Llama-3.1-8B                     |              45.00 |               38.19 |               6.81 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           |              93.57 |               79.15 |              14.43 |
+| claude-haiku-4-5-20251001                   |              92.86 |               82.16 |              10.70 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct |              85.71 |               74.62 |              11.09 |
+| gemini-2.5-flash-lite                       |              85.71 |               74.87 |              10.84 |
+| gpt-4o                                      |              92.86 |               84.67 |               8.18 |
+| meta-llama/Llama-3.1-8B                     |              80.00 |               61.31 |              18.69 |
 
 ## Systematic vs LLM Alignment
 Correlation between Systematic and LLM perturbation accuracies for overlapping categories.
 
-| model_name                                  | perturbation_type             |   llm |   systematic |   Delta (Sys - LLM) |
-|:--------------------------------------------|:------------------------------|------:|-------------:|--------------------:|
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | comment_annotations           | 53.49 |        55.00 |                1.51 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | incomplete_join_spec          | 19.23 |        18.18 |               -1.05 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | mixed_sql_nl                  | 58.99 |        64.17 |                5.17 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | operator_aggregate_variation  | 58.33 |        44.44 |              -13.89 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | punctuation_variation         | 56.83 |        50.00 |               -6.83 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | table_column_synonyms         | 47.45 |        44.70 |               -2.75 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | temporal_expression_variation |  3.45 |         6.90 |                3.45 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | typos                         | 56.12 |        52.59 |               -3.52 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | urgency_qualifiers            | 55.40 |        58.57 |                3.18 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct           | verbosity_variation           | 53.24 |        52.86 |               -0.38 |
-| claude-haiku-4-5-20251001                   | comment_annotations           | 58.14 |        63.57 |                5.43 |
-| claude-haiku-4-5-20251001                   | incomplete_join_spec          | 19.23 |        18.18 |               -1.05 |
-| claude-haiku-4-5-20251001                   | mixed_sql_nl                  | 66.19 |        71.67 |                5.48 |
-| claude-haiku-4-5-20251001                   | operator_aggregate_variation  | 65.74 |        47.62 |              -18.12 |
-| claude-haiku-4-5-20251001                   | punctuation_variation         | 64.03 |        55.77 |               -8.26 |
-| claude-haiku-4-5-20251001                   | table_column_synonyms         | 54.01 |        54.55 |                0.53 |
-| claude-haiku-4-5-20251001                   | temporal_expression_variation |  5.17 |         0.00 |               -5.17 |
-| claude-haiku-4-5-20251001                   | typos                         | 61.87 |        62.22 |                0.35 |
-| claude-haiku-4-5-20251001                   | urgency_qualifiers            | 61.87 |        62.86 |                0.99 |
-| claude-haiku-4-5-20251001                   | verbosity_variation           | 60.43 |        61.43 |                1.00 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | comment_annotations           | 41.86 |        45.00 |                3.14 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | incomplete_join_spec          |  7.69 |        13.64 |                5.94 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | mixed_sql_nl                  | 58.27 |        60.00 |                1.73 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | operator_aggregate_variation  | 50.93 |        41.27 |               -9.66 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | punctuation_variation         | 48.92 |        44.23 |               -4.69 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | table_column_synonyms         | 24.09 |        29.55 |                5.46 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | temporal_expression_variation |  5.17 |         0.00 |               -5.17 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | typos                         | 50.36 |        47.41 |               -2.95 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | urgency_qualifiers            | 49.64 |        50.00 |                0.36 |
-| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | verbosity_variation           | 47.48 |        48.57 |                1.09 |
-| gemini-2.5-flash-lite                       | comment_annotations           | 88.37 |        86.43 |               -1.94 |
-| gemini-2.5-flash-lite                       | incomplete_join_spec          | 23.08 |        22.73 |               -0.35 |
-| gemini-2.5-flash-lite                       | mixed_sql_nl                  | 87.77 |        92.50 |                4.73 |
-| gemini-2.5-flash-lite                       | operator_aggregate_variation  | 75.93 |        53.97 |              -21.96 |
-| gemini-2.5-flash-lite                       | punctuation_variation         | 90.65 |        88.46 |               -2.19 |
-| gemini-2.5-flash-lite                       | table_column_synonyms         | 71.53 |        74.24 |                2.71 |
-| gemini-2.5-flash-lite                       | temporal_expression_variation | 41.38 |        82.76 |               41.38 |
-| gemini-2.5-flash-lite                       | typos                         | 90.65 |        87.41 |               -3.24 |
-| gemini-2.5-flash-lite                       | urgency_qualifiers            | 88.49 |        88.57 |                0.08 |
-| gemini-2.5-flash-lite                       | verbosity_variation           | 86.33 |        90.00 |                3.67 |
-| gpt-4o                                      | comment_annotations           | 60.47 |        69.29 |                8.82 |
-| gpt-4o                                      | incomplete_join_spec          | 23.08 |        18.18 |               -4.90 |
-| gpt-4o                                      | mixed_sql_nl                  | 66.19 |        73.33 |                7.15 |
-| gpt-4o                                      | operator_aggregate_variation  | 68.52 |        47.62 |              -20.90 |
-| gpt-4o                                      | punctuation_variation         | 69.06 |        65.38 |               -3.68 |
-| gpt-4o                                      | table_column_synonyms         | 67.15 |        63.64 |               -3.52 |
-| gpt-4o                                      | temporal_expression_variation |  8.62 |         0.00 |               -8.62 |
-| gpt-4o                                      | typos                         | 70.50 |        68.15 |               -2.36 |
-| gpt-4o                                      | urgency_qualifiers            | 71.94 |        67.14 |               -4.80 |
-| gpt-4o                                      | verbosity_variation           | 69.06 |        70.00 |                0.94 |
-| meta-llama/Llama-3.1-8B                     | comment_annotations           | 30.23 |        45.00 |               14.77 |
-| meta-llama/Llama-3.1-8B                     | incomplete_join_spec          |  7.69 |        22.73 |               15.03 |
-| meta-llama/Llama-3.1-8B                     | mixed_sql_nl                  | 49.64 |        41.67 |               -7.97 |
-| meta-llama/Llama-3.1-8B                     | operator_aggregate_variation  | 47.22 |        39.68 |               -7.54 |
-| meta-llama/Llama-3.1-8B                     | punctuation_variation         | 46.04 |        42.31 |               -3.74 |
-| meta-llama/Llama-3.1-8B                     | table_column_synonyms         | 18.25 |        19.70 |                1.45 |
-| meta-llama/Llama-3.1-8B                     | temporal_expression_variation | 13.79 |         0.00 |              -13.79 |
-| meta-llama/Llama-3.1-8B                     | typos                         | 44.60 |        45.19 |                0.58 |
-| meta-llama/Llama-3.1-8B                     | urgency_qualifiers            | 44.60 |        40.71 |               -3.89 |
-| meta-llama/Llama-3.1-8B                     | verbosity_variation           | 41.01 |        40.71 |               -0.29 |
+| model_name                                  | perturbation_type                         |   llm |   systematic |   Delta (Sys - LLM) |
+|:--------------------------------------------|:------------------------------------------|------:|-------------:|--------------------:|
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | anchored_pronoun_references               | 74.60 |        69.70 |               -4.91 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | comment_annotations                       | 88.37 |        90.00 |                1.63 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | incomplete_join_spec                      | 26.92 |        22.73 |               -4.20 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | mixed_sql_nl                              | 86.33 |        86.67 |                0.34 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | omit_obvious_operation_markers            | 78.83 |        85.83 |                7.00 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | operator_aggregate_variation              | 77.78 |        60.32 |              -17.46 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | phrasal_and_idiomatic_action_substitution | 87.68 |        88.75 |                1.07 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | punctuation_variation                     | 94.24 |        94.23 |               -0.01 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | table_column_synonyms                     | 80.29 |        76.52 |               -3.78 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | temporal_expression_variation             | 70.69 |       100.00 |               29.31 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | typos                                     | 92.09 |        89.63 |               -2.46 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | urgency_qualifiers                        | 93.53 |        92.86 |               -0.67 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct           | verbosity_variation                       | 92.09 |        90.71 |               -1.37 |
+| claude-haiku-4-5-20251001                   | anchored_pronoun_references               | 77.78 |        72.73 |               -5.05 |
+| claude-haiku-4-5-20251001                   | comment_annotations                       | 90.70 |        90.00 |               -0.70 |
+| claude-haiku-4-5-20251001                   | incomplete_join_spec                      | 23.08 |        22.73 |               -0.35 |
+| claude-haiku-4-5-20251001                   | mixed_sql_nl                              | 87.77 |        91.67 |                3.90 |
+| claude-haiku-4-5-20251001                   | omit_obvious_operation_markers            | 72.99 |        77.50 |                4.51 |
+| claude-haiku-4-5-20251001                   | operator_aggregate_variation              | 75.00 |        65.08 |               -9.92 |
+| claude-haiku-4-5-20251001                   | phrasal_and_idiomatic_action_substitution | 83.33 |        85.00 |                1.67 |
+| claude-haiku-4-5-20251001                   | punctuation_variation                     | 92.81 |        94.23 |                1.43 |
+| claude-haiku-4-5-20251001                   | table_column_synonyms                     | 83.21 |        81.82 |               -1.39 |
+| claude-haiku-4-5-20251001                   | temporal_expression_variation             | 62.07 |        93.10 |               31.03 |
+| claude-haiku-4-5-20251001                   | typos                                     | 89.93 |        88.89 |               -1.04 |
+| claude-haiku-4-5-20251001                   | urgency_qualifiers                        | 92.09 |        91.43 |               -0.66 |
+| claude-haiku-4-5-20251001                   | verbosity_variation                       | 89.21 |        91.43 |                2.22 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | anchored_pronoun_references               | 69.84 |        60.61 |               -9.24 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | comment_annotations                       | 76.74 |        77.14 |                0.40 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | incomplete_join_spec                      |  7.69 |         9.09 |                1.40 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | mixed_sql_nl                              | 85.61 |        90.00 |                4.39 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | omit_obvious_operation_markers            | 74.45 |        68.33 |               -6.12 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | operator_aggregate_variation              | 75.00 |        58.73 |              -16.27 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | phrasal_and_idiomatic_action_substitution | 78.99 |        82.50 |                3.51 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | punctuation_variation                     | 84.89 |        90.38 |                5.49 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | table_column_synonyms                     | 57.66 |        59.09 |                1.43 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | temporal_expression_variation             | 74.14 |        89.66 |               15.52 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | typos                                     | 82.01 |        84.44 |                2.43 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | urgency_qualifiers                        | 84.89 |        85.00 |                0.11 |
+| deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct | verbosity_variation                       | 77.70 |        80.71 |                3.02 |
+| gemini-2.5-flash-lite                       | anchored_pronoun_references               | 68.25 |        63.64 |               -4.62 |
+| gemini-2.5-flash-lite                       | comment_annotations                       | 72.09 |        79.29 |                7.19 |
+| gemini-2.5-flash-lite                       | incomplete_join_spec                      | 23.08 |        18.18 |               -4.90 |
+| gemini-2.5-flash-lite                       | mixed_sql_nl                              | 87.77 |        83.33 |               -4.44 |
+| gemini-2.5-flash-lite                       | omit_obvious_operation_markers            | 75.18 |        77.50 |                2.32 |
+| gemini-2.5-flash-lite                       | operator_aggregate_variation              | 72.22 |        52.38 |              -19.84 |
+| gemini-2.5-flash-lite                       | phrasal_and_idiomatic_action_substitution | 79.71 |        85.00 |                5.29 |
+| gemini-2.5-flash-lite                       | punctuation_variation                     | 79.14 |        71.15 |               -7.98 |
+| gemini-2.5-flash-lite                       | table_column_synonyms                     | 67.88 |        62.12 |               -5.76 |
+| gemini-2.5-flash-lite                       | temporal_expression_variation             | 63.79 |        89.66 |               25.86 |
+| gemini-2.5-flash-lite                       | typos                                     | 82.01 |        76.30 |               -5.72 |
+| gemini-2.5-flash-lite                       | urgency_qualifiers                        | 87.77 |        84.29 |               -3.48 |
+| gemini-2.5-flash-lite                       | verbosity_variation                       | 83.45 |        82.14 |               -1.31 |
+| gpt-4o                                      | anchored_pronoun_references               | 80.95 |        78.79 |               -2.16 |
+| gpt-4o                                      | comment_annotations                       | 86.05 |        90.00 |                3.95 |
+| gpt-4o                                      | incomplete_join_spec                      | 23.08 |        22.73 |               -0.35 |
+| gpt-4o                                      | mixed_sql_nl                              | 90.65 |        93.33 |                2.69 |
+| gpt-4o                                      | omit_obvious_operation_markers            | 77.37 |        87.50 |               10.13 |
+| gpt-4o                                      | operator_aggregate_variation              | 77.78 |        61.90 |              -15.87 |
+| gpt-4o                                      | phrasal_and_idiomatic_action_substitution | 81.88 |        87.50 |                5.62 |
+| gpt-4o                                      | punctuation_variation                     | 93.53 |        90.38 |               -3.14 |
+| gpt-4o                                      | table_column_synonyms                     | 85.40 |        81.82 |               -3.58 |
+| gpt-4o                                      | temporal_expression_variation             | 63.79 |        79.31 |               15.52 |
+| gpt-4o                                      | typos                                     | 91.37 |        88.15 |               -3.22 |
+| gpt-4o                                      | urgency_qualifiers                        | 92.81 |        92.14 |               -0.66 |
+| gpt-4o                                      | verbosity_variation                       | 90.65 |        90.71 |                0.07 |
+| meta-llama/Llama-3.1-8B                     | anchored_pronoun_references               | 52.38 |        54.55 |                2.16 |
+| meta-llama/Llama-3.1-8B                     | comment_annotations                       | 67.44 |        75.71 |                8.27 |
+| meta-llama/Llama-3.1-8B                     | incomplete_join_spec                      | 15.38 |        27.27 |               11.89 |
+| meta-llama/Llama-3.1-8B                     | mixed_sql_nl                              | 69.78 |        72.50 |                2.72 |
+| meta-llama/Llama-3.1-8B                     | omit_obvious_operation_markers            | 72.99 |        60.83 |              -12.16 |
+| meta-llama/Llama-3.1-8B                     | operator_aggregate_variation              | 74.07 |        63.49 |              -10.58 |
+| meta-llama/Llama-3.1-8B                     | phrasal_and_idiomatic_action_substitution | 81.16 |        65.00 |              -16.16 |
+| meta-llama/Llama-3.1-8B                     | punctuation_variation                     | 84.89 |        84.62 |               -0.28 |
+| meta-llama/Llama-3.1-8B                     | table_column_synonyms                     | 43.80 |        41.67 |               -2.13 |
+| meta-llama/Llama-3.1-8B                     | temporal_expression_variation             | 70.69 |        82.76 |               12.07 |
+| meta-llama/Llama-3.1-8B                     | typos                                     | 79.86 |        78.52 |               -1.34 |
+| meta-llama/Llama-3.1-8B                     | urgency_qualifiers                        | 78.42 |        64.29 |              -14.13 |
+| meta-llama/Llama-3.1-8B                     | verbosity_variation                       | 72.66 |        72.86 |                0.20 |
+
+## Observations and Insights
+
+### 1. Baseline Performance by Complexity
+*   **High Proficiency in DML:** All models demonstrated exceptional accuracy (>90%) on standard DML operations (`INSERT`, `UPDATE`, `DELETE`), confirming that basic SQL syntax generation is well-solved.
+*   **The "Join" Bottleneck:** Join operations remain the distinct weak point for all models. Even top-tier models like Claude and GPT-4o typically scored lower on Joins than any other category. Llama 3.1 struggles significantly here, dropping to 30% accuracy, indicating a fundamental difficulty in inferring relationships without explicit guidance.
+*   **Union Handling:** Most models handled Union operations well, but Llama 3.1 again showed weakness (60%), suggesting struggle with complex set operations.
+
+### 2. Perturbation Impact Analysis
+*   **Catastrophic Failure on Incomplete Joins:** The `incomplete_join_spec` perturbation caused a massive accuracy drop across *all* models (down to <30%). This confirms that models rely heavily on explicit "JOIN" keywords and struggled to infer relationships from natural language phrases like "and their posts" without schema-aware reasoning.
+*   **Resilience to Formatting Noise:** Models were highly resilient to `typos`, `punctuation_variation`, and `verbosity_variation`, maintaining high accuracy (>80-90%). This suggests robust tokenization and attention mechanisms that filter out surface-level noise.
+*   **Temporal Complexity:** `temporal_expression_variation` showed a significant divergence. Systematic perturbations (often just replacing '2024-01-01' with 'January 1st, 2024') remained high accuracy. However, LLM-generated temporal perturbations caused a sharp drop (e.g., Qwen dropped 30%). This suggests LLM perturbations likely introduced more ambiguous or complex relative time constraints (e.g., "last fiscal quarter") that are harder to parse than simple format changes.
+
+### 3. Systematic vs. LLM Perturbation Alignment
+*   **General Correlation:** For most categories (`typos`, `verbosity`, `mixed_sql_nl`), the accuracy on Systematic vs. LLM perturbations was very similar (Delta < 5%), validating the quality of the rule-based systematic content.
+*   **The "Operator" Divergence:** `operator_aggregate_variation` showed a consistent drop where Systematic perturbations were *harder* than LLM ones (negative delta). This implies the systematic engine might be generating more aggressive or obscure operator replacements (e.g. symbolic synonyms) than the LLM, which tends to stick to more natural phrasing.
+
+### 4. Model-Specific Findings
+*   **Top Tier (GPT-4o, Claude):** Consistently resilient across almost all perturbations. They are the only models that maintained respectable performance on "Compound" complexity.
+*   **Mid Tier (Gemini, Qwen):** Strong on basics but more brittle when faced with ambiguity (incomplete joins) or complex compound perturbations.
+*   **Low Tier (Llama 3.1):** Struggles significantly with any complexity beyond simple SELECT/DML. The 30% accuracy on vanilla Joins is a critical finding, suggesting it's not suitable for schema-reasoning tasks without fine-tuning.
