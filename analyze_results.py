@@ -32,13 +32,13 @@ LOCAL_BASE = os.getenv('LOCAL_BASE', './')
 REPO_PATH = os.getenv('REPO_PATH', f'{LOCAL_BASE}/')
 
 # ---------------------------------------------------------------------------
-# Opt 1: Gold SQL Test Suite Cache (DQL only)
+# Opt 1: Gold SQL Test Suite Single-Slot Cache (DQL only)
 # ---------------------------------------------------------------------------
-# The DQL test suite only depends on gold_sql. We cache the generated DB paths
-# keyed by normalized gold_sql so we don't regenerate for each perturbation.
-# DML queries use a different mechanism (DatabaseFuzzer, not TestSuiteGenerator)
-# so they bypass the cache entirely and use engine.check_equivalence() directly.
-_test_suite_cache = {}
+# We use a single-slot cache because the test suite generator overwrites
+# the same file names (test_db_0, etc.) for each new query.
+# Keeping old cache entries would point to corrupted/overwritten files.
+_last_gold_sql = None
+_last_test_suite = None
 
 
 def _normalize_sql_for_cache(sql: str) -> str:
@@ -77,11 +77,17 @@ def check_equivalence_cached(engine, gold_sql, candidate_sql):
             query_type=f"{gold_type}/{candidate_type}"
         )
 
-    # Cache the test suite generation (the expensive part)
-    if cache_key not in _test_suite_cache:
+    global _last_gold_sql, _last_test_suite
+
+    # Check valid cache hit
+    if _last_gold_sql == gold_sql and _last_test_suite is not None:
+        test_databases = _last_test_suite
+    else:
+        # Cache miss or new query -> Generate new suite
         try:
             test_databases = checker.testsuite_gen.generate_test_suite(gold_sql)
-            _test_suite_cache[cache_key] = test_databases
+            _last_gold_sql = gold_sql
+            _last_test_suite = test_databases
         except Exception as e:
             return EquivalenceCheckResult(
                 is_equivalent=False,
@@ -90,8 +96,6 @@ def check_equivalence_cached(engine, gold_sql, candidate_sql):
                 gold_sql=gold_sql, candidate_sql=candidate_sql,
                 query_type="SELECT"
             )
-
-    test_databases = _test_suite_cache[cache_key]
 
     # Compare denotations using cached test DBs
     for db_path in test_databases:
@@ -300,8 +304,9 @@ def _get_or_create_worker_engine(config_template, worker_id):
     _subprocess_worker_id = worker_id
 
     # Also reset the test suite cache for this subprocess
-    global _test_suite_cache
-    _test_suite_cache = {}
+    global _last_gold_sql, _last_test_suite
+    _last_gold_sql = None
+    _last_test_suite = None
 
     return _subprocess_engine
 
@@ -409,24 +414,30 @@ def evaluate_dataframe_parallel(
                 for r in pending
             }
 
-            for future in tqdm(
-                as_completed(futures),
-                total=len(futures),
-                desc="Evaluating SQL (parallel)"
-            ):
-                try:
-                    result = future.result()
-                    out_f.write(json.dumps(result) + '\n')
-                    out_f.flush()
-                    new_count += 1
-                except Exception as e:
-                    original = futures[future]
-                    original['generated_sql'] = ''
-                    original['is_equivalent'] = False
-                    original['equivalence_details'] = f"Worker error: {str(e)}"
-                    out_f.write(json.dumps(original) + '\n')
-                    out_f.flush()
-                    new_count += 1
+            try:
+                for future in tqdm(
+                    as_completed(futures),
+                    total=len(futures),
+                    desc="Evaluating SQL (parallel)"
+                ):
+                    try:
+                        result = future.result()
+                        out_f.write(json.dumps(result) + '\n')
+                        out_f.flush()
+                        new_count += 1
+                    except Exception as e:
+                        original = futures[future]
+                        original['generated_sql'] = ''
+                        original['is_equivalent'] = False
+                        original['equivalence_details'] = f"Worker error: {str(e)}"
+                        out_f.write(json.dumps(original) + '\n')
+                        out_f.flush()
+                        new_count += 1
+            except Exception as e:
+                print(f"\n❌ CRITICAL POOL ERROR: {e}")
+                print(f"⚠️  Analysis crashed. Progress saved to {eval_path}.")
+                print(f"👉 To resume, re-run the script.")
+                # We do not raise, allowing cleanup and exit
 
     # Cleanup worker workspaces
     for wid in range(max_workers):
@@ -521,10 +532,39 @@ if __name__ == "__main__":
     parser.add_argument('output_dir', nargs='?', help='Directory containing results')
     parser.add_argument('--files', nargs='+', help='Specific result files to process')
     parser.add_argument('--parallel', action='store_true', help='Enable parallel evaluation')
-    parser.add_argument('--workers', type=int, default=4,
-                        help='Number of parallel workers (default: 4)')
+    import psutil
+    
+    # Smart Default for Workers
+    # If explicit --workers is passed, use it.
+    # Otherwise, calculate safe default based on RAM.
+    
+    # 1. Total RAM in GB
+    total_ram_gb = psutil.virtual_memory().total / (1024 ** 3)
+    cpu_count = os.cpu_count() or 4
+    
+    # Heuristic: Each worker needs ~2-3GB (Engine + DBs + spaCy)
+    # Safe count = RAM / 3GB, capped at CPU count, capped at 8 (user pref)
+    safe_workers_by_ram = int(total_ram_gb / 3)
+    if safe_workers_by_ram < 1:
+        safe_workers_by_ram = 1
+        
+    # Default is the minimum of (8, cpu_count, safe_by_ram)
+    # But ensuring at least 1 or 2
+    default_workers = min(8, cpu_count, safe_workers_by_ram)
+    # Ensure reasonable floor if RAM is huge but CPUs are few
+    default_workers = max(1, default_workers)
+
+    parser.add_argument('--workers', type=int, default=default_workers,
+                        help=f'Number of parallel workers (default: {default_workers} based on {total_ram_gb:.1f}GB RAM)')
 
     args = parser.parse_args()
+
+    # Warn if user manually requests unsafe count
+    if args.workers > safe_workers_by_ram:
+        print(f"\n⚠️  WARNING: {args.workers} workers requested, but system has {total_ram_gb:.1f}GB RAM.")
+        print(f"   Safe estimated max is {safe_workers_by_ram} workers.")
+        print(f"   If script crashes with 'Worker error', reduce --workers.\n")
+
 
     if args.files:
         main(input_files=args.files, parallel=args.parallel, workers=args.workers)
