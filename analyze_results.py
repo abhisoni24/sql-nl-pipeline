@@ -17,8 +17,8 @@ import shutil
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import multiprocessing
 from tqdm.auto import tqdm
-from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # Add current directory to path
 sys.path.insert(0, os.path.abspath('.'))
@@ -149,13 +149,22 @@ def check_equivalence_cached(engine, gold_sql, candidate_sql):
 # Opt 2: Resume — build set of already-evaluated record keys
 # ---------------------------------------------------------------------------
 def _record_key(record: dict) -> str:
-    """Generate a unique key for a record to detect duplicates."""
+    """Generate a unique key for a record to detect duplicates.
+    
+    Uses fields that actually exist in the data:
+    model_name, query_id, perturbation_source, perturbation_type, input_prompt (hash).
+    The input_prompt hash ensures uniqueness even if perturbation_type has variants.
+    """
+    import hashlib
+    prompt_hash = hashlib.md5(
+        record.get('input_prompt', '').encode()
+    ).hexdigest()[:8]
     parts = [
         record.get('model_name', ''),
         str(record.get('query_id', '')),
         record.get('perturbation_source', ''),
-        record.get('perturbation_name', ''),
-        str(record.get('perturbation_id', '')),
+        record.get('perturbation_type', ''),
+        prompt_hash,
     ]
     return '|'.join(parts)
 
@@ -242,13 +251,12 @@ def aggregate_results(run_outputs_dir: str = None, file_list: list = None) -> pd
 def _evaluate_single(args):
     """
     Evaluate a single record in a subprocess.
-    Each subprocess gets its own isolated DB workspace to prevent
-    race conditions between workers.
+    Each subprocess uses PID-based identity for its isolated DB workspace.
     """
-    record, engine_config_template, worker_id = args
+    record, engine_config_template = args
 
-    # Get or create an engine with isolated workspace for this worker
-    engine = _get_or_create_worker_engine(engine_config_template, worker_id)
+    # Get or create engine using PID-based identity (created once per process)
+    engine = _get_or_create_worker_engine(engine_config_template)
 
     generated_sql = extract_sql(record.get('generated_response', ''))
     gold_sql = record.get('gold_sql', '')
@@ -269,22 +277,23 @@ def _evaluate_single(args):
 
 # Per-subprocess engine cache (avoids re-creating engine for every record)
 _subprocess_engine = None
-_subprocess_worker_id = None
+_subprocess_pid = None
 
 
-def _get_or_create_worker_engine(config_template, worker_id):
+def _get_or_create_worker_engine(config_template):
     """
     Get or create a cached engine for this subprocess.
-    Each worker gets its own isolated test_dbs directory to avoid
-    race conditions from concurrent DB fuzzing.
+    Uses os.getpid() as identity so each process creates its engine
+    exactly once, regardless of which tasks it receives.
     """
-    global _subprocess_engine, _subprocess_worker_id
+    global _subprocess_engine, _subprocess_pid
 
-    if _subprocess_engine is not None and _subprocess_worker_id == worker_id:
+    pid = os.getpid()
+    if _subprocess_engine is not None and _subprocess_pid == pid:
         return _subprocess_engine
 
-    # Create isolated workspace for this worker
-    worker_workspace = f'./local_eval_workspace_worker_{worker_id}'
+    # Create isolated workspace for this process
+    worker_workspace = f'./local_eval_workspace_worker_{pid}'
     if not os.path.exists(worker_workspace):
         os.makedirs(worker_workspace, exist_ok=True)
         src_db_dir = config_template['source_db_dir']
@@ -301,7 +310,7 @@ def _get_or_create_worker_engine(config_template, worker_id):
     )
 
     _subprocess_engine = SQLEquivalenceEngine(config)
-    _subprocess_worker_id = worker_id
+    _subprocess_pid = pid
 
     # Also reset the test suite cache for this subprocess
     global _last_gold_sql, _last_test_suite
@@ -386,14 +395,10 @@ def evaluate_dataframe_parallel(
 
     print(f"⏳ Evaluating {len(pending):,} new records with {max_workers} workers...")
 
-    # Sort by gold_sql so each worker gets batches with the same gold query
+    # Sort by gold_sql for cache affinity: consecutive records with the same
+    # gold_sql will be sent to the same worker as a batch (via chunksize).
     pending.sort(key=lambda r: r.get('gold_sql', ''))
 
-    # Assign worker IDs round-robin so records with same gold_sql go to same worker
-    for i, r in enumerate(pending):
-        r['_worker_id'] = i % max_workers
-
-    # Config template for worker engines
     engine_config_template = {
         'source_db_dir': f'{REPO_PATH}/test_dbs',
         'max_fuzz_iterations': engine.config.max_fuzz_iterations,
@@ -403,46 +408,36 @@ def evaluate_dataframe_parallel(
 
     new_count = 0
 
-    # Opt 6: Stream results to file as they complete
-    with open(eval_path, 'a') as out_f:
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            futures = {
-                executor.submit(
-                    _evaluate_single,
-                    (r, engine_config_template, r.pop('_worker_id'))
-                ): r
-                for r in pending
-            }
+    # Determine optimal chunksize: group size of perturbations per gold_sql
+    chunksize = 10
 
+    # Prepare tasks (no worker_id needed — PID-based identity handles it)
+    tasks = [(r, engine_config_template) for r in pending]
+
+    with open(eval_path, 'a') as out_f:
+        with multiprocessing.Pool(processes=max_workers, maxtasksperchild=100) as pool:
             try:
-                for future in tqdm(
-                    as_completed(futures),
-                    total=len(futures),
+                for result in tqdm(
+                    pool.imap_unordered(_evaluate_single, tasks, chunksize=chunksize),
+                    total=len(tasks),
                     desc="Evaluating SQL (parallel)"
                 ):
                     try:
-                        result = future.result()
                         out_f.write(json.dumps(result) + '\n')
                         out_f.flush()
                         new_count += 1
                     except Exception as e:
-                        original = futures[future]
-                        original['generated_sql'] = ''
-                        original['is_equivalent'] = False
-                        original['equivalence_details'] = f"Worker error: {str(e)}"
-                        out_f.write(json.dumps(original) + '\n')
-                        out_f.flush()
-                        new_count += 1
+                        print(f"⚠️ Error writing result: {e}")
+            
             except Exception as e:
                 print(f"\n❌ CRITICAL POOL ERROR: {e}")
                 print(f"⚠️  Analysis crashed. Progress saved to {eval_path}.")
                 print(f"👉 To resume, re-run the script.")
-                # We do not raise, allowing cleanup and exit
 
-    # Cleanup worker workspaces
-    for wid in range(max_workers):
-        workspace = f'./local_eval_workspace_worker_{wid}'
-        if os.path.exists(workspace):
+    # Cleanup worker workspaces (PID-based, so glob for them)
+    import glob as glob_mod
+    for workspace in glob_mod.glob('./local_eval_workspace_worker_*'):
+        if os.path.isdir(workspace):
             shutil.rmtree(workspace, ignore_errors=True)
 
     return new_count
