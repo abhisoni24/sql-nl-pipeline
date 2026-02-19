@@ -18,7 +18,7 @@ def main():
     print("Generating queries...")
     
     # Generate 300 queries per complexity type
-    output_data = generator.generate_dataset(num_per_complexity=20)
+    output_data = generator.generate_dataset(num_per_complexity=50)
             
     print(f"Successfully generated {len(output_data)} queries.")
     
