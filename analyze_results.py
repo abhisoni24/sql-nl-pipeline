@@ -444,30 +444,248 @@ def evaluate_dataframe_parallel(
 
 
 def generate_plots(df: pd.DataFrame, output_dir: str):
-    """Generate and save standard plots."""
-    sns.set_theme(style='whitegrid')
+    """Generate comprehensive plots covering all analysis dimensions:
+       Model × Complexity × Perturbation Type × Source.
+    """
+    import numpy as np
 
+    sns.set_theme(style='whitegrid')
+    # Shorten model names helper
+    def short_name(name):
+        return name.split('/')[-1]
+
+    # =========================================================================
     # 1. Accuracy by Model
+    # =========================================================================
     acc = df.groupby('model_name')['is_equivalent'].mean() * 100
+    acc.index = [short_name(m) for m in acc.index]
+    acc = acc.sort_values()
     plt.figure(figsize=(10, 6))
-    acc.plot(kind='barh')
-    plt.title('Accuracy by Model')
+    bars = acc.plot(kind='barh', color=sns.color_palette('viridis', len(acc)))
+    for i, v in enumerate(acc):
+        plt.text(v + 0.5, i, f'{v:.1f}%', va='center', fontsize=9)
+    plt.title('Overall Accuracy by Model', fontsize=14, fontweight='bold')
     plt.xlabel('Accuracy (%)')
     plt.tight_layout()
-    plt.savefig(f'{output_dir}/accuracy_by_model.png')
+    plt.savefig(f'{output_dir}/accuracy_by_model.png', dpi=150)
     plt.close()
 
-    # 2. Accuracy by Source
-    acc_src = df.groupby('perturbation_source')['is_equivalent'].mean() * 100
-    plt.figure(figsize=(8, 5))
-    acc_src.plot(kind='bar')
-    plt.title('Accuracy by Source')
+    # =========================================================================
+    # 2. Accuracy by Source × Model (grouped bar)
+    # =========================================================================
+    pivot_src = df.groupby(['model_name', 'perturbation_source'])['is_equivalent'].mean().unstack() * 100
+    pivot_src.index = [short_name(m) for m in pivot_src.index]
+    # Reorder columns sensibly
+    col_order = [c for c in ['baseline', 'systematic', 'llm'] if c in pivot_src.columns]
+    if col_order:
+        pivot_src = pivot_src[col_order]
+
+    pivot_src.plot(kind='bar', figsize=(12, 6), width=0.8)
+    plt.title('Accuracy by Source × Model', fontsize=14, fontweight='bold')
     plt.ylabel('Accuracy (%)')
+    plt.xticks(rotation=45, ha='right')
+    plt.legend(title='Source')
     plt.tight_layout()
-    plt.savefig(f'{output_dir}/accuracy_by_source.png')
+    plt.savefig(f'{output_dir}/accuracy_source_x_model.png', dpi=150)
     plt.close()
 
-    print(f"📊 Plots saved to {output_dir}")
+
+    # =========================================================================
+    # 5. Heatmap: Perturbation Type × Model
+    # =========================================================================
+    pivot_pt = (
+        df.groupby(['perturbation_type', 'model_name'])['is_equivalent']
+        .mean().mul(100).unstack(level='model_name')
+    )
+    pivot_pt.columns = [short_name(c) for c in pivot_pt.columns]
+    pivot_pt = pivot_pt.loc[pivot_pt.mean(axis=1).sort_values().index]
+
+    fig, ax = plt.subplots(figsize=(max(10, len(pivot_pt.columns) * 1.8),
+                                    max(8, len(pivot_pt) * 0.7)))
+    sns.heatmap(
+        pivot_pt, annot=True, fmt='.1f', cmap='RdYlGn',
+        linewidths=0.5, linecolor='#cccccc', vmin=0, vmax=100,
+        ax=ax, cbar_kws={'label': 'Accuracy (%)'},
+    )
+    ax.set_title('Accuracy (%) — Perturbation Type × Model',
+                 fontsize=14, fontweight='bold', pad=12)
+    ax.set_xlabel('Model', fontsize=11)
+    ax.set_ylabel('Perturbation Type', fontsize=11)
+    ax.tick_params(axis='x', rotation=30)
+    ax.tick_params(axis='y', rotation=0)
+    plt.tight_layout()
+    plt.savefig(f'{output_dir}/heatmap_perttype_x_model.png', dpi=150)
+    plt.close()
+    print(f"🗺️  Heatmap saved → heatmap_perttype_x_model.png")
+
+    # =========================================================================
+    # 6. Heatmap: Complexity × Model (baseline only)
+    # =========================================================================
+    baseline_df = df[df['perturbation_source'] == 'baseline'].copy()
+    if not baseline_df.empty and 'complexity' in baseline_df.columns:
+        cplx_pivot = (
+            baseline_df.groupby(['complexity', 'model_name'])['is_equivalent']
+            .mean().mul(100).unstack(level='model_name')
+        )
+        cplx_pivot.columns = [short_name(c) for c in cplx_pivot.columns]
+        cplx_pivot = cplx_pivot.loc[cplx_pivot.mean(axis=1).sort_values().index]
+
+        fig, ax = plt.subplots(figsize=(max(10, len(cplx_pivot.columns) * 1.8),
+                                        max(6, len(cplx_pivot) * 0.8)))
+        sns.heatmap(
+            cplx_pivot, annot=True, fmt='.1f', cmap='RdYlGn',
+            linewidths=0.5, linecolor='#cccccc', vmin=0, vmax=100,
+            ax=ax, cbar_kws={'label': 'Accuracy (%)'},
+        )
+        ax.set_title('Accuracy (%) — Query Complexity × Model (Baseline)',
+                     fontsize=14, fontweight='bold', pad=12)
+        ax.set_xlabel('Model', fontsize=11)
+        ax.set_ylabel('Complexity', fontsize=11)
+        ax.tick_params(axis='x', rotation=30)
+        ax.tick_params(axis='y', rotation=0)
+        plt.tight_layout()
+        plt.savefig(f'{output_dir}/heatmap_complexity_x_model_baseline.png', dpi=150)
+        plt.close()
+        print(f"🗺️  Complexity heatmap saved → heatmap_complexity_x_model_baseline.png")
+    else:
+        print("⚠️  No baseline records with complexity — skipping complexity heatmap.")
+
+    # =========================================================================
+    # 7. Accuracy Drop from Baseline (Δ chart per model × source)
+    # =========================================================================
+    if not baseline_df.empty:
+        baseline_acc = baseline_df.groupby('model_name')['is_equivalent'].mean() * 100
+        baseline_acc.index = [short_name(m) for m in baseline_acc.index]
+
+        non_baseline = df[df['perturbation_source'] != 'baseline']
+        sources = non_baseline['perturbation_source'].unique()
+        if len(sources) > 0:
+            delta_data = {}
+            for src in sources:
+                src_acc = (non_baseline[non_baseline['perturbation_source'] == src]
+                           .groupby('model_name')['is_equivalent'].mean() * 100)
+                src_acc.index = [short_name(m) for m in src_acc.index]
+                delta_data[src] = src_acc - baseline_acc
+
+            delta_df = pd.DataFrame(delta_data).dropna()
+            if not delta_df.empty:
+                delta_df = delta_df.loc[delta_df.mean(axis=1).sort_values().index]
+                fig, ax = plt.subplots(figsize=(12, 6))
+                delta_df.plot(kind='bar', ax=ax, width=0.7)
+                ax.axhline(y=0, color='black', linewidth=0.8, linestyle='--')
+                ax.set_title('Accuracy Drop from Baseline (Δ%)',
+                             fontsize=14, fontweight='bold')
+                ax.set_ylabel('Δ Accuracy (% points)')
+                ax.set_xlabel('Model')
+                plt.xticks(rotation=45, ha='right')
+                plt.legend(title='Source')
+                plt.tight_layout()
+                plt.savefig(f'{output_dir}/accuracy_delta_from_baseline.png', dpi=150)
+                plt.close()
+                print(f"📉 Delta chart saved → accuracy_delta_from_baseline.png")
+
+    # =========================================================================
+    # 8. Heatmap: Complexity × Perturbation Type (aggregated across models)
+    # =========================================================================
+    if 'complexity' in df.columns:
+        perturbed_df = df[df['perturbation_source'] != 'baseline']
+        if not perturbed_df.empty:
+            cpt_pivot = (
+                perturbed_df.groupby(['complexity', 'perturbation_type'])['is_equivalent']
+                .mean().mul(100).unstack(level='perturbation_type')
+            )
+            if not cpt_pivot.empty and cpt_pivot.shape[1] > 1:
+                # Sort columns by mean accuracy
+                cpt_pivot = cpt_pivot[cpt_pivot.mean().sort_values().index]
+                fig, ax = plt.subplots(figsize=(max(12, cpt_pivot.shape[1] * 0.9),
+                                                max(5, cpt_pivot.shape[0] * 1.2)))
+                sns.heatmap(
+                    cpt_pivot, annot=True, fmt='.1f', cmap='RdYlGn',
+                    linewidths=0.5, linecolor='#cccccc', vmin=0, vmax=100,
+                    ax=ax, cbar_kws={'label': 'Accuracy (%)'},
+                )
+                ax.set_title('Accuracy (%) — Complexity × Perturbation Type (All Models)',
+                             fontsize=13, fontweight='bold', pad=12)
+                ax.set_xlabel('Perturbation Type', fontsize=11)
+                ax.set_ylabel('Complexity', fontsize=11)
+                ax.tick_params(axis='x', rotation=45, labelsize=8)
+                ax.tick_params(axis='y', rotation=0)
+                plt.tight_layout()
+                plt.savefig(f'{output_dir}/heatmap_complexity_x_perttype.png', dpi=150)
+                plt.close()
+                print(f"🗺️  Complexity×PertType heatmap saved → heatmap_complexity_x_perttype.png")
+
+    # =========================================================================
+    # 9. Per-Model Faceted Heatmaps: Complexity × Perturbation Type
+    # =========================================================================
+    if 'complexity' in df.columns:
+        models = df['model_name'].unique()
+        perturbed_df = df[df['perturbation_source'] != 'baseline']
+        if not perturbed_df.empty and len(models) > 0:
+            n_models = len(models)
+            ncols = min(3, n_models)
+            nrows = (n_models + ncols - 1) // ncols
+
+            fig, axes = plt.subplots(nrows, ncols,
+                                      figsize=(ncols * 7, nrows * 5),
+                                      squeeze=False)
+            for idx, model in enumerate(sorted(models)):
+                row, col = divmod(idx, ncols)
+                ax = axes[row][col]
+                model_df = perturbed_df[perturbed_df['model_name'] == model]
+                if model_df.empty:
+                    ax.set_visible(False)
+                    continue
+                facet_pivot = (
+                    model_df.groupby(['complexity', 'perturbation_type'])['is_equivalent']
+                    .mean().mul(100).unstack(level='perturbation_type')
+                )
+                if facet_pivot.empty:
+                    ax.set_visible(False)
+                    continue
+                sns.heatmap(
+                    facet_pivot, annot=True, fmt='.0f', cmap='RdYlGn',
+                    linewidths=0.3, vmin=0, vmax=100, ax=ax,
+                    cbar=False, annot_kws={'fontsize': 7},
+                )
+                ax.set_title(short_name(model), fontsize=11, fontweight='bold')
+                ax.set_xlabel('')
+                ax.set_ylabel('')
+                ax.tick_params(axis='x', rotation=45, labelsize=7)
+                ax.tick_params(axis='y', rotation=0, labelsize=8)
+
+            # Hide unused subplots
+            for idx in range(n_models, nrows * ncols):
+                row, col = divmod(idx, ncols)
+                axes[row][col].set_visible(False)
+
+            fig.suptitle('Accuracy (%) — Complexity × Perturbation Type per Model',
+                         fontsize=15, fontweight='bold', y=1.01)
+            plt.tight_layout()
+            plt.savefig(f'{output_dir}/faceted_heatmaps_per_model.png',
+                        dpi=150, bbox_inches='tight')
+            plt.close()
+            print(f"🗺️  Faceted per-model heatmaps saved → faceted_heatmaps_per_model.png")
+
+    # =========================================================================
+    # 10. Accuracy by Complexity × Source (grouped bar)
+    # =========================================================================
+    if 'complexity' in df.columns:
+        cplx_src = df.groupby(['complexity', 'perturbation_source'])['is_equivalent'].mean().unstack() * 100
+        col_order = [c for c in ['baseline', 'systematic', 'llm'] if c in cplx_src.columns]
+        if col_order:
+            cplx_src = cplx_src[col_order]
+        cplx_src.plot(kind='bar', figsize=(10, 6), width=0.8)
+        plt.title('Accuracy by Complexity × Source', fontsize=14, fontweight='bold')
+        plt.ylabel('Accuracy (%)')
+        plt.xlabel('Complexity')
+        plt.xticks(rotation=0)
+        plt.legend(title='Source')
+        plt.tight_layout()
+        plt.savefig(f'{output_dir}/accuracy_complexity_x_source.png', dpi=150)
+        plt.close()
+
+    print(f"📊 All plots saved to {output_dir}")
 
 
 def main(run_outputs_dir=None, input_files=None, parallel=False, workers=4):
