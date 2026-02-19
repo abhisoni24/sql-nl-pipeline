@@ -5,7 +5,7 @@ models:
     model_identifier: gemini-2.5-flash-lite
     decoding_overrides: {}
     rate_limit:
-      requests_per_minute: 2000 # Gemini API limit (reduced to 1000 for stability)
+      requests_per_minute: 4000 # Gemini API limit (reduced to 1000 for stability)
       max_retries: 2 # Retry on rate limit errors
       max_concurrent_requests: 28 # Allow up to 100 concurrent requests
 
