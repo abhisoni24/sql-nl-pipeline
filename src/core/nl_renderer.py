@@ -664,35 +664,46 @@ class SQLToNLRenderer:
         # Bug 3 Fix: Handle IN expressions with subqueries
         if isinstance(expr, exp.In):
             left = self._render_expression(expr.this, context + '_l')
-            # Check for subquery (IN (SELECT ...))
-            subquery = expr.args.get('query')
-            if subquery:
-                # V2 Bug 4 Fix: Unwrap Subquery node to get inner Select and avoid double parens
-                inner_query = subquery.this if isinstance(subquery, exp.Subquery) else subquery
-                
-                # Phase 2 Bug 2 Fix: Narratize IN (SELECT ...)
+
+            # Locate the subquery — sqlglot stores it differently depending on
+            # whether the AST was built programmatically or parsed from SQL text:
+            #   - parsed from SQL:       expr.args['query'] = exp.Subquery(this=Select(...))
+            #   - built programmatically: expr.expressions = [Select(...)] or [Subquery(...)]
+            raw_subquery = expr.args.get('query')
+
+            # If 'query' is None, look for a Select/Subquery node in expr.expressions
+            if raw_subquery is None and expr.expressions:
+                first = expr.expressions[0]
+                if isinstance(first, (exp.Select, exp.Subquery)):
+                    raw_subquery = first
+
+            if raw_subquery is not None:
+                # Unwrap exp.Subquery wrapper if present
+                inner_query = raw_subquery.this if isinstance(raw_subquery, exp.Subquery) else raw_subquery
+
+                # Narratize IN (SELECT ...) naturally
                 if isinstance(inner_query, exp.Select):
-                     # "where [left] matches any of the [col]s from [table] [where]"
-                     # Extract target column
-                     target_cols = [self._render_expression(e, f"{context}_in_col") for e in inner_query.expressions]
-                     target_col = target_cols[0] if target_cols else "value"
-                     
-                     from_node = inner_query.args.get('from_')
-                     table_name = ""
-                     if from_node:
-                         table_name = self._render_table(from_node.this, context + "_in_tbl")
-                     
-                     where_node = inner_query.args.get('where')
-                     where_str = ""
-                     if where_node:
-                         where_str = f" where {self._render_expression(where_node.this, context + '_in_where')}"
-                     
-                     return f"{left} matches any of the {target_col}s from {table_name}{where_str}"
+                    target_cols = [self._render_expression(e, f"{context}_in_col") for e in inner_query.expressions]
+                    target_col = target_cols[0] if target_cols else "value"
+
+                    from_node = inner_query.args.get('from_')
+                    table_name = ""
+                    if from_node:
+                        table_name = self._render_table(from_node.this, context + "_in_tbl")
+
+                    where_node = inner_query.args.get('where')
+                    where_str = ""
+                    if where_node:
+                        where_str = f" where {self._render_expression(where_node.this, context + '_in_where')}"
+
+                    return f"{left} matches any of the {target_col}s from {table_name}{where_str}"
 
                 subquery_nl = self._render_subquery(inner_query, context + '_sub')
                 return f"{left} is in ({subquery_nl})"
-            # Handle IN with literal list (IN (1, 2, 3))
-            if expr.expressions:
+
+            # Handle IN with a scalar literal list (IN (1, 2, 3) / IN ('a', 'b'))
+            # Guard: skip if any entry is a Select/Subquery (should have been handled above)
+            if expr.expressions and not any(isinstance(e, (exp.Select, exp.Subquery)) for e in expr.expressions):
                 values = ", ".join([self._render_expression(e, f"{context}_v{i}") for i, e in enumerate(expr.expressions)])
                 return f"{left} is in [{values}]"
             return f"{left} is in (unknown)"

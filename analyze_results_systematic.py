@@ -476,6 +476,81 @@ def generate_plots(df: pd.DataFrame, output_dir: str):
     plt.savefig(f'{output_dir}/baseline_vs_perturbation_by_model.png')
     plt.close()
 
+    # 5. Heatmap: Accuracy by Perturbation Type × Model (all models, one image)
+    pivot = (
+        df.groupby(['perturbation_type', 'model_name'])['is_equivalent']
+        .mean()
+        .mul(100)
+        .unstack(level='model_name')
+    )
+    # Shorten model names for readability (strip org prefix)
+    pivot.columns = [c.split('/')[-1] for c in pivot.columns]
+    # Sort rows by mean accuracy ascending so hardest types are at the top
+    pivot = pivot.loc[pivot.mean(axis=1).sort_values().index]
+
+    fig, ax = plt.subplots(figsize=(max(10, len(pivot.columns) * 1.8), max(8, len(pivot) * 0.7)))
+    sns.heatmap(
+        pivot,
+        annot=True,
+        fmt='.1f',
+        cmap='RdYlGn',
+        linewidths=0.5,
+        linecolor='#cccccc',
+        vmin=0,
+        vmax=100,
+        ax=ax,
+        cbar_kws={'label': 'Accuracy (%)'},
+    )
+    ax.set_title('Accuracy (%) by Perturbation Type × Model', fontsize=14, fontweight='bold', pad=12)
+    ax.set_xlabel('Model', fontsize=11)
+    ax.set_ylabel('Perturbation Type', fontsize=11)
+    ax.tick_params(axis='x', rotation=30)
+    ax.tick_params(axis='y', rotation=0)
+    plt.tight_layout()
+    heatmap_path = f'{output_dir}/accuracy_heatmap_perttype_x_model.png'
+    plt.savefig(heatmap_path, dpi=150)
+    plt.close()
+    print(f"🗺️  Heatmap saved → {heatmap_path}")
+
+    # 6. Heatmap: Accuracy by Complexity Type × Model (BASELINE only)
+    baseline_df = df[df['perturbation_source'] == 'baseline'].copy()
+    if not baseline_df.empty and 'complexity' in baseline_df.columns:
+        cplx_pivot = (
+            baseline_df.groupby(['complexity', 'model_name'])['is_equivalent']
+            .mean()
+            .mul(100)
+            .unstack(level='model_name')
+        )
+        cplx_pivot.columns = [c.split('/')[-1] for c in cplx_pivot.columns]
+        # Sort rows by mean accuracy ascending (hardest at top)
+        cplx_pivot = cplx_pivot.loc[cplx_pivot.mean(axis=1).sort_values().index]
+
+        fig, ax = plt.subplots(figsize=(max(10, len(cplx_pivot.columns) * 1.8), max(6, len(cplx_pivot) * 0.8)))
+        sns.heatmap(
+            cplx_pivot,
+            annot=True,
+            fmt='.1f',
+            cmap='RdYlGn',
+            linewidths=0.5,
+            linecolor='#cccccc',
+            vmin=0,
+            vmax=100,
+            ax=ax,
+            cbar_kws={'label': 'Accuracy (%)'},
+        )
+        ax.set_title('Accuracy (%) by Query Complexity × Model — Baseline Only', fontsize=14, fontweight='bold', pad=12)
+        ax.set_xlabel('Model', fontsize=11)
+        ax.set_ylabel('Complexity Type', fontsize=11)
+        ax.tick_params(axis='x', rotation=30)
+        ax.tick_params(axis='y', rotation=0)
+        plt.tight_layout()
+        cplx_heatmap_path = f'{output_dir}/accuracy_heatmap_complexity_x_model_baseline.png'
+        plt.savefig(cplx_heatmap_path, dpi=150)
+        plt.close()
+        print(f"🗺️  Complexity heatmap (baseline) saved → {cplx_heatmap_path}")
+    else:
+        print("⚠️  No baseline records with complexity field — skipping complexity heatmap.")
+
     print(f"📊 Plots saved to {output_dir}")
 
 
