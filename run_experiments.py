@@ -25,11 +25,17 @@ from src.utils.data_loader import (
 from src.utils.storage_manager import StorageManager
 
 # Configuration Defaults (Can be overridden by env vars)
-LOCAL_BASE = os.getenv('LOCAL_BASE', '/content/experiment_workspace')
-REPO_PATH = os.getenv('REPO_PATH', f'{LOCAL_BASE}/sql-nl')
-DRIVE_BASE = os.getenv('DRIVE_BASE', '/content/drive/MyDrive/ExpResults')
-CONFIG_PATH = f'{REPO_PATH}/experiments.yaml'
-DATASET_DIR = f'{REPO_PATH}/dataset/current'
+IS_COLAB = os.path.exists('/content')
+
+DEFAULT_LOCAL_BASE = '/content/experiment_workspace' if IS_COLAB else './experiment_workspace'
+DEFAULT_REPO_PATH = f'{DEFAULT_LOCAL_BASE}/sql-nl' if IS_COLAB else '.'
+DEFAULT_DRIVE_BASE = '/content/drive/MyDrive/ExpResults' if IS_COLAB else './drive_backup'
+
+LOCAL_BASE = os.getenv('LOCAL_BASE', DEFAULT_LOCAL_BASE)
+REPO_PATH = os.getenv('REPO_PATH', DEFAULT_REPO_PATH)
+DRIVE_BASE = os.getenv('DRIVE_BASE', DEFAULT_DRIVE_BASE)
+CONFIG_PATH = os.path.join(REPO_PATH, 'experiments.yaml')
+DATASET_DIR = os.path.join(REPO_PATH, 'dataset/current')
 
 def setup_directories(run_timestamp: str):
     """Create local and drive directories for this run."""
