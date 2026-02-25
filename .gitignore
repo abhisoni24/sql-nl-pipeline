@@ -14,3 +14,4 @@ local_eval_workspace_worker_*
 */test_dbs
 sample_exp_run/*each
 sample_exp_run/**/outputs/*.jsonl
+.DS_Store
