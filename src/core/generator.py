@@ -269,9 +269,11 @@ class SQLQueryGenerator:
     def generate_dataset(self, num_per_complexity=300):
         """
         Generates a fixed number of queries for each complexity type.
-        types: ['simple', 'join', 'advanced', 'union', 'insert', 'update', 'delete']
+        Uses the complexity registry for extensibility.
         """
-        complexity_types = ['simple', 'join', 'advanced', 'union', 'insert', 'update', 'delete']
+        from src.complexity.registry import all_handler_names
+        
+        complexity_types = all_handler_names()
         dataset = []
         
         global_id_counter = 1
@@ -297,250 +299,19 @@ class SQLQueryGenerator:
         return dataset
 
     def generate_query(self, complexity=None):
+        """
+        Generate a single SQL query using the complexity registry.
+        
+        Each complexity type is handled by a registered ComplexityHandler
+        that receives this generator instance for access to shared helpers.
+        """
+        from src.complexity.registry import get_handler, all_handler_names
+        
         root_table = random.choice(list(self.schema.keys()))
         root_alias = f"{root_table[0]}1"
         
         if complexity is None:
-            complexity = random.choices(
-                ['simple', 'join', 'aggregate', 'advanced', 'insert', 'update', 'delete'],
-                weights=[0.35, 0.25, 0.15, 0.05, 0.1, 0.05, 0.05]
-            )[0]
+            complexity = random.choice(all_handler_names())
         
-        if complexity == 'insert':
-            return self.generate_insert(root_table), complexity
-        elif complexity == 'update':
-            return self.generate_update(root_table), complexity
-        elif complexity == 'delete':
-            return self.generate_delete(root_table), complexity
-        elif complexity == 'union':
-            return self.generate_union(), complexity
-            
-        query = exp.select()
-        query = query.from_(exp.to_table(root_table).as_(root_alias))
-        
-        if complexity == 'simple':
-            selects = self.generate_select(root_table, alias=root_alias)
-            for s in selects: query = query.select(s, copy=False)
-            
-            if random.random() < 0.5:
-                where = self.generate_where(root_table, alias=root_alias)
-                if where: query = query.where(where)
-                
-            if random.random() < 0.3:
-                 cols = list(self.schema[root_table].keys())
-                 query = query.order_by(exp.column(random.choice(cols), table=root_alias), desc=random.choice([True, False]))
-                 
-            if random.random() < 0.3:
-                query = query.limit(random.randint(1, 100))
-
-        elif complexity == 'join':
-            # Try to add a join
-            join_info = self.generate_join(root_table, root_alias, [])
-            if join_info:
-                target_table, target_alias, on_clause = join_info
-                join_kind = random.choice(["INNER", "LEFT", "RIGHT", "FULL"])
-                query = query.join(exp.to_table(target_table).as_(target_alias), on=on_clause, join_type=join_kind)
-                
-                # Select from both
-                s1 = self.generate_select(root_table, alias=root_alias)
-                s2 = self.generate_select(target_table, alias=target_alias)
-                # Flatten and pick a few
-                all_selects = s1 + s2
-                final_selects = random.sample(all_selects, min(len(all_selects), 4))
-                
-                # Remove redundancy: if * is selected, keep only ONE * and remove specific columns
-                has_star = any(isinstance(s, exp.Star) for s in final_selects)
-                if has_star:
-                    final_selects = [exp.Star()]  # Keep only a single star
-                
-                for s in final_selects: query = query.select(s, copy=False)
-                
-                if random.random() < 0.5:
-                    where = self.generate_where(target_table, alias=target_alias)
-                    if where: query = query.where(where)
-            else:
-                # If we requested a join but cannot join, this is an error for generation
-                raise ValueError("Could not find a valid foreign key for join.")
-# for later: have to check if we can remove this aggregate complexity type entirely; suspicious if its add value.
-# Aggregates seems to have been used in select statements already? Is it?
-        # elif complexity == 'aggregate':
-        #     # Group by 1 column
-        #     cols = list(self.schema[root_table].keys())
-        #     group_col = random.choice(cols)
-            
-        #     selects = self.generate_select(root_table, use_aggregate=True, group_by_cols=[group_col], alias=root_alias)
-        #     for s in selects: query = query.select(s, copy=False)
-            
-        #     query = query.group_by(exp.column(group_col, table=root_alias))
-            
-        #     if random.random() < 0.4:
-        #         # Having count > 5
-        #         query = query.having(exp.GT(this=exp.Count(this=exp.Star()), expression=exp.Literal.number(5)))
-
-        elif complexity == 'advanced':
-            # More variety in subtypes with weighted probability
-            subtype = random.choices(
-                ['subquery_where', 'subquery_from', 'self_join', 'exists_subquery'],
-                weights=[0.35, 0.35, 0.15, 0.15]
-            )[0]
-            
-            if subtype == 'subquery_where':
-                # Subquery in WHERE: WHERE col IN (SELECT ...)
-                selects = self.generate_select(root_table, alias=root_alias)
-                for s in selects: query = query.select(s, copy=False)
-                
-                # Find a foreign key to filter on
-                candidates = []
-                for (t1, t2), (k1, k2) in self.foreign_keys.items():
-                    if t1 == root_table:
-                        candidates.append((t2, k1, k2))
-                
-                if candidates:
-                    target_table, left_key, right_key = random.choice(candidates)
-                    # Create a meaningful subquery
-                    sub_alias = f"sub_{target_table[0]}"
-                    subquery = exp.select(exp.column(right_key, table=sub_alias)).from_(exp.to_table(target_table).as_(sub_alias))
-                    
-                    # Add a filter to the subquery to make it interesting
-                    sub_where = self.generate_where(target_table, alias=sub_alias)
-                    if sub_where:
-                        subquery = subquery.where(sub_where)
-                    
-                    query = query.where(exp.In(this=exp.column(left_key, table=root_alias), expressions=[subquery]))
-                else:
-                     # Fallback
-                     raise ValueError("Could not find candidates for subquery_where")
-
-            elif subtype == 'subquery_from':
-                # Subquery in FROM: FROM (SELECT ...) AS sub
-                # 1. Generate inner query
-                inner_alias = f"inner_{root_table}"
-                inner_query = exp.select("*").from_(exp.to_table(root_table).as_(inner_alias))
-                inner_where = self.generate_where(root_table, alias=inner_alias)
-                if inner_where:
-                    inner_query = inner_query.where(inner_where)
-                
-                # 2. Wrap in outer query
-                outer_alias = "derived_table"
-                query = exp.select("*").from_(inner_query.subquery(alias=outer_alias))
-                
-                # Add a filter on the outer query if possible
-                if random.random() < 0.5:
-                    # Pick a column from root_table (which is in * of derived table)
-                    cols = list(self.schema[root_table].keys())
-                    col_name = random.choice(cols)
-                    # We need to manually construct the where because generate_where expects a table name for schema lookup
-                    # We can reuse generate_where but pass root_table and outer_alias
-                    outer_where = self.generate_where(root_table, alias=outer_alias)
-                    if outer_where:
-                        query = query.where(outer_where)
-
-            elif subtype == 'self_join':
-                # Self-join with variety - pick a table that can self-join
-                self_joinable = ['follows', 'users', 'posts', 'comments']
-                root_table = random.choice(self_joinable)
-                root_alias = f"{root_table[0]}1"
-                target_alias = f"{root_table[0]}2"
-                query = exp.select().from_(exp.to_table(root_table).as_(root_alias))
-                
-                # Different self-join patterns based on table
-                if root_table == 'follows':
-                    # Friend of friend pattern
-                    query = query.select(
-                        exp.column('follower_id', table=root_alias).as_('user'),
-                        exp.column('followee_id', table=target_alias).as_('friend_of_friend')
-                    )
-                    join_cond = exp.EQ(
-                        this=exp.column('followee_id', table=root_alias),
-                        expression=exp.column('follower_id', table=target_alias)
-                    )
-                elif root_table == 'users':
-                    # Find users with same country
-                    query = query.select(
-                        exp.column('username', table=root_alias).as_('user1'),
-                        exp.column('username', table=target_alias).as_('user2'),
-                        exp.column('country_code', table=root_alias)
-                    )
-                    join_cond = exp.And(
-                        this=exp.EQ(
-                            this=exp.column('country_code', table=root_alias),
-                            expression=exp.column('country_code', table=target_alias)
-                        ),
-                        expression=exp.NEQ(
-                            this=exp.column('id', table=root_alias),
-                            expression=exp.column('id', table=target_alias)
-                        )
-                    )
-                elif root_table == 'posts':
-                    # Find posts by same user
-                    query = query.select(
-                        exp.column('id', table=root_alias).as_('post1'),
-                        exp.column('id', table=target_alias).as_('post2'),
-                        exp.column('user_id', table=root_alias)
-                    )
-                    join_cond = exp.And(
-                        this=exp.EQ(
-                            this=exp.column('user_id', table=root_alias),
-                            expression=exp.column('user_id', table=target_alias)
-                        ),
-                        expression=exp.LT(
-                            this=exp.column('id', table=root_alias),
-                            expression=exp.column('id', table=target_alias)
-                        )
-                    )
-                else:  # comments
-                    # Find comments on same post
-                    query = query.select(
-                        exp.column('id', table=root_alias).as_('comment1'),
-                        exp.column('id', table=target_alias).as_('comment2'),
-                        exp.column('post_id', table=root_alias)
-                    )
-                    join_cond = exp.And(
-                        this=exp.EQ(
-                            this=exp.column('post_id', table=root_alias),
-                            expression=exp.column('post_id', table=target_alias)
-                        ),
-                        expression=exp.NEQ(
-                            this=exp.column('id', table=root_alias),
-                            expression=exp.column('id', table=target_alias)
-                        )
-                    )
-                
-                query = query.join(exp.to_table(root_table).as_(target_alias), on=join_cond)
-                
-                if random.random() < 0.3:
-                    query = query.limit(random.randint(5, 20))
-
-            elif subtype == 'exists_subquery':
-                # EXISTS/NOT EXISTS subquery
-                selects = self.generate_select(root_table, alias=root_alias)
-                for s in selects: query = query.select(s, copy=False)
-                
-                # Find a related table for EXISTS check
-                candidates = [(t2, k1, k2) for (t1, t2), (k1, k2) in self.foreign_keys.items() if t1 == root_table]
-                if candidates:
-                    target_table, left_key, right_key = random.choice(candidates)
-                    sub_alias = f"sub_{target_table[0]}"
-                    
-                    # Build EXISTS subquery
-                    subquery = exp.select(exp.Literal.number(1)).from_(exp.to_table(target_table).as_(sub_alias))
-                    subquery = subquery.where(exp.EQ(
-                        this=exp.column(right_key, table=sub_alias),
-                        expression=exp.column(left_key, table=root_alias)
-                    ))
-                    
-                    # Add extra filter
-                    sub_where = self.generate_where(target_table, alias=sub_alias)
-                    if sub_where:
-                        subquery = subquery.where(sub_where)
-                    
-                    # Randomly use EXISTS or NOT EXISTS
-                    exists_expr = exp.Exists(this=subquery)
-                    if random.random() < 0.3:
-                        query = query.where(exp.Not(this=exists_expr))
-                    else:
-                        query = query.where(exists_expr)
-                else:
-                    raise ValueError("Could not find candidates for exists_subquery")
-
-        return query, complexity
+        handler = get_handler(complexity)
+        return handler.generate(self, root_table, root_alias)

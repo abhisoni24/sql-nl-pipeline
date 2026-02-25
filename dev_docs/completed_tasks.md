@@ -6,31 +6,31 @@
 
 ## Phase 1: Schema Abstraction Layer
 
-| Step                                   | Status     | Notes |
-| -------------------------------------- | ---------- | ----- |
-| 1.1 Create `SchemaConfig` dataclass    | ⬜ Pending |       |
-| 1.2 Create schema loaders              | ⬜ Pending |       |
-| 1.3 Create `social_media.yaml`         | ⬜ Pending |       |
-| 1.4 Verify parity with existing schema | ⬜ Pending |       |
+| Step                                   | Status  | Notes                                                                                                             |
+| -------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
+| 1.1 Create `SchemaConfig` dataclass    | ✅ Done | `src/core/schema_config.py` — `SchemaConfig`, `TableDef`, `ColumnDef`, `ForeignKeyDef` with legacy compat methods |
+| 1.2 Create schema loaders              | ✅ Done | `src/core/schema_loader.py` — `load_from_yaml()`, `load_from_sqlite()`, `load_from_legacy()`                      |
+| 1.3 Create `social_media.yaml`         | ✅ Done | `schemas/social_media.yaml` — 5 tables, 6 FK definitions                                                          |
+| 1.4 Verify parity with existing schema | ✅ Done | All 12 FK pairs match, 5 table schemas match, FK column marking verified on both sides                            |
 
 ## Phase 2: Linguistic Dictionary Builder
 
-| Step                                        | Status     | Notes |
-| ------------------------------------------- | ---------- | ----- |
-| 2.1 Create `LinguisticDictionary` dataclass | ⬜ Pending |       |
-| 2.2 Create automated dictionary builder     | ⬜ Pending |       |
-| 2.3 Save/load dictionary as YAML            | ⬜ Pending |       |
-| 2.4 Verify dictionary quality               | ⬜ Pending |       |
+| Step                                        | Status  | Notes                                                                                       |
+| ------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
+| 2.1 Create `LinguisticDictionary` dataclass | ✅ Done | `src/core/linguistic_dictionary.py` — schema-specific + universal banks, lookup methods     |
+| 2.2 Create automated dictionary builder     | ✅ Done | `src/core/dictionary_builder.py` — WordNet expansion, compound synonyms, category inference |
+| 2.3 Save/load dictionary as YAML            | ✅ Done | `save_dictionary()` and `load_dictionary()` in dictionary_builder.py, round-trip verified   |
+| 2.4 Verify dictionary quality               | ✅ Done | 100% coverage vs existing synonyms, categories correct, all lookups work                    |
 
 ## Phase 3: Complexity Type Registry
 
-| Step                                      | Status     | Notes |
-| ----------------------------------------- | ---------- | ----- |
-| 3.1 Define `ComplexityHandler` ABC        | ⬜ Pending |       |
-| 3.2 Extract logic into handler classes    | ⬜ Pending |       |
-| 3.3 Build the registry                    | ⬜ Pending |       |
-| 3.4 Update `generator.py` to use registry | ⬜ Pending |       |
-| 3.5 Verify generation parity              | ⬜ Pending |       |
+| Step                                      | Status  | Notes                                                                          |
+| ----------------------------------------- | ------- | ------------------------------------------------------------------------------ |
+| 3.1 Define `ComplexityHandler` ABC        | ✅ Done | `src/complexity/base.py` — ABC with `generate()`, `is_match()`                 |
+| 3.2 Extract logic into handler classes    | ✅ Done | 7 handler files: simple, join_handler, advanced, union, insert, update, delete |
+| 3.3 Build the registry                    | ✅ Done | `src/complexity/registry.py` — `get_handler()`, `all_handlers()`, `register()` |
+| 3.4 Update `generator.py` to use registry | ✅ Done | Replaced if/elif chain and hardcoded list with registry-based dispatch         |
+| 3.5 Verify generation parity              | ✅ Done | 350 queries generated, SQL test suite: **5975/5975 passed, 0 failures**        |
 
 ## Phase 4: Two-Pass NL Renderer
 
