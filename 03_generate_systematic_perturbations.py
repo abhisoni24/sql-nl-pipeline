@@ -1,102 +1,172 @@
 """
-Script to generate systematic prompt perturbations using deterministic rules.
+Step 3: Generate systematic prompt perturbations using deterministic rules.
+
+Uses the modular perturbation registry (``src.perturbations.registry``) to
+auto-discover all registered ``PerturbationStrategy`` subclasses.
+
+Usage
+-----
+  # Schema-driven (recommended)
+  python 03_generate_systematic_perturbations.py --schema schemas/bank.yaml
+
+  # With explicit I/O
+  python 03_generate_systematic_perturbations.py \\
+      -i dataset/current/nl_bank_queries.json \\
+      -o dataset/current/nl_bank_queries_systematic.json \\
+      --schema schemas/bank.yaml
+
+  # Legacy (social_media defaults)
+  python 03_generate_systematic_perturbations.py
 """
 
 import json
 import sys
 import os
+import random
+from datetime import datetime, timezone
 from typing import Dict, Any, List
 
 # Ensure project root is in path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from sqlglot import parse_one
-from src.core.nl_renderer import SQLToNLRenderer, PerturbationType, PerturbationConfig
-from src.core.schema import USED_SQL_DIALECT
+from src.perturbations.registry import all_strategies
 
-INPUT_FILE = './dataset/current/nl_social_media_queries_20.json'
-OUTPUT_FILE = './dataset/current/nl_social_media_queries_systematic_20.json'
 
-PERTURBATION_DESCRIPTIONS = {
-    PerturbationType.OMIT_OBVIOUS_CLAUSES: "Removed explicit SQL clause keywords.",
-    PerturbationType.SYNONYM_SUBSTITUTION: "Replaced query action verbs with synonyms.",
-    PerturbationType.VERBOSITY_VARIATION: "Inserted conversational fillers.",
-    PerturbationType.OPERATOR_AGGREGATE_VARIATION: "Varied operator/aggregate format.",
-    PerturbationType.TYPOS: "Injected keyboard typos.",
-    PerturbationType.COMMENT_ANNOTATIONS: "Added SQL comments/notes.",
-    PerturbationType.TEMPORAL_EXPRESSION_VARIATION: "Used relative temporal terms.",
-    PerturbationType.PUNCTUATION_VARIATION: "Modified sentence rhythm.",
-    PerturbationType.URGENCY_QUALIFIERS: "Added urgency markers.",
-    PerturbationType.MIXED_SQL_NL: "Blended raw SQL keywords.",
-    PerturbationType.TABLE_COLUMN_SYNONYMS: "Used human-centric schema synonyms.",
-    PerturbationType.INCOMPLETE_JOIN_SPEC: "Omitted explicit JOIN/ON syntax.",
-    PerturbationType.AMBIGUOUS_PRONOUNS: "Replaced one reference with it/that."
-}
+# ── Helpers ──────────────────────────────────────────────────────────────
+
+def _load_records(path):
+    """Load records from a JSON file, supporting both bare-list and metadata-wrapped formats."""
+    with open(path) as f:
+        data = json.load(f)
+    if isinstance(data, dict) and "records" in data:
+        return data["records"], data.get("metadata", {})
+    return data, {}
+
+
+def _resolve_dialect(schema_path=None, upstream_meta=None):
+    """Determine the SQL dialect to use, with fallback chain."""
+    if schema_path:
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(schema_path)
+        return cfg.dialect, cfg.schema_name
+    if upstream_meta and upstream_meta.get("dialect"):
+        return upstream_meta["dialect"], upstream_meta.get("schema_name", "unknown")
+    return "sqlite", "social_media"
+
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate systematic perturbations.")
+    parser.add_argument("--input", "-i", default=None,
+                        help="Path to the NL query JSON file (default: dataset/current/nl_<schema>_queries.json)")
+    parser.add_argument("--output", "-o", default=None,
+                        help="Path for the output perturbation JSON file (default: dataset/current/nl_<schema>_queries_systematic.json)")
+    parser.add_argument("--schema", "-s", default=None,
+                        help="Path to a YAML schema file (provides dialect and schema name)")
+    args = parser.parse_args()
+
+    # ── Resolve schema info ──────────────────────────────────────────
+    schema_name = "social_media"
+    dialect = "sqlite"
+    if args.schema:
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(args.schema)
+        schema_name = cfg.schema_name
+        dialect = cfg.dialect
+        print(f"Schema: '{schema_name}', dialect: '{dialect}'")
+
+    INPUT_FILE = args.input or f"./dataset/current/nl_{schema_name}_queries.json"
+    OUTPUT_FILE = args.output or f"./dataset/current/nl_{schema_name}_queries_systematic.json"
+
     if not os.path.exists(INPUT_FILE):
         print(f"Error: {INPUT_FILE} not found.")
         return
 
-    with open(INPUT_FILE, 'r') as f:
-        queries = json.load(f)
+    records, upstream_meta = _load_records(INPUT_FILE)
 
-    output_data = []
-    base_renderer = SQLToNLRenderer()
-    
-    print(f"Processing {len(queries)} queries for systematic perturbations...")
-    
-    for i, query_item in enumerate(queries):
-        sql = query_item['sql']
-        
+    # If no --schema, try to get dialect from upstream metadata
+    if not args.schema and upstream_meta:
+        dialect = upstream_meta.get("dialect", dialect)
+        schema_name = upstream_meta.get("schema_name", schema_name)
+
+    strategies = all_strategies()
+    output_records = []
+
+    print(f"Processing {len(records)} queries for systematic perturbations...")
+    print(f"Registered strategies ({len(strategies)}): {sorted(strategies.keys())}")
+
+    for i, query_item in enumerate(records):
+        sql = query_item["sql"]
+        baseline_nl = query_item.get("nl_prompt", "")
+
         output_item = {
-            "id": query_item.get('id', i+1),
+            "id": query_item.get("id", i + 1),
             "sql": sql,
             "generated_perturbations": {
-                "original": {"nl_prompt": query_item.get('nl_prompt', '')},
+                "original": {"nl_prompt": baseline_nl},
                 "single_perturbations": [],
-                "metadata": {}
-            }
+                "metadata": {},
+            },
         }
-        
+
         try:
-            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql, dialect=dialect)
         except Exception:
             continue
 
+        context = {"seed": 42 + i}
+        rng = random.Random(42 + i)
+
         applicable_count = 0
-        for p_type in PerturbationType:
-            is_app = base_renderer.is_applicable(ast, p_type)
-            entry = {"perturbation_name": p_type.value, "applicable": is_app, "perturbed_nl_prompt": None}
-            
+        for name, strategy in strategies.items():
+            is_app = strategy.is_applicable(ast, baseline_nl, context)
+            entry = {"perturbation_name": name, "applicable": is_app, "perturbed_nl_prompt": None}
+
             if is_app:
-                config = PerturbationConfig(active_perturbations={p_type}, seed=42 + i)
                 try:
-                    perturbed = SQLToNLRenderer(config).render(ast)
-                    original = output_item["generated_perturbations"]["original"]["nl_prompt"]
-                    
+                    perturbed = strategy.apply(baseline_nl, ast, rng, context)
+
                     # FINAL DIFF CHECK: Only mark truly applicable if it actually changed the string
-                    if perturbed == original:
+                    if perturbed == baseline_nl:
                         entry["applicable"] = False
                         entry["perturbed_nl_prompt"] = None
                     else:
                         entry["perturbed_nl_prompt"] = perturbed
-                        entry["changes_made"] = PERTURBATION_DESCRIPTIONS[p_type]
+                        entry["changes_made"] = strategy.description
                         applicable_count += 1
-                except Exception as e:
+                except Exception:
                     entry["applicable"] = False
-            
+
             output_item["generated_perturbations"]["single_perturbations"].append(entry)
-            
+
         output_item["generated_perturbations"]["metadata"]["total_applicable"] = applicable_count
-        output_data.append(output_item)
-        
-        if (i+1) % 50 == 0: print(f"Progress: {i+1} queries...")
-            
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, 'w') as f:
+        output_records.append(output_item)
+
+        if (i + 1) % 50 == 0:
+            print(f"Progress: {i + 1} queries...")
+
+    # ── Wrap in metadata envelope ────────────────────────────────────
+    output_data = {
+        "metadata": {
+            "schema_name": schema_name,
+            "dialect": dialect,
+            "schema_source": args.schema or upstream_meta.get("schema_source", "src/core/schema.py (legacy)"),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "num_records": len(output_records),
+            "num_strategies": len(strategies),
+            "strategies": sorted(strategies.keys()),
+            "pipeline_step": "03_generate_systematic_perturbations",
+            "upstream": upstream_meta or None,
+        },
+        "records": output_records,
+    }
+
+    os.makedirs(os.path.dirname(OUTPUT_FILE) or ".", exist_ok=True)
+    with open(OUTPUT_FILE, "w") as f:
         json.dump(output_data, f, indent=2)
     print(f"Dataset generated at {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     main()

@@ -1224,13 +1224,48 @@ class SQLToNLRenderer:
             return "a date"
 
     def is_applicable(self, ast: exp.Expression, p_type: PerturbationType) -> bool:
-        if p_type in {PerturbationType.TYPOS, PerturbationType.URGENCY_QUALIFIERS, PerturbationType.VERBOSITY_VARIATION, PerturbationType.PUNCTUATION_VARIATION, PerturbationType.COMMENT_ANNOTATIONS, PerturbationType.SYNONYM_SUBSTITUTION, PerturbationType.MIXED_SQL_NL, PerturbationType.OMIT_OBVIOUS_CLAUSES}: 
+        is_insert = isinstance(ast, exp.Insert)
+        is_dml = isinstance(ast, (exp.Insert, exp.Update, exp.Delete))
+
+        # Post-processing perturbations: always applicable
+        if p_type in {PerturbationType.TYPOS, PerturbationType.URGENCY_QUALIFIERS,
+                      PerturbationType.VERBOSITY_VARIATION, PerturbationType.PUNCTUATION_VARIATION,
+                      PerturbationType.COMMENT_ANNOTATIONS}:
             return True
+
+        # Synonym substitution: not applicable for DML (insert/update/delete have
+        # fixed operation verbs that should not be swapped)
+        if p_type == PerturbationType.SYNONYM_SUBSTITUTION:
+            return not is_dml
+
+        # Omit obvious clauses: not applicable for INSERT (markers cannot be
+        # stripped while keeping intent clear)
+        if p_type == PerturbationType.OMIT_OBVIOUS_CLAUSES:
+            return not is_insert
+
+        # Mixed SQL/NL: not applicable for INSERT (INSERT NL is already close to
+        # natural language with no SQL keywords to blend)
+        if p_type == PerturbationType.MIXED_SQL_NL:
+            return not is_insert
         
         if p_type == PerturbationType.INCOMPLETE_JOIN_SPEC: 
             return bool(ast.find(exp.Join))
         
         if p_type == PerturbationType.TEMPORAL_EXPRESSION_VARIATION: 
+            # INSERT sets date values but doesn't filter by them — not applicable
+            if is_insert:
+                return False
+
+            # For UPDATE/DELETE, only applicable if temporal expression is in WHERE
+            # (dates in SET clauses don't produce temporal anchors in the perturbed NL)
+            if is_dml:
+                where_node = ast.find(exp.Where)
+                if not where_node:
+                    return False
+                has_iso = any(re.search(r'\d{4}-\d{2}-\d{2}', str(l.this)) for l in where_node.find_all(exp.Literal))
+                has_func = any(str(a.this).lower() == 'datetime' for a in where_node.find_all(exp.Anonymous)) or bool(where_node.find(exp.DateSub))
+                return has_iso or has_func
+
             # Detect ISO dates in literals
             has_iso = any(re.search(r'\d{4}-\d{2}-\d{2}', str(l.this)) for l in ast.find_all(exp.Literal))
             # Detect DATETIME/NOW functions
@@ -1252,17 +1287,20 @@ class SQLToNLRenderer:
             return has_op or has_agg
 
         if p_type == PerturbationType.AMBIGUOUS_PRONOUNS:
-            # Anchored Substitutions: Needs at least one repeated entity (type-aware)
-            freq = {}
+            # Pronoun substitution only fires for repeated TABLE mentions
+            # (not columns), so only check table frequency.
+            # Also exclude self-joins (renderer blocks pronouns for those).
+            table_names = []
             for t in ast.find_all(exp.Table):
                  val = t.this.this.lower() if hasattr(t.this, 'this') else str(t.this).lower()
-                 key = ('table', val)
-                 freq[key] = freq.get(key, 0) + 1
-            for c in ast.find_all(exp.Column):
-                 val = c.this.this.lower() if hasattr(c.this, 'this') else str(c.this).lower()
-                 key = ('column', val)
-                 freq[key] = freq.get(key, 0) + 1
-            
-            return any(count > 1 for count in freq.values())
+                 if val and not self._is_technical_alias(val):
+                     table_names.append(val)
+            # Need at least 2 distinct tables (for a second mention to pronoun-ify)
+            # AND not a self-join (same table twice)
+            if len(table_names) < 2:
+                return False
+            if len(set(table_names)) == 1:
+                return False  # self-join
+            return True
 
         return True

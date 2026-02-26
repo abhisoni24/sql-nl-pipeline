@@ -15,16 +15,22 @@ class VLLMAdapter(BaseModelAdapter):
     def __init__(self, model_name: str, **kwargs):
         if LLM is None:
             raise ImportError("vllm package is required for VLLMAdapter")
-        
+
         self._model_name = model_name
-        
+
+        # Configurable generation params (popped before passing to vLLM engine)
+        self._max_tokens = kwargs.pop('max_tokens', 512)
+        self._temperature = kwargs.pop('temperature', 0.0)
+        self._stop = kwargs.pop('stop', [";"])
+        self._system_prompt = kwargs.pop('system_prompt', None)
+
         # FIX: Disable custom multiprocessing for Colab compatibility
         import os
         os.environ['VLLM_WORKER_MULTIPROC_METHOD'] = 'spawn'
-        
+
         # Extract VLLM specific args from kwargs, with defaults for Colab
         tensor_parallel_size = kwargs.get('tensor_parallel_size', 1)
-        max_model_len = kwargs.get('max_model_len') # Default None = auto
+        max_model_len = kwargs.get('max_model_len')  # Default None = auto
         quantization = kwargs.get('quantization')
         gpu_memory_utilization = kwargs.get('gpu_memory_utilization', 0.85)
         enforce_eager = kwargs.get('enforce_eager', True)
@@ -34,7 +40,7 @@ class VLLMAdapter(BaseModelAdapter):
         # Initialize vLLM engine
         self.llm = LLM(
             model=model_name,
-            tensor_parallel_size=tensor_parallel_size, 
+            tensor_parallel_size=tensor_parallel_size,
             trust_remote_code=trust_remote_code,
             max_model_len=max_model_len,
             quantization=quantization,
@@ -42,15 +48,14 @@ class VLLMAdapter(BaseModelAdapter):
             # Colab stability settings:
             disable_log_stats=True,
             enforce_eager=enforce_eager,
-            gpu_memory_utilization=gpu_memory_utilization
+            gpu_memory_utilization=gpu_memory_utilization,
         )
-        
-        # Fixed decoding parameters as per requirements
+
         self.sampling_params = SamplingParams(
-            temperature=0.0,
+            temperature=self._temperature,
             top_p=1.0,
-            max_tokens=512,
-            stop=[";"]
+            max_tokens=self._max_tokens,
+            stop=self._stop,
         )
 
     def generate(self, prompts: List[str]) -> List[str]:
@@ -67,6 +72,12 @@ class VLLMAdapter(BaseModelAdapter):
             results.append(generated_text)
         return results
 
+    def format_prompt(self, prompt: str) -> str:
+        """Prepend system prompt for vLLM models when provided."""
+        if self._system_prompt:
+            return f"{self._system_prompt}\n\n{prompt}"
+        return prompt
+
     def model_name(self) -> str:
         return self._model_name
 
@@ -75,8 +86,8 @@ class VLLMAdapter(BaseModelAdapter):
 
     def decoding_config(self) -> Dict[str, Any]:
         return {
-            "temperature": 0.0,
+            "temperature": self._temperature,
             "top_p": 1.0,
-            "max_tokens": 512,
-            "stop": [";"]
+            "max_tokens": self._max_tokens,
+            "stop": self._stop,
         }

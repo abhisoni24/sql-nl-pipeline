@@ -1,12 +1,29 @@
 """
-Generate NL prompts and LLM-based perturbations from raw SQL queries using Gemini
-and context caching. Sends ONLY the SQL to the LLM and asks it to:
+Step 4b: Generate NL prompts + LLM perturbations from raw SQL using Gemini.
+
+Sends ONLY the SQL to the LLM and asks it to:
   1. Generate a natural language prompt for the SQL
   2. Generate 14 single-perturbation versions + 1 compound perturbation of
      the NL prompt it created.
-Produces nl_social_media_queries_llm_generated_20.json.
 
 Uses concurrent requests (ThreadPoolExecutor) to maximize throughput.
+
+Usage
+-----
+  # Schema-driven (recommended)
+  python 04b_generate_nl_from_sql_cached.py --schema schemas/bank.yaml
+
+  # With explicit I/O
+  python 04b_generate_nl_from_sql_cached.py \\
+      -i dataset/current/raw_bank_queries.json \\
+      -o dataset/current/nl_bank_queries_llm_generated.json \\
+      --schema schemas/bank.yaml
+
+  # Legacy (social_media defaults)
+  python 04b_generate_nl_from_sql_cached.py
+
+  # Mock mode (no API calls)
+  python 04b_generate_nl_from_sql_cached.py --mock
 """
 
 import os
@@ -15,6 +32,7 @@ import json
 import time
 import threading
 import argparse
+from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Dict, List, Optional
 from tqdm import tqdm
@@ -26,8 +44,6 @@ from google.genai import types
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Constants
-INPUT_FILE = "./dataset/current/raw_social_media_queries_20.json"
-OUTPUT_FILE = "./dataset/current/nl_social_media_queries_llm_generated_20.json"
 MODEL_NAME = "gemini-2.5-flash-lite"
 CACHE_TTL = "3600s"
 DEFAULT_MAX_RPM = 4000
@@ -43,15 +59,45 @@ def setup_client() -> genai.Client:
     return genai.Client(api_key=api_key)
 
 
-def load_cached_info_text() -> str:
+def load_cached_info_text(schema_path: Optional[str] = None) -> str:
+    """Load the cached info template text, optionally injecting a schema."""
     base_dir = os.path.abspath(os.path.dirname(__file__))
     cached_info_path = os.path.join(base_dir, "cached_info.py")
     with open(cached_info_path, "r") as f:
-        return f.read()
+        text = f.read()
+
+    if schema_path:
+        import re as _re
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(schema_path)
+        schema_dict = cfg.get_legacy_schema()
+        fk_dict = cfg.get_fk_pairs()
+        schema_str = "schema = " + json.dumps(schema_dict, indent=4)
+        fk_str = "foreign_keys = " + repr(fk_dict)
+        text = _re.sub(r'schema = \{.*?\n\}', schema_str, text, flags=_re.DOTALL)
+        text = _re.sub(r'foreign_keys = \{.*?\n\}', fk_str, text, flags=_re.DOTALL)
+    return text
 
 
-def create_cache(client: genai.Client, model_name: str) -> types.CachedContent:
-    cached_text = load_cached_info_text()
+# ---------------------------------------------------------------------------
+# I/O helpers
+# ---------------------------------------------------------------------------
+
+def _load_records(path: str):
+    """Load records from either a bare JSON list or a metadata-wrapped envelope."""
+    with open(path, "r") as f:
+        data = json.load(f)
+    if isinstance(data, dict) and "records" in data:
+        return data["records"], data.get("metadata", {})
+    return data, {}
+
+
+def create_cache(
+    client: genai.Client,
+    model_name: str,
+    schema_path: Optional[str] = None,
+) -> types.CachedContent:
+    cached_text = load_cached_info_text(schema_path)
 
     cache = client.caches.create(
         model=model_name,
@@ -254,32 +300,62 @@ def process_single_query(
     return enriched_query
 
 
+def _save_output(
+    path: str,
+    records: List[Dict[str, Any]],
+    schema_path: Optional[str],
+    upstream_meta: Dict[str, Any],
+) -> None:
+    """Persist records wrapped in a metadata envelope."""
+    schema_name = upstream_meta.get("schema_name", "unknown")
+    if schema_path:
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(schema_path)
+        schema_name = cfg.schema_name
+
+    envelope = {
+        "metadata": {
+            "pipeline_step": "04b_nl_from_sql",
+            "schema_name": schema_name,
+            "schema_source": schema_path or "legacy_default",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "num_records": len(records),
+            "model": MODEL_NAME,
+            "upstream": upstream_meta if upstream_meta else None,
+        },
+        "records": records,
+    }
+    with open(path, "w") as f:
+        json.dump(envelope, f, indent=2)
+
+
 def process_queries(
+    input_file: str,
+    output_file: str,
+    schema_path: Optional[str] = None,
     mock: bool = False,
     max_rpm: int = DEFAULT_MAX_RPM,
     max_workers: int = DEFAULT_MAX_WORKERS,
     limit: Optional[int] = None,
 ) -> None:
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    input_path = os.path.join(base_dir, INPUT_FILE)
-    output_path = os.path.join(base_dir, OUTPUT_FILE)
+    input_path = os.path.abspath(input_file)
+    output_path = os.path.abspath(output_file)
 
     print(f"Reading from: {input_path}")
     print(f"Writing to:   {output_path}")
 
-    with open(input_path, "r") as f:
-        queries = json.load(f)
+    queries, upstream_meta = _load_records(input_path)
 
     # ---- Resume support ----
     processed_data: List[Dict[str, Any]] = []
     processed_ids = set()
     if os.path.exists(output_path):
         try:
-            with open(output_path, "r") as f:
-                processed_data = json.load(f)
-                processed_ids = {item["id"] for item in processed_data if "id" in item}
+            existing, _ = _load_records(output_path)
+            processed_data = existing
+            processed_ids = {item["id"] for item in processed_data if "id" in item}
             print(f"Resuming — {len(processed_data)} queries already processed.")
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, Exception):
             print("Output file exists but is invalid/empty. Starting fresh.")
 
     queries_to_process = [q for q in queries if q.get("id") not in processed_ids]
@@ -302,7 +378,7 @@ def process_queries(
     if not mock:
         client = setup_client()
         print("Setting up cache...")
-        cache = create_cache(client, MODEL_NAME)
+        cache = create_cache(client, MODEL_NAME, schema_path=schema_path)
         print(f"Cache created: {cache.name}")
 
     # ---- Concurrent processing ----
@@ -313,8 +389,7 @@ def process_queries(
 
     def save_checkpoint():
         nonlocal unsaved_count
-        with open(output_path, "w") as f:
-            json.dump(processed_data, f, indent=2)
+        _save_output(output_path, processed_data, schema_path, upstream_meta)
         unsaved_count = 0
 
     pbar = tqdm(total=len(queries_to_process), desc="Processing Queries", unit="query")
@@ -348,8 +423,7 @@ def process_queries(
     pbar.close()
 
     # Final save
-    with open(output_path, "w") as f:
-        json.dump(processed_data, f, indent=2)
+    _save_output(output_path, processed_data, schema_path, upstream_meta)
 
     print(f"\nCompleted. Success: {success_count}, Fail: {fail_count}")
     print(f"Results saved to {output_path}")
@@ -357,7 +431,23 @@ def process_queries(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generate NL prompts + perturbations from raw SQL using Gemini context caching."
+        description="Generate NL prompts + perturbations from raw SQL using Gemini context caching.",
+    )
+    parser.add_argument(
+        "--schema", "-s",
+        default=None,
+        help="Path to schema YAML (e.g. schemas/bank.yaml). Injects schema into "
+             "the Gemini cache context and derives default I/O paths.",
+    )
+    parser.add_argument(
+        "--input", "-i",
+        default=None,
+        help="Input JSON path (default: dataset/current/raw_<schema>_queries.json).",
+    )
+    parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output JSON path (default: dataset/current/nl_<schema>_queries_llm_generated.json).",
     )
     parser.add_argument("--mock", action="store_true", help="Run without API calls.")
     parser.add_argument(
@@ -380,7 +470,19 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    # Derive schema-aware defaults when --schema is supplied
+    schema_name = "social_media"  # legacy fallback
+    if args.schema:
+        from src.core.schema_loader import load_from_yaml
+        schema_name = load_from_yaml(args.schema).schema_name
+
+    input_file = args.input or f"dataset/current/raw_{schema_name}_queries.json"
+    output_file = args.output or f"dataset/current/nl_{schema_name}_queries_llm_generated.json"
+
     process_queries(
+        input_file=input_file,
+        output_file=output_file,
+        schema_path=args.schema,
         mock=args.mock,
         max_rpm=args.max_rpm,
         max_workers=args.max_workers,

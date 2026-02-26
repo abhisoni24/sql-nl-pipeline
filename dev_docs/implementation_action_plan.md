@@ -898,20 +898,17 @@ for name, strategy in all_strategies().items():
     output_item["generated_perturbations"]["single_perturbations"].append(entry)
 ```
 
-### Step 5.5: Create the unified perturbation test runner
+### Step 5.5: Edit the systematic perturbation tests
 
-- [ ] **File:** `pipeline_tests/generation_process/systematic_perturbations/run_all_tests_v2.py` [NEW]
-- [ ] Auto-discovers strategies and runs their `get_test_checks()` methods.
-- [ ] This replaces the need for 13 individual test files over time.
+- [ ] **File:** `pipeline_tests/generation_process/systematic_perturbations/run_all_tests.py` [May need to be edited]
+- [ ] Adjust each of the individual perturbation test to be database agnostic. Therefore each of the tests may need revisions like the pipeline_tests/generation_process/sql/test_sql_generation.py and the pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py in the previous step.
 
 ### Step 5.6: Verify perturbation parity
 
-**Verification command:**
+**Verification:**
 
-```bash
-python 03_generate_systematic_perturbations.py
-python pipeline_tests/generation_process/systematic_perturbations/run_all_perturbation_tests.py
-```
+- [] Generate all the possible systematic perturbations for the three databases that we have currently.
+- [] Check the generated perturbations against the perturbations tester to ensure the pipeline is robust so far.
 
 Expected: All 13 perturbation test suites pass with 0 failures.
 
@@ -1201,6 +1198,46 @@ graph TD
     P7 --> P8
     P8 --> P9["Phase 9<br/>End-to-End Validation"]
 ```
+
+---
+
+## Future Action Items
+
+### `is_applicable` Semantic Fix (Low Priority)
+
+**Problem:** The `is_applicable()` method on perturbation strategies currently has dual
+semantics that are conflated:
+
+1. **Pre-generation check:** "Can this perturbation type be applied to this SQL/NL pair?"
+   (e.g., does it have a JOIN clause? Does it have temporal expressions?)
+2. **Post-generation validation:** "Was the perturbation actually produced in the output?"
+   (e.g., does the re-rendered text actually contain a pronoun?)
+
+The correct semantic is **(1) only** — `is_applicable` should be a pure pre-generation
+gate that runs BEFORE the rendering/perturbation step. It answers: "Is this perturbation
+type relevant to this SQL query?" It should NOT depend on the rendering output.
+
+**Consequences of current behavior:**
+- Rendering-phase strategies (anchored_pronouns, table_column_synonyms, temporal,
+  incomplete_join, etc.) return `applicable=True` based on AST analysis, then
+  re-render via `SQLToNLRenderer(config).render(ast)` which may not produce the
+  intended perturbation effect (e.g., no pronoun inserted).
+- Always-applicable perturbations like `typos`, `comment_annotations`, `punctuation`,
+  `urgency`, `verbosity` should return `applicable=True` for 100% of records
+  (they can be applied to any NL text).
+
+**Proposed fix:**
+- Separate `is_applicable(sql, ast, baseline_nl)` (pre-gate) from
+  `was_applied(baseline_nl, perturbed_nl)` (post-validation).
+- For always-applicable perturbations (typos, punctuation, etc.), `is_applicable`
+  should always return `True`.
+- For conditional perturbations (temporal, join, etc.), `is_applicable` should
+  check the AST/SQL for structural requirements only.
+- Add `was_applied()` as an optional post-check that tests can use to validate
+  the perturbation actually took effect.
+
+**Impact:** ~49 `pronoun_present` test failures were caused by this semantic confusion.
+Currently worked around by making `pronoun_present` advisory-only in tests.
 
 **Critical path:** Phase 1 → Phase 2 → Phase 4 → Phase 5 → Phase 6 → Phase 9
 

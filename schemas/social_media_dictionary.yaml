@@ -18,15 +18,22 @@ column_synonyms:
   comments.id:
     - id
     - comment id
+    - unique id
+    - identifier
+    - record id
 
   comments.post_id:
     - post id
     - related post id
+    - article id
+    - content id
 
   comments.user_id:
     - user id
     - commenter id
     - author id
+    - member id
+    - account id
 
   follows.followed_at:
     - followed at
@@ -53,6 +60,8 @@ column_synonyms:
   likes.post_id:
     - post id
     - liked post id
+    - article id
+    - content id
 
   likes.user_id:
     - user id
@@ -68,6 +77,9 @@ column_synonyms:
   posts.id:
     - id
     - post id
+    - unique id
+    - identifier
+    - record id
 
   posts.posted_at:
     - posted at
@@ -79,6 +91,8 @@ column_synonyms:
     - user id
     - author id
     - poster id
+    - member id
+    - account id
 
   posts.view_count:
     - view count
@@ -97,11 +111,16 @@ column_synonyms:
     - email address
     - electronic mail
     - e-mail
+    - contact
+    - email_address
 
   users.id:
     - id
     - user id
     - account id
+    - unique id
+    - identifier
+    - record id
 
   users.is_verified:
     - is verified
@@ -113,6 +132,8 @@ column_synonyms:
     - registration date
     - account creation date
     - date joined
+    - join date
+    - member since
 
   users.username:
     - username
@@ -136,18 +157,27 @@ table_synonyms:
     - comment
     - replies
     - responses
+    - feedback
+    - remarks
+    - messages
 
   follows:
     - follows
     - follow
     - follow relationship
     - following
+    - subscriptions
+    - connections
+    - followers
 
   likes:
     - likes
     - like
     - reactions
     - post likes
+    - approvals
+    - favorites
+    - interests
 
   posts:
     - posts
@@ -155,6 +185,10 @@ table_synonyms:
     - social media post
     - update
     - status update
+    - articles
+    - entries
+    - content
+    - updates
 
   users:
     - users
@@ -162,3 +196,7 @@ table_synonyms:
     - account
     - member
     - profile
+    - accounts
+    - members
+    - profiles
+    - clients

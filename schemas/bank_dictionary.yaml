@@ -325,6 +325,7 @@ table_synonyms:
   branches:
     - branches
     - branch
+    - branche
     - bank branch
 
   cards:

@@ -5,28 +5,44 @@ import yaml
 from typing import List, Dict, Any, Type
 from dataclasses import dataclass
 from .adapters.base import BaseModelAdapter
-from .adapters.gemini import GeminiAdapter
-from .adapters.openai import OpenAIAdapter
-from .adapters.anthropic import AnthropicAdapter
-from .adapters.vllm import VLLMAdapter
+
+# Lazy imports — heavy SDK deps (google-genai, openai, anthropic, vllm)
+# are resolved only when the corresponding adapter is actually requested.
+_ADAPTER_IMPORTS = {
+    "gemini": ("src.harness.adapters.gemini", "GeminiAdapter"),
+    "openai": ("src.harness.adapters.openai", "OpenAIAdapter"),
+    "anthropic": ("src.harness.adapters.anthropic", "AnthropicAdapter"),
+    "vllm": ("src.harness.adapters.vllm", "VLLMAdapter"),
+}
+
 
 @dataclass
 class ModelConfig:
-    name: str # experiment identifier name
+    name: str  # experiment identifier name
     adapter_type: str
     model_identifier: str
     decoding_overrides: Dict[str, Any]
     hardware_notes: str
-    rate_limit: Dict[str, Any]  # New: rate limiting configuration
+    rate_limit: Dict[str, Any]  # rate-limiting configuration
+
 
 class ConfigLoader:
-    
-    ADAPTER_MAP: Dict[str, Type[BaseModelAdapter]] = {
-        "gemini": GeminiAdapter,
-        "openai": OpenAIAdapter,
-        "anthropic": AnthropicAdapter,
-        "vllm": VLLMAdapter
-    }
+
+    @staticmethod
+    def _resolve_adapter_cls(adapter_type: str) -> Type[BaseModelAdapter]:
+        entry = _ADAPTER_IMPORTS.get(adapter_type)
+        if entry is None:
+            raise ValueError(
+                f"Unknown adapter type: {adapter_type}.  "
+                f"Available: {list(_ADAPTER_IMPORTS)}"
+            )
+        module_path, class_name = entry
+        import importlib
+        mod = importlib.import_module(module_path)
+        return getattr(mod, class_name)
+
+    # Expose a class-level map for external code that inspects adapter types
+    ADAPTER_MAP: Dict[str, str] = {k: k for k in _ADAPTER_IMPORTS}
 
     @staticmethod
     def load_experiments(config_path: str) -> List[ModelConfig]:
@@ -46,10 +62,9 @@ class ConfigLoader:
         return experiments
 
     @classmethod
-    def get_adapter(cls, config: ModelConfig) -> BaseModelAdapter:
-        adapter_cls = cls.ADAPTER_MAP.get(config.adapter_type)
-        if not adapter_cls:
-            raise ValueError(f"Unknown adapter type: {config.adapter_type}")
-        
-        # Instantiate
-        return adapter_cls(model_name=config.model_identifier)
+    def get_adapter(cls, config: ModelConfig, **extra_kwargs) -> BaseModelAdapter:
+        adapter_cls = cls._resolve_adapter_cls(config.adapter_type)
+
+        # Merge decoding_overrides from YAML with caller-supplied kwargs
+        kwargs = {**(config.decoding_overrides or {}), **extra_kwargs}
+        return adapter_cls(model_name=config.model_identifier, **kwargs)
