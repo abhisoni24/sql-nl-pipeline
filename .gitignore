@@ -17,3 +17,5 @@ sample_exp_run/**/outputs/*.jsonl
 .DS_Store
 .vscode
 .pytest_cache
+dataset/spider_data*
+dataset/train.zip
