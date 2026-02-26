@@ -1,0 +1,2937 @@
+{
+  "metadata": {
+    "schema_name": "university_system",
+    "dialect": "sqlite",
+    "schema_source": "schemas/university_system.yaml",
+    "generated_at": "2026-02-26T06:48:04.995544+00:00",
+    "num_records": 350,
+    "num_per_complexity": 50,
+    "pipeline_step": "01_generate_sql_dataset"
+  },
+  "records": [
+    {
+      "id": 1,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1 WHERE d1.building LIKE '%c'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 2,
+      "complexity": "simple",
+      "sql": "SELECT * FROM students AS s1",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 3,
+      "complexity": "simple",
+      "sql": "SELECT * FROM students AS s1 LIMIT 44",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 4,
+      "complexity": "simple",
+      "sql": "SELECT * FROM courses AS c1 WHERE c1.department_id <= 715 ORDER BY c1.department_id",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 5,
+      "complexity": "simple",
+      "sql": "SELECT s1.assignment_id, s1.student_id FROM submissions AS s1 WHERE s1.feedback = 'admin' ORDER BY s1.score",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 6,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1 LIMIT 18",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 7,
+      "complexity": "simple",
+      "sql": "SELECT s1.course_id, s1.year FROM sections AS s1 ORDER BY s1.instructor_id LIMIT 21",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 8,
+      "complexity": "simple",
+      "sql": "SELECT e1.section_id, e1.student_id, e1.status, e1.grade FROM enrollments AS e1 WHERE e1.section_id = 140 LIMIT 89",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 9,
+      "complexity": "simple",
+      "sql": "SELECT s1.id, s1.assignment_id FROM submissions AS s1 WHERE s1.id = 968 LIMIT 33",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 10,
+      "complexity": "simple",
+      "sql": "SELECT * FROM courses AS c1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 11,
+      "complexity": "simple",
+      "sql": "SELECT * FROM courses AS c1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 12,
+      "complexity": "simple",
+      "sql": "SELECT i1.rank, i1.last_name, i1.salary FROM instructors AS i1",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 13,
+      "complexity": "simple",
+      "sql": "SELECT s1.enrollment_year, s1.first_name, s1.gpa FROM students AS s1 WHERE s1.first_name LIKE '%c' ORDER BY s1.major",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 14,
+      "complexity": "simple",
+      "sql": "SELECT * FROM enrollments AS e1 WHERE e1.grade LIKE '%a%' LIMIT 21",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 15,
+      "complexity": "simple",
+      "sql": "SELECT * FROM courses AS c1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 16,
+      "complexity": "simple",
+      "sql": "SELECT a1.title, a1.description FROM assignments AS a1 WHERE a1.description = 'activity'",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 17,
+      "complexity": "simple",
+      "sql": "SELECT * FROM submissions AS s1 ORDER BY s1.student_id",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 18,
+      "complexity": "simple",
+      "sql": "SELECT e1.grade, e1.student_id, e1.status, e1.enrolled_at FROM enrollments AS e1",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 19,
+      "complexity": "simple",
+      "sql": "SELECT * FROM courses AS c1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 20,
+      "complexity": "simple",
+      "sql": "SELECT s1.year FROM sections AS s1",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 21,
+      "complexity": "simple",
+      "sql": "SELECT * FROM enrollments AS e1",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 22,
+      "complexity": "simple",
+      "sql": "SELECT s1.first_name, s1.created_at, s1.enrollment_year, s1.is_full_time FROM students AS s1 WHERE s1.is_full_time = 1 LIMIT 7",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 23,
+      "complexity": "simple",
+      "sql": "SELECT s1.capacity, s1.instructor_id, s1.id FROM sections AS s1",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 24,
+      "complexity": "simple",
+      "sql": "SELECT * FROM instructors AS i1",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 25,
+      "complexity": "simple",
+      "sql": "SELECT e1.section_id, e1.grade, e1.status FROM enrollments AS e1",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 26,
+      "complexity": "simple",
+      "sql": "SELECT * FROM assignments AS a1 LIMIT 75",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 27,
+      "complexity": "simple",
+      "sql": "SELECT c1.course_code, c1.level FROM courses AS c1 WHERE c1.credits >= 777",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 28,
+      "complexity": "simple",
+      "sql": "SELECT s1.email, s1.first_name FROM students AS s1 WHERE s1.enrollment_year <> 420 LIMIT 29",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 29,
+      "complexity": "simple",
+      "sql": "SELECT * FROM students AS s1 WHERE s1.gpa < 88 ORDER BY s1.gpa",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 30,
+      "complexity": "simple",
+      "sql": "SELECT c1.credits, c1.department_id, c1.id FROM courses AS c1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 31,
+      "complexity": "simple",
+      "sql": "SELECT a1.max_score, a1.id FROM assignments AS a1 WHERE a1.max_score >= 607",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 32,
+      "complexity": "simple",
+      "sql": "SELECT * FROM assignments AS a1 LIMIT 1",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 33,
+      "complexity": "simple",
+      "sql": "SELECT s1.year, s1.semester, s1.room_number, s1.instructor_id FROM sections AS s1 WHERE s1.semester = 'activity' LIMIT 13",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 34,
+      "complexity": "simple",
+      "sql": "SELECT c1.is_active, c1.course_code, c1.credits, c1.id FROM courses AS c1 WHERE c1.title <> 'test' ORDER BY c1.course_code LIMIT 43",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 35,
+      "complexity": "simple",
+      "sql": "SELECT c1.level, c1.is_active, c1.department_id, c1.id FROM courses AS c1 ORDER BY c1.id",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 36,
+      "complexity": "simple",
+      "sql": "SELECT * FROM instructors AS i1 WHERE i1.is_active = 0",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 37,
+      "complexity": "simple",
+      "sql": "SELECT * FROM submissions AS s1 WHERE s1.assignment_id <= 351",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 38,
+      "complexity": "simple",
+      "sql": "SELECT e1.student_id FROM enrollments AS e1 ORDER BY e1.status LIMIT 74",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 39,
+      "complexity": "simple",
+      "sql": "SELECT d1.is_active FROM departments AS d1 WHERE d1.budget > 633 LIMIT 78",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 40,
+      "complexity": "simple",
+      "sql": "SELECT i1.hire_date, i1.first_name, i1.department_id, i1.is_active FROM instructors AS i1 WHERE i1.first_name = 'test'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 41,
+      "complexity": "simple",
+      "sql": "SELECT * FROM assignments AS a1 ORDER BY a1.description",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 42,
+      "complexity": "simple",
+      "sql": "SELECT s1.instructor_id FROM sections AS s1 ORDER BY s1.room_number",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 43,
+      "complexity": "simple",
+      "sql": "SELECT s1.semester, s1.room_number, s1.instructor_id FROM sections AS s1 ORDER BY s1.year",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 44,
+      "complexity": "simple",
+      "sql": "SELECT d1.building, d1.name, d1.is_active, d1.budget FROM departments AS d1 ORDER BY d1.is_active",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 45,
+      "complexity": "simple",
+      "sql": "SELECT c1.credits, c1.course_code, c1.is_active, c1.department_id FROM courses AS c1 WHERE c1.credits < 190 LIMIT 73",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 46,
+      "complexity": "simple",
+      "sql": "SELECT a1.max_score, a1.section_id, a1.id FROM assignments AS a1",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 47,
+      "complexity": "simple",
+      "sql": "SELECT i1.rank FROM instructors AS i1 WHERE i1.hire_date < DATETIME('now', '-7 days')",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 48,
+      "complexity": "simple",
+      "sql": "SELECT a1.description FROM assignments AS a1 ORDER BY a1.due_date",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 49,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1 ORDER BY d1.building",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 50,
+      "complexity": "simple",
+      "sql": "SELECT s1.course_id, s1.schedule_time FROM sections AS s1 WHERE s1.room_number LIKE '%c' ORDER BY s1.instructor_id",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 51,
+      "complexity": "join",
+      "sql": "SELECT i1.department_id, d3.is_active, d3.id, d3.budget FROM instructors AS i1 FULL JOIN departments AS d3 ON i1.department_id = d3.id WHERE d3.name LIKE '%c'",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 52,
+      "complexity": "join",
+      "sql": "SELECT * FROM students AS s1 RIGHT JOIN submissions AS s9 ON s1.id = s9.student_id WHERE s9.assignment_id <> 744",
+      "tables": [
+        "students",
+        "submissions"
+      ]
+    },
+    {
+      "id": 53,
+      "complexity": "join",
+      "sql": "SELECT * FROM sections AS s1 LEFT JOIN instructors AS i6 ON s1.instructor_id = i6.id WHERE i6.salary >= 303",
+      "tables": [
+        "sections",
+        "instructors"
+      ]
+    },
+    {
+      "id": 54,
+      "complexity": "join",
+      "sql": "SELECT * FROM instructors AS i1 LEFT JOIN sections AS s6 ON i1.id = s6.instructor_id WHERE s6.semester = 'activity'",
+      "tables": [
+        "instructors",
+        "sections"
+      ]
+    },
+    {
+      "id": 55,
+      "complexity": "join",
+      "sql": "SELECT r1.principal_investigator_id, r1.funding_amount, i3.email, i3.first_name FROM research_projects AS r1 INNER JOIN instructors AS i3 ON r1.principal_investigator_id = i3.id WHERE i3.last_name LIKE '%a%'",
+      "tables": [
+        "research_projects",
+        "instructors"
+      ]
+    },
+    {
+      "id": 56,
+      "complexity": "join",
+      "sql": "SELECT * FROM students AS s1 RIGHT JOIN enrollments AS e4 ON s1.id = e4.student_id WHERE e4.section_id = 505",
+      "tables": [
+        "students",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 57,
+      "complexity": "join",
+      "sql": "SELECT d1.is_active, i8.email, d1.budget, i8.first_name FROM departments AS d1 FULL JOIN instructors AS i8 ON d1.id = i8.department_id",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 58,
+      "complexity": "join",
+      "sql": "SELECT * FROM assignments AS a1 FULL JOIN submissions AS s8 ON a1.id = s8.assignment_id",
+      "tables": [
+        "assignments",
+        "submissions"
+      ]
+    },
+    {
+      "id": 59,
+      "complexity": "join",
+      "sql": "SELECT a2.title, s1.assignment_id, a2.due_date, s1.score FROM submissions AS s1 LEFT JOIN assignments AS a2 ON s1.assignment_id = a2.id WHERE a2.due_date > DATETIME('now', '-8 days')",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 60,
+      "complexity": "join",
+      "sql": "SELECT * FROM instructors AS i1 LEFT JOIN departments AS d5 ON i1.department_id = d5.id",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 61,
+      "complexity": "join",
+      "sql": "SELECT * FROM submissions AS s1 FULL JOIN assignments AS a4 ON s1.assignment_id = a4.id",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 62,
+      "complexity": "join",
+      "sql": "SELECT e2.section_id, e2.enrolled_at, e2.grade, s1.major FROM students AS s1 FULL JOIN enrollments AS e2 ON s1.id = e2.student_id WHERE e2.grade = 'user'",
+      "tables": [
+        "students",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 63,
+      "complexity": "join",
+      "sql": "SELECT i1.rank, i1.is_active, d9.name, i1.last_name FROM instructors AS i1 FULL JOIN departments AS d9 ON i1.department_id = d9.id WHERE d9.name = 'admin'",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 64,
+      "complexity": "join",
+      "sql": "SELECT * FROM submissions AS s1 INNER JOIN assignments AS a5 ON s1.assignment_id = a5.id WHERE a5.title LIKE '%a%'",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 65,
+      "complexity": "join",
+      "sql": "SELECT * FROM research_projects AS r1 RIGHT JOIN instructors AS i7 ON r1.principal_investigator_id = i7.id WHERE i7.salary > 691",
+      "tables": [
+        "research_projects",
+        "instructors"
+      ]
+    },
+    {
+      "id": 66,
+      "complexity": "join",
+      "sql": "SELECT s6.submitted_at, s6.student_id, s6.assignment_id, a1.max_score FROM assignments AS a1 RIGHT JOIN submissions AS s6 ON a1.id = s6.assignment_id",
+      "tables": [
+        "assignments",
+        "submissions"
+      ]
+    },
+    {
+      "id": 67,
+      "complexity": "join",
+      "sql": "SELECT r6.description, i1.hire_date, i1.email, i1.salary FROM instructors AS i1 INNER JOIN research_projects AS r6 ON i1.id = r6.principal_investigator_id WHERE r6.title <> 'activity'",
+      "tables": [
+        "instructors",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 68,
+      "complexity": "join",
+      "sql": "SELECT i1.rank, i1.id, i1.first_name, s6.semester FROM instructors AS i1 LEFT JOIN sections AS s6 ON i1.id = s6.instructor_id WHERE s6.room_number <> '123'",
+      "tables": [
+        "instructors",
+        "sections"
+      ]
+    },
+    {
+      "id": 69,
+      "complexity": "join",
+      "sql": "SELECT * FROM enrollments AS e1 FULL JOIN students AS s9 ON e1.student_id = s9.id",
+      "tables": [
+        "enrollments",
+        "students"
+      ]
+    },
+    {
+      "id": 70,
+      "complexity": "join",
+      "sql": "SELECT e1.enrolled_at, s8.id, s8.schedule_time, e1.grade FROM enrollments AS e1 RIGHT JOIN sections AS s8 ON e1.section_id = s8.id",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 71,
+      "complexity": "join",
+      "sql": "SELECT r4.description, r4.principal_investigator_id, r4.status, r4.start_date FROM instructors AS i1 FULL JOIN research_projects AS r4 ON i1.id = r4.principal_investigator_id WHERE r4.department_id >= 810",
+      "tables": [
+        "instructors",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 72,
+      "complexity": "join",
+      "sql": "SELECT * FROM enrollments AS e1 INNER JOIN students AS s8 ON e1.student_id = s8.id",
+      "tables": [
+        "enrollments",
+        "students"
+      ]
+    },
+    {
+      "id": 73,
+      "complexity": "join",
+      "sql": "SELECT i6.rank, d1.chair_id, i6.is_active, d1.name FROM departments AS d1 INNER JOIN instructors AS i6 ON d1.id = i6.department_id",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 74,
+      "complexity": "join",
+      "sql": "SELECT * FROM submissions AS s1 INNER JOIN assignments AS a3 ON s1.assignment_id = a3.id",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 75,
+      "complexity": "join",
+      "sql": "SELECT * FROM courses AS c1 RIGHT JOIN departments AS d5 ON c1.department_id = d5.id",
+      "tables": [
+        "courses",
+        "departments"
+      ]
+    },
+    {
+      "id": 76,
+      "complexity": "join",
+      "sql": "SELECT i1.rank, s8.schedule_time, s8.year, s8.semester FROM instructors AS i1 RIGHT JOIN sections AS s8 ON i1.id = s8.instructor_id",
+      "tables": [
+        "instructors",
+        "sections"
+      ]
+    },
+    {
+      "id": 77,
+      "complexity": "join",
+      "sql": "SELECT i1.email, d1.is_active, d1.chair_id FROM instructors AS i1 RIGHT JOIN departments AS d1 ON i1.department_id = d1.id WHERE d1.chair_id > 597",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 78,
+      "complexity": "join",
+      "sql": "SELECT i8.is_active, i8.department_id, i8.email, i8.rank FROM departments AS d1 RIGHT JOIN instructors AS i8 ON d1.id = i8.department_id WHERE i8.is_active = 0",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 79,
+      "complexity": "join",
+      "sql": "SELECT s5.year, s5.course_id, e1.status, s5.schedule_time FROM enrollments AS e1 RIGHT JOIN sections AS s5 ON e1.section_id = s5.id",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 80,
+      "complexity": "join",
+      "sql": "SELECT * FROM courses AS c1 FULL JOIN departments AS d3 ON c1.department_id = d3.id WHERE d3.budget <> 669",
+      "tables": [
+        "courses",
+        "departments"
+      ]
+    },
+    {
+      "id": 81,
+      "complexity": "join",
+      "sql": "SELECT s4.is_full_time, s1.id, s4.enrollment_year, s1.score FROM submissions AS s1 LEFT JOIN students AS s4 ON s1.student_id = s4.id",
+      "tables": [
+        "submissions",
+        "students"
+      ]
+    },
+    {
+      "id": 82,
+      "complexity": "join",
+      "sql": "SELECT e1.status, e1.section_id, e1.enrolled_at, s3.id FROM enrollments AS e1 INNER JOIN sections AS s3 ON e1.section_id = s3.id WHERE s3.semester <> 'user'",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 83,
+      "complexity": "join",
+      "sql": "SELECT s6.is_full_time, s1.score, s1.id, s6.created_at FROM submissions AS s1 FULL JOIN students AS s6 ON s1.student_id = s6.id",
+      "tables": [
+        "submissions",
+        "students"
+      ]
+    },
+    {
+      "id": 84,
+      "complexity": "join",
+      "sql": "SELECT * FROM courses AS c1 INNER JOIN departments AS d7 ON c1.department_id = d7.id",
+      "tables": [
+        "courses",
+        "departments"
+      ]
+    },
+    {
+      "id": 85,
+      "complexity": "join",
+      "sql": "SELECT c1.course_code, s9.instructor_id, s9.room_number FROM courses AS c1 LEFT JOIN sections AS s9 ON c1.id = s9.course_id",
+      "tables": [
+        "courses",
+        "sections"
+      ]
+    },
+    {
+      "id": 86,
+      "complexity": "join",
+      "sql": "SELECT * FROM instructors AS i1 RIGHT JOIN departments AS d9 ON i1.department_id = d9.id WHERE d9.chair_id >= 268",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 87,
+      "complexity": "join",
+      "sql": "SELECT s6.score, s6.student_id, s6.assignment_id, a1.max_score FROM assignments AS a1 LEFT JOIN submissions AS s6 ON a1.id = s6.assignment_id WHERE s6.id < 51",
+      "tables": [
+        "assignments",
+        "submissions"
+      ]
+    },
+    {
+      "id": 88,
+      "complexity": "join",
+      "sql": "SELECT * FROM assignments AS a1 FULL JOIN sections AS s3 ON a1.section_id = s3.id",
+      "tables": [
+        "assignments",
+        "sections"
+      ]
+    },
+    {
+      "id": 89,
+      "complexity": "join",
+      "sql": "SELECT d1.name, c1.id, c1.is_active FROM courses AS c1 INNER JOIN departments AS d1 ON c1.department_id = d1.id WHERE d1.id > 373",
+      "tables": [
+        "courses",
+        "departments"
+      ]
+    },
+    {
+      "id": 90,
+      "complexity": "join",
+      "sql": "SELECT a6.due_date, s1.submitted_at, s1.score, a6.id FROM submissions AS s1 LEFT JOIN assignments AS a6 ON s1.assignment_id = a6.id WHERE a6.due_date < DATETIME('now', '-13 days')",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 91,
+      "complexity": "join",
+      "sql": "SELECT d6.is_active, i1.last_name, d6.building FROM instructors AS i1 RIGHT JOIN departments AS d6 ON i1.department_id = d6.id WHERE d6.id <= 607",
+      "tables": [
+        "instructors",
+        "departments"
+      ]
+    },
+    {
+      "id": 92,
+      "complexity": "join",
+      "sql": "SELECT a3.due_date, a3.title, a3.id, s1.feedback FROM submissions AS s1 RIGHT JOIN assignments AS a3 ON s1.assignment_id = a3.id WHERE a3.id > 348",
+      "tables": [
+        "submissions",
+        "assignments"
+      ]
+    },
+    {
+      "id": 93,
+      "complexity": "join",
+      "sql": "SELECT * FROM research_projects AS r1 FULL JOIN instructors AS i6 ON r1.principal_investigator_id = i6.id WHERE i6.email <> 'user95@example.com'",
+      "tables": [
+        "research_projects",
+        "instructors"
+      ]
+    },
+    {
+      "id": 94,
+      "complexity": "join",
+      "sql": "SELECT s3.capacity, c1.title FROM courses AS c1 RIGHT JOIN sections AS s3 ON c1.id = s3.course_id",
+      "tables": [
+        "courses",
+        "sections"
+      ]
+    },
+    {
+      "id": 95,
+      "complexity": "join",
+      "sql": "SELECT * FROM submissions AS s1 FULL JOIN students AS s8 ON s1.student_id = s8.id",
+      "tables": [
+        "submissions",
+        "students"
+      ]
+    },
+    {
+      "id": 96,
+      "complexity": "join",
+      "sql": "SELECT d1.id, d1.chair_id, d1.building, d1.budget FROM departments AS d1 FULL JOIN instructors AS i8 ON d1.id = i8.department_id WHERE i8.salary = 221",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 97,
+      "complexity": "join",
+      "sql": "SELECT * FROM departments AS d1 RIGHT JOIN research_projects AS r8 ON d1.id = r8.department_id WHERE r8.id = 453",
+      "tables": [
+        "departments",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 98,
+      "complexity": "join",
+      "sql": "SELECT * FROM students AS s1 LEFT JOIN enrollments AS e6 ON s1.id = e6.student_id WHERE e6.grade <> '123'",
+      "tables": [
+        "students",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 99,
+      "complexity": "join",
+      "sql": "SELECT s1.id, a4.id, s1.year, a4.section_id FROM sections AS s1 LEFT JOIN assignments AS a4 ON s1.id = a4.section_id WHERE a4.due_date < DATETIME('now', '-12 days')",
+      "tables": [
+        "sections",
+        "assignments"
+      ]
+    },
+    {
+      "id": 100,
+      "complexity": "join",
+      "sql": "SELECT * FROM research_projects AS r1 LEFT JOIN instructors AS i5 ON r1.principal_investigator_id = i5.id",
+      "tables": [
+        "research_projects",
+        "instructors"
+      ]
+    },
+    {
+      "id": 101,
+      "complexity": "advanced",
+      "sql": "SELECT s1.assignment_id, s1.student_id, s1.feedback FROM submissions AS s1 WHERE s1.student_id IN (SELECT sub_s.id FROM students AS sub_s WHERE sub_s.is_full_time = 1)",
+      "tables": [
+        "submissions",
+        "students"
+      ]
+    },
+    {
+      "id": 102,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM instructors AS inner_instructors WHERE inner_instructors.first_name = 'test') AS derived_table WHERE derived_table.salary <> 371",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 103,
+      "complexity": "advanced",
+      "sql": "SELECT s1.schedule_time FROM sections AS s1 WHERE NOT EXISTS(SELECT 1 FROM instructors AS sub_i WHERE sub_i.id = s1.instructor_id AND sub_i.last_name <> 'test')",
+      "tables": [
+        "sections",
+        "instructors"
+      ]
+    },
+    {
+      "id": 104,
+      "complexity": "advanced",
+      "sql": "SELECT s1.capacity FROM sections AS s1 WHERE s1.id IN (SELECT sub_e.section_id FROM enrollments AS sub_e WHERE sub_e.student_id <> 879)",
+      "tables": [
+        "sections",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 105,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM students AS inner_students WHERE inner_students.email = 'user70@example.com') AS derived_table WHERE derived_table.created_at < DATETIME('now', '-25 days')",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 106,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sections AS inner_sections WHERE inner_sections.capacity >= 667) AS derived_table",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 107,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM instructors AS inner_instructors WHERE inner_instructors.id <= 556) AS derived_table",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 108,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM students AS inner_students WHERE inner_students.created_at <= DATETIME('now', '-17 days')) AS derived_table WHERE derived_table.major <> 'user'",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 109,
+      "complexity": "advanced",
+      "sql": "SELECT e1.grade, e1.enrolled_at FROM enrollments AS e1 WHERE e1.student_id IN (SELECT sub_s.id FROM students AS sub_s WHERE sub_s.is_full_time = 1)",
+      "tables": [
+        "enrollments",
+        "students"
+      ]
+    },
+    {
+      "id": 110,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM research_projects AS inner_research_projects WHERE inner_research_projects.department_id = 204) AS derived_table WHERE derived_table.title LIKE '%a%'",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 111,
+      "complexity": "advanced",
+      "sql": "SELECT d1.is_active, d1.name, d1.chair_id, d1.id FROM departments AS d1 WHERE d1.id IN (SELECT sub_i.department_id FROM instructors AS sub_i WHERE sub_i.id < 987)",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 112,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM courses AS inner_courses WHERE inner_courses.id < 429) AS derived_table WHERE derived_table.course_code <> 'user'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 113,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM enrollments AS inner_enrollments WHERE inner_enrollments.section_id > 606) AS derived_table",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 114,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM enrollments AS e1 WHERE e1.section_id IN (SELECT sub_s.id FROM sections AS sub_s WHERE sub_s.semester = 'admin')",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 115,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assignments AS inner_assignments WHERE inner_assignments.title = 'admin') AS derived_table",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 116,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM research_projects AS inner_research_projects WHERE inner_research_projects.end_date <= DATETIME('now', '-3 days')) AS derived_table WHERE derived_table.id <= 419",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 117,
+      "complexity": "advanced",
+      "sql": "SELECT d1.id, d1.name, d1.building FROM departments AS d1 JOIN departments AS d2 ON d1.name = d2.name AND d1.id <> d2.id",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 118,
+      "complexity": "advanced",
+      "sql": "SELECT s1.id, s1.course_id, s1.instructor_id FROM sections AS s1 JOIN sections AS s2 ON s1.course_id = s2.course_id AND s1.id <> s2.id",
+      "tables": [
+        "sections",
+        "sections"
+      ]
+    },
+    {
+      "id": 119,
+      "complexity": "advanced",
+      "sql": "SELECT s1.id, s1.course_id, s1.instructor_id FROM sections AS s1 JOIN sections AS s2 ON s1.course_id = s2.course_id AND s1.id <> s2.id LIMIT 12",
+      "tables": [
+        "sections",
+        "sections"
+      ]
+    },
+    {
+      "id": 120,
+      "complexity": "advanced",
+      "sql": "SELECT e1.enrolled_at, e1.grade, e1.section_id FROM enrollments AS e1 WHERE e1.section_id IN (SELECT sub_s.id FROM sections AS sub_s WHERE sub_s.instructor_id <> 253)",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 121,
+      "complexity": "advanced",
+      "sql": "SELECT i1.last_name, i1.rank FROM instructors AS i1 WHERE i1.id IN (SELECT sub_s.instructor_id FROM sections AS sub_s WHERE sub_s.id >= 450)",
+      "tables": [
+        "instructors",
+        "sections"
+      ]
+    },
+    {
+      "id": 122,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM students AS s1 WHERE s1.id IN (SELECT sub_s.student_id FROM submissions AS sub_s WHERE sub_s.student_id >= 740)",
+      "tables": [
+        "students",
+        "submissions"
+      ]
+    },
+    {
+      "id": 123,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM enrollments AS inner_enrollments WHERE inner_enrollments.status = 'user') AS derived_table",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 124,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM students AS inner_students WHERE inner_students.id <= 779) AS derived_table WHERE derived_table.created_at >= DATETIME('now', '-21 days')",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 125,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM courses AS inner_courses WHERE inner_courses.department_id <> 400) AS derived_table WHERE derived_table.course_code LIKE '%a%'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 126,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM students AS inner_students WHERE inner_students.enrollment_year = 622) AS derived_table WHERE derived_table.is_full_time = 1",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 127,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM departments AS d1 WHERE EXISTS(SELECT 1 FROM instructors AS sub_i WHERE sub_i.department_id = d1.id AND sub_i.hire_date < DATETIME('now', '-25 days'))",
+      "tables": [
+        "departments",
+        "instructors"
+      ]
+    },
+    {
+      "id": 128,
+      "complexity": "advanced",
+      "sql": "SELECT a1.id, a1.section_id, a1.title FROM assignments AS a1 JOIN assignments AS a2 ON a1.section_id = a2.section_id AND a1.id <> a2.id",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 129,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assignments AS inner_assignments WHERE inner_assignments.due_date < DATETIME('now', '-4 days')) AS derived_table",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 130,
+      "complexity": "advanced",
+      "sql": "SELECT e1.grade, e1.enrolled_at FROM enrollments AS e1 WHERE EXISTS(SELECT 1 FROM sections AS sub_s WHERE sub_s.id = e1.section_id AND sub_s.capacity < 130)",
+      "tables": [
+        "enrollments",
+        "sections"
+      ]
+    },
+    {
+      "id": 131,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM enrollments AS inner_enrollments WHERE inner_enrollments.student_id < 690) AS derived_table WHERE derived_table.student_id > 178",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 132,
+      "complexity": "advanced",
+      "sql": "SELECT r1.end_date, r1.department_id, r1.start_date, r1.title FROM research_projects AS r1 WHERE r1.department_id IN (SELECT sub_d.id FROM departments AS sub_d WHERE sub_d.is_active = 0)",
+      "tables": [
+        "research_projects",
+        "departments"
+      ]
+    },
+    {
+      "id": 133,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM instructors AS inner_instructors WHERE inner_instructors.email LIKE '%@gmail.com') AS derived_table",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 134,
+      "complexity": "advanced",
+      "sql": "SELECT d1.id FROM departments AS d1 WHERE NOT EXISTS(SELECT 1 FROM courses AS sub_c WHERE sub_c.department_id = d1.id AND sub_c.credits <> 625)",
+      "tables": [
+        "departments",
+        "courses"
+      ]
+    },
+    {
+      "id": 135,
+      "complexity": "advanced",
+      "sql": "SELECT a1.id, a1.section_id, a1.title FROM assignments AS a1 JOIN assignments AS a2 ON a1.section_id = a2.section_id AND a1.id <> a2.id LIMIT 12",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 136,
+      "complexity": "advanced",
+      "sql": "SELECT a1.section_id FROM assignments AS a1 WHERE a1.section_id IN (SELECT sub_s.id FROM sections AS sub_s WHERE sub_s.instructor_id = 551)",
+      "tables": [
+        "assignments",
+        "sections"
+      ]
+    },
+    {
+      "id": 137,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM enrollments AS inner_enrollments WHERE inner_enrollments.student_id >= 257) AS derived_table",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 138,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assignments AS inner_assignments WHERE inner_assignments.max_score = 358) AS derived_table",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 139,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM departments AS inner_departments WHERE inner_departments.id <> 597) AS derived_table",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 140,
+      "complexity": "advanced",
+      "sql": "SELECT c1.id, c1.course_code, c1.title FROM courses AS c1 JOIN courses AS c2 ON c1.course_code = c2.course_code AND c1.id <> c2.id LIMIT 8",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 141,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM instructors AS inner_instructors WHERE inner_instructors.hire_date < DATETIME('now', '-7 days')) AS derived_table",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 142,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM departments AS inner_departments WHERE inner_departments.id <= 669) AS derived_table",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 143,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sections AS inner_sections WHERE inner_sections.id >= 71) AS derived_table",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 144,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM instructors AS i1 WHERE i1.id IN (SELECT sub_s.instructor_id FROM sections AS sub_s WHERE sub_s.schedule_time = 'admin')",
+      "tables": [
+        "instructors",
+        "sections"
+      ]
+    },
+    {
+      "id": 145,
+      "complexity": "advanced",
+      "sql": "SELECT c1.id, c1.course_code, c1.title FROM courses AS c1 JOIN courses AS c2 ON c1.course_code = c2.course_code AND c1.id <> c2.id LIMIT 18",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 146,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM assignments AS a1 WHERE a1.id IN (SELECT sub_s.assignment_id FROM submissions AS sub_s WHERE sub_s.id = 712)",
+      "tables": [
+        "assignments",
+        "submissions"
+      ]
+    },
+    {
+      "id": 147,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assignments AS inner_assignments WHERE inner_assignments.due_date < DATETIME('now', '-26 days')) AS derived_table WHERE derived_table.due_date <= DATETIME('now', '-21 days')",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 148,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM departments AS inner_departments WHERE inner_departments.name LIKE '%c') AS derived_table",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 149,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM courses AS inner_courses WHERE inner_courses.title LIKE 'b%') AS derived_table",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 150,
+      "complexity": "advanced",
+      "sql": "SELECT i1.is_active, i1.last_name, i1.first_name, i1.hire_date FROM instructors AS i1 WHERE i1.id IN (SELECT sub_r.principal_investigator_id FROM research_projects AS sub_r WHERE sub_r.principal_investigator_id < 160)",
+      "tables": [
+        "instructors",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 151,
+      "complexity": "union",
+      "sql": "SELECT a1.id, a1.title FROM assignments AS a1 WHERE a1.id < 958 UNION SELECT a2.id, a2.title FROM assignments AS a2 WHERE a2.max_score > 537 LIMIT 43",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 152,
+      "complexity": "union",
+      "sql": "SELECT s1.instructor_id, s1.semester, s1.id FROM sections AS s1 WHERE s1.course_id <= 310 UNION SELECT s2.instructor_id, s2.semester, s2.id FROM sections AS s2 WHERE s2.room_number LIKE '%a%' ORDER BY instructor_id LIMIT 46",
+      "tables": [
+        "sections",
+        "sections"
+      ]
+    },
+    {
+      "id": 153,
+      "complexity": "union",
+      "sql": "SELECT s1.email, s1.first_name, s1.last_name FROM students AS s1 WHERE s1.id < 821 UNION SELECT s2.email, s2.first_name, s2.last_name FROM students AS s2 WHERE s2.email <> 'user22@example.com' ORDER BY email",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 154,
+      "complexity": "union",
+      "sql": "SELECT a1.max_score, a1.due_date, a1.title, a1.id FROM assignments AS a1 WHERE a1.due_date > DATETIME('now', '-15 days') UNION ALL SELECT a2.max_score, a2.due_date, a2.title, a2.id FROM assignments AS a2 WHERE a2.id <> 682",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 155,
+      "complexity": "union",
+      "sql": "SELECT i1.id, i1.first_name FROM instructors AS i1 WHERE i1.salary <= 292 UNION SELECT i2.id, i2.first_name FROM instructors AS i2 WHERE i2.first_name <> 'user' ORDER BY id",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 156,
+      "complexity": "union",
+      "sql": "SELECT d1.is_active, d1.id FROM departments AS d1 WHERE d1.id >= 803 UNION SELECT d2.is_active, d2.id FROM departments AS d2 WHERE d2.budget <= 698",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 157,
+      "complexity": "union",
+      "sql": "SELECT a1.max_score, a1.due_date FROM assignments AS a1 WHERE a1.id <> 433 UNION SELECT a2.max_score, a2.due_date FROM assignments AS a2 WHERE a2.max_score > 828",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 158,
+      "complexity": "union",
+      "sql": "SELECT c1.level, c1.department_id, c1.title FROM courses AS c1 WHERE c1.credits >= 351 UNION SELECT c2.level, c2.department_id, c2.title FROM courses AS c2 WHERE c2.credits = 839 LIMIT 13",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 159,
+      "complexity": "union",
+      "sql": "SELECT i1.last_name, i1.email FROM instructors AS i1 WHERE i1.first_name LIKE '%a%' UNION SELECT i2.last_name, i2.email FROM instructors AS i2 WHERE i2.department_id <= 276",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 160,
+      "complexity": "union",
+      "sql": "SELECT s1.assignment_id, s1.score FROM submissions AS s1 WHERE s1.score > 740 UNION ALL SELECT s2.assignment_id, s2.score FROM submissions AS s2 WHERE s2.id >= 641 LIMIT 47",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 161,
+      "complexity": "union",
+      "sql": "SELECT c1.course_code, c1.department_id, c1.is_active, c1.id FROM courses AS c1 WHERE c1.course_code <> 'user' UNION ALL SELECT c2.course_code, c2.department_id, c2.is_active, c2.id FROM courses AS c2 WHERE c2.course_code = 'user' ORDER BY course_code",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 162,
+      "complexity": "union",
+      "sql": "SELECT d1.budget, d1.chair_id FROM departments AS d1 WHERE d1.building <> 'test' UNION SELECT d2.budget, d2.chair_id FROM departments AS d2 WHERE d2.building LIKE '%c' LIMIT 37",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 163,
+      "complexity": "union",
+      "sql": "SELECT i1.id, i1.hire_date FROM instructors AS i1 WHERE i1.department_id <= 398 UNION ALL SELECT i2.id, i2.hire_date FROM instructors AS i2 WHERE i2.is_active = 1",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 164,
+      "complexity": "union",
+      "sql": "SELECT s1.course_id, s1.id, s1.room_number, s1.capacity FROM sections AS s1 WHERE s1.id < 819 UNION SELECT s2.course_id, s2.id, s2.room_number, s2.capacity FROM sections AS s2 WHERE s2.schedule_time <> 'user' ORDER BY course_id",
+      "tables": [
+        "sections",
+        "sections"
+      ]
+    },
+    {
+      "id": 165,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.assignment_id FROM submissions AS s1 WHERE s1.score <= 342 UNION SELECT s2.id, s2.assignment_id FROM submissions AS s2 WHERE s2.id <= 606",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 166,
+      "complexity": "union",
+      "sql": "SELECT s1.submitted_at, s1.feedback, s1.assignment_id, s1.id FROM submissions AS s1 WHERE s1.score >= 863 UNION ALL SELECT s2.submitted_at, s2.feedback, s2.assignment_id, s2.id FROM submissions AS s2 WHERE s2.student_id < 507",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 167,
+      "complexity": "union",
+      "sql": "SELECT s1.score, s1.student_id, s1.submitted_at FROM submissions AS s1 WHERE s1.assignment_id < 461 UNION SELECT s2.score, s2.student_id, s2.submitted_at FROM submissions AS s2 WHERE s2.assignment_id = 531",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 168,
+      "complexity": "union",
+      "sql": "SELECT r1.description, r1.start_date FROM research_projects AS r1 WHERE r1.status = 'admin' UNION ALL SELECT r2.description, r2.start_date FROM research_projects AS r2 WHERE r2.department_id < 652 ORDER BY description LIMIT 27",
+      "tables": [
+        "research_projects",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 169,
+      "complexity": "union",
+      "sql": "SELECT d1.building, d1.chair_id, d1.budget, d1.id FROM departments AS d1 WHERE d1.id <= 101 UNION ALL SELECT d2.building, d2.chair_id, d2.budget, d2.id FROM departments AS d2 WHERE d2.chair_id > 441",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 170,
+      "complexity": "union",
+      "sql": "SELECT s1.student_id, s1.score, s1.assignment_id, s1.id FROM submissions AS s1 WHERE s1.submitted_at < DATETIME('now', '-19 days') UNION SELECT s2.student_id, s2.score, s2.assignment_id, s2.id FROM submissions AS s2 WHERE s2.score <= 327 ORDER BY student_id",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 171,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.is_full_time, s1.enrollment_year, s1.gpa FROM students AS s1 WHERE s1.id > 430 UNION ALL SELECT s2.id, s2.is_full_time, s2.enrollment_year, s2.gpa FROM students AS s2 WHERE s2.email LIKE 'user%@%'",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 172,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.capacity, s1.room_number, s1.instructor_id FROM sections AS s1 WHERE s1.schedule_time = 'test' UNION SELECT s2.id, s2.capacity, s2.room_number, s2.instructor_id FROM sections AS s2 WHERE s2.course_id >= 710 ORDER BY id",
+      "tables": [
+        "sections",
+        "sections"
+      ]
+    },
+    {
+      "id": 173,
+      "complexity": "union",
+      "sql": "SELECT a1.max_score, a1.title, a1.id FROM assignments AS a1 WHERE a1.due_date < DATETIME('now', '-6 days') UNION SELECT a2.max_score, a2.title, a2.id FROM assignments AS a2 WHERE a2.description LIKE '%a%' LIMIT 50",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 174,
+      "complexity": "union",
+      "sql": "SELECT a1.max_score, a1.id, a1.description, a1.title FROM assignments AS a1 WHERE a1.section_id >= 503 UNION SELECT a2.max_score, a2.id, a2.description, a2.title FROM assignments AS a2 WHERE a2.due_date > DATETIME('now', '-27 days')",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 175,
+      "complexity": "union",
+      "sql": "SELECT i1.rank, i1.salary FROM instructors AS i1 WHERE i1.first_name LIKE '%c' UNION SELECT i2.rank, i2.salary FROM instructors AS i2 WHERE i2.id < 384",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 176,
+      "complexity": "union",
+      "sql": "SELECT s1.first_name, s1.created_at, s1.last_name FROM students AS s1 WHERE s1.major <> 'admin' UNION ALL SELECT s2.first_name, s2.created_at, s2.last_name FROM students AS s2 WHERE s2.created_at >= DATETIME('now', '-26 days') LIMIT 18",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 177,
+      "complexity": "union",
+      "sql": "SELECT a1.id, a1.max_score, a1.due_date FROM assignments AS a1 WHERE a1.id < 498 UNION SELECT a2.id, a2.max_score, a2.due_date FROM assignments AS a2 WHERE a2.max_score <> 864",
+      "tables": [
+        "assignments",
+        "assignments"
+      ]
+    },
+    {
+      "id": 178,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.student_id FROM submissions AS s1 WHERE s1.id < 259 UNION SELECT s2.id, s2.student_id FROM submissions AS s2 WHERE s2.student_id = 222 ORDER BY id",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 179,
+      "complexity": "union",
+      "sql": "SELECT c1.level, c1.id FROM courses AS c1 WHERE c1.course_code LIKE 'b%' UNION ALL SELECT c2.level, c2.id FROM courses AS c2 WHERE c2.id <= 471 ORDER BY level LIMIT 34",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 180,
+      "complexity": "union",
+      "sql": "SELECT e1.grade, e1.status, e1.enrolled_at, e1.section_id FROM enrollments AS e1 WHERE e1.section_id >= 597 UNION ALL SELECT e2.grade, e2.status, e2.enrolled_at, e2.section_id FROM enrollments AS e2 WHERE e2.grade <> 'test' LIMIT 22",
+      "tables": [
+        "enrollments",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 181,
+      "complexity": "union",
+      "sql": "SELECT s1.feedback, s1.submitted_at FROM submissions AS s1 WHERE s1.assignment_id <> 964 UNION ALL SELECT s2.feedback, s2.submitted_at FROM submissions AS s2 WHERE s2.id < 27 LIMIT 39",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 182,
+      "complexity": "union",
+      "sql": "SELECT i1.first_name, i1.hire_date FROM instructors AS i1 WHERE i1.salary <> 478 UNION ALL SELECT i2.first_name, i2.hire_date FROM instructors AS i2 WHERE i2.id > 833",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 183,
+      "complexity": "union",
+      "sql": "SELECT s1.is_full_time, s1.gpa FROM students AS s1 WHERE s1.first_name LIKE 'b%' UNION ALL SELECT s2.is_full_time, s2.gpa FROM students AS s2 WHERE s2.major <> 'test'",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 184,
+      "complexity": "union",
+      "sql": "SELECT s1.major, s1.enrollment_year, s1.created_at FROM students AS s1 WHERE s1.last_name LIKE 'b%' UNION ALL SELECT s2.major, s2.enrollment_year, s2.created_at FROM students AS s2 WHERE s2.id <= 103 ORDER BY major",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 185,
+      "complexity": "union",
+      "sql": "SELECT c1.is_active, c1.title, c1.department_id, c1.id FROM courses AS c1 WHERE c1.title = 'test' UNION SELECT c2.is_active, c2.title, c2.department_id, c2.id FROM courses AS c2 WHERE c2.id <> 867",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 186,
+      "complexity": "union",
+      "sql": "SELECT r1.description, r1.end_date FROM research_projects AS r1 WHERE r1.end_date < DATETIME('now', '-30 days') UNION SELECT r2.description, r2.end_date FROM research_projects AS r2 WHERE r2.status <> 'user'",
+      "tables": [
+        "research_projects",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 187,
+      "complexity": "union",
+      "sql": "SELECT c1.department_id, c1.credits, c1.is_active, c1.title FROM courses AS c1 WHERE c1.is_active = 0 UNION ALL SELECT c2.department_id, c2.credits, c2.is_active, c2.title FROM courses AS c2 WHERE c2.course_code = '123' ORDER BY department_id",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 188,
+      "complexity": "union",
+      "sql": "SELECT i1.department_id, i1.first_name, i1.salary, i1.last_name FROM instructors AS i1 WHERE i1.salary > 726 UNION ALL SELECT i2.department_id, i2.first_name, i2.salary, i2.last_name FROM instructors AS i2 WHERE i2.id = 63 ORDER BY department_id",
+      "tables": [
+        "instructors",
+        "instructors"
+      ]
+    },
+    {
+      "id": 189,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.score FROM submissions AS s1 WHERE s1.assignment_id < 440 UNION SELECT s2.id, s2.score FROM submissions AS s2 WHERE s2.feedback = 'test'",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 190,
+      "complexity": "union",
+      "sql": "SELECT c1.level, c1.title FROM courses AS c1 WHERE c1.title LIKE '%a%' UNION ALL SELECT c2.level, c2.title FROM courses AS c2 WHERE c2.is_active = 0 LIMIT 47",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 191,
+      "complexity": "union",
+      "sql": "SELECT c1.credits, c1.course_code FROM courses AS c1 WHERE c1.department_id <= 586 UNION SELECT c2.credits, c2.course_code FROM courses AS c2 WHERE c2.title LIKE '%c' ORDER BY credits LIMIT 30",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 192,
+      "complexity": "union",
+      "sql": "SELECT c1.is_active, c1.credits, c1.title FROM courses AS c1 WHERE c1.course_code = 'admin' UNION ALL SELECT c2.is_active, c2.credits, c2.title FROM courses AS c2 WHERE c2.title LIKE 'b%'",
+      "tables": [
+        "courses",
+        "courses"
+      ]
+    },
+    {
+      "id": 193,
+      "complexity": "union",
+      "sql": "SELECT r1.principal_investigator_id, r1.status, r1.description, r1.department_id FROM research_projects AS r1 WHERE r1.start_date > DATETIME('now', '-4 days') UNION SELECT r2.principal_investigator_id, r2.status, r2.description, r2.department_id FROM research_projects AS r2 WHERE r2.department_id < 447 ORDER BY principal_investigator_id LIMIT 24",
+      "tables": [
+        "research_projects",
+        "research_projects"
+      ]
+    },
+    {
+      "id": 194,
+      "complexity": "union",
+      "sql": "SELECT e1.enrolled_at, e1.grade FROM enrollments AS e1 WHERE e1.grade = '123' UNION SELECT e2.enrolled_at, e2.grade FROM enrollments AS e2 WHERE e2.status = '123'",
+      "tables": [
+        "enrollments",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 195,
+      "complexity": "union",
+      "sql": "SELECT d1.is_active, d1.building, d1.name, d1.chair_id FROM departments AS d1 WHERE d1.id = 417 UNION ALL SELECT d2.is_active, d2.building, d2.name, d2.chair_id FROM departments AS d2 WHERE d2.is_active = 1",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 196,
+      "complexity": "union",
+      "sql": "SELECT s1.enrollment_year, s1.email FROM students AS s1 WHERE s1.last_name <> 'activity' UNION ALL SELECT s2.enrollment_year, s2.email FROM students AS s2 WHERE s2.is_full_time = 1 ORDER BY enrollment_year",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 197,
+      "complexity": "union",
+      "sql": "SELECT s1.student_id, s1.score, s1.submitted_at FROM submissions AS s1 WHERE s1.student_id = 928 UNION SELECT s2.student_id, s2.score, s2.submitted_at FROM submissions AS s2 WHERE s2.score = 466",
+      "tables": [
+        "submissions",
+        "submissions"
+      ]
+    },
+    {
+      "id": 198,
+      "complexity": "union",
+      "sql": "SELECT e1.student_id, e1.section_id FROM enrollments AS e1 WHERE e1.student_id < 354 UNION ALL SELECT e2.student_id, e2.section_id FROM enrollments AS e2 WHERE e2.section_id > 645",
+      "tables": [
+        "enrollments",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 199,
+      "complexity": "union",
+      "sql": "SELECT e1.section_id, e1.student_id, e1.enrolled_at FROM enrollments AS e1 WHERE e1.status LIKE 'b%' UNION SELECT e2.section_id, e2.student_id, e2.enrolled_at FROM enrollments AS e2 WHERE e2.section_id <= 342",
+      "tables": [
+        "enrollments",
+        "enrollments"
+      ]
+    },
+    {
+      "id": 200,
+      "complexity": "union",
+      "sql": "SELECT s1.gpa, s1.is_full_time, s1.major FROM students AS s1 WHERE s1.created_at < DATETIME('now', '-23 days') UNION SELECT s2.gpa, s2.is_full_time, s2.major FROM students AS s2 WHERE s2.enrollment_year = 677 LIMIT 13",
+      "tables": [
+        "students",
+        "students"
+      ]
+    },
+    {
+      "id": 201,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, building, budget, chair_id, is_active) VALUES ('Sample text 4', 'Sample text 20', 874, 317, 1)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 202,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 98', 'Sample text 78', 144, 436, 'Sample text 67', 1)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 203,
+      "complexity": "insert",
+      "sql": "INSERT INTO students (first_name, last_name, email, enrollment_year, major, gpa, is_full_time, created_at) VALUES ('Sample text 26', 'Sample text 18', 'user222@example.com', 264, 'Sample text 95', 538, 0, DATETIME('now'))",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 204,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (263, 48, DATETIME('now'), 481, 'Sample text 90')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 205,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 37', 'Sample text 78', 'user214@example.com', 493, DATETIME('now'), 'Sample text 49', 272, 1)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 206,
+      "complexity": "insert",
+      "sql": "INSERT INTO research_projects (title, description, start_date, end_date, funding_amount, department_id, principal_investigator_id, status) VALUES ('Sample text 12', 'Sample text 91', DATETIME('now'), DATETIME('now'), 78, 905, 196, 'Sample text 46')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 207,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (478, 191, 'Sample text 34', 284, 'Sample text 81', 'Sample text 54', 858)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 208,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, building, budget, chair_id, is_active) VALUES ('Sample text 28', 'Sample text 99', 692, 865, 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 209,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (767, 804, 'Sample text 26', 599, 'Sample text 87', 'Sample text 58', 912)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 210,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (578, 'Sample text 82', 'Sample text 38', DATETIME('now'), 863)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 211,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 65', 'Sample text 70', 'user986@example.com', 516, DATETIME('now'), 'Sample text 86', 741, 1)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 212,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (344, 311, DATETIME('now'), 510, 'Sample text 22')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 213,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (669, 908, DATETIME('now'), 580, 'Sample text 56')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 214,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (41, 660, DATETIME('now'), 589, 'Sample text 81')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 215,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (998, 'Sample text 43', 'Sample text 70', DATETIME('now'), 397)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 216,
+      "complexity": "insert",
+      "sql": "INSERT INTO research_projects (title, description, start_date, end_date, funding_amount, department_id, principal_investigator_id, status) VALUES ('Sample text 74', 'Sample text 3', DATETIME('now'), DATETIME('now'), 146, 26, 405, 'Sample text 75')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 217,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 2', 'Sample text 100', 124, 767, 'Sample text 57', 0)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 218,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (152, 503, DATETIME('now'), 673, 'Sample text 50')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 219,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (583, 469, DATETIME('now'), 272, 'Sample text 53')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 220,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 67', 'Sample text 3', 29, 864, 'Sample text 67', 1)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 221,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 12', 'Sample text 76', 'user328@example.com', 652, DATETIME('now'), 'Sample text 90', 149, 0)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 222,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 28', 'Sample text 26', 661, 632, 'Sample text 66', 0)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 223,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (803, 553, DATETIME('now'), 317, 'Sample text 21')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 224,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (577, 'Sample text 29', 'Sample text 99', DATETIME('now'), 689)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 225,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 72', 'Sample text 2', 'user612@example.com', 259, DATETIME('now'), 'Sample text 51', 900, 1)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 226,
+      "complexity": "insert",
+      "sql": "INSERT INTO enrollments (student_id, section_id, enrolled_at, grade, status) VALUES (125, 516, DATETIME('now'), 'Sample text 98', 'Sample text 74')",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 227,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (945, 'Sample text 69', 'Sample text 76', DATETIME('now'), 856)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 228,
+      "complexity": "insert",
+      "sql": "INSERT INTO students (first_name, last_name, email, enrollment_year, major, gpa, is_full_time, created_at) VALUES ('Sample text 70', 'Sample text 96', 'user270@example.com', 456, 'Sample text 37', 356, 1, DATETIME('now'))",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 229,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (158, 952, DATETIME('now'), 587, 'Sample text 87')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 230,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (314, 'Sample text 41', 'Sample text 77', DATETIME('now'), 11)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 231,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (325, 622, 'Sample text 26', 789, 'Sample text 66', 'Sample text 97', 368)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 232,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 12', 'Sample text 78', 'user527@example.com', 674, DATETIME('now'), 'Sample text 33', 438, 0)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 233,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 45', 'Sample text 33', 'user792@example.com', 292, DATETIME('now'), 'Sample text 100', 76, 1)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 234,
+      "complexity": "insert",
+      "sql": "INSERT INTO research_projects (title, description, start_date, end_date, funding_amount, department_id, principal_investigator_id, status) VALUES ('Sample text 97', 'Sample text 1', DATETIME('now'), DATETIME('now'), 161, 952, 741, 'Sample text 42')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 235,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 75', 'Sample text 93', 984, 943, 'Sample text 56', 1)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 236,
+      "complexity": "insert",
+      "sql": "INSERT INTO research_projects (title, description, start_date, end_date, funding_amount, department_id, principal_investigator_id, status) VALUES ('Sample text 26', 'Sample text 42', DATETIME('now'), DATETIME('now'), 410, 964, 612, 'Sample text 81')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 237,
+      "complexity": "insert",
+      "sql": "INSERT INTO instructors (first_name, last_name, email, department_id, hire_date, rank, salary, is_active) VALUES ('Sample text 6', 'Sample text 10', 'user316@example.com', 488, DATETIME('now'), 'Sample text 93', 290, 0)",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 238,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (750, 143, 'Sample text 24', 173, 'Sample text 43', 'Sample text 99', 598)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 239,
+      "complexity": "insert",
+      "sql": "INSERT INTO enrollments (student_id, section_id, enrolled_at, grade, status) VALUES (823, 549, DATETIME('now'), 'Sample text 86', 'Sample text 2')",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 240,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (272, 'Sample text 73', 'Sample text 54', DATETIME('now'), 252)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 241,
+      "complexity": "insert",
+      "sql": "INSERT INTO students (first_name, last_name, email, enrollment_year, major, gpa, is_full_time, created_at) VALUES ('Sample text 41', 'Sample text 44', 'user376@example.com', 64, 'Sample text 33', 946, 1, DATETIME('now'))",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 242,
+      "complexity": "insert",
+      "sql": "INSERT INTO research_projects (title, description, start_date, end_date, funding_amount, department_id, principal_investigator_id, status) VALUES ('Sample text 65', 'Sample text 1', DATETIME('now'), DATETIME('now'), 418, 697, 392, 'Sample text 18')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 243,
+      "complexity": "insert",
+      "sql": "INSERT INTO courses (course_code, title, credits, department_id, level, is_active) VALUES ('Sample text 17', 'Sample text 63', 161, 863, 'Sample text 76', 0)",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 244,
+      "complexity": "insert",
+      "sql": "INSERT INTO students (first_name, last_name, email, enrollment_year, major, gpa, is_full_time, created_at) VALUES ('Sample text 74', 'Sample text 25', 'user203@example.com', 886, 'Sample text 33', 438, 0, DATETIME('now'))",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 245,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (728, 686, 'Sample text 99', 168, 'Sample text 74', 'Sample text 48', 762)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 246,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (425, 840, 'Sample text 81', 515, 'Sample text 74', 'Sample text 74', 838)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 247,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (256, 883, DATETIME('now'), 744, 'Sample text 92')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 248,
+      "complexity": "insert",
+      "sql": "INSERT INTO sections (course_id, instructor_id, semester, year, room_number, schedule_time, capacity) VALUES (181, 159, 'Sample text 15', 478, 'Sample text 12', 'Sample text 16', 857)",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 249,
+      "complexity": "insert",
+      "sql": "INSERT INTO assignments (section_id, title, description, due_date, max_score) VALUES (886, 'Sample text 32', 'Sample text 63', DATETIME('now'), 531)",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 250,
+      "complexity": "insert",
+      "sql": "INSERT INTO submissions (assignment_id, student_id, submitted_at, score, feedback) VALUES (133, 179, DATETIME('now'), 43, 'Sample text 19')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 251,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET feedback = 'Updated text 28' WHERE submissions.feedback LIKE '%c'",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 252,
+      "complexity": "update",
+      "sql": "UPDATE enrollments SET enrolled_at = DATETIME('now') WHERE enrollments.section_id = 367",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 253,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET assignment_id = 802 WHERE submissions.id >= 205",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 254,
+      "complexity": "update",
+      "sql": "UPDATE departments SET chair_id = 99 WHERE departments.name LIKE '%c'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 255,
+      "complexity": "update",
+      "sql": "UPDATE sections SET instructor_id = 363 WHERE sections.capacity > 422",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 256,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET rank = 'Updated text 5' WHERE instructors.hire_date > DATETIME('now', '-15 days')",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 257,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET last_name = 'Updated text 41' WHERE instructors.rank = 'test'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 258,
+      "complexity": "update",
+      "sql": "UPDATE enrollments SET status = 'Updated text 81' WHERE enrollments.section_id > 540",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 259,
+      "complexity": "update",
+      "sql": "UPDATE students SET email = 'updated_user95@example.com' WHERE students.created_at < DATETIME('now', '-27 days')",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 260,
+      "complexity": "update",
+      "sql": "UPDATE enrollments SET enrolled_at = DATETIME('now') WHERE enrollments.status = 'test'",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 261,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET email = 'updated_user36@example.com' WHERE instructors.rank <> '123'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 262,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET start_date = DATETIME('now') WHERE research_projects.start_date >= DATETIME('now', '-14 days')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 263,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET assignment_id = 522 WHERE submissions.student_id < 228",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 264,
+      "complexity": "update",
+      "sql": "UPDATE courses SET is_active = 0 WHERE courses.title <> 'user'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 265,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET salary = 806 WHERE instructors.rank <> 'user'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 266,
+      "complexity": "update",
+      "sql": "UPDATE sections SET semester = 'Updated text 7' WHERE sections.instructor_id >= 776",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 267,
+      "complexity": "update",
+      "sql": "UPDATE students SET enrollment_year = 233 WHERE students.id = 728",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 268,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET feedback = 'Updated text 24' WHERE submissions.submitted_at >= DATETIME('now', '-21 days')",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 269,
+      "complexity": "update",
+      "sql": "UPDATE sections SET instructor_id = 333 WHERE sections.year = 293",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 270,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET submitted_at = DATETIME('now') WHERE submissions.score <> 21",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 271,
+      "complexity": "update",
+      "sql": "UPDATE departments SET is_active = 0 WHERE departments.building = 'user'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 272,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET email = 'updated_user62@example.com' WHERE instructors.salary = 557",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 273,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET student_id = 13 WHERE submissions.student_id <> 636",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 274,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET last_name = 'Updated text 30' WHERE instructors.last_name <> 'admin'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 275,
+      "complexity": "update",
+      "sql": "UPDATE enrollments SET enrolled_at = DATETIME('now') WHERE enrollments.section_id <> 911",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 276,
+      "complexity": "update",
+      "sql": "UPDATE assignments SET section_id = 522 WHERE assignments.due_date < DATETIME('now', '-24 days')",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 277,
+      "complexity": "update",
+      "sql": "UPDATE departments SET is_active = 0 WHERE departments.is_active = 0",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 278,
+      "complexity": "update",
+      "sql": "UPDATE sections SET course_id = 391 WHERE sections.room_number LIKE '%a%'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 279,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET principal_investigator_id = 61 WHERE research_projects.end_date <= DATETIME('now', '-2 days')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 280,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET score = 671 WHERE submissions.assignment_id > 938",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 281,
+      "complexity": "update",
+      "sql": "UPDATE sections SET instructor_id = 356 WHERE sections.semester LIKE 'b%'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 282,
+      "complexity": "update",
+      "sql": "UPDATE sections SET room_number = 'Updated text 98' WHERE sections.course_id > 551",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 283,
+      "complexity": "update",
+      "sql": "UPDATE students SET gpa = 305 WHERE students.gpa >= 407",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 284,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET funding_amount = 378 WHERE research_projects.id <= 850",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 285,
+      "complexity": "update",
+      "sql": "UPDATE students SET enrollment_year = 87 WHERE students.is_full_time = 1",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 286,
+      "complexity": "update",
+      "sql": "UPDATE courses SET is_active = 0 WHERE courses.title = '123'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 287,
+      "complexity": "update",
+      "sql": "UPDATE departments SET chair_id = 787 WHERE departments.name <> 'test'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 288,
+      "complexity": "update",
+      "sql": "UPDATE departments SET name = 'Updated text 53' WHERE departments.chair_id >= 762",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 289,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET score = 87 WHERE submissions.student_id < 35",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 290,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET title = 'Updated text 62' WHERE research_projects.status LIKE '%a%'",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 291,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET status = 'Updated text 96' WHERE research_projects.department_id < 8",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 292,
+      "complexity": "update",
+      "sql": "UPDATE submissions SET feedback = 'Updated text 82' WHERE submissions.student_id <> 793",
+      "tables": [
+        "submissions"
+      ]
+    },
+    {
+      "id": 293,
+      "complexity": "update",
+      "sql": "UPDATE assignments SET description = 'Updated text 10' WHERE assignments.description = 'test'",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 294,
+      "complexity": "update",
+      "sql": "UPDATE research_projects SET end_date = DATETIME('now') WHERE research_projects.end_date > DATETIME('now', '-17 days')",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 295,
+      "complexity": "update",
+      "sql": "UPDATE students SET gpa = 440 WHERE students.created_at <= DATETIME('now', '-19 days')",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 296,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET salary = 612 WHERE instructors.is_active = 0",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 297,
+      "complexity": "update",
+      "sql": "UPDATE students SET enrollment_year = 741 WHERE students.first_name = 'admin'",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 298,
+      "complexity": "update",
+      "sql": "UPDATE sections SET capacity = 441 WHERE sections.room_number = 'user'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 299,
+      "complexity": "update",
+      "sql": "UPDATE instructors SET first_name = 'Updated text 54' WHERE instructors.id > 122",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 300,
+      "complexity": "update",
+      "sql": "UPDATE sections SET instructor_id = 522 WHERE sections.semester = 'admin'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 301,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.building <> 'test'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 302,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.chair_id <> 375",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 303,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.course_code <> '123'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 304,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.semester LIKE '%a%'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 305,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.is_active = 1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 306,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.building <> 'test'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 307,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.gpa = 355",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 308,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.room_number LIKE '%a%'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 309,
+      "complexity": "delete",
+      "sql": "DELETE FROM assignments WHERE assignments.section_id = 292",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 310,
+      "complexity": "delete",
+      "sql": "DELETE FROM instructors WHERE instructors.id >= 163",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 311,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.instructor_id >= 851",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 312,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.major LIKE 'b%'",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 313,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.semester = 'test'",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 314,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.enrollment_year = 340",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 315,
+      "complexity": "delete",
+      "sql": "DELETE FROM research_projects WHERE research_projects.funding_amount > 251",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 316,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.chair_id = 656",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 317,
+      "complexity": "delete",
+      "sql": "DELETE FROM instructors WHERE instructors.rank LIKE '%a%'",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 318,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.course_code = 'admin'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 319,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.capacity <= 23",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 320,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.level <> '123'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 321,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.id <= 918",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 322,
+      "complexity": "delete",
+      "sql": "DELETE FROM instructors WHERE instructors.department_id > 58",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 323,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.chair_id >= 652",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 324,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.id > 856",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 325,
+      "complexity": "delete",
+      "sql": "DELETE FROM enrollments WHERE enrollments.status <> '123'",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 326,
+      "complexity": "delete",
+      "sql": "DELETE FROM research_projects WHERE research_projects.id > 949",
+      "tables": [
+        "research_projects"
+      ]
+    },
+    {
+      "id": 327,
+      "complexity": "delete",
+      "sql": "DELETE FROM assignments WHERE assignments.id <> 843",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 328,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.level = 'admin'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 329,
+      "complexity": "delete",
+      "sql": "DELETE FROM assignments WHERE assignments.title = 'activity'",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 330,
+      "complexity": "delete",
+      "sql": "DELETE FROM assignments WHERE assignments.section_id <> 173",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 331,
+      "complexity": "delete",
+      "sql": "DELETE FROM instructors WHERE instructors.id <> 623",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 332,
+      "complexity": "delete",
+      "sql": "DELETE FROM assignments WHERE assignments.title = '123'",
+      "tables": [
+        "assignments"
+      ]
+    },
+    {
+      "id": 333,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.is_active = 0",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 334,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.enrollment_year <> 562",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 335,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.budget = 847",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 336,
+      "complexity": "delete",
+      "sql": "DELETE FROM instructors WHERE instructors.department_id >= 267",
+      "tables": [
+        "instructors"
+      ]
+    },
+    {
+      "id": 337,
+      "complexity": "delete",
+      "sql": "DELETE FROM sections WHERE sections.year < 441",
+      "tables": [
+        "sections"
+      ]
+    },
+    {
+      "id": 338,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.course_code LIKE '%c'",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 339,
+      "complexity": "delete",
+      "sql": "DELETE FROM enrollments WHERE enrollments.status <> 'activity'",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 340,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.enrollment_year <= 302",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 341,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.email LIKE '%@gmail.com'",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 342,
+      "complexity": "delete",
+      "sql": "DELETE FROM enrollments WHERE enrollments.enrolled_at >= DATETIME('now', '-6 days')",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 343,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.id < 311",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 344,
+      "complexity": "delete",
+      "sql": "DELETE FROM students WHERE students.created_at < DATETIME('now', '-26 days')",
+      "tables": [
+        "students"
+      ]
+    },
+    {
+      "id": 345,
+      "complexity": "delete",
+      "sql": "DELETE FROM enrollments WHERE enrollments.section_id < 981",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 346,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.department_id >= 520",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 347,
+      "complexity": "delete",
+      "sql": "DELETE FROM courses WHERE courses.is_active = 1",
+      "tables": [
+        "courses"
+      ]
+    },
+    {
+      "id": 348,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.name <> '123'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 349,
+      "complexity": "delete",
+      "sql": "DELETE FROM enrollments WHERE enrollments.enrolled_at >= DATETIME('now', '-21 days')",
+      "tables": [
+        "enrollments"
+      ]
+    },
+    {
+      "id": 350,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.budget > 251",
+      "tables": [
+        "departments"
+      ]
+    }
+  ]
+}

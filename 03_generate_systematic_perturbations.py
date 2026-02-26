@@ -11,8 +11,8 @@ Usage
 
   # With explicit I/O
   python 03_generate_systematic_perturbations.py \\
-      -i dataset/current/nl_bank_queries.json \\
-      -o dataset/current/nl_bank_queries_systematic.json \\
+      -i dataset/bank/nl_prompts.json \\
+      -o dataset/bank/systematic_perturbations.json \\
       --schema schemas/bank.yaml
 
   # Legacy (social_media defaults)
@@ -59,9 +59,9 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="Generate systematic perturbations.")
     parser.add_argument("--input", "-i", default=None,
-                        help="Path to the NL query JSON file (default: dataset/current/nl_<schema>_queries.json)")
+                        help="Path to the NL query JSON file (default: dataset/<schema>/nl_prompts.json)")
     parser.add_argument("--output", "-o", default=None,
-                        help="Path for the output perturbation JSON file (default: dataset/current/nl_<schema>_queries_systematic.json)")
+                        help="Path for the output perturbation JSON file (default: dataset/<schema>/systematic_perturbations.json)")
     parser.add_argument("--schema", "-s", default=None,
                         help="Path to a YAML schema file (provides dialect and schema name)")
     args = parser.parse_args()
@@ -76,8 +76,8 @@ def main():
         dialect = cfg.dialect
         print(f"Schema: '{schema_name}', dialect: '{dialect}'")
 
-    INPUT_FILE = args.input or f"./dataset/current/nl_{schema_name}_queries.json"
-    OUTPUT_FILE = args.output or f"./dataset/current/nl_{schema_name}_queries_systematic.json"
+    INPUT_FILE = args.input or f"./dataset/{schema_name}/nl_prompts.json"
+    OUTPUT_FILE = args.output or f"./dataset/{schema_name}/systematic_perturbations.json"
 
     if not os.path.exists(INPUT_FILE):
         print(f"Error: {INPUT_FILE} not found.")

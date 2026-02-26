@@ -83,7 +83,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "phrasal_and_idiomatic_action_substitution"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 SELECT_COMPLEXITIES = {"simple", "join", "advanced", "union"}
 DML_COMPLEXITIES    = {"insert", "update", "delete"}

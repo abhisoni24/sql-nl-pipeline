@@ -68,7 +68,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "verbosity_variation"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 # Filler words from all banks (lower-cased)
 FILLER_WORDS = {

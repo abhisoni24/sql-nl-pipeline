@@ -316,7 +316,7 @@ def print_report(results: List[TestResult], pairs: List[Dict]):
 
 def main():
     parser = argparse.ArgumentParser(description="Test SQL semantic equivalence")
-    parser.add_argument("--input", default="./dataset/current/sql_equivalence_pairs.json",
+    parser.add_argument("--input", default="./dataset/social_media/sql_equivalence_pairs.json",
                        help="Path to equivalence pairs JSON")
     parser.add_argument("--output", default=None,
                        help="Path to save results JSON")

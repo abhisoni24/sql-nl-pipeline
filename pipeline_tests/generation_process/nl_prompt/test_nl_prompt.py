@@ -11,7 +11,7 @@ Usage
 
   # Against any specific file:
   python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py \\
-      --input dataset/current/nl_social_media_queries_20.json
+      --input dataset/social_media/nl_prompts.json
 
   # Verbose — print every failure as it occurs:
   python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py -v
@@ -162,7 +162,7 @@ def _load_schema(schema_path=None):
         _SCHEMA_STATE["DIALECT"] = USED_SQL_DIALECT
     _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
 
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/nl_prompts.json"
 # ── NL vocabulary maps ─────────────────────────────────────────────────────
 
 # Intent verbs used by the renderer at the start of SELECT prompts
@@ -282,11 +282,13 @@ def _col_in_nl(col: str, nl_lower: str, table: str = None) -> bool:
     """Return True if a column name (or any of its dictionary synonyms) appears in the NL.
 
     Checks:
-      1. The raw column name with underscores replaced by spaces (e.g. 'user_id' → 'user id')
-      2. All synonyms from the COLUMN_SYNONYMS dictionary
+      1. The raw column name (with underscores) as it may appear verbatim
+      2. The column name with underscores replaced by spaces (e.g. 'user_id' → 'user id')
+      3. All synonyms from the COLUMN_SYNONYMS dictionary
     """
-    col_lower = col.lower().replace("_", " ")
-    if col_lower in nl_lower:
+    col_raw = col.lower()
+    col_spaced = col_raw.replace("_", " ")
+    if col_raw in nl_lower or col_spaced in nl_lower:
         return True
 
     # Check dictionary synonyms for this column
@@ -316,7 +318,27 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
       - 'account' inside 'account followed id' (column synonym containing a table synonym)
     """
     candidates = TABLE_SYNONYMS.get(table, {table})
+    # Auto-expand: add underscore variants and simple singulars.
+    # The NL renderer may emit "research_project" (singular + underscore) while
+    # the schema table is "research_projects" and the dictionary only has
+    # "research projects" (space-separated, plural).
+    expanded = set()
     for c in candidates:
+        expanded.add(c)
+        # Underscore ↔ space variants
+        if "_" in c:
+            expanded.add(c.replace("_", " "))
+        elif " " in c:
+            expanded.add(c.replace(" ", "_"))
+        # Naive singular: strip trailing 's' (catches tables/projects/enrollments...)
+        if c.endswith("s") and len(c) > 2:
+            singular = c[:-1]
+            expanded.add(singular)
+            if "_" in singular:
+                expanded.add(singular.replace("_", " "))
+            elif " " in singular:
+                expanded.add(singular.replace(" ", "_"))
+    for c in expanded:
         for m in re.finditer(rf"\b{re.escape(c)}\b", nl_lower):
             start, end = m.start(), m.end()
             rest  = nl_lower[end:]
@@ -1200,12 +1222,18 @@ def run_tests(input_file: str, verbose: bool = False) -> TestResult:
     with open(input_file) as f:
         dataset = json.load(f)
 
-    print(f"Loaded {len(dataset)} records from {input_file}")
+    # Support both bare-list and metadata-wrapped formats
+    if isinstance(dataset, dict) and "records" in dataset:
+        records = dataset["records"]
+    else:
+        records = dataset
+
+    print(f"Loaded {len(records)} records from {input_file}")
     print(f"Running NL prompt tests{'  (verbose)' if verbose else ''}...\n")
 
     by_complexity: dict[str, int] = defaultdict(int)
 
-    for r in dataset:
+    for r in records:
         comp = r.get("complexity", "unknown")
         by_complexity[comp] += 1
 

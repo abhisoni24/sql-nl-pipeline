@@ -17,8 +17,8 @@ Usage
       --dictionary schemas/bank_dictionary.yaml
 
   # With explicit I/O
-  python 02_generate_nl_prompts.py -i dataset/current/raw_bank_queries.json \\
-      -o dataset/current/nl_bank_queries.json --schema schemas/bank.yaml --two-pass
+  python 02_generate_nl_prompts.py -i dataset/bank/raw_queries.json \\
+      -o dataset/bank/nl_prompts.json --schema schemas/bank.yaml --two-pass
 
   # Legacy mode (social_media defaults)
   python 02_generate_nl_prompts.py
@@ -167,9 +167,9 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate NL prompts from SQL queries")
     parser.add_argument("--input", "-i", default=None,
-                        help="Input raw SQL dataset JSON (default: dataset/current/raw_<schema>_queries.json)")
+                        help="Input raw SQL dataset JSON (default: dataset/<schema>/raw_queries.json)")
     parser.add_argument("--output", "-o", default=None,
-                        help="Output NL-augmented dataset JSON (default: dataset/current/nl_<schema>_queries.json)")
+                        help="Output NL-augmented dataset JSON (default: dataset/<schema>/nl_prompts.json)")
     parser.add_argument("--two-pass", action="store_true",
                         help="Use two-pass rendering (render_template + TemplateResolver)")
     parser.add_argument("--schema", "-s", default=None,
@@ -184,8 +184,8 @@ if __name__ == "__main__":
         from src.core.schema_loader import load_from_yaml
         schema_name = load_from_yaml(args.schema).schema_name
 
-    input_file = args.input or f"./dataset/current/raw_{schema_name}_queries.json"
-    output_file = args.output or f"./dataset/current/nl_{schema_name}_queries.json"
+    input_file = args.input or f"./dataset/{schema_name}/raw_queries.json"
+    output_file = args.output or f"./dataset/{schema_name}/nl_prompts.json"
 
     generate_nl_prompts(
         input_file=input_file,

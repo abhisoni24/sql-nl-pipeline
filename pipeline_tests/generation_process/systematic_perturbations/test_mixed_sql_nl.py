@@ -26,7 +26,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "mixed_sql_nl"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 UNION_CONNECTORS = {"combined with", "union", "along with"}
 JOIN_COUPLING    = {"and their", "along with", "joined with", "join", "with their",
                     "left join", "right join", "full join", "inner join"}

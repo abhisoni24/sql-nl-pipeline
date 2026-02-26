@@ -3,7 +3,7 @@ from sqlglot import exp
 from src.core.schema import SCHEMA, FOREIGN_KEYS, NUMERIC_TYPES, TEXT_TYPES, DATE_TYPES, BOOLEAN_TYPES, USED_SQL_DIALECT
 
 class SQLQueryGenerator:
-    def __init__(self, schema, foreign_keys, type_sets=None):
+    def __init__(self, schema, foreign_keys, type_sets=None, composite_pks=None):
         self.schema = schema
         self.foreign_keys = foreign_keys
         self.queries = []
@@ -18,6 +18,17 @@ class SQLQueryGenerator:
             self.text_types = type_sets.get("text", set())
             self.date_types = type_sets.get("date", set())
             self.boolean_types = type_sets.get("boolean", set())
+
+        # Composite PK tables: {table_name: {col1, col2, ...}}
+        # These columns must never appear in UPDATE SET clauses.
+        if composite_pks is not None:
+            self.composite_pks = composite_pks
+        else:
+            # Legacy fallback for social_media
+            self.composite_pks = {
+                'follows': {'follower_id', 'followee_id'},
+                'likes': {'user_id', 'post_id'},
+            }
 
     def _get_column_type(self, table, column):
         return self.schema[table].get(column)
@@ -157,17 +168,10 @@ class SQLQueryGenerator:
     def generate_update(self, table):
         columns = list(self.schema[table].keys())
         
-        # Define composite primary key columns for each table
-        # These should never be updated as it causes UNIQUE constraint violations
-        composite_pk_tables = {
-            'follows': {'follower_id', 'followee_id'},
-            'likes': {'user_id', 'post_id'}
-        }
-        
         # Filter out primary key columns
-        if table in composite_pk_tables:
+        if table in self.composite_pks:
             # For composite PK tables, exclude all PK columns
-            pk_cols = composite_pk_tables[table]
+            pk_cols = self.composite_pks[table]
             safe_columns = [c for c in columns if c not in pk_cols]
         else:
             # For regular tables, just exclude 'id'
@@ -209,10 +213,20 @@ class SQLQueryGenerator:
     def generate_delete(self, table):
         delete_expr = exp.delete(table)
         
-        # Add WHERE clause
-        where = self.generate_where(table)
+        # Always add WHERE clause — retry with different columns if needed
+        where = None
+        for _ in range(10):
+            where = self.generate_where(table)
+            if where:
+                break
         if where:
             delete_expr = delete_expr.where(where)
+        else:
+            # Ultimate fallback: DELETE WHERE id > 0
+            if 'id' in self.schema[table]:
+                delete_expr = delete_expr.where(
+                    exp.GT(this=exp.column('id', table=table),
+                           expression=exp.Literal.number(0)))
             
         return delete_expr
 

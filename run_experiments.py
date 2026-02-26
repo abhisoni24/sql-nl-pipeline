@@ -36,7 +36,7 @@ LOCAL_BASE = os.getenv('LOCAL_BASE', DEFAULT_LOCAL_BASE)
 REPO_PATH = os.getenv('REPO_PATH', DEFAULT_REPO_PATH)
 DRIVE_BASE = os.getenv('DRIVE_BASE', DEFAULT_DRIVE_BASE)
 CONFIG_PATH = os.path.join(REPO_PATH, 'experiments.yaml')
-DATASET_DIR = os.path.join(REPO_PATH, 'dataset/current')
+DATASET_DIR = os.path.join(REPO_PATH, 'dataset')
 
 def setup_directories(run_timestamp: str):
     """Create local and drive directories for this run."""
@@ -54,9 +54,9 @@ def setup_directories(run_timestamp: str):
 def load_all_tasks(dataset_dir: str):
     """Load and merge all task types."""
     print("⏳ Loading datasets...")
-    baseline = load_baseline_queries(f'{dataset_dir}/nl_social_media_queries_20.json')
-    systematic = load_systematic_perturbations(f'{dataset_dir}/nl_social_media_queries_systematic_20.json')
-    llm = load_llm_perturbations(f'{dataset_dir}/nl_social_media_queries_llm_perturbed_20.json')
+    baseline = load_baseline_queries(f'{dataset_dir}/social_media/nl_prompts.json')
+    systematic = load_systematic_perturbations(f'{dataset_dir}/social_media/systematic_perturbations.json')
+    llm = load_llm_perturbations(f'{dataset_dir}/social_media/llm_perturbations.json')
     
     all_tasks = baseline + systematic + llm
     random.shuffle(all_tasks)

@@ -58,7 +58,7 @@
 | Step                                           | Status  | Notes                                                                                                                                                                                   |
 | ---------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 6.1 Add `--schema` CLI argument to all scripts | ✅ Done | Scripts `01`–`03` accept `--schema`/`-s`; step `04` unified into a single model-agnostic script (see 6.4)                                                                              |
-| 6.2 Update output directory structure          | ✅ Done | All scripts use `dataset/current/<schema_name>_*` naming convention; input/output paths auto-derived from `--schema` when not explicitly provided                                        |
+| 6.2 Update output directory structure          | ✅ Done | Datasets organized as `dataset/<schema_name>/raw_queries.json` (etc.); input/output paths auto-derived from `--schema` when not explicitly provided                                        |
 | 6.3 Standardize dataset JSON format            | ✅ Done | All scripts emit `{"metadata": {...}, "records": [...]}` envelope; `_load_records()` helper reads both legacy bare-list and new envelope formats; metadata includes `pipeline_step`, `schema_name`, `generated_at`, upstream reference |
 | 6.4 Consolidate & generalize LLM scripts       | ✅ Done | Merged `04_generate_llm_perturbations_cached.py` + `04b_generate_nl_from_sql_cached.py` into **`04_generate_llm_nl_and_perturbations.py`**. Works with any harness adapter (Gemini, OpenAI, Anthropic, vLLM) via `--model` (from experiments.yaml) or `--adapter-type`+`--model-id`. Adapters updated with configurable `max_tokens`, `temperature`, `system_prompt`. `ConfigLoader` uses lazy imports. Old scripts moved to `archive/`. |
 
@@ -86,12 +86,23 @@
 
 ## Phase 9: End-to-End Validation
 
-| Step                                    | Status     | Notes |
-| --------------------------------------- | ---------- | ----- |
-| 9.1 Full regression run on social media | ⬜ Pending |       |
-| 9.2 Create healthcare test schema       | ⬜ Pending |       |
-| 9.3 Full pipeline run on healthcare     | ⬜ Pending |       |
-| 9.4 Update PIPELINE documentation       | ⬜ Pending |       |
+| Step                                    | Status  | Notes |
+| --------------------------------------- | ------- | ----- |
+| 9.1 Full regression run on social media | ✅ Done | SQL: 2,392/2,392, NL: 2,072/2,072, Perturbations: 16,576/16,576 — **21,040 checks, 0 failures** |
+| 9.2 Create university_system schema    | ✅ Done | `schemas/university_system.yaml` (9 tables, 12 FKs) + `schemas/university_system_dictionary.yaml` (9 tables/39 synonyms, 65 columns/197 synonyms) |
+| 9.3 Full pipeline run on university_system | ✅ Done | SQL: 2,467/2,467, NL: 2,140/2,140, Perturbations: 15,846/15,846 — **20,453 checks, 0 failures** |
+| 9.4 Update PIPELINE documentation       | ✅ Done | `UPDATED_PIPELINE.md` rewritten: schema-agnostic architecture, CLI usage, dataset format, "adding a new schema" guide, validation results table |
+
+### Bugs found and fixed during Phase 9
+
+| Bug | Fix | File(s) |
+| --- | --- | ------- |
+| `01_generate_sql_dataset.py` didn't pass `type_sets` or `composite_pks` to `SQLQueryGenerator` — `real`/`float` columns got `'val'` placeholder; composite PKs hardcoded to social_media | Pass `type_sets=schema_cfg.get_type_sets()` and infer `composite_pks` from schema | `01_generate_sql_dataset.py`, `src/core/generator.py` |
+| `generator.py` `generate_update()` had hardcoded `composite_pk_tables` for social_media only | Replaced with `self.composite_pks` constructor parameter, with legacy fallback | `src/core/generator.py` |
+| `generator.py` `generate_delete()` could produce DELETE without WHERE when `generate_where()` returns None | Added retry loop (10 attempts) + id > 0 fallback | `src/core/generator.py` |
+| `test_nl_prompt.py` `_table_in_nl()` didn't match singular or underscore variants (e.g., "research_project" for "research_projects") | Auto-expand candidates: singular forms, underscore↔space variants | `pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py` |
+| `test_sql_generation.py` / `test_nl_prompt.py` didn't unwrap metadata envelope | Added `if isinstance(dataset, dict) and "records" in dataset` check | Both test files |
+| `test_nl_prompt.py` `_col_in_nl()` only checked space-separated column names, missing raw underscore form | Added raw column name check (`col_raw = col.lower()`) | `test_nl_prompt.py` |
 
 ---
 

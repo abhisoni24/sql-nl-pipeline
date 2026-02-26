@@ -10,7 +10,7 @@ Usage:
         python run_equivalence_test.py --gold "SELECT * FROM users" --candidate "SELECT * FROM users WHERE 1=1"
     
     Batch mode:
-        python run_equivalence_test.py --input dataset/current/sql_equivalence_pairs.json --output results.json
+        python run_equivalence_test.py --input dataset/social_media/sql_equivalence_pairs.json --output results.json
     
     With custom database:
         python run_equivalence_test.py --db-path ./my_db.sqlite --input pairs.json

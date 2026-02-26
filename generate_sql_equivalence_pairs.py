@@ -553,7 +553,7 @@ def generate_variations() -> List[Dict]:
 def main():
     pairs = generate_variations()
     
-    output_file = "./dataset/current/sql_equivalence_pairs.json"
+    output_file = "./dataset/social_media/sql_equivalence_pairs.json"
     with open(output_file, "w") as f:
         json.dump(pairs, f, indent=2)
     

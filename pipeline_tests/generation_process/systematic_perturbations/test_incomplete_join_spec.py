@@ -24,7 +24,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "incomplete_join_spec"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 INCOMPLETE_JOIN_MARKERS = {
     "and their", "and the", "with their", "along with", "and its", "with "

@@ -28,8 +28,8 @@ Usage
   # Explicit I/O + custom token budget
   python 04_generate_llm_nl_and_perturbations.py \\
       --schema schemas/social_media.yaml \\
-      -i dataset/current/raw_social_media_queries.json \\
-      -o dataset/current/nl_social_media_llm.json \\
+      -i dataset/social_media/raw_queries.json \\
+      -o dataset/social_media/llm_perturbations.json \\
       --model gemini-2.5-flash-lite --max-tokens 8192
 
   # Mock mode (no API calls — useful for testing the pipeline)
@@ -550,11 +550,11 @@ Examples:
     )
     p.add_argument(
         "--input", "-i", default=None,
-        help="Input JSON path (default: dataset/current/raw_<schema>_queries.json).",
+        help="Input JSON path (default: dataset/<schema>/raw_queries.json).",
     )
     p.add_argument(
         "--output", "-o", default=None,
-        help="Output JSON path (default: dataset/current/nl_<schema>_queries_llm.json).",
+        help="Output JSON path (default: dataset/<schema>/llm_perturbations.json).",
     )
 
     # -- Model selection (mutually exclusive groups) --
@@ -616,8 +616,8 @@ def main() -> None:
     schema_cfg = load_from_yaml(args.schema)
     schema_name = schema_cfg.schema_name
 
-    input_file = args.input or f"dataset/current/raw_{schema_name}_queries.json"
-    output_file = args.output or f"dataset/current/nl_{schema_name}_queries_llm.json"
+    input_file = args.input or f"dataset/{schema_name}/raw_queries.json"
+    output_file = args.output or f"dataset/{schema_name}/llm_perturbations.json"
 
     # ── Build system prompt ─────────────────────────────────────────
     schema_ctx = _build_schema_context(args.schema)

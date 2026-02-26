@@ -17,7 +17,7 @@ python pipeline_tests/generation_process/sql/test_sql_generation.py
 
 ```bash
 python pipeline_tests/generation_process/sql/test_sql_generation.py \
- --input dataset/current/raw_social_media_queries_20.json
+ --input dataset/social_media/raw_queries.json
 
 ```
 

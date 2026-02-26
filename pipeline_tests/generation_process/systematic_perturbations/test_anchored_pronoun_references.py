@@ -26,7 +26,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "anchored_pronoun_references"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 UNION_CONNECTORS = {"combined with", "union", "along with"}
 

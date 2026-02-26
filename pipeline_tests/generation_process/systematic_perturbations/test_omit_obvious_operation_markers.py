@@ -64,7 +64,7 @@ Usage
   python pipeline_tests/generation_process/systematic_perturbations/test_omit_obvious_operation_markers.py
   python pipeline_tests/generation_process/systematic_perturbations/test_omit_obvious_operation_markers.py -v
   python pipeline_tests/generation_process/systematic_perturbations/test_omit_obvious_operation_markers.py \\
-      --input dataset/current/nl_social_media_queries_systematic_20.json
+      --input dataset/social_media/systematic_perturbations.json
 """
 
 import re
@@ -79,7 +79,7 @@ from common import (
 )
 
 PERTURBATION_NAME = "omit_obvious_operation_markers"
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 # Complexity groupings
 SELECT_COMPLEXITIES = {"simple", "join", "advanced", "union"}

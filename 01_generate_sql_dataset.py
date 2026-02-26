@@ -10,7 +10,7 @@ Usage
   python 01_generate_sql_dataset.py --schema schemas/social_media.yaml
 
   # With custom output path and query count
-  python 01_generate_sql_dataset.py --schema schemas/bank.yaml -n 100 -o dataset/current/raw_bank.json
+  python 01_generate_sql_dataset.py --schema schemas/bank.yaml -n 100 -o dataset/bank/raw_queries.json
 
   # Legacy mode (defaults to social_media via hardcoded src/core/schema.py)
   python 01_generate_sql_dataset.py
@@ -39,7 +39,7 @@ def main():
     )
     parser.add_argument(
         "--output", "-o", default=None,
-        help="Output JSON file path. Defaults to dataset/current/raw_<schema_name>_queries.json"
+        help="Output JSON file path. Defaults to dataset/<schema_name>/raw_queries.json"
     )
     parser.add_argument(
         "--num-per-complexity", "-n", type=int, default=50,
@@ -70,10 +70,23 @@ def main():
     if args.output:
         output_file = args.output
     else:
-        output_file = f"./dataset/current/raw_{schema_name}_queries.json"
+        output_file = f"./dataset/{schema_name}/raw_queries.json"
+
+    # ── Derive composite PK tables ────────────────────────────────────
+    if args.schema:
+        composite_pks = {}
+        for tname, tdef in schema_cfg.tables.items():
+            if "id" not in tdef.columns:
+                fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
+                if fk_cols:
+                    composite_pks[tname] = fk_cols
+        type_sets = schema_cfg.get_type_sets()
+    else:
+        composite_pks = None   # legacy fallback inside generator
+        type_sets = None
 
     # ── Generate queries ─────────────────────────────────────────────
-    generator = SQLQueryGenerator(schema, foreign_keys)
+    generator = SQLQueryGenerator(schema, foreign_keys, type_sets=type_sets, composite_pks=composite_pks)
     print(f"Generating {args.num_per_complexity} queries per complexity type...")
     records = generator.generate_dataset(num_per_complexity=args.num_per_complexity)
     print(f"Successfully generated {len(records)} queries.")

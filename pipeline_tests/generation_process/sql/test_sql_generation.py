@@ -2,7 +2,7 @@
 SQL Generation Test Suite
 =========================
 Validates the raw SQL queries produced by src/core/generator.py against a
-JSON dataset file (e.g. dataset/current/raw_social_media_queries_20.json).
+JSON dataset file (e.g. dataset/social_media/raw_queries.json).
 
 Usage
 -----
@@ -11,7 +11,7 @@ Usage
 
   # Against a specific file:
   python pipeline_tests/generation_process/sql/test_sql_generation.py \\
-      --input dataset/current/raw_social_media_queries_20.json
+      --input dataset/social_media/raw_queries.json
 
   # Verbose: show every failing query
   python pipeline_tests/generation_process/sql/test_sql_generation.py -v
@@ -147,7 +147,7 @@ def _load_schema(schema_path=None):
 
 
 # ── default input file (can be overridden via --input CLI arg) ─────────────
-DEFAULT_INPUT_FILE = "dataset/current/raw_social_media_queries_20.json"
+DEFAULT_INPUT_FILE = "dataset/social_media/raw_queries.json"
 
 KNOWN_COMPLEXITIES = {"simple", "join", "advanced", "union", "insert", "update", "delete"}
 
@@ -769,12 +769,18 @@ def run_tests(input_file: str, verbose: bool = False) -> TestResult:
     with open(input_file) as f:
         dataset = json.load(f)
 
-    print(f"Loaded {len(dataset)} records from {input_file}")
+    # Support both bare-list and metadata-wrapped formats
+    if isinstance(dataset, dict) and "records" in dataset:
+        records = dataset["records"]
+    else:
+        records = dataset
+
+    print(f"Loaded {len(records)} records from {input_file}")
     print(f"Running SQL generation tests{'  (verbose)' if verbose else ''}...\n")
 
     by_complexity: dict[str, int] = defaultdict(int)
 
-    for record in dataset:
+    for record in records:
         rid = record.get("id", "?")
         comp = record.get("complexity", "unknown")
         sql_str = record.get("sql", "")

@@ -220,7 +220,7 @@ def main():
     if args.output:
         output_path = args.output
     else:
-        output_path = f"dataset/current/raw_{cfg.schema_name}_queries.json"
+        output_path = f"dataset/{cfg.schema_name}/raw_queries.json"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(dataset, f, indent=2)
