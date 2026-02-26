@@ -1,0 +1,3631 @@
+[
+  {
+    "id": 1,
+    "complexity": "simple",
+    "sql": "SELECT f1.followed_at, f1.follower_id, f1.followee_id FROM follows AS f1 WHERE f1.followed_at <= DATETIME('now', '-15 days') LIMIT 65",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.followed_at], [COL:follows.follower_id], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:lte] [VAL:15 days ago] limited to 65 results",
+    "nl_prompt": "Produce a listing of the followed at, follower id, account followed id within follow filtered for follow date at most 15 days ago limited to 65 results"
+  },
+  {
+    "id": 2,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.email = 'user52@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] [CONN:where] [COL:users.email] [OP:eq] [VAL:'user52@example.com']",
+    "nl_prompt": "Get all columns within user for which electronic mail equals 'user52@example.com'"
+  },
+  {
+    "id": 3,
+    "complexity": "simple",
+    "sql": "SELECT p1.user_id, p1.content FROM posts AS p1 WHERE p1.content = 'user'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.content] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Single out the poster id, caption from post for which post content matches 'user'"
+  },
+  {
+    "id": 4,
+    "complexity": "simple",
+    "sql": "SELECT f1.followed_at FROM follows AS f1",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.followed_at] [CONN:from] [TABLE:follows]",
+    "nl_prompt": "Spot the time followed out of follow relationship"
+  },
+  {
+    "id": 5,
+    "complexity": "simple",
+    "sql": "SELECT p1.content, p1.user_id, p1.posted_at FROM posts AS p1 WHERE p1.content <> 'admin'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.content], [COL:posts.user_id], [COL:posts.posted_at] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.content] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Get the message, user id, post date in status update that have content is not equal to 'admin'"
+  },
+  {
+    "id": 6,
+    "complexity": "simple",
+    "sql": "SELECT p1.id FROM posts AS p1 ORDER BY p1.view_count",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.id] [CONN:from] [TABLE:posts] ordered by [COL:posts.view_count]",
+    "nl_prompt": "Spot the id out of status update ordered by view total"
+  },
+  {
+    "id": 7,
+    "complexity": "simple",
+    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.follower_id < 984",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.followee_id], [COL:follows.followed_at], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:lt] [VAL:984]",
+    "nl_prompt": "Run a check for the followed user id, follow date, subscriber id within follow for which follower id below 984"
+  },
+  {
+    "id": 8,
+    "complexity": "simple",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.view_count >= 150",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.view_count] [OP:gte] [VAL:150]",
+    "nl_prompt": "Get all columns within update where views at least 150"
+  },
+  {
+    "id": 9,
+    "complexity": "simple",
+    "sql": "SELECT u1.email, u1.is_verified FROM users AS u1 WHERE u1.signup_date <= DATETIME('now', '-12 days') LIMIT 70",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.email], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.signup_date] [OP:lte] [VAL:12 days ago] limited to 70 results",
+    "nl_prompt": "Single out the electronic mail, verified in member looking only at signup date no more than 12 days ago limited to 70 results"
+  },
+  {
+    "id": 10,
+    "complexity": "simple",
+    "sql": "SELECT u1.email FROM users AS u1 ORDER BY u1.id LIMIT 15",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.email] [CONN:from] [TABLE:users] ordered by [COL:users.id] limited to 15 results",
+    "nl_prompt": "Retrieve the email address in user ordered by account id limited to 15 results"
+  },
+  {
+    "id": 11,
+    "complexity": "simple",
+    "sql": "SELECT u1.username, u1.id, u1.country_code FROM users AS u1",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.username], [COL:users.id], [COL:users.country_code] [CONN:from] [TABLE:users]",
+    "nl_prompt": "Spot the username, account id, iso country code within member"
+  },
+  {
+    "id": 12,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.country_code <> 'test' ORDER BY u1.id",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'test'] ordered by [COL:users.id]",
+    "nl_prompt": "Run a check for all columns in member that have iso country code is not 'test' ordered by account id"
+  },
+  {
+    "id": 13,
+    "complexity": "simple",
+    "sql": "SELECT * FROM posts AS p1 ORDER BY p1.view_count",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] ordered by [COL:posts.view_count]",
+    "nl_prompt": "Retrieve all columns out of status update ordered by views"
+  },
+  {
+    "id": 14,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1 ORDER BY u1.country_code",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] ordered by [COL:users.country_code]",
+    "nl_prompt": "Get all columns in user ordered by country abbreviation"
+  },
+  {
+    "id": 15,
+    "complexity": "simple",
+    "sql": "SELECT * FROM follows AS f1 WHERE f1.followed_at > DATETIME('now', '-16 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:gt] [VAL:16 days ago]",
+    "nl_prompt": "Run a check for all columns from following that have date followed higher than 16 days ago"
+  },
+  {
+    "id": 16,
+    "complexity": "simple",
+    "sql": "SELECT c1.post_id, c1.id, c1.created_at, c1.comment_text FROM comments AS c1 WHERE c1.post_id < 153",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] the [COL:comments.post_id], [COL:comments.id], [COL:comments.created_at], [COL:comments.comment_text] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.post_id] [OP:lt] [VAL:153]",
+    "nl_prompt": "Get the related post id, id, comment date, comment body within responses looking only at related post id fewer than 153"
+  },
+  {
+    "id": 17,
+    "complexity": "simple",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.liked_at >= DATETIME('now', '-12 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.user_id], [COL:likes.post_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:gte] [VAL:12 days ago]",
+    "nl_prompt": "Run a check for the user id, post id, like date from like for which time liked minimum of 12 days ago"
+  },
+  {
+    "id": 18,
+    "complexity": "simple",
+    "sql": "SELECT c1.user_id, c1.created_at FROM comments AS c1",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] the [COL:comments.user_id], [COL:comments.created_at] [CONN:from] [TABLE:comments]",
+    "nl_prompt": "Retrieve the user id, time created from comment"
+  },
+  {
+    "id": 19,
+    "complexity": "simple",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.user_id <= 893 ORDER BY l1.post_id",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.user_id], [COL:likes.post_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:lte] [VAL:893] ordered by [COL:likes.post_id]",
+    "nl_prompt": "Spot the liker id, post id, date liked in post likes for which liker id at most 893 ordered by post id"
+  },
+  {
+    "id": 20,
+    "complexity": "simple",
+    "sql": "SELECT c1.created_at, c1.user_id, c1.post_id FROM comments AS c1",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] the [COL:comments.created_at], [COL:comments.user_id], [COL:comments.post_id] [CONN:from] [TABLE:comments]",
+    "nl_prompt": "Single out the comment date, author id, post id within replies"
+  },
+  {
+    "id": 21,
+    "complexity": "simple",
+    "sql": "SELECT * FROM comments AS c1 ORDER BY c1.id",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:comments] ordered by [COL:comments.id]",
+    "nl_prompt": "Run a check for all columns in comments ordered by id"
+  },
+  {
+    "id": 22,
+    "complexity": "simple",
+    "sql": "SELECT * FROM likes AS l1 WHERE l1.user_id >= 271",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:gte] [VAL:271]",
+    "nl_prompt": "Single out all columns out of reactions looking only at liker id at least 271"
+  },
+  {
+    "id": 23,
+    "complexity": "simple",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.user_id >= 918",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] [OP:gte] [VAL:918]",
+    "nl_prompt": "Single out all columns from status update for which poster id at least 918"
+  },
+  {
+    "id": 24,
+    "complexity": "simple",
+    "sql": "SELECT c1.created_at, c1.comment_text, c1.post_id FROM comments AS c1 ORDER BY c1.comment_text",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] the [COL:comments.created_at], [COL:comments.comment_text], [COL:comments.post_id] [CONN:from] [TABLE:comments] ordered by [COL:comments.comment_text]",
+    "nl_prompt": "Single out the date created, reply text, post id out of responses ordered by comment body"
+  },
+  {
+    "id": 25,
+    "complexity": "simple",
+    "sql": "SELECT l1.user_id FROM likes AS l1 WHERE l1.liked_at <= DATETIME('now', '-25 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:lte] [VAL:25 days ago]",
+    "nl_prompt": "Get the liker id out of like for which date liked no more than 25 days ago"
+  },
+  {
+    "id": 26,
+    "complexity": "simple",
+    "sql": "SELECT f1.followed_at FROM follows AS f1 ORDER BY f1.follower_id",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.followed_at] [CONN:from] [TABLE:follows] ordered by [COL:follows.follower_id]",
+    "nl_prompt": "Get the followed at out of following ordered by following user id"
+  },
+  {
+    "id": 27,
+    "complexity": "simple",
+    "sql": "SELECT f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at > DATETIME('now', '-19 days') ORDER BY f1.follower_id",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.followed_at], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:gt] [VAL:19 days ago] ordered by [COL:follows.follower_id]",
+    "nl_prompt": "Produce a listing of the time followed, account followed id from follow for which time followed more than 19 days ago ordered by subscriber id"
+  },
+  {
+    "id": 28,
+    "complexity": "simple",
+    "sql": "SELECT p1.user_id, p1.content, p1.view_count FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-11 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.user_id], [COL:posts.content], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gte] [VAL:11 days ago]",
+    "nl_prompt": "Produce a listing of the user id, content, number of views from status update looking only at date posted no less than 11 days ago"
+  },
+  {
+    "id": 29,
+    "complexity": "simple",
+    "sql": "SELECT u1.username, u1.id, u1.email, u1.country_code FROM users AS u1",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.username], [COL:users.id], [COL:users.email], [COL:users.country_code] [CONN:from] [TABLE:users]",
+    "nl_prompt": "Get the user handle, account id, e-mail, iso country code in account"
+  },
+  {
+    "id": 30,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1 ORDER BY u1.signup_date",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] ordered by [COL:users.signup_date]",
+    "nl_prompt": "Spot all columns from account ordered by registration date"
+  },
+  {
+    "id": 31,
+    "complexity": "simple",
+    "sql": "SELECT c1.id, c1.user_id FROM comments AS c1 LIMIT 90",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] the [COL:comments.id], [COL:comments.user_id] [CONN:from] [TABLE:comments] limited to 90 results",
+    "nl_prompt": "Get the id, commenter id within replies limited to 90 results"
+  },
+  {
+    "id": 32,
+    "complexity": "simple",
+    "sql": "SELECT p1.user_id FROM posts AS p1 ORDER BY p1.view_count",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.user_id] [CONN:from] [TABLE:posts] ordered by [COL:posts.view_count]",
+    "nl_prompt": "Spot the user id out of status update ordered by number of views"
+  },
+  {
+    "id": 33,
+    "complexity": "simple",
+    "sql": "SELECT l1.liked_at FROM likes AS l1 LIMIT 3",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.liked_at] [CONN:from] [TABLE:likes] limited to 3 results",
+    "nl_prompt": "Run a check for the liked at within likes limited to 3 results"
+  },
+  {
+    "id": 34,
+    "complexity": "simple",
+    "sql": "SELECT p1.view_count, p1.posted_at, p1.user_id FROM posts AS p1 WHERE p1.posted_at > DATETIME('now', '-6 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.view_count], [COL:posts.posted_at], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gt] [VAL:6 days ago]",
+    "nl_prompt": "Single out the view total, time posted, user id out of social media post where date posted greater than 6 days ago"
+  },
+  {
+    "id": 35,
+    "complexity": "simple",
+    "sql": "SELECT c1.post_id, c1.comment_text FROM comments AS c1 WHERE c1.created_at >= DATETIME('now', '-15 days') ORDER BY c1.post_id",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] the [COL:comments.post_id], [COL:comments.comment_text] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.created_at] [OP:gte] [VAL:15 days ago] ordered by [COL:comments.post_id]",
+    "nl_prompt": "Spot the related post id, response text in replies where time created greater than or equal to 15 days ago ordered by related post id"
+  },
+  {
+    "id": 36,
+    "complexity": "simple",
+    "sql": "SELECT * FROM follows AS f1 ORDER BY f1.follower_id LIMIT 16",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:follows] ordered by [COL:follows.follower_id] limited to 16 results",
+    "nl_prompt": "Spot all columns within follow ordered by follower id limited to 16 results"
+  },
+  {
+    "id": 37,
+    "complexity": "simple",
+    "sql": "SELECT u1.id, u1.username, u1.email FROM users AS u1",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.id], [COL:users.username], [COL:users.email] [CONN:from] [TABLE:users]",
+    "nl_prompt": "Fetch me the id, username, electronic mail within member"
+  },
+  {
+    "id": 38,
+    "complexity": "simple",
+    "sql": "SELECT l1.liked_at FROM likes AS l1 WHERE l1.user_id < 318 ORDER BY l1.user_id",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:lt] [VAL:318] ordered by [COL:likes.user_id]",
+    "nl_prompt": "Retrieve the time liked within like filtered for user id fewer than 318 ordered by user id"
+  },
+  {
+    "id": 39,
+    "complexity": "simple",
+    "sql": "SELECT * FROM likes AS l1 WHERE l1.post_id >= 152 ORDER BY l1.liked_at LIMIT 2",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:gte] [VAL:152] ordered by [COL:likes.liked_at] limited to 2 results",
+    "nl_prompt": "Spot all columns out of post likes looking only at liked post id no less than 152 ordered by date liked limited to 2 results"
+  },
+  {
+    "id": 40,
+    "complexity": "simple",
+    "sql": "SELECT c1.post_id, c1.user_id FROM comments AS c1 WHERE c1.created_at >= DATETIME('now', '-27 days')",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.post_id], [COL:comments.user_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.created_at] [OP:gte] [VAL:27 days ago]",
+    "nl_prompt": "Run a check for the related post id, commenter id out of responses where comment date greater than or equal to 27 days ago"
+  },
+  {
+    "id": 41,
+    "complexity": "simple",
+    "sql": "SELECT p1.content, p1.id, p1.user_id, p1.view_count FROM posts AS p1 WHERE p1.view_count >= 114 LIMIT 4",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.content], [COL:posts.id], [COL:posts.user_id], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.view_count] [OP:gte] [VAL:114] limited to 4 results",
+    "nl_prompt": "Retrieve the message, post id, user id, number of views within post where view total no less than 114 limited to 4 results"
+  },
+  {
+    "id": 42,
+    "complexity": "simple",
+    "sql": "SELECT f1.followee_id FROM follows AS f1 WHERE f1.follower_id <> 425 LIMIT 39",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:neq] [VAL:425] limited to 39 results",
+    "nl_prompt": "Single out the followed user id from follow for which follower id is not equal to 425 limited to 39 results"
+  },
+  {
+    "id": 43,
+    "complexity": "simple",
+    "sql": "SELECT p1.id FROM posts AS p1 WHERE p1.content LIKE '%c'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.content] like [VAL:'%c']",
+    "nl_prompt": "Produce a listing of the post id from update where caption like '%c'"
+  },
+  {
+    "id": 44,
+    "complexity": "simple",
+    "sql": "SELECT u1.signup_date, u1.email, u1.id, u1.is_verified FROM users AS u1 WHERE u1.id > 434",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.signup_date], [COL:users.email], [COL:users.id], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] [OP:gt] [VAL:434]",
+    "nl_prompt": "Retrieve the signup date, electronic mail, id, is verified out of account that have id above 434"
+  },
+  {
+    "id": 45,
+    "complexity": "simple",
+    "sql": "SELECT * FROM comments AS c1 LIMIT 96",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] limited to 96 results",
+    "nl_prompt": "Fetch me all columns from replies limited to 96 results"
+  },
+  {
+    "id": 46,
+    "complexity": "simple",
+    "sql": "SELECT l1.liked_at FROM likes AS l1 WHERE l1.post_id < 46",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lt] [VAL:46]",
+    "nl_prompt": "Retrieve the like date from reactions looking only at liked post id less than 46"
+  },
+  {
+    "id": 47,
+    "complexity": "simple",
+    "sql": "SELECT * FROM comments AS c1 WHERE c1.id = 440",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.id] [OP:eq] [VAL:440]",
+    "nl_prompt": "Single out all columns in replies filtered for id equals 440"
+  },
+  {
+    "id": 48,
+    "complexity": "simple",
+    "sql": "SELECT * FROM comments AS c1 WHERE c1.comment_text LIKE '%a%'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.comment_text] like [VAL:'%a%']",
+    "nl_prompt": "Get all columns within comment looking only at comment text like '%a%'"
+  },
+  {
+    "id": 49,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users]",
+    "nl_prompt": "Retrieve all columns from member"
+  },
+  {
+    "id": 50,
+    "complexity": "simple",
+    "sql": "SELECT * FROM users AS u1",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users]",
+    "nl_prompt": "Get all columns in user"
+  },
+  {
+    "id": 51,
+    "complexity": "join",
+    "sql": "SELECT l2.user_id, l2.liked_at, p1.view_count, p1.id FROM posts AS p1 LEFT JOIN likes AS l2 ON p1.id = l2.post_id WHERE l2.post_id > 553",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.user_id], [COL:likes.liked_at], [COL:posts.view_count], [COL:posts.id] [CONN:from] [TABLE:posts] LEFT JOIN [TABLE:likes] on [COL:posts.id] [OP:eq] [COL:likes.post_id] [CONN:where] [COL:likes.post_id] [OP:gt] [VAL:553]",
+    "nl_prompt": "Single out the liker id, liked at, view total, id from status update LEFT JOIN reactions on id equals post id filtered for post id higher than 553"
+  },
+  {
+    "id": 52,
+    "complexity": "join",
+    "sql": "SELECT u4.country_code, p1.view_count, p1.posted_at, u4.email FROM posts AS p1 LEFT JOIN users AS u4 ON p1.user_id = u4.id WHERE u4.signup_date < DATETIME('now', '-3 days')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.country_code], [COL:posts.view_count], [COL:posts.posted_at], [COL:users.email] [CONN:from] [TABLE:posts] LEFT JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.signup_date] [OP:lt] [VAL:3 days ago]",
+    "nl_prompt": "Single out the country abbreviation, view count, posted at, electronic mail in post LEFT JOIN member on user id is account id where signup date lower than 3 days ago"
+  },
+  {
+    "id": 53,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 INNER JOIN comments AS c2 ON u1.id = c2.user_id",
+    "tables": [
+      "users",
+      "comments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:users] and their [TABLE:comments]",
+    "nl_prompt": "Run a check for all columns in users and their replies"
+  },
+  {
+    "id": 54,
+    "complexity": "join",
+    "sql": "SELECT p1.view_count, p1.user_id, u1.username, u1.email FROM posts AS p1 LEFT JOIN users AS u1 ON p1.user_id = u1.id",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.view_count], [COL:posts.user_id], [COL:users.username], [COL:users.email] [CONN:from] [TABLE:posts] LEFT JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Run a check for the number of views, author id, username, email address from status update LEFT JOIN users on poster id matches id"
+  },
+  {
+    "id": 55,
+    "complexity": "join",
+    "sql": "SELECT u7.country_code, f1.followed_at, u7.id, u7.username FROM follows AS f1 FULL JOIN users AS u7 ON f1.follower_id = u7.id WHERE u7.email <> 'user50@example.com'",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.country_code], [COL:follows.followed_at], [COL:users.id], [COL:users.username] [CONN:from] [TABLE:follows] FULL JOIN [TABLE:users] on [COL:follows.follower_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.email] [OP:neq] [VAL:'user50@example.com']",
+    "nl_prompt": "Spot the country abbreviation, time followed, id, username within follows FULL JOIN users on follower id is equal to account id looking only at email differs from 'user50@example.com'"
+  },
+  {
+    "id": 56,
+    "complexity": "join",
+    "sql": "SELECT l1.user_id, u8.email, l1.liked_at, u8.country_code FROM likes AS l1 FULL JOIN users AS u8 ON l1.user_id = u8.id WHERE u8.signup_date < DATETIME('now', '-5 days')",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.user_id], [COL:users.email], [COL:likes.liked_at], [COL:users.country_code] [CONN:from] [TABLE:likes] FULL JOIN [TABLE:users] on [COL:likes.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.signup_date] [OP:lt] [VAL:5 days ago]",
+    "nl_prompt": "Retrieve the liker id, electronic mail, liked at, country code from likes FULL JOIN account on liker id equals id for which date joined less than 5 days ago"
+  },
+  {
+    "id": 57,
+    "complexity": "join",
+    "sql": "SELECT u8.id, u8.is_verified, u8.country_code, p1.view_count FROM posts AS p1 FULL JOIN users AS u8 ON p1.user_id = u8.id WHERE u8.signup_date <= DATETIME('now', '-17 days')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.id], [COL:users.is_verified], [COL:users.country_code], [COL:posts.view_count] [CONN:from] [TABLE:posts] FULL JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.signup_date] [OP:lte] [VAL:17 days ago]",
+    "nl_prompt": "Spot the account id, is verified, country abbreviation, view total from update FULL JOIN account on poster id equals user id filtered for date joined at most 17 days ago"
+  },
+  {
+    "id": 58,
+    "complexity": "join",
+    "sql": "SELECT u4.id, l1.post_id, u4.username, u4.is_verified FROM likes AS l1 INNER JOIN users AS u4 ON l1.user_id = u4.id",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.id], [COL:likes.post_id], [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:likes] and their [TABLE:users]",
+    "nl_prompt": "Single out the user id, post id, handle, is verified in like and their users"
+  },
+  {
+    "id": 59,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 LEFT JOIN likes AS l5 ON u1.id = l5.user_id",
+    "tables": [
+      "users",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] LEFT JOIN [TABLE:likes] on [COL:users.id] [OP:eq] [COL:likes.user_id]",
+    "nl_prompt": "Retrieve all columns out of member LEFT JOIN like on account id is equal to liker id"
+  },
+  {
+    "id": 60,
+    "complexity": "join",
+    "sql": "SELECT u2.is_verified, u2.username, f1.follower_id, f1.followee_id FROM follows AS f1 INNER JOIN users AS u2 ON f1.follower_id = u2.id WHERE u2.country_code = 'admin'",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.is_verified], [COL:users.username], [COL:follows.follower_id], [COL:follows.followee_id] [CONN:from] [TABLE:follows] and their [TABLE:users] [CONN:where] [COL:users.country_code] [OP:eq] [VAL:'admin']",
+    "nl_prompt": "Run a check for the is verified, user handle, following user id, followee id in follow and their account for which country matches 'admin'"
+  },
+  {
+    "id": 61,
+    "complexity": "join",
+    "sql": "SELECT p4.id, u1.is_verified, u1.username, p4.posted_at FROM users AS u1 INNER JOIN posts AS p4 ON u1.id = p4.user_id WHERE p4.id <> 394",
+    "tables": [
+      "users",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:users.is_verified], [COL:users.username], [COL:posts.posted_at] [CONN:from] [TABLE:users] and their [TABLE:posts] [CONN:where] [COL:posts.id] [OP:neq] [VAL:394]",
+    "nl_prompt": "Retrieve the post id, is verified, handle, time posted within profile and their update that have id is not 394"
+  },
+  {
+    "id": 62,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 INNER JOIN likes AS l6 ON p1.id = l6.post_id WHERE l6.liked_at < DATETIME('now', '-29 days')",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] and their [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:lt] [VAL:29 days ago]",
+    "nl_prompt": "Produce a listing of all columns out of post and their likes that have liked at fewer than 29 days ago"
+  },
+  {
+    "id": 63,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 RIGHT JOIN posts AS p3 ON c1.post_id = p3.id",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] RIGHT JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Get all columns in comment RIGHT JOIN update on related post id equals id"
+  },
+  {
+    "id": 64,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 FULL JOIN users AS u6 ON p1.user_id = u6.id",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] FULL JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Run a check for all columns within status update FULL JOIN users on user id matches account id"
+  },
+  {
+    "id": 65,
+    "complexity": "join",
+    "sql": "SELECT l1.liked_at, p2.id, l1.user_id, l1.post_id FROM likes AS l1 INNER JOIN posts AS p2 ON l1.post_id = p2.id",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.liked_at], [COL:posts.id], [COL:likes.user_id], [COL:likes.post_id] [CONN:from] [TABLE:likes] and their [TABLE:posts]",
+    "nl_prompt": "Produce a listing of the time liked, id, liker id, post id within likes and their post"
+  },
+  {
+    "id": 66,
+    "complexity": "join",
+    "sql": "SELECT u1.is_verified, l6.post_id, l6.user_id, u1.id FROM users AS u1 FULL JOIN likes AS l6 ON u1.id = l6.user_id",
+    "tables": [
+      "users",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.is_verified], [COL:likes.post_id], [COL:likes.user_id], [COL:users.id] [CONN:from] [TABLE:users] FULL JOIN [TABLE:likes] on [COL:users.id] [OP:eq] [COL:likes.user_id]",
+    "nl_prompt": "Retrieve the verification status, liked post id, liker id, user id in member FULL JOIN likes on user id matches user id"
+  },
+  {
+    "id": 67,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 INNER JOIN comments AS c5 ON p1.id = c5.post_id",
+    "tables": [
+      "posts",
+      "comments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] and their [TABLE:comments]",
+    "nl_prompt": "Retrieve all columns from update and their replies"
+  },
+  {
+    "id": 68,
+    "complexity": "join",
+    "sql": "SELECT u6.id, f1.follower_id, u6.is_verified, u6.email FROM follows AS f1 LEFT JOIN users AS u6 ON f1.follower_id = u6.id WHERE u6.country_code <> 'user'",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.id], [COL:follows.follower_id], [COL:users.is_verified], [COL:users.email] [CONN:from] [TABLE:follows] LEFT JOIN [TABLE:users] on [COL:follows.follower_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Spot the id, following user id, verified, email from follow LEFT JOIN profile on following user id matches account id that have country code is not equal to 'user'"
+  },
+  {
+    "id": 69,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 INNER JOIN posts AS p6 ON u1.id = p6.user_id",
+    "tables": [
+      "users",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] and their [TABLE:posts]",
+    "nl_prompt": "Single out all columns in member and their update"
+  },
+  {
+    "id": 70,
+    "complexity": "join",
+    "sql": "SELECT * FROM likes AS l1 INNER JOIN posts AS p2 ON l1.post_id = p2.id",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:likes] and their [TABLE:posts]",
+    "nl_prompt": "Fetch me all columns in reactions and their update"
+  },
+  {
+    "id": 71,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 FULL JOIN follows AS f3 ON u1.id = f3.follower_id WHERE f3.followee_id <= 38",
+    "tables": [
+      "users",
+      "follows"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] FULL JOIN [TABLE:follows] on [COL:users.id] [OP:eq] [COL:follows.follower_id] [CONN:where] [COL:follows.followee_id] [OP:lte] [VAL:38]",
+    "nl_prompt": "Single out all columns within member FULL JOIN following on account id is following user id filtered for account followed id maximum of 38"
+  },
+  {
+    "id": 72,
+    "complexity": "join",
+    "sql": "SELECT u4.id, p1.posted_at, p1.view_count, p1.content FROM posts AS p1 FULL JOIN users AS u4 ON p1.user_id = u4.id WHERE u4.country_code <> 'user'",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.id], [COL:posts.posted_at], [COL:posts.view_count], [COL:posts.content] [CONN:from] [TABLE:posts] FULL JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Get the account id, date posted, view count, message within post FULL JOIN member on user id equals user id filtered for country abbreviation differs from 'user'"
+  },
+  {
+    "id": 73,
+    "complexity": "join",
+    "sql": "SELECT * FROM likes AS l1 RIGHT JOIN users AS u5 ON l1.user_id = u5.id",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:likes] RIGHT JOIN [TABLE:users] on [COL:likes.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Retrieve all columns from reactions RIGHT JOIN user on user id is account id"
+  },
+  {
+    "id": 74,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 FULL JOIN comments AS c9 ON p1.id = c9.post_id",
+    "tables": [
+      "posts",
+      "comments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:posts] FULL JOIN [TABLE:comments] on [COL:posts.id] [OP:eq] [COL:comments.post_id]",
+    "nl_prompt": "Spot all columns in posts FULL JOIN comments on post id matches related post id"
+  },
+  {
+    "id": 75,
+    "complexity": "join",
+    "sql": "SELECT c1.post_id, c1.comment_text, p8.user_id, c1.created_at FROM comments AS c1 LEFT JOIN posts AS p8 ON c1.post_id = p8.id WHERE p8.id > 935",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.post_id], [COL:comments.comment_text], [COL:posts.user_id], [COL:comments.created_at] [CONN:from] [TABLE:comments] LEFT JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.id] [OP:gt] [VAL:935]",
+    "nl_prompt": "Produce a listing of the related post id, comment text, poster id, created at in responses LEFT JOIN update on post id matches post id that have post id higher than 935"
+  },
+  {
+    "id": 76,
+    "complexity": "join",
+    "sql": "SELECT u1.username, u1.country_code, p6.posted_at, u1.is_verified FROM users AS u1 LEFT JOIN posts AS p6 ON u1.id = p6.user_id WHERE p6.id <> 271",
+    "tables": [
+      "users",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.username], [COL:users.country_code], [COL:posts.posted_at], [COL:users.is_verified] [CONN:from] [TABLE:users] LEFT JOIN [TABLE:posts] on [COL:users.id] [OP:eq] [COL:posts.user_id] [CONN:where] [COL:posts.id] [OP:neq] [VAL:271]",
+    "nl_prompt": "Retrieve the handle, country, post date, verified in profile LEFT JOIN update on account id equals poster id that have post id differs from 271"
+  },
+  {
+    "id": 77,
+    "complexity": "join",
+    "sql": "SELECT c1.id, p5.content FROM comments AS c1 INNER JOIN posts AS p5 ON c1.post_id = p5.id",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.id], [COL:posts.content] [CONN:from] [TABLE:comments] and their [TABLE:posts]",
+    "nl_prompt": "Produce a listing of the id, post text from replies and their social media post"
+  },
+  {
+    "id": 78,
+    "complexity": "join",
+    "sql": "SELECT f4.follower_id, u1.id, u1.signup_date, u1.email FROM users AS u1 FULL JOIN follows AS f4 ON u1.id = f4.follower_id",
+    "tables": [
+      "users",
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.follower_id], [COL:users.id], [COL:users.signup_date], [COL:users.email] [CONN:from] [TABLE:users] FULL JOIN [TABLE:follows] on [COL:users.id] [OP:eq] [COL:follows.follower_id]",
+    "nl_prompt": "Spot the follower id, account id, date joined, email from member FULL JOIN follow on id matches following user id"
+  },
+  {
+    "id": 79,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 LEFT JOIN posts AS p4 ON c1.post_id = p4.id WHERE p4.user_id = 22",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:comments] LEFT JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.user_id] [OP:eq] [VAL:22]",
+    "nl_prompt": "Run a check for all columns in comment LEFT JOIN status update on related post id equals post id filtered for user id matches 22"
+  },
+  {
+    "id": 80,
+    "complexity": "join",
+    "sql": "SELECT * FROM likes AS l1 RIGHT JOIN users AS u8 ON l1.user_id = u8.id",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:likes] RIGHT JOIN [TABLE:users] on [COL:likes.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Get all columns in post likes RIGHT JOIN user on user id matches user id"
+  },
+  {
+    "id": 81,
+    "complexity": "join",
+    "sql": "SELECT * FROM follows AS f1 LEFT JOIN users AS u3 ON f1.follower_id = u3.id WHERE u3.id <= 962",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:follows] LEFT JOIN [TABLE:users] on [COL:follows.follower_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.id] [OP:lte] [VAL:962]",
+    "nl_prompt": "Run a check for all columns in follow relationship LEFT JOIN users on subscriber id matches id for which account id less than or equal to 962"
+  },
+  {
+    "id": 82,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 LEFT JOIN posts AS p1 ON c1.post_id = p1.id WHERE p1.view_count < 264",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] LEFT JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.view_count] [OP:lt] [VAL:264]",
+    "nl_prompt": "Get all columns within comments LEFT JOIN update on related post id equals id for which views under 264"
+  },
+  {
+    "id": 83,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 LEFT JOIN comments AS c9 ON u1.id = c9.user_id",
+    "tables": [
+      "users",
+      "comments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] LEFT JOIN [TABLE:comments] on [COL:users.id] [OP:eq] [COL:comments.user_id]",
+    "nl_prompt": "Spot all columns from user LEFT JOIN comments on user id matches commenter id"
+  },
+  {
+    "id": 84,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 FULL JOIN users AS u3 ON p1.user_id = u3.id",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] FULL JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Retrieve all columns in status update FULL JOIN account on poster id is user id"
+  },
+  {
+    "id": 85,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 LEFT JOIN users AS u8 ON p1.user_id = u8.id WHERE u8.signup_date >= DATETIME('now', '-18 days')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] LEFT JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.signup_date] [OP:gte] [VAL:18 days ago]",
+    "nl_prompt": "Run a check for all columns from status update LEFT JOIN profile on author id is account id filtered for date joined no less than 18 days ago"
+  },
+  {
+    "id": 86,
+    "complexity": "join",
+    "sql": "SELECT * FROM users AS u1 INNER JOIN follows AS f6 ON u1.id = f6.follower_id WHERE f6.followee_id < 569",
+    "tables": [
+      "users",
+      "follows"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] and their [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:lt] [VAL:569]",
+    "nl_prompt": "Get all columns from users and their follows looking only at followee id fewer than 569"
+  },
+  {
+    "id": 87,
+    "complexity": "join",
+    "sql": "SELECT l1.liked_at, p6.posted_at, l1.post_id, p6.user_id FROM likes AS l1 INNER JOIN posts AS p6 ON l1.post_id = p6.id",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at], [COL:posts.posted_at], [COL:likes.post_id], [COL:posts.user_id] [CONN:from] [TABLE:likes] and their [TABLE:posts]",
+    "nl_prompt": "Fetch me the like date, time posted, liked post id, user id out of likes and their post"
+  },
+  {
+    "id": 88,
+    "complexity": "join",
+    "sql": "SELECT u9.email, u9.is_verified, l1.post_id FROM likes AS l1 LEFT JOIN users AS u9 ON l1.user_id = u9.id WHERE u9.id <= 841",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.email], [COL:users.is_verified], [COL:likes.post_id] [CONN:from] [TABLE:likes] LEFT JOIN [TABLE:users] on [COL:likes.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.id] [OP:lte] [VAL:841]",
+    "nl_prompt": "Run a check for the electronic mail, is verified, liked post id in reactions LEFT JOIN user on user id is id looking only at account id less than or equal to 841"
+  },
+  {
+    "id": 89,
+    "complexity": "join",
+    "sql": "SELECT l1.liked_at, u1.country_code, l1.post_id, u1.username FROM users AS u1 RIGHT JOIN likes AS l1 ON u1.id = l1.user_id WHERE l1.user_id <= 897",
+    "tables": [
+      "users",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.liked_at], [COL:users.country_code], [COL:likes.post_id], [COL:users.username] [CONN:from] [TABLE:users] RIGHT JOIN [TABLE:likes] on [COL:users.id] [OP:eq] [COL:likes.user_id] [CONN:where] [COL:likes.user_id] [OP:lte] [VAL:897]",
+    "nl_prompt": "Run a check for the time liked, country abbreviation, liked post id, account name from account RIGHT JOIN like on account id matches user id looking only at user id less than or equal to 897"
+  },
+  {
+    "id": 90,
+    "complexity": "join",
+    "sql": "SELECT p8.posted_at, p8.view_count, u1.id, u1.signup_date FROM users AS u1 RIGHT JOIN posts AS p8 ON u1.id = p8.user_id",
+    "tables": [
+      "users",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.posted_at], [COL:posts.view_count], [COL:users.id], [COL:users.signup_date] [CONN:from] [TABLE:users] RIGHT JOIN [TABLE:posts] on [COL:users.id] [OP:eq] [COL:posts.user_id]",
+    "nl_prompt": "Spot the date posted, view count, user id, account creation date from member RIGHT JOIN posts on user id equals poster id"
+  },
+  {
+    "id": 91,
+    "complexity": "join",
+    "sql": "SELECT f1.follower_id, u7.id, u7.email FROM follows AS f1 LEFT JOIN users AS u7 ON f1.follower_id = u7.id",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.follower_id], [COL:users.id], [COL:users.email] [CONN:from] [TABLE:follows] LEFT JOIN [TABLE:users] on [COL:follows.follower_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Single out the follower id, user id, email in follows LEFT JOIN account on follower id equals id"
+  },
+  {
+    "id": 92,
+    "complexity": "join",
+    "sql": "SELECT * FROM posts AS p1 LEFT JOIN users AS u5 ON p1.user_id = u5.id",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:posts] LEFT JOIN [TABLE:users] on [COL:posts.user_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Single out all columns within update LEFT JOIN account on poster id matches account id"
+  },
+  {
+    "id": 93,
+    "complexity": "join",
+    "sql": "SELECT c1.user_id, c1.created_at, p2.posted_at, p2.user_id FROM comments AS c1 RIGHT JOIN posts AS p2 ON c1.post_id = p2.id",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:comments.user_id], [COL:comments.created_at], [COL:posts.posted_at], [COL:posts.user_id] [CONN:from] [TABLE:comments] RIGHT JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Single out the author id, comment date, post date, user id out of comments RIGHT JOIN update on post id is equal to id"
+  },
+  {
+    "id": 94,
+    "complexity": "join",
+    "sql": "SELECT p1.content, p1.view_count, p1.user_id, p1.posted_at FROM posts AS p1 RIGHT JOIN likes AS l9 ON p1.id = l9.post_id WHERE l9.post_id < 127",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.content], [COL:posts.view_count], [COL:posts.user_id], [COL:posts.posted_at] [CONN:from] [TABLE:posts] RIGHT JOIN [TABLE:likes] on [COL:posts.id] [OP:eq] [COL:likes.post_id] [CONN:where] [COL:likes.post_id] [OP:lt] [VAL:127]",
+    "nl_prompt": "Produce a listing of the post text, views, author id, date posted from update RIGHT JOIN reactions on id is liked post id looking only at liked post id under 127"
+  },
+  {
+    "id": 95,
+    "complexity": "join",
+    "sql": "SELECT p1.content, c1.user_id, p1.view_count, p1.user_id FROM comments AS c1 FULL JOIN posts AS p1 ON c1.post_id = p1.id WHERE p1.user_id <> 10",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.content], [COL:comments.user_id], [COL:posts.view_count], [COL:posts.user_id] [CONN:from] [TABLE:comments] FULL JOIN [TABLE:posts] on [COL:comments.post_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.user_id] [OP:neq] [VAL:10]",
+    "nl_prompt": "Run a check for the message, author id, view count, author id out of comment FULL JOIN update on post id is post id where user id is not equal to 10"
+  },
+  {
+    "id": 96,
+    "complexity": "join",
+    "sql": "SELECT * FROM follows AS f1 LEFT JOIN users AS u5 ON f1.follower_id = u5.id",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:follows] LEFT JOIN [TABLE:users] on [COL:follows.follower_id] [OP:eq] [COL:users.id]",
+    "nl_prompt": "Get all columns in following LEFT JOIN account on follower id is user id"
+  },
+  {
+    "id": 97,
+    "complexity": "join",
+    "sql": "SELECT * FROM comments AS c1 FULL JOIN users AS u1 ON c1.user_id = u1.id WHERE u1.username <> 'activity'",
+    "tables": [
+      "comments",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] FULL JOIN [TABLE:users] on [COL:comments.user_id] [OP:eq] [COL:users.id] [CONN:where] [COL:users.username] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Retrieve all columns out of responses FULL JOIN account on user id matches id filtered for handle differs from 'activity'"
+  },
+  {
+    "id": 98,
+    "complexity": "join",
+    "sql": "SELECT * FROM likes AS l1 INNER JOIN users AS u4 ON l1.user_id = u4.id WHERE u4.email LIKE '%@example.com'",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:likes] and their [TABLE:users] [CONN:where] [COL:users.email] like [VAL:'%@example.com']",
+    "nl_prompt": "Get all columns within likes and their profile looking only at electronic mail like '%@example.com'"
+  },
+  {
+    "id": 99,
+    "complexity": "join",
+    "sql": "SELECT p1.view_count, l1.user_id, p1.id, p1.posted_at FROM likes AS l1 FULL JOIN posts AS p1 ON l1.post_id = p1.id",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.view_count], [COL:likes.user_id], [COL:posts.id], [COL:posts.posted_at] [CONN:from] [TABLE:likes] FULL JOIN [TABLE:posts] on [COL:likes.post_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Fetch me the view count, user id, post id, posted at from like FULL JOIN posts on post id is equal to post id"
+  },
+  {
+    "id": 100,
+    "complexity": "join",
+    "sql": "SELECT p2.id, l1.post_id, l1.liked_at FROM likes AS l1 INNER JOIN posts AS p2 ON l1.post_id = p2.id WHERE p2.posted_at < DATETIME('now', '-9 days')",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.id], [COL:likes.post_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] and their [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:lt] [VAL:9 days ago]",
+    "nl_prompt": "Run a check for the id, liked post id, like date out of likes and their social media post that have posted at under 9 days ago"
+  },
+  {
+    "id": 101,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM users AS u1 WHERE u1.id IN (SELECT sub_f.follower_id FROM follows AS sub_f WHERE sub_f.followee_id = 405)",
+    "tables": [
+      "users",
+      "follows"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] matches any of the [COL:sub_f.follower_id]s from [TABLE:follows] where [COL:sub_f.followee_id] [OP:eq] [VAL:405]",
+    "nl_prompt": "Run a check for all columns out of user for which user id matches any of the follower ids from follow relationship where followee id equals 405"
+  },
+  {
+    "id": 102,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.id IN (SELECT sub_l.post_id FROM likes AS sub_l WHERE sub_l.post_id >= 275)",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.id] matches any of the [COL:sub_l.post_id]s from [TABLE:likes] where [COL:sub_l.post_id] [OP:gte] [VAL:275]",
+    "nl_prompt": "Retrieve all columns from posts filtered for id matches any of the post ids from likes where post id no less than 275"
+  },
+  {
+    "id": 103,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.comment_text = 'activity') AS derived_table WHERE derived_table.comment_text = 'admin'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:comments] where [COL:comments.comment_text] [OP:eq] [VAL:'activity'] [CONN:where] [COL:comment_text] [OP:eq] [VAL:'admin']",
+    "nl_prompt": "Single out all columns from responses where comment text is 'activity' for which comment text is equal to 'admin'"
+  },
+  {
+    "id": 104,
+    "complexity": "advanced",
+    "sql": "SELECT u1.username, u1.email, u1.signup_date FROM users AS u1 JOIN users AS u2 ON u1.id = u2.id AND u1.id <> u2.id LIMIT 17",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] JOIN [TABLE:users] on [COL:users.id] [OP:eq] [COL:users.id] and [COL:users.id] [OP:neq] [COL:users.id] limited to 17 results",
+    "nl_prompt": "Single out the username, e-mail, signup date within member JOIN profile on account id matches id and user id is not equal to id limited to 17 results"
+  },
+  {
+    "id": 105,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.signup_date > DATETIME('now', '-12 days'))",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:follows] [CONN:where] where there is a corresponding [TABLE:users] who [COL:sub_u.id] [OP:eq] [COL:follows.follower_id] and [COL:sub_u.signup_date] [OP:gt] [VAL:12 days ago]",
+    "nl_prompt": "Retrieve all columns in follow relationship where where there is a corresponding user who id equals following user id and signup date exceeds 12 days ago"
+  },
+  {
+    "id": 106,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followee_id > 633) AS derived_table WHERE derived_table.followee_id = 544",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:follows] where [COL:follows.followee_id] [OP:gt] [VAL:633] [CONN:where] [COL:followee_id] [OP:eq] [VAL:544]",
+    "nl_prompt": "Run a check for all columns in following where followed user id higher than 633 for which followee id matches 544"
+  },
+  {
+    "id": 107,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.user_id <= 495) AS derived_table",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:likes] where [COL:likes.user_id] [OP:lte] [VAL:495]",
+    "nl_prompt": "Single out all columns from post likes where liker id no more than 495"
+  },
+  {
+    "id": 108,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.liked_at < DATETIME('now', '-10 days')) AS derived_table",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:likes] where [COL:likes.liked_at] [OP:lt] [VAL:10 days ago]",
+    "nl_prompt": "Get all columns from reactions where time liked below 10 days ago"
+  },
+  {
+    "id": 109,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.post_id > 826) AS derived_table",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:likes] where [COL:likes.post_id] [OP:gt] [VAL:826]",
+    "nl_prompt": "Spot all columns out of like where post id more than 826"
+  },
+  {
+    "id": 110,
+    "complexity": "advanced",
+    "sql": "SELECT u1.username, u1.email, u1.signup_date FROM users AS u1 JOIN users AS u2 ON u1.id = u2.id AND u1.id <> u2.id LIMIT 19",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] JOIN [TABLE:users] on [COL:users.id] [OP:eq] [COL:users.id] and [COL:users.id] [OP:neq] [COL:users.id] limited to 19 results",
+    "nl_prompt": "Produce a listing of the account name, email address, account creation date within account JOIN profile on id is equal to user id and account id is not equal to user id limited to 19 results"
+  },
+  {
+    "id": 111,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM likes AS inner_likes WHERE inner_likes.user_id = 875) AS derived_table WHERE derived_table.liked_at <= DATETIME('now', '-5 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:likes] where [COL:likes.user_id] [OP:eq] [VAL:875] [CONN:where] [COL:liked_at] [OP:lte] [VAL:5 days ago]",
+    "nl_prompt": "Single out all columns in post likes where user id equals 875 that have liked at at most 5 days ago"
+  },
+  {
+    "id": 112,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM follows AS f1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = f1.follower_id AND sub_u.signup_date <= DATETIME('now', '-7 days'))",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:follows] [CONN:where] where there is a corresponding [TABLE:users] who [COL:sub_u.id] [OP:eq] [COL:follows.follower_id] and [COL:sub_u.signup_date] [OP:lte] [VAL:7 days ago]",
+    "nl_prompt": "Single out all columns from follows looking only at where there is a corresponding member who id is equal to follower id and signup date less than or equal to 7 days ago"
+  },
+  {
+    "id": 113,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.country_code LIKE 'b%') AS derived_table WHERE derived_table.email LIKE 'user%@%'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] where [COL:users.country_code] like [VAL:'b%'] [CONN:where] [COL:email] like [VAL:'user%@%']",
+    "nl_prompt": "Retrieve all columns out of member where country like 'b%' for which email like 'user%@%'"
+  },
+  {
+    "id": 114,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code = 'test')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.country_code] [OP:eq] [VAL:'test']",
+    "nl_prompt": "Run a check for all columns within update that have poster id matches any of the ids from profile where country code is 'test'"
+  },
+  {
+    "id": 115,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.country_code LIKE 'b%') AS derived_table WHERE derived_table.is_verified = 0",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] where [COL:users.country_code] like [VAL:'b%'] [CONN:where] [COL:is_verified] [OP:eq] [VAL:0]",
+    "nl_prompt": "Single out all columns out of user where country abbreviation like 'b%' filtered for is verified is 0"
+  },
+  {
+    "id": 116,
+    "complexity": "advanced",
+    "sql": "SELECT p1.id, p1.user_id, p1.content FROM posts AS p1 JOIN posts AS p2 ON p1.user_id = p2.user_id AND p1.id <> p2.id",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.id], [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] JOIN [TABLE:posts] on [COL:posts.user_id] [OP:eq] [COL:posts.user_id] and [COL:posts.id] [OP:neq] [COL:posts.id]",
+    "nl_prompt": "Run a check for the post id, user id, post content from posts JOIN social media post on author id is author id and id is not equal to id"
+  },
+  {
+    "id": 117,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.user_id < 151) AS derived_table",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] where [COL:posts.user_id] [OP:lt] [VAL:151]",
+    "nl_prompt": "Produce a listing of all columns in posts where user id fewer than 151"
+  },
+  {
+    "id": 118,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.user_id = 798) AS derived_table WHERE derived_table.posted_at <= DATETIME('now', '-14 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:posts] where [COL:posts.user_id] [OP:eq] [VAL:798] [CONN:where] [COL:posted_at] [OP:lte] [VAL:14 days ago]",
+    "nl_prompt": "Single out all columns in update where user id is 798 that have posted at at most 14 days ago"
+  },
+  {
+    "id": 119,
+    "complexity": "advanced",
+    "sql": "SELECT p1.user_id FROM posts AS p1 WHERE p1.id IN (SELECT sub_l.post_id FROM likes AS sub_l WHERE sub_l.post_id < 811)",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.id] matches any of the [COL:sub_l.post_id]s from [TABLE:likes] where [COL:sub_l.post_id] [OP:lt] [VAL:811]",
+    "nl_prompt": "Get the poster id within update filtered for post id matches any of the post ids from like where post id fewer than 811"
+  },
+  {
+    "id": 120,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.username LIKE 'b%')",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.username] like [VAL:'b%']",
+    "nl_prompt": "Run a check for all columns in follow filtered for subscriber id matches any of the ids from users where username like 'b%'"
+  },
+  {
+    "id": 121,
+    "complexity": "advanced",
+    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code <> '123')",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.follower_id], [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.country_code] [OP:neq] [VAL:'123']",
+    "nl_prompt": "Get the subscriber id, account followed id, follow date in following for which subscriber id matches any of the ids from member where country code is not equal to '123'"
+  },
+  {
+    "id": 122,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.post_id <> 442) AS derived_table WHERE derived_table.post_id > 58",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:comments] where [COL:comments.post_id] [OP:neq] [VAL:442] [CONN:where] [COL:post_id] [OP:gt] [VAL:58]",
+    "nl_prompt": "Run a check for all columns out of comment where related post id differs from 442 filtered for post id exceeds 58"
+  },
+  {
+    "id": 123,
+    "complexity": "advanced",
+    "sql": "SELECT u1.username, u1.email, u1.signup_date FROM users AS u1 JOIN users AS u2 ON u1.id = u2.id AND u1.id <> u2.id",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] JOIN [TABLE:users] on [COL:users.id] [OP:eq] [COL:users.id] and [COL:users.id] [OP:neq] [COL:users.id]",
+    "nl_prompt": "Get the user handle, electronic mail, date joined out of profile JOIN member on id equals user id and user id is not equal to account id"
+  },
+  {
+    "id": 124,
+    "complexity": "advanced",
+    "sql": "SELECT l1.user_id FROM likes AS l1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = l1.user_id AND sub_u.signup_date >= DATETIME('now', '-18 days'))",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] where there is a corresponding [TABLE:users] who [COL:sub_u.id] [OP:eq] [COL:likes.user_id] and [COL:sub_u.signup_date] [OP:gte] [VAL:18 days ago]",
+    "nl_prompt": "Get the user id out of likes for which where there is a corresponding user who id is equal to liker id and signup date at least 18 days ago"
+  },
+  {
+    "id": 125,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.id < 692) AS derived_table",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:comments] where [COL:comments.id] [OP:lt] [VAL:692]",
+    "nl_prompt": "Retrieve all columns out of responses where id under 692"
+  },
+  {
+    "id": 126,
+    "complexity": "advanced",
+    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.follower_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.id <= 178)",
+    "tables": [
+      "follows",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.id] [OP:lte] [VAL:178]",
+    "nl_prompt": "Retrieve the followee id, date followed out of follow relationship where subscriber id matches any of the ids from member where id less than or equal to 178"
+  },
+  {
+    "id": 127,
+    "complexity": "advanced",
+    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 JOIN follows AS f2 ON f1.follower_id = f2.follower_id LIMIT 5",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.follower_id], [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] JOIN [TABLE:follows] on [COL:follows.follower_id] [OP:eq] [COL:follows.follower_id] limited to 5 results",
+    "nl_prompt": "Produce a listing of the follower id, account followed id, date followed out of follow JOIN follow on subscriber id is follower id limited to 5 results"
+  },
+  {
+    "id": 128,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.follower_id <> 869) AS derived_table",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:follows] where [COL:follows.follower_id] [OP:neq] [VAL:869]",
+    "nl_prompt": "Spot all columns in follows where subscriber id differs from 869"
+  },
+  {
+    "id": 129,
+    "complexity": "advanced",
+    "sql": "SELECT l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.id < 31)",
+    "tables": [
+      "likes",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] matches any of the [COL:sub_p.id]s from [TABLE:posts] where [COL:sub_p.id] [OP:lt] [VAL:31]",
+    "nl_prompt": "Spot the date liked, liker id from like looking only at liked post id matches any of the ids from post where id fewer than 31"
+  },
+  {
+    "id": 130,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM users AS u1 WHERE EXISTS(SELECT 1 FROM follows AS sub_f WHERE sub_f.follower_id = u1.id AND sub_f.followee_id <= 636)",
+    "tables": [
+      "users",
+      "follows"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:users] [CONN:where] where there is a corresponding [TABLE:follows] who [COL:sub_f.follower_id] [OP:eq] [COL:users.id] and [COL:sub_f.followee_id] [OP:lte] [VAL:636]",
+    "nl_prompt": "Run a check for all columns out of member where where there is a corresponding following who follower id is equal to user id and followee id less than or equal to 636"
+  },
+  {
+    "id": 131,
+    "complexity": "advanced",
+    "sql": "SELECT u1.username, u1.email, u1.signup_date FROM users AS u1 JOIN users AS u2 ON u1.id = u2.id AND u1.id <> u2.id LIMIT 19",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] JOIN [TABLE:users] on [COL:users.id] [OP:eq] [COL:users.id] and [COL:users.id] [OP:neq] [COL:users.id] limited to 19 results",
+    "nl_prompt": "Spot the handle, email address, account creation date within users JOIN member on user id is equal to id and account id is not account id limited to 19 results"
+  },
+  {
+    "id": 132,
+    "complexity": "advanced",
+    "sql": "SELECT p1.content, p1.view_count FROM posts AS p1 WHERE EXISTS(SELECT 1 FROM likes AS sub_l WHERE sub_l.post_id = p1.id AND sub_l.liked_at >= DATETIME('now', '-8 days'))",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.content], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] where there is a corresponding [TABLE:likes] who [COL:sub_l.post_id] [OP:eq] [COL:posts.id] and [COL:sub_l.liked_at] [OP:gte] [VAL:8 days ago]",
+    "nl_prompt": "Spot the message, views in update where where there is a corresponding reactions who post id is post id and liked at no less than 8 days ago"
+  },
+  {
+    "id": 133,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.country_code = 'user')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.country_code] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Fetch me all columns from update where author id matches any of the ids from users where country code is 'user'"
+  },
+  {
+    "id": 134,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM comments AS c1 WHERE c1.post_id IN (SELECT sub_p.id FROM posts AS sub_p WHERE sub_p.user_id = 925)",
+    "tables": [
+      "comments",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.post_id] matches any of the [COL:sub_p.id]s from [TABLE:posts] where [COL:sub_p.user_id] [OP:eq] [VAL:925]",
+    "nl_prompt": "Single out all columns in comments that have post id matches any of the ids from status update where user id is equal to 925"
+  },
+  {
+    "id": 135,
+    "complexity": "advanced",
+    "sql": "SELECT l1.liked_at FROM likes AS l1 WHERE l1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.is_verified = 1)",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.is_verified] [OP:eq] [VAL:1]",
+    "nl_prompt": "Get the liked at in likes for which liker id matches any of the ids from users where is verified equals 1"
+  },
+  {
+    "id": 136,
+    "complexity": "advanced",
+    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 JOIN follows AS f2 ON f1.follower_id = f2.follower_id",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.follower_id], [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] JOIN [TABLE:follows] on [COL:follows.follower_id] [OP:eq] [COL:follows.follower_id]",
+    "nl_prompt": "Retrieve the following user id, followed user id, follow date out of follows JOIN following on subscriber id matches subscriber id"
+  },
+  {
+    "id": 137,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followee_id <= 864) AS derived_table WHERE derived_table.followed_at < DATETIME('now', '-20 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:follows] where [COL:follows.followee_id] [OP:lte] [VAL:864] [CONN:where] [COL:followed_at] [OP:lt] [VAL:20 days ago]",
+    "nl_prompt": "Get all columns out of follow where followed user id maximum of 864 looking only at followed at less than 20 days ago"
+  },
+  {
+    "id": 138,
+    "complexity": "advanced",
+    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE NOT EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = l1.user_id AND sub_u.signup_date > DATETIME('now', '-26 days'))",
+    "tables": [
+      "likes",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.post_id], [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] where there is no corresponding [TABLE:users] who [COL:sub_u.id] [OP:eq] [COL:likes.user_id] and [COL:sub_u.signup_date] [OP:gt] [VAL:26 days ago]",
+    "nl_prompt": "Fetch me the post id, liked at, user id from reactions for which where there is no corresponding users who id is user id and signup date more than 26 days ago"
+  },
+  {
+    "id": 139,
+    "complexity": "advanced",
+    "sql": "SELECT p1.user_id FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.username <> 'activity')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.username] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Retrieve the user id from status update looking only at user id matches any of the ids from user where username is not equal to 'activity'"
+  },
+  {
+    "id": 140,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.follower_id >= 28) AS derived_table",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:follows] where [COL:follows.follower_id] [OP:gte] [VAL:28]",
+    "nl_prompt": "Run a check for all columns from follows where following user id minimum of 28"
+  },
+  {
+    "id": 141,
+    "complexity": "advanced",
+    "sql": "SELECT p1.view_count, p1.user_id, p1.content FROM posts AS p1 WHERE EXISTS(SELECT 1 FROM users AS sub_u WHERE sub_u.id = p1.user_id AND sub_u.email = 'user42@example.com')",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.view_count], [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] [CONN:where] where there is a corresponding [TABLE:users] who [COL:sub_u.id] [OP:eq] [COL:posts.user_id] and [COL:sub_u.email] [OP:eq] [VAL:'user42@example.com']",
+    "nl_prompt": "Single out the views, user id, post content within social media post looking only at where there is a corresponding users who id equals poster id and email matches 'user42@example.com'"
+  },
+  {
+    "id": 142,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.country_code <> 'admin') AS derived_table WHERE derived_table.email <> 'user25@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:users] where [COL:users.country_code] [OP:neq] [VAL:'admin'] [CONN:where] [COL:email] [OP:neq] [VAL:'user25@example.com']",
+    "nl_prompt": "Get all columns from users where country abbreviation differs from 'admin' filtered for email is not 'user25@example.com'"
+  },
+  {
+    "id": 143,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM comments AS inner_comments WHERE inner_comments.id <= 180) AS derived_table",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:comments] where [COL:comments.id] [OP:lte] [VAL:180]",
+    "nl_prompt": "Spot all columns from comment where comment id no more than 180"
+  },
+  {
+    "id": 144,
+    "complexity": "advanced",
+    "sql": "SELECT p1.user_id FROM posts AS p1 WHERE NOT EXISTS(SELECT 1 FROM likes AS sub_l WHERE sub_l.post_id = p1.id AND sub_l.liked_at >= DATETIME('now', '-14 days'))",
+    "tables": [
+      "posts",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] where there is no corresponding [TABLE:likes] who [COL:sub_l.post_id] [OP:eq] [COL:posts.id] and [COL:sub_l.liked_at] [OP:gte] [VAL:14 days ago]",
+    "nl_prompt": "Fetch me the user id in post looking only at where there is no corresponding post likes who post id is equal to id and liked at greater than or equal to 14 days ago"
+  },
+  {
+    "id": 145,
+    "complexity": "advanced",
+    "sql": "SELECT p1.id, p1.user_id, p1.content FROM posts AS p1 JOIN posts AS p2 ON p1.user_id = p2.user_id AND p1.id <> p2.id",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.id], [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] JOIN [TABLE:posts] on [COL:posts.user_id] [OP:eq] [COL:posts.user_id] and [COL:posts.id] [OP:neq] [COL:posts.id]",
+    "nl_prompt": "Spot the post id, poster id, message from update JOIN posts on user id is author id and id differs from post id"
+  },
+  {
+    "id": 146,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM users AS inner_users WHERE inner_users.username <> 'admin') AS derived_table",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:users] where [COL:users.username] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Spot all columns out of profile where handle is not 'admin'"
+  },
+  {
+    "id": 147,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.user_id < 240) AS derived_table WHERE derived_table.content <> '123'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] where [COL:posts.user_id] [OP:lt] [VAL:240] [CONN:where] [COL:content] [OP:neq] [VAL:'123']",
+    "nl_prompt": "Produce a listing of all columns in social media post where user id below 240 where content differs from '123'"
+  },
+  {
+    "id": 148,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM follows AS inner_follows WHERE inner_follows.followed_at <= DATETIME('now', '-7 days')) AS derived_table",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:follows] where [COL:follows.followed_at] [OP:lte] [VAL:7 days ago]",
+    "nl_prompt": "Single out all columns within follow where followed at maximum of 7 days ago"
+  },
+  {
+    "id": 149,
+    "complexity": "advanced",
+    "sql": "SELECT p1.posted_at, p1.content, p1.user_id, p1.view_count FROM posts AS p1 WHERE p1.user_id IN (SELECT sub_u.id FROM users AS sub_u WHERE sub_u.signup_date > DATETIME('now', '-20 days'))",
+    "tables": [
+      "posts",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.posted_at], [COL:posts.content], [COL:posts.user_id], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] matches any of the [COL:sub_u.id]s from [TABLE:users] where [COL:sub_u.signup_date] [OP:gt] [VAL:20 days ago]",
+    "nl_prompt": "Get the post date, post text, author id, number of views in update for which user id matches any of the ids from users where signup date higher than 20 days ago"
+  },
+  {
+    "id": 150,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM posts AS inner_posts WHERE inner_posts.posted_at >= DATETIME('now', '-6 days')) AS derived_table WHERE derived_table.view_count < 349",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:posts] where [COL:posts.posted_at] [OP:gte] [VAL:6 days ago] [CONN:where] [COL:view_count] [OP:lt] [VAL:349]",
+    "nl_prompt": "Run a check for all columns in update where time posted at least 6 days ago that have view count less than 349"
+  },
+  {
+    "id": 151,
+    "complexity": "union",
+    "sql": "SELECT p1.user_id, p1.id, p1.view_count FROM posts AS p1 WHERE p1.posted_at <= DATETIME('now', '-6 days') UNION ALL SELECT p2.user_id, p2.id, p2.view_count FROM posts AS p2 WHERE p2.id <= 64",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.user_id], [COL:posts.id], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:lte] [VAL:6 days ago], combined with (including duplicates) [VERB:select] the [COL:posts.user_id], [COL:posts.id], [COL:posts.view_count] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.id] [OP:lte] [VAL:64]",
+    "nl_prompt": "Spot the author id, id, view total within update looking only at time posted no more than 6 days ago, combined with (including duplicates) Pick out the author id, id, number of views out of post filtered for post id maximum of 64"
+  },
+  {
+    "id": 152,
+    "complexity": "union",
+    "sql": "SELECT c1.post_id, c1.id, c1.comment_text, c1.created_at FROM comments AS c1 WHERE c1.created_at < DATETIME('now', '-22 days') UNION ALL SELECT c2.post_id, c2.id, c2.comment_text, c2.created_at FROM comments AS c2 WHERE c2.created_at > DATETIME('now', '-13 days') ORDER BY post_id",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.post_id], [COL:comments.id], [COL:comments.comment_text], [COL:comments.created_at] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.created_at] [OP:lt] [VAL:22 days ago], combined with (including duplicates) [VERB:show] the [COL:comments.post_id], [COL:comments.id], [COL:comments.comment_text], [COL:comments.created_at] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.created_at] [OP:gt] [VAL:13 days ago] ordered by [COL:post_id]",
+    "nl_prompt": "Run a check for the related post id, id, reply text, date created in comments looking only at comment date fewer than 22 days ago, combined with (including duplicates) Run a check for the post id, id, response text, date created within replies that have comment date exceeds 13 days ago ordered by post id"
+  },
+  {
+    "id": 153,
+    "complexity": "union",
+    "sql": "SELECT f1.follower_id, f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followee_id < 248 UNION SELECT f2.follower_id, f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.followee_id < 532 ORDER BY follower_id LIMIT 41",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.follower_id], [COL:follows.followed_at], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:lt] [VAL:248], combined with (removing duplicates) [VERB:show] the [COL:follows.follower_id], [COL:follows.followed_at], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:lt] [VAL:532] ordered by [COL:follower_id] limited to 41 results",
+    "nl_prompt": "Run a check for the follower id, follow date, followed user id out of follow relationship for which account followed id fewer than 248, combined with (removing duplicates) Run a check for the following user id, time followed, followed user id in follows filtered for account followed id fewer than 532 ordered by follower id limited to 41 results"
+  },
+  {
+    "id": 154,
+    "complexity": "union",
+    "sql": "SELECT p1.view_count, p1.posted_at, p1.user_id, p1.content FROM posts AS p1 WHERE p1.user_id <= 894 UNION SELECT p2.view_count, p2.posted_at, p2.user_id, p2.content FROM posts AS p2 WHERE p2.view_count <> 897",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.view_count], [COL:posts.posted_at], [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] [OP:lte] [VAL:894], combined with (removing duplicates) [VERB:show] the [COL:posts.view_count], [COL:posts.posted_at], [COL:posts.user_id], [COL:posts.content] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.view_count] [OP:neq] [VAL:897]",
+    "nl_prompt": "Run a check for the view total, posted at, poster id, post content in update where poster id no more than 894, combined with (removing duplicates) Produce a listing of the number of views, date posted, author id, post content from status update that have view total is not 897"
+  },
+  {
+    "id": 155,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id < 917 UNION ALL SELECT l2.post_id, l2.user_id, l2.liked_at FROM likes AS l2 WHERE l2.post_id < 203 ORDER BY post_id LIMIT 36",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.post_id], [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lt] [VAL:917], combined with (including duplicates) [VERB:show] the [COL:likes.post_id], [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lt] [VAL:203] ordered by [COL:post_id] limited to 36 results",
+    "nl_prompt": "Produce a listing of the post id, user id, time liked within likes looking only at post id lower than 917, combined with (including duplicates) Bring up the post id, user id, date liked within reactions that have liked post id less than 203 ordered by post id limited to 36 results"
+  },
+  {
+    "id": 156,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.user_id <= 449 UNION ALL SELECT l2.post_id, l2.user_id FROM likes AS l2 WHERE l2.user_id >= 645 LIMIT 30",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:lte] [VAL:449], combined with (including duplicates) [VERB:show] the [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:gte] [VAL:645] limited to 30 results",
+    "nl_prompt": "Run a check for the post id, user id in likes filtered for user id at most 449, combined with (including duplicates) Run a check for the liked post id, liker id from like that have liker id greater than or equal to 645 limited to 30 results"
+  },
+  {
+    "id": 157,
+    "complexity": "union",
+    "sql": "SELECT f1.follower_id, f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.follower_id > 175 UNION SELECT f2.follower_id, f2.followee_id, f2.followed_at FROM follows AS f2 WHERE f2.followee_id = 994",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.follower_id], [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:gt] [VAL:175], combined with (removing duplicates) [VERB:get] the [COL:follows.follower_id], [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:eq] [VAL:994]",
+    "nl_prompt": "Get the subscriber id, account followed id, time followed from following for which follower id higher than 175, combined with (removing duplicates) Find the follower id, followed user id, follow date out of follows that have followed user id matches 994"
+  },
+  {
+    "id": 158,
+    "complexity": "union",
+    "sql": "SELECT u1.email, u1.username, u1.is_verified FROM users AS u1 WHERE u1.is_verified = 1 UNION SELECT u2.email, u2.username, u2.is_verified FROM users AS u2 WHERE u2.signup_date < DATETIME('now', '-15 days') ORDER BY email LIMIT 13",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.email], [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.is_verified] [OP:eq] [VAL:1], combined with (removing duplicates) [VERB:select] the [COL:users.email], [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.signup_date] [OP:lt] [VAL:15 days ago] ordered by [COL:email] limited to 13 results",
+    "nl_prompt": "Spot the e-mail, user handle, verification status within users for which verification status matches 1, combined with (removing duplicates) Spot the email address, user handle, verification status out of users that have date joined fewer than 15 days ago ordered by email limited to 13 results"
+  },
+  {
+    "id": 159,
+    "complexity": "union",
+    "sql": "SELECT u1.country_code, u1.username, u1.is_verified, u1.signup_date FROM users AS u1 WHERE u1.email <> 'user75@example.com' UNION ALL SELECT u2.country_code, u2.username, u2.is_verified, u2.signup_date FROM users AS u2 WHERE u2.email <> 'user25@example.com'",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.country_code], [COL:users.username], [COL:users.is_verified], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.email] [OP:neq] [VAL:'user75@example.com'], combined with (including duplicates) [VERB:get] the [COL:users.country_code], [COL:users.username], [COL:users.is_verified], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.email] [OP:neq] [VAL:'user25@example.com']",
+    "nl_prompt": "Get the country, username, is verified, account creation date from member filtered for email differs from 'user75@example.com', combined with (including duplicates) Find the iso country code, account name, is verified, registration date from account for which electronic mail is not 'user25@example.com'"
+  },
+  {
+    "id": 160,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.post_id >= 449 UNION ALL SELECT l2.liked_at, l2.post_id, l2.user_id FROM likes AS l2 WHERE l2.post_id = 703",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at], [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:gte] [VAL:449], combined with (including duplicates) [VERB:get] the [COL:likes.liked_at], [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:eq] [VAL:703]",
+    "nl_prompt": "Get the date liked, liked post id, user id within reactions for which liked post id no less than 449, combined with (including duplicates) Pull up the time liked, post id, liker id from like filtered for post id equals 703"
+  },
+  {
+    "id": 161,
+    "complexity": "union",
+    "sql": "SELECT u1.signup_date, u1.country_code FROM users AS u1 WHERE u1.country_code <> 'user' UNION SELECT u2.signup_date, u2.country_code FROM users AS u2 WHERE u2.email LIKE 'user%@%'",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.signup_date], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'user'], combined with (removing duplicates) [VERB:select] the [COL:users.signup_date], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.email] like [VAL:'user%@%']",
+    "nl_prompt": "Single out the date joined, iso country code in user for which country code differs from 'user', combined with (removing duplicates) Single out the date joined, country code within user filtered for e-mail like 'user%@%'"
+  },
+  {
+    "id": 162,
+    "complexity": "union",
+    "sql": "SELECT f1.followed_at, f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.follower_id > 141 UNION ALL SELECT f2.followed_at, f2.followee_id, f2.follower_id FROM follows AS f2 WHERE f2.follower_id < 190 ORDER BY followed_at LIMIT 22",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.followed_at], [COL:follows.followee_id], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:gt] [VAL:141], combined with (including duplicates) [VERB:get] the [COL:follows.followed_at], [COL:follows.followee_id], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:lt] [VAL:190] ordered by [COL:followed_at] limited to 22 results",
+    "nl_prompt": "Get the followed at, followed user id, subscriber id in follows that have following user id higher than 141, combined with (including duplicates) Retrieve the followed at, followee id, following user id from follow where follower id lower than 190 ordered by followed at limited to 22 results"
+  },
+  {
+    "id": 163,
+    "complexity": "union",
+    "sql": "SELECT u1.email, u1.country_code, u1.username FROM users AS u1 WHERE u1.country_code <> 'test' UNION ALL SELECT u2.email, u2.country_code, u2.username FROM users AS u2 WHERE u2.is_verified = 0 ORDER BY email LIMIT 32",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.email], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'test'], combined with (including duplicates) [VERB:select] the [COL:users.email], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.is_verified] [OP:eq] [VAL:0] ordered by [COL:email] limited to 32 results",
+    "nl_prompt": "Single out the email, country, handle out of member looking only at country code is not 'test', combined with (including duplicates) Choose the email address, country abbreviation, account name from member where verified matches 0 ordered by email limited to 32 results"
+  },
+  {
+    "id": 164,
+    "complexity": "union",
+    "sql": "SELECT f1.followee_id, f1.followed_at, f1.follower_id FROM follows AS f1 WHERE f1.followed_at < DATETIME('now', '-4 days') UNION SELECT f2.followee_id, f2.followed_at, f2.follower_id FROM follows AS f2 WHERE f2.followee_id > 287",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.followee_id], [COL:follows.followed_at], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:lt] [VAL:4 days ago], combined with (removing duplicates) [VERB:select] the [COL:follows.followee_id], [COL:follows.followed_at], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:gt] [VAL:287]",
+    "nl_prompt": "Single out the followed user id, followed at, subscriber id out of following filtered for follow date less than 4 days ago, combined with (removing duplicates) Pick out the account followed id, follow date, follower id in follow relationship where account followed id more than 287"
+  },
+  {
+    "id": 165,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.user_id >= 613 UNION ALL SELECT l2.liked_at, l2.user_id, l2.post_id FROM likes AS l2 WHERE l2.user_id = 866 ORDER BY liked_at LIMIT 18",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.liked_at], [COL:likes.user_id], [COL:likes.post_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:gte] [VAL:613], combined with (including duplicates) [VERB:get] the [COL:likes.liked_at], [COL:likes.user_id], [COL:likes.post_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:eq] [VAL:866] ordered by [COL:liked_at] limited to 18 results",
+    "nl_prompt": "Get the liked at, liker id, post id in like filtered for user id minimum of 613, combined with (including duplicates) Find the like date, user id, post id in reactions for which liker id is equal to 866 ordered by liked at limited to 18 results"
+  },
+  {
+    "id": 166,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.post_id = 953 UNION SELECT l2.liked_at, l2.post_id, l2.user_id FROM likes AS l2 WHERE l2.liked_at >= DATETIME('now', '-2 days')",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.liked_at], [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:eq] [VAL:953], combined with (removing duplicates) [VERB:show] the [COL:likes.liked_at], [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:gte] [VAL:2 days ago]",
+    "nl_prompt": "Run a check for the like date, post id, user id within like for which post id equals 953, combined with (removing duplicates) Bring up the date liked, post id, user id from reactions that have time liked greater than or equal to 2 days ago"
+  },
+  {
+    "id": 167,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.post_id <= 884 UNION SELECT l2.post_id, l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.post_id > 762",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.post_id], [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lte] [VAL:884], combined with (removing duplicates) [VERB:select] the [COL:likes.post_id], [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:gt] [VAL:762]",
+    "nl_prompt": "Spot the post id, liked at, liker id out of reactions for which liked post id maximum of 884, combined with (removing duplicates) Pick out the post id, like date, liker id in post likes looking only at liked post id more than 762"
+  },
+  {
+    "id": 168,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.user_id = 493 UNION SELECT l2.post_id, l2.user_id, l2.liked_at FROM likes AS l2 WHERE l2.post_id >= 805 LIMIT 32",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.post_id], [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:eq] [VAL:493], combined with (removing duplicates) [VERB:show] the [COL:likes.post_id], [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:gte] [VAL:805] limited to 32 results",
+    "nl_prompt": "Run a check for the post id, user id, date liked from like where liker id is 493, combined with (removing duplicates) Produce a listing of the post id, liker id, date liked in like looking only at post id no less than 805 limited to 32 results"
+  },
+  {
+    "id": 169,
+    "complexity": "union",
+    "sql": "SELECT c1.id, c1.created_at, c1.comment_text FROM comments AS c1 WHERE c1.user_id < 989 UNION ALL SELECT c2.id, c2.created_at, c2.comment_text FROM comments AS c2 WHERE c2.created_at >= DATETIME('now', '-30 days') LIMIT 13",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:select] the [COL:comments.id], [COL:comments.created_at], [COL:comments.comment_text] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.user_id] [OP:lt] [VAL:989], combined with (including duplicates) [VERB:select] the [COL:comments.id], [COL:comments.created_at], [COL:comments.comment_text] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.created_at] [OP:gte] [VAL:30 days ago] limited to 13 results",
+    "nl_prompt": "Single out the id, time created, comment from replies filtered for user id below 989, combined with (including duplicates) Select the comment id, created at, comment body from responses filtered for time created greater than or equal to 30 days ago limited to 13 results"
+  },
+  {
+    "id": 170,
+    "complexity": "union",
+    "sql": "SELECT p1.view_count, p1.id, p1.content, p1.user_id FROM posts AS p1 WHERE p1.user_id <= 17 UNION ALL SELECT p2.view_count, p2.id, p2.content, p2.user_id FROM posts AS p2 WHERE p2.posted_at <= DATETIME('now', '-18 days') ORDER BY view_count",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.view_count], [COL:posts.id], [COL:posts.content], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] [OP:lte] [VAL:17], combined with (including duplicates) [VERB:show] the [COL:posts.view_count], [COL:posts.id], [COL:posts.content], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:lte] [VAL:18 days ago] ordered by [COL:view_count]",
+    "nl_prompt": "Run a check for the views, id, content, author id within status update that have poster id less than or equal to 17, combined with (including duplicates) Give me a look at the view total, id, post text, user id in social media post that have post date maximum of 18 days ago ordered by view count"
+  },
+  {
+    "id": 171,
+    "complexity": "union",
+    "sql": "SELECT l1.user_id, l1.liked_at FROM likes AS l1 WHERE l1.post_id = 805 UNION SELECT l2.user_id, l2.liked_at FROM likes AS l2 WHERE l2.user_id > 241 LIMIT 24",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:eq] [VAL:805], combined with (removing duplicates) [VERB:select] the [COL:likes.user_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:gt] [VAL:241] limited to 24 results",
+    "nl_prompt": "Single out the user id, liked at within like filtered for post id matches 805, combined with (removing duplicates) Pick out the liker id, like date from post likes looking only at liker id greater than 241 limited to 24 results"
+  },
+  {
+    "id": 172,
+    "complexity": "union",
+    "sql": "SELECT u1.username, u1.is_verified FROM users AS u1 WHERE u1.username LIKE 'b%' UNION SELECT u2.username, u2.is_verified FROM users AS u2 WHERE u2.username <> 'user' ORDER BY username",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] like [VAL:'b%'], combined with (removing duplicates) [VERB:get] the [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] [OP:neq] [VAL:'user'] ordered by [COL:username]",
+    "nl_prompt": "Retrieve the account name, is verified within users filtered for account name like 'b%', combined with (removing duplicates) Dig out the user handle, is verified within member that have handle is not 'user' ordered by username"
+  },
+  {
+    "id": 173,
+    "complexity": "union",
+    "sql": "SELECT c1.created_at, c1.id, c1.comment_text, c1.post_id FROM comments AS c1 WHERE c1.user_id <> 445 UNION SELECT c2.created_at, c2.id, c2.comment_text, c2.post_id FROM comments AS c2 WHERE c2.user_id < 18 ORDER BY created_at LIMIT 14",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.created_at], [COL:comments.id], [COL:comments.comment_text], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.user_id] [OP:neq] [VAL:445], combined with (removing duplicates) [VERB:show] the [COL:comments.created_at], [COL:comments.id], [COL:comments.comment_text], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.user_id] [OP:lt] [VAL:18] ordered by [COL:created_at] limited to 14 results",
+    "nl_prompt": "Run a check for the date created, comment id, reply text, related post id in responses where commenter id is not equal to 445, combined with (removing duplicates) Display the created at, id, reply text, post id in comments filtered for author id under 18 ordered by created at limited to 14 results"
+  },
+  {
+    "id": 174,
+    "complexity": "union",
+    "sql": "SELECT u1.id, u1.username, u1.email, u1.signup_date FROM users AS u1 WHERE u1.signup_date >= DATETIME('now', '-24 days') UNION SELECT u2.id, u2.username, u2.email, u2.signup_date FROM users AS u2 WHERE u2.username <> '123'",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.id], [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.signup_date] [OP:gte] [VAL:24 days ago], combined with (removing duplicates) [VERB:get] the [COL:users.id], [COL:users.username], [COL:users.email], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] [OP:neq] [VAL:'123']",
+    "nl_prompt": "Get the account id, user handle, email, account creation date in users where date joined minimum of 24 days ago, combined with (removing duplicates) Go get the id, username, email address, account creation date from profile for which account name is not '123'"
+  },
+  {
+    "id": 175,
+    "complexity": "union",
+    "sql": "SELECT p1.id, p1.user_id, p1.view_count, p1.posted_at FROM posts AS p1 WHERE p1.view_count <> 64 UNION ALL SELECT p2.id, p2.user_id, p2.view_count, p2.posted_at FROM posts AS p2 WHERE p2.id >= 942",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:posts.user_id], [COL:posts.view_count], [COL:posts.posted_at] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.view_count] [OP:neq] [VAL:64], combined with (including duplicates) [VERB:get] the [COL:posts.id], [COL:posts.user_id], [COL:posts.view_count], [COL:posts.posted_at] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.id] [OP:gte] [VAL:942]",
+    "nl_prompt": "Fetch me the id, poster id, number of views, time posted out of posts for which view count is not 64, combined with (including duplicates) Get the post id, author id, view total, post date out of update looking only at post id greater than or equal to 942"
+  },
+  {
+    "id": 176,
+    "complexity": "union",
+    "sql": "SELECT u1.signup_date, u1.is_verified, u1.country_code, u1.username FROM users AS u1 WHERE u1.country_code LIKE '%a%' UNION SELECT u2.signup_date, u2.is_verified, u2.country_code, u2.username FROM users AS u2 WHERE u2.id < 590",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.signup_date], [COL:users.is_verified], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] like [VAL:'%a%'], combined with (removing duplicates) [VERB:select] the [COL:users.signup_date], [COL:users.is_verified], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] [OP:lt] [VAL:590]",
+    "nl_prompt": "Spot the registration date, is verified, country abbreviation, handle from account filtered for country abbreviation like '%a%', combined with (removing duplicates) Spot the date joined, verification status, country, username from account where id lower than 590"
+  },
+  {
+    "id": 177,
+    "complexity": "union",
+    "sql": "SELECT l1.liked_at, l1.user_id, l1.post_id FROM likes AS l1 WHERE l1.liked_at > DATETIME('now', '-15 days') UNION ALL SELECT l2.liked_at, l2.user_id, l2.post_id FROM likes AS l2 WHERE l2.user_id <= 75",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.liked_at], [COL:likes.user_id], [COL:likes.post_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:gt] [VAL:15 days ago], combined with (including duplicates) [VERB:select] the [COL:likes.liked_at], [COL:likes.user_id], [COL:likes.post_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:lte] [VAL:75]",
+    "nl_prompt": "Spot the like date, user id, liked post id within like where date liked above 15 days ago, combined with (including duplicates) Pick out the date liked, liker id, post id in post likes for which user id less than or equal to 75"
+  },
+  {
+    "id": 178,
+    "complexity": "union",
+    "sql": "SELECT p1.id, p1.content, p1.user_id FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-4 days') UNION SELECT p2.id, p2.content, p2.user_id FROM posts AS p2 WHERE p2.id >= 279 ORDER BY id",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.id], [COL:posts.content], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gte] [VAL:4 days ago], combined with (removing duplicates) [VERB:show] the [COL:posts.id], [COL:posts.content], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.id] [OP:gte] [VAL:279] ordered by [COL:id]",
+    "nl_prompt": "Produce a listing of the post id, caption, user id within posts looking only at time posted minimum of 4 days ago, combined with (removing duplicates) Bring up the post id, content, user id from update looking only at id greater than or equal to 279 ordered by id"
+  },
+  {
+    "id": 179,
+    "complexity": "union",
+    "sql": "SELECT p1.posted_at, p1.view_count, p1.content, p1.id FROM posts AS p1 WHERE p1.posted_at >= DATETIME('now', '-19 days') UNION SELECT p2.posted_at, p2.view_count, p2.content, p2.id FROM posts AS p2 WHERE p2.view_count <> 376 ORDER BY posted_at",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.posted_at], [COL:posts.view_count], [COL:posts.content], [COL:posts.id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gte] [VAL:19 days ago], combined with (removing duplicates) [VERB:show] the [COL:posts.posted_at], [COL:posts.view_count], [COL:posts.content], [COL:posts.id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.view_count] [OP:neq] [VAL:376] ordered by [COL:posted_at]",
+    "nl_prompt": "Produce a listing of the post date, number of views, message, post id out of update for which post date minimum of 19 days ago, combined with (removing duplicates) Display the time posted, number of views, message, post id out of status update filtered for view count is not 376 ordered by posted at"
+  },
+  {
+    "id": 180,
+    "complexity": "union",
+    "sql": "SELECT f1.followee_id, f1.follower_id, f1.followed_at FROM follows AS f1 WHERE f1.followed_at < DATETIME('now', '-24 days') UNION SELECT f2.followee_id, f2.follower_id, f2.followed_at FROM follows AS f2 WHERE f2.followee_id = 145",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:get] the [COL:follows.followee_id], [COL:follows.follower_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:lt] [VAL:24 days ago], combined with (removing duplicates) [VERB:get] the [COL:follows.followee_id], [COL:follows.follower_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:eq] [VAL:145]",
+    "nl_prompt": "Retrieve the followed user id, follower id, time followed within follow looking only at time followed lower than 24 days ago, combined with (removing duplicates) Get the followee id, following user id, followed at within follow for which followed user id is 145"
+  },
+  {
+    "id": 181,
+    "complexity": "union",
+    "sql": "SELECT u1.username, u1.signup_date, u1.email FROM users AS u1 WHERE u1.country_code <> 'test' UNION SELECT u2.username, u2.signup_date, u2.email FROM users AS u2 WHERE u2.username LIKE 'b%'",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:get] the [COL:users.username], [COL:users.signup_date], [COL:users.email] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:neq] [VAL:'test'], combined with (removing duplicates) [VERB:get] the [COL:users.username], [COL:users.signup_date], [COL:users.email] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] like [VAL:'b%']",
+    "nl_prompt": "Fetch me the username, registration date, electronic mail within users where iso country code is not equal to 'test', combined with (removing duplicates) Pull up the account name, date joined, email from users for which username like 'b%'"
+  },
+  {
+    "id": 182,
+    "complexity": "union",
+    "sql": "SELECT l1.user_id, l1.post_id, l1.liked_at FROM likes AS l1 WHERE l1.user_id < 16 UNION SELECT l2.user_id, l2.post_id, l2.liked_at FROM likes AS l2 WHERE l2.post_id < 745 LIMIT 20",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.user_id], [COL:likes.post_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.user_id] [OP:lt] [VAL:16], combined with (removing duplicates) [VERB:select] the [COL:likes.user_id], [COL:likes.post_id], [COL:likes.liked_at] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lt] [VAL:745] limited to 20 results",
+    "nl_prompt": "Spot the liker id, liked post id, like date out of likes that have user id lower than 16, combined with (removing duplicates) Choose the liker id, post id, liked at from reactions looking only at liked post id fewer than 745 limited to 20 results"
+  },
+  {
+    "id": 183,
+    "complexity": "union",
+    "sql": "SELECT p1.content, p1.id, p1.view_count, p1.posted_at FROM posts AS p1 WHERE p1.user_id = 11 UNION ALL SELECT p2.content, p2.id, p2.view_count, p2.posted_at FROM posts AS p2 WHERE p2.content = 'test'",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.content], [COL:posts.id], [COL:posts.view_count], [COL:posts.posted_at] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.user_id] [OP:eq] [VAL:11], combined with (including duplicates) [VERB:get] the [COL:posts.content], [COL:posts.id], [COL:posts.view_count], [COL:posts.posted_at] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.content] [OP:eq] [VAL:'test']",
+    "nl_prompt": "Get the post content, post id, view count, post date from update that have user id equals 11, combined with (including duplicates) Find the post text, id, view count, post date out of social media post filtered for message matches 'test'"
+  },
+  {
+    "id": 184,
+    "complexity": "union",
+    "sql": "SELECT u1.email, u1.username FROM users AS u1 WHERE u1.country_code = 'admin' UNION ALL SELECT u2.email, u2.username FROM users AS u2 WHERE u2.country_code = 'admin' ORDER BY email",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.email], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:eq] [VAL:'admin'], combined with (including duplicates) [VERB:show] the [COL:users.email], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:eq] [VAL:'admin'] ordered by [COL:email]",
+    "nl_prompt": "Produce a listing of the email address, handle in user looking only at country equals 'admin', combined with (including duplicates) Run a check for the email address, username within profile filtered for country matches 'admin' ordered by email"
+  },
+  {
+    "id": 185,
+    "complexity": "union",
+    "sql": "SELECT u1.id, u1.is_verified, u1.country_code, u1.username FROM users AS u1 WHERE u1.is_verified = 0 UNION SELECT u2.id, u2.is_verified, u2.country_code, u2.username FROM users AS u2 WHERE u2.is_verified = 0 ORDER BY id",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.id], [COL:users.is_verified], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.is_verified] [OP:eq] [VAL:0], combined with (removing duplicates) [VERB:select] the [COL:users.id], [COL:users.is_verified], [COL:users.country_code], [COL:users.username] [CONN:from] [TABLE:users] [CONN:where] [COL:users.is_verified] [OP:eq] [VAL:0] ordered by [COL:id]",
+    "nl_prompt": "Single out the id, verification status, country code, handle within account for which verification status is equal to 0, combined with (removing duplicates) Choose the account id, verified, country code, user handle from user that have verified matches 0 ordered by id"
+  },
+  {
+    "id": 186,
+    "complexity": "union",
+    "sql": "SELECT u1.username, u1.signup_date, u1.id FROM users AS u1 WHERE u1.id <> 545 UNION SELECT u2.username, u2.signup_date, u2.id FROM users AS u2 WHERE u2.id > 75 ORDER BY username",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.username], [COL:users.signup_date], [COL:users.id] [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] [OP:neq] [VAL:545], combined with (removing duplicates) [VERB:select] the [COL:users.username], [COL:users.signup_date], [COL:users.id] [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] [OP:gt] [VAL:75] ordered by [COL:username]",
+    "nl_prompt": "Single out the user handle, signup date, user id in member for which id is not equal to 545, combined with (removing duplicates) Spot the handle, registration date, id in member where id more than 75 ordered by username"
+  },
+  {
+    "id": 187,
+    "complexity": "union",
+    "sql": "SELECT f1.followed_at, f1.followee_id, f1.follower_id FROM follows AS f1 WHERE f1.followee_id > 12 UNION ALL SELECT f2.followed_at, f2.followee_id, f2.follower_id FROM follows AS f2 WHERE f2.followee_id < 854 LIMIT 50",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:show] the [COL:follows.followed_at], [COL:follows.followee_id], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:gt] [VAL:12], combined with (including duplicates) [VERB:show] the [COL:follows.followed_at], [COL:follows.followee_id], [COL:follows.follower_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:lt] [VAL:854] limited to 50 results",
+    "nl_prompt": "Produce a listing of the follow date, account followed id, follower id in following that have account followed id above 12, combined with (including duplicates) Display the followed at, account followed id, follower id within following looking only at followed user id lower than 854 limited to 50 results"
+  },
+  {
+    "id": 188,
+    "complexity": "union",
+    "sql": "SELECT p1.view_count, p1.id, p1.user_id FROM posts AS p1 WHERE p1.posted_at > DATETIME('now', '-4 days') UNION SELECT p2.view_count, p2.id, p2.user_id FROM posts AS p2 WHERE p2.posted_at >= DATETIME('now', '-29 days')",
+    "tables": [
+      "posts",
+      "posts"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.view_count], [COL:posts.id], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gt] [VAL:4 days ago], combined with (removing duplicates) [VERB:show] the [COL:posts.view_count], [COL:posts.id], [COL:posts.user_id] [CONN:from] [TABLE:posts] [CONN:where] [COL:posts.posted_at] [OP:gte] [VAL:29 days ago]",
+    "nl_prompt": "Run a check for the number of views, id, poster id out of social media post filtered for post date higher than 4 days ago, combined with (removing duplicates) Give me a look at the views, id, poster id from post filtered for posted at minimum of 29 days ago"
+  },
+  {
+    "id": 189,
+    "complexity": "union",
+    "sql": "SELECT u1.id, u1.email, u1.signup_date, u1.country_code FROM users AS u1 WHERE u1.signup_date > DATETIME('now', '-1 days') UNION SELECT u2.id, u2.email, u2.signup_date, u2.country_code FROM users AS u2 WHERE u2.username LIKE '%a%'",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.id], [COL:users.email], [COL:users.signup_date], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.signup_date] [OP:gt] [VAL:1 day ago], combined with (removing duplicates) [VERB:show] the [COL:users.id], [COL:users.email], [COL:users.signup_date], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] like [VAL:'%a%']",
+    "nl_prompt": "Produce a listing of the id, electronic mail, signup date, iso country code from member for which date joined higher than 1 day ago, combined with (removing duplicates) Run a check for the user id, email, account creation date, country from account looking only at handle like '%a%'"
+  },
+  {
+    "id": 190,
+    "complexity": "union",
+    "sql": "SELECT c1.created_at, c1.comment_text, c1.post_id FROM comments AS c1 WHERE c1.comment_text = 'user' UNION ALL SELECT c2.created_at, c2.comment_text, c2.post_id FROM comments AS c2 WHERE c2.id < 887",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:get] the [COL:comments.created_at], [COL:comments.comment_text], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.comment_text] [OP:eq] [VAL:'user'], combined with (including duplicates) [VERB:get] the [COL:comments.created_at], [COL:comments.comment_text], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.id] [OP:lt] [VAL:887]",
+    "nl_prompt": "Fetch me the created at, comment, related post id within comment filtered for comment body matches 'user', combined with (including duplicates) Pull up the time created, reply text, related post id out of comments that have id less than 887"
+  },
+  {
+    "id": 191,
+    "complexity": "union",
+    "sql": "SELECT f1.followee_id, f1.followed_at FROM follows AS f1 WHERE f1.followee_id > 862 UNION SELECT f2.followee_id, f2.followed_at FROM follows AS f2 WHERE f2.followee_id > 505",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:gt] [VAL:862], combined with (removing duplicates) [VERB:select] the [COL:follows.followee_id], [COL:follows.followed_at] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followee_id] [OP:gt] [VAL:505]",
+    "nl_prompt": "Spot the followee id, follow date from follows looking only at followed user id exceeds 862, combined with (removing duplicates) Single out the followee id, followed at within follow relationship looking only at followed user id greater than 505"
+  },
+  {
+    "id": 192,
+    "complexity": "union",
+    "sql": "SELECT u1.signup_date, u1.email FROM users AS u1 WHERE u1.country_code LIKE 'b%' UNION SELECT u2.signup_date, u2.email FROM users AS u2 WHERE u2.username <> '123' ORDER BY signup_date",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.signup_date], [COL:users.email] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] like [VAL:'b%'], combined with (removing duplicates) [VERB:show] the [COL:users.signup_date], [COL:users.email] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] [OP:neq] [VAL:'123'] ordered by [COL:signup_date]",
+    "nl_prompt": "Produce a listing of the registration date, email address out of profile filtered for country code like 'b%', combined with (removing duplicates) Show the account creation date, email address from users filtered for handle is not '123' ordered by signup date"
+  },
+  {
+    "id": 193,
+    "complexity": "union",
+    "sql": "SELECT u1.id, u1.email, u1.country_code FROM users AS u1 WHERE u1.username = 'admin' UNION SELECT u2.id, u2.email, u2.country_code FROM users AS u2 WHERE u2.id <> 347 ORDER BY id",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.id], [COL:users.email], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] [OP:eq] [VAL:'admin'], combined with (removing duplicates) [VERB:select] the [COL:users.id], [COL:users.email], [COL:users.country_code] [CONN:from] [TABLE:users] [CONN:where] [COL:users.id] [OP:neq] [VAL:347] ordered by [COL:id]",
+    "nl_prompt": "Spot the user id, email, iso country code out of user looking only at user handle matches 'admin', combined with (removing duplicates) Single out the account id, email, country abbreviation out of member that have account id is not equal to 347 ordered by id"
+  },
+  {
+    "id": 194,
+    "complexity": "union",
+    "sql": "SELECT u1.country_code, u1.is_verified, u1.id, u1.signup_date FROM users AS u1 WHERE u1.email <> 'user6@example.com' UNION ALL SELECT u2.country_code, u2.is_verified, u2.id, u2.signup_date FROM users AS u2 WHERE u2.is_verified = 0",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:select] the [COL:users.country_code], [COL:users.is_verified], [COL:users.id], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.email] [OP:neq] [VAL:'user6@example.com'], combined with (including duplicates) [VERB:select] the [COL:users.country_code], [COL:users.is_verified], [COL:users.id], [COL:users.signup_date] [CONN:from] [TABLE:users] [CONN:where] [COL:users.is_verified] [OP:eq] [VAL:0]",
+    "nl_prompt": "Spot the country code, is verified, id, signup date from account filtered for email is not equal to 'user6@example.com', combined with (including duplicates) Select the iso country code, is verified, id, account creation date out of account for which verification status is 0"
+  },
+  {
+    "id": 195,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.liked_at, l1.user_id FROM likes AS l1 WHERE l1.post_id <= 981 UNION SELECT l2.post_id, l2.liked_at, l2.user_id FROM likes AS l2 WHERE l2.post_id <> 883",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.post_id], [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:lte] [VAL:981], combined with (removing duplicates) [VERB:show] the [COL:likes.post_id], [COL:likes.liked_at], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:neq] [VAL:883]",
+    "nl_prompt": "Produce a listing of the liked post id, time liked, liker id from post likes filtered for liked post id less than or equal to 981, combined with (removing duplicates) Run a check for the liked post id, date liked, liker id out of like filtered for post id is not equal to 883"
+  },
+  {
+    "id": 196,
+    "complexity": "union",
+    "sql": "SELECT u1.email, u1.country_code, u1.username, u1.is_verified FROM users AS u1 WHERE u1.country_code = 'activity' UNION ALL SELECT u2.email, u2.country_code, u2.username, u2.is_verified FROM users AS u2 WHERE u2.username LIKE '%c' ORDER BY email",
+    "tables": [
+      "users",
+      "users"
+    ],
+    "ir_template": "[VERB:show] the [COL:users.email], [COL:users.country_code], [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.country_code] [OP:eq] [VAL:'activity'], combined with (including duplicates) [VERB:show] the [COL:users.email], [COL:users.country_code], [COL:users.username], [COL:users.is_verified] [CONN:from] [TABLE:users] [CONN:where] [COL:users.username] like [VAL:'%c'] ordered by [COL:email]",
+    "nl_prompt": "Run a check for the e-mail, country, handle, verified from user that have iso country code equals 'activity', combined with (including duplicates) Give me a look at the email, country abbreviation, user handle, verified within users for which account name like '%c' ordered by email"
+  },
+  {
+    "id": 197,
+    "complexity": "union",
+    "sql": "SELECT f1.follower_id, f1.followed_at, f1.followee_id FROM follows AS f1 WHERE f1.followed_at < DATETIME('now', '-4 days') UNION SELECT f2.follower_id, f2.followed_at, f2.followee_id FROM follows AS f2 WHERE f2.follower_id <> 946",
+    "tables": [
+      "follows",
+      "follows"
+    ],
+    "ir_template": "[VERB:select] the [COL:follows.follower_id], [COL:follows.followed_at], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.followed_at] [OP:lt] [VAL:4 days ago], combined with (removing duplicates) [VERB:select] the [COL:follows.follower_id], [COL:follows.followed_at], [COL:follows.followee_id] [CONN:from] [TABLE:follows] [CONN:where] [COL:follows.follower_id] [OP:neq] [VAL:946]",
+    "nl_prompt": "Spot the follower id, time followed, account followed id from follows filtered for follow date less than 4 days ago, combined with (removing duplicates) Choose the subscriber id, followed at, followee id in follow relationship looking only at following user id is not equal to 946"
+  },
+  {
+    "id": 198,
+    "complexity": "union",
+    "sql": "SELECT l1.post_id, l1.user_id FROM likes AS l1 WHERE l1.liked_at <= DATETIME('now', '-7 days') UNION ALL SELECT l2.post_id, l2.user_id FROM likes AS l2 WHERE l2.post_id = 599 ORDER BY post_id",
+    "tables": [
+      "likes",
+      "likes"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.liked_at] [OP:lte] [VAL:7 days ago], combined with (including duplicates) [VERB:get] the [COL:likes.post_id], [COL:likes.user_id] [CONN:from] [TABLE:likes] [CONN:where] [COL:likes.post_id] [OP:eq] [VAL:599] ordered by [COL:post_id]",
+    "nl_prompt": "Get the post id, user id out of likes for which liked at no more than 7 days ago, combined with (including duplicates) Pull up the post id, liker id within reactions filtered for post id equals 599 ordered by post id"
+  },
+  {
+    "id": 199,
+    "complexity": "union",
+    "sql": "SELECT c1.user_id, c1.created_at FROM comments AS c1 WHERE c1.id <= 426 UNION ALL SELECT c2.user_id, c2.created_at FROM comments AS c2 WHERE c2.post_id = 406 LIMIT 43",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.user_id], [COL:comments.created_at] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.id] [OP:lte] [VAL:426], combined with (including duplicates) [VERB:show] the [COL:comments.user_id], [COL:comments.created_at] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.post_id] [OP:eq] [VAL:406] limited to 43 results",
+    "nl_prompt": "Run a check for the user id, created at within comment that have comment id at most 426, combined with (including duplicates) Bring up the user id, comment date from replies for which related post id is 406 limited to 43 results"
+  },
+  {
+    "id": 200,
+    "complexity": "union",
+    "sql": "SELECT c1.id, c1.user_id, c1.post_id FROM comments AS c1 WHERE c1.id <> 29 UNION SELECT c2.id, c2.user_id, c2.post_id FROM comments AS c2 WHERE c2.post_id > 700 LIMIT 31",
+    "tables": [
+      "comments",
+      "comments"
+    ],
+    "ir_template": "[VERB:show] the [COL:comments.id], [COL:comments.user_id], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.id] [OP:neq] [VAL:29], combined with (removing duplicates) [VERB:show] the [COL:comments.id], [COL:comments.user_id], [COL:comments.post_id] [CONN:from] [TABLE:comments] [CONN:where] [COL:comments.post_id] [OP:gt] [VAL:700] limited to 31 results",
+    "nl_prompt": "Produce a listing of the id, commenter id, post id in comment looking only at comment id is not 29, combined with (removing duplicates) Bring up the id, author id, post id in comment that have post id higher than 700 limited to 31 results"
+  },
+  {
+    "id": 201,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user255', 'user3@example.com', DATETIME('now'), 1, 'Sample text 48')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user255'], [COL:email] as [VAL:'user3@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:1], [COL:country_code] as [VAL:'Sample text 48'].",
+    "nl_prompt": "Put a new users with username as 'user255', email as 'user3@example.com', signup date as the current time, is verified as 1, country code as 'Sample text 48'."
+  },
+  {
+    "id": 202,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user497', 'user190@example.com', DATETIME('now'), 0, 'Sample text 36')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user497'], [COL:email] as [VAL:'user190@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:0], [COL:country_code] as [VAL:'Sample text 36'].",
+    "nl_prompt": "Create a new account with username as 'user497', email as 'user190@example.com', signup date as the current time, is verified as 0, country code as 'Sample text 36'."
+  },
+  {
+    "id": 203,
+    "complexity": "insert",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (200, 772, 'Sample text 90', DATETIME('now'))",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:comments] with [COL:user_id] as [VAL:200], [COL:post_id] as [VAL:772], [COL:comment_text] as [VAL:'Sample text 90'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new responses with user id as 200, post id as 772, comment text as 'Sample text 90', created at as the current time."
+  },
+  {
+    "id": 204,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user75', 'user836@example.com', DATETIME('now'), 0, 'Sample text 61')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user75'], [COL:email] as [VAL:'user836@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:0], [COL:country_code] as [VAL:'Sample text 61'].",
+    "nl_prompt": "Insert a new account with username as 'user75', email as 'user836@example.com', signup date as the current time, is verified as 0, country code as 'Sample text 61'."
+  },
+  {
+    "id": 205,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (739, 915, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:739], [COL:followee_id] as [VAL:915], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new following with follower id as 739, followee id as 915, followed at as the current time."
+  },
+  {
+    "id": 206,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (687, 'Sample text 50', DATETIME('now'), 280)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:687], [COL:content] as [VAL:'Sample text 50'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:280].",
+    "nl_prompt": "Include a new social media post with user id as 687, content as 'Sample text 50', posted at as the current time, view count as 280."
+  },
+  {
+    "id": 207,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (68, 'Sample text 27', DATETIME('now'), 918)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:68], [COL:content] as [VAL:'Sample text 27'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:918].",
+    "nl_prompt": "Include a new update with user id as 68, content as 'Sample text 27', posted at as the current time, view count as 918."
+  },
+  {
+    "id": 208,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (734, 720, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:734], [COL:followee_id] as [VAL:720], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new follow relationship with follower id as 734, followee id as 720, followed at as the current time."
+  },
+  {
+    "id": 209,
+    "complexity": "insert",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (634, 30, 'Sample text 51', DATETIME('now'))",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:comments] with [COL:user_id] as [VAL:634], [COL:post_id] as [VAL:30], [COL:comment_text] as [VAL:'Sample text 51'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new responses with user id as 634, post id as 30, comment text as 'Sample text 51', created at as the current time."
+  },
+  {
+    "id": 210,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (671, 212, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:671], [COL:followee_id] as [VAL:212], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new following with follower id as 671, followee id as 212, followed at as the current time."
+  },
+  {
+    "id": 211,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (438, 81, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:438], [COL:followee_id] as [VAL:81], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new follows with follower id as 438, followee id as 81, followed at as the current time."
+  },
+  {
+    "id": 212,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (854, 'Sample text 50', DATETIME('now'), 857)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:854], [COL:content] as [VAL:'Sample text 50'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:857].",
+    "nl_prompt": "Create a new status update with user id as 854, content as 'Sample text 50', posted at as the current time, view count as 857."
+  },
+  {
+    "id": 213,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (755, 'Sample text 86', DATETIME('now'), 557)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:755], [COL:content] as [VAL:'Sample text 86'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:557].",
+    "nl_prompt": "Put a new status update with user id as 755, content as 'Sample text 86', posted at as the current time, view count as 557."
+  },
+  {
+    "id": 214,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (422, 'Sample text 76', DATETIME('now'), 380)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:422], [COL:content] as [VAL:'Sample text 76'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:380].",
+    "nl_prompt": "Add a new social media post with user id as 422, content as 'Sample text 76', posted at as the current time, view count as 380."
+  },
+  {
+    "id": 215,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (998, 861, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:998], [COL:followee_id] as [VAL:861], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new follow relationship with follower id as 998, followee id as 861, followed at as the current time."
+  },
+  {
+    "id": 216,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user977', 'user634@example.com', DATETIME('now'), 1, 'Sample text 90')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user977'], [COL:email] as [VAL:'user634@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:1], [COL:country_code] as [VAL:'Sample text 90'].",
+    "nl_prompt": "Put a new member with username as 'user977', email as 'user634@example.com', signup date as the current time, is verified as 1, country code as 'Sample text 90'."
+  },
+  {
+    "id": 217,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user313', 'user337@example.com', DATETIME('now'), 0, 'Sample text 1')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user313'], [COL:email] as [VAL:'user337@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:0], [COL:country_code] as [VAL:'Sample text 1'].",
+    "nl_prompt": "Add a new user with username as 'user313', email as 'user337@example.com', signup date as the current time, is verified as 0, country code as 'Sample text 1'."
+  },
+  {
+    "id": 218,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user865', 'user561@example.com', DATETIME('now'), 1, 'Sample text 79')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user865'], [COL:email] as [VAL:'user561@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:1], [COL:country_code] as [VAL:'Sample text 79'].",
+    "nl_prompt": "Add a new profile with username as 'user865', email as 'user561@example.com', signup date as the current time, is verified as 1, country code as 'Sample text 79'."
+  },
+  {
+    "id": 219,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (261, 236, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:261], [COL:followee_id] as [VAL:236], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Insert a new follows with follower id as 261, followee id as 236, followed at as the current time."
+  },
+  {
+    "id": 220,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (536, 'Sample text 65', DATETIME('now'), 953)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:536], [COL:content] as [VAL:'Sample text 65'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:953].",
+    "nl_prompt": "Include a new posts with user id as 536, content as 'Sample text 65', posted at as the current time, view count as 953."
+  },
+  {
+    "id": 221,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (370, 728, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:370], [COL:followee_id] as [VAL:728], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new following with follower id as 370, followee id as 728, followed at as the current time."
+  },
+  {
+    "id": 222,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (24, 447, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:24], [COL:post_id] as [VAL:447], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new reactions with user id as 24, post id as 447, liked at as the current time."
+  },
+  {
+    "id": 223,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user960', 'user926@example.com', DATETIME('now'), 0, 'Sample text 15')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user960'], [COL:email] as [VAL:'user926@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:0], [COL:country_code] as [VAL:'Sample text 15'].",
+    "nl_prompt": "Create a new account with username as 'user960', email as 'user926@example.com', signup date as the current time, is verified as 0, country code as 'Sample text 15'."
+  },
+  {
+    "id": 224,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (370, 35, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:370], [COL:followee_id] as [VAL:35], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new following with follower id as 370, followee id as 35, followed at as the current time."
+  },
+  {
+    "id": 225,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (255, 167, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:255], [COL:post_id] as [VAL:167], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new likes with user id as 255, post id as 167, liked at as the current time."
+  },
+  {
+    "id": 226,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (562, 310, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:562], [COL:post_id] as [VAL:310], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Insert a new likes with user id as 562, post id as 310, liked at as the current time."
+  },
+  {
+    "id": 227,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (9, 478, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:9], [COL:followee_id] as [VAL:478], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new follow relationship with follower id as 9, followee id as 478, followed at as the current time."
+  },
+  {
+    "id": 228,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (921, 959, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:921], [COL:post_id] as [VAL:959], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new likes with user id as 921, post id as 959, liked at as the current time."
+  },
+  {
+    "id": 229,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (67, 'Sample text 32', DATETIME('now'), 33)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:67], [COL:content] as [VAL:'Sample text 32'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:33].",
+    "nl_prompt": "Insert a new social media post with user id as 67, content as 'Sample text 32', posted at as the current time, view count as 33."
+  },
+  {
+    "id": 230,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (334, 163, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:334], [COL:followee_id] as [VAL:163], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new follow relationship with follower id as 334, followee id as 163, followed at as the current time."
+  },
+  {
+    "id": 231,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (265, 'Sample text 83', DATETIME('now'), 350)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:265], [COL:content] as [VAL:'Sample text 83'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:350].",
+    "nl_prompt": "Include a new social media post with user id as 265, content as 'Sample text 83', posted at as the current time, view count as 350."
+  },
+  {
+    "id": 232,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (903, 164, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:903], [COL:post_id] as [VAL:164], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Insert a new like with user id as 903, post id as 164, liked at as the current time."
+  },
+  {
+    "id": 233,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (432, 461, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:432], [COL:followee_id] as [VAL:461], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Insert a new following with follower id as 432, followee id as 461, followed at as the current time."
+  },
+  {
+    "id": 234,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (597, 31, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:597], [COL:post_id] as [VAL:31], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new reactions with user id as 597, post id as 31, liked at as the current time."
+  },
+  {
+    "id": 235,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (630, 807, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:630], [COL:post_id] as [VAL:807], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new likes with user id as 630, post id as 807, liked at as the current time."
+  },
+  {
+    "id": 236,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (54, 'Sample text 45', DATETIME('now'), 62)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:54], [COL:content] as [VAL:'Sample text 45'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:62].",
+    "nl_prompt": "Add a new post with user id as 54, content as 'Sample text 45', posted at as the current time, view count as 62."
+  },
+  {
+    "id": 237,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (748, 196, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:748], [COL:post_id] as [VAL:196], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new post likes with user id as 748, post id as 196, liked at as the current time."
+  },
+  {
+    "id": 238,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (250, 672, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:250], [COL:post_id] as [VAL:672], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new reactions with user id as 250, post id as 672, liked at as the current time."
+  },
+  {
+    "id": 239,
+    "complexity": "insert",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (27, 622, 'Sample text 70', DATETIME('now'))",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:comments] with [COL:user_id] as [VAL:27], [COL:post_id] as [VAL:622], [COL:comment_text] as [VAL:'Sample text 70'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new responses with user id as 27, post id as 622, comment text as 'Sample text 70', created at as the current time."
+  },
+  {
+    "id": 240,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (660, 'Sample text 19', DATETIME('now'), 885)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:660], [COL:content] as [VAL:'Sample text 19'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:885].",
+    "nl_prompt": "Add a new social media post with user id as 660, content as 'Sample text 19', posted at as the current time, view count as 885."
+  },
+  {
+    "id": 241,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user518', 'user660@example.com', DATETIME('now'), 0, 'Sample text 83')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user518'], [COL:email] as [VAL:'user660@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:0], [COL:country_code] as [VAL:'Sample text 83'].",
+    "nl_prompt": "Add a new member with username as 'user518', email as 'user660@example.com', signup date as the current time, is verified as 0, country code as 'Sample text 83'."
+  },
+  {
+    "id": 242,
+    "complexity": "insert",
+    "sql": "INSERT INTO comments (user_id, post_id, comment_text, created_at) VALUES (320, 125, 'Sample text 51', DATETIME('now'))",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:comments] with [COL:user_id] as [VAL:320], [COL:post_id] as [VAL:125], [COL:comment_text] as [VAL:'Sample text 51'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new comment with user id as 320, post id as 125, comment text as 'Sample text 51', created at as the current time."
+  },
+  {
+    "id": 243,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (603, 788, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:603], [COL:post_id] as [VAL:788], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Add a new reactions with user id as 603, post id as 788, liked at as the current time."
+  },
+  {
+    "id": 244,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (807, 468, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:807], [COL:followee_id] as [VAL:468], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new follow relationship with follower id as 807, followee id as 468, followed at as the current time."
+  },
+  {
+    "id": 245,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (594, 'Sample text 100', DATETIME('now'), 905)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:594], [COL:content] as [VAL:'Sample text 100'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:905].",
+    "nl_prompt": "Include a new posts with user id as 594, content as 'Sample text 100', posted at as the current time, view count as 905."
+  },
+  {
+    "id": 246,
+    "complexity": "insert",
+    "sql": "INSERT INTO likes (user_id, post_id, liked_at) VALUES (459, 836, DATETIME('now'))",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:likes] with [COL:user_id] as [VAL:459], [COL:post_id] as [VAL:836], [COL:liked_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new likes with user id as 459, post id as 836, liked at as the current time."
+  },
+  {
+    "id": 247,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (600, 'Sample text 82', DATETIME('now'), 250)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:600], [COL:content] as [VAL:'Sample text 82'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:250].",
+    "nl_prompt": "Put a new update with user id as 600, content as 'Sample text 82', posted at as the current time, view count as 250."
+  },
+  {
+    "id": 248,
+    "complexity": "insert",
+    "sql": "INSERT INTO posts (user_id, content, posted_at, view_count) VALUES (196, 'Sample text 61', DATETIME('now'), 975)",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:posts] with [COL:user_id] as [VAL:196], [COL:content] as [VAL:'Sample text 61'], [COL:posted_at] as [VAL:the current time], [COL:view_count] as [VAL:975].",
+    "nl_prompt": "Put a new post with user id as 196, content as 'Sample text 61', posted at as the current time, view count as 975."
+  },
+  {
+    "id": 249,
+    "complexity": "insert",
+    "sql": "INSERT INTO follows (follower_id, followee_id, followed_at) VALUES (852, 885, DATETIME('now'))",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:follows] with [COL:follower_id] as [VAL:852], [COL:followee_id] as [VAL:885], [COL:followed_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new follow relationship with follower id as 852, followee id as 885, followed at as the current time."
+  },
+  {
+    "id": 250,
+    "complexity": "insert",
+    "sql": "INSERT INTO users (username, email, signup_date, is_verified, country_code) VALUES ('user404', 'user798@example.com', DATETIME('now'), 1, 'Sample text 34')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:users] with [COL:username] as [VAL:'user404'], [COL:email] as [VAL:'user798@example.com'], [COL:signup_date] as [VAL:the current time], [COL:is_verified] as [VAL:1], [COL:country_code] as [VAL:'Sample text 34'].",
+    "nl_prompt": "Include a new profile with username as 'user404', email as 'user798@example.com', signup date as the current time, is verified as 1, country code as 'Sample text 34'."
+  },
+  {
+    "id": 251,
+    "complexity": "update",
+    "sql": "UPDATE posts SET user_id = 239 WHERE posts.view_count = 68",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:user_id] to [VAL:239] for the [TABLE:posts] where [COL:posts.view_count] [OP:eq] [VAL:68]",
+    "nl_prompt": "Change user id to 239 for the post where views is 68"
+  },
+  {
+    "id": 252,
+    "complexity": "update",
+    "sql": "UPDATE posts SET content = 'Updated text 77' WHERE posts.id <> 456",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:content] to [VAL:'Updated text 77'] for the [TABLE:posts] where [COL:posts.id] [OP:neq] [VAL:456]",
+    "nl_prompt": "Adjust content to 'Updated text 77' for the posts where id is not 456"
+  },
+  {
+    "id": 253,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id >= 592",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.post_id] [OP:gte] [VAL:592]",
+    "nl_prompt": "Change liked at to the current time for the post likes where post id at least 592"
+  },
+  {
+    "id": 254,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id > 40",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.user_id] [OP:gt] [VAL:40]",
+    "nl_prompt": "Modify liked at to the current time for the reactions where liker id greater than 40"
+  },
+  {
+    "id": 255,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id > 319",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.post_id] [OP:gt] [VAL:319]",
+    "nl_prompt": "Update liked at to the current time for the reactions where post id higher than 319"
+  },
+  {
+    "id": 256,
+    "complexity": "update",
+    "sql": "UPDATE posts SET user_id = 807 WHERE posts.user_id >= 114",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:user_id] to [VAL:807] for the [TABLE:posts] where [COL:posts.user_id] [OP:gte] [VAL:114]",
+    "nl_prompt": "Edit user id to 807 for the update where user id minimum of 114"
+  },
+  {
+    "id": 257,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at > DATETIME('now', '-30 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.liked_at] [OP:gt] [VAL:30 days ago]",
+    "nl_prompt": "Change liked at to the current time for the like where date liked above 30 days ago"
+  },
+  {
+    "id": 258,
+    "complexity": "update",
+    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.is_verified = 0",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:signup_date] to [VAL:the current time] for the [TABLE:users] where [COL:users.is_verified] [OP:eq] [VAL:0]",
+    "nl_prompt": "Modify signup date to the current time for the users where verified matches 0"
+  },
+  {
+    "id": 259,
+    "complexity": "update",
+    "sql": "UPDATE posts SET posted_at = DATETIME('now') WHERE posts.user_id > 285",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:posted_at] to [VAL:the current time] for the [TABLE:posts] where [COL:posts.user_id] [OP:gt] [VAL:285]",
+    "nl_prompt": "Edit posted at to the current time for the social media post where user id above 285"
+  },
+  {
+    "id": 260,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followed_at < DATETIME('now', '-24 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followed_at] [OP:lt] [VAL:24 days ago]",
+    "nl_prompt": "Adjust followed at to the current time for the following where follow date lower than 24 days ago"
+  },
+  {
+    "id": 261,
+    "complexity": "update",
+    "sql": "UPDATE users SET country_code = 'Updated text 30' WHERE users.email <> 'user8@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:country_code] to [VAL:'Updated text 30'] for the [TABLE:users] where [COL:users.email] [OP:neq] [VAL:'user8@example.com']",
+    "nl_prompt": "Edit country code to 'Updated text 30' for the member where email address is not equal to 'user8@example.com'"
+  },
+  {
+    "id": 262,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.post_id < 261",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.post_id] [OP:lt] [VAL:261]",
+    "nl_prompt": "Update liked at to the current time for the like where post id lower than 261"
+  },
+  {
+    "id": 263,
+    "complexity": "update",
+    "sql": "UPDATE users SET is_verified = 0 WHERE users.signup_date > DATETIME('now', '-12 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:is_verified] to [VAL:0] for the [TABLE:users] where [COL:users.signup_date] [OP:gt] [VAL:12 days ago]",
+    "nl_prompt": "Change is verified to 0 for the member where date joined greater than 12 days ago"
+  },
+  {
+    "id": 264,
+    "complexity": "update",
+    "sql": "UPDATE comments SET post_id = 424 WHERE comments.post_id = 930",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:post_id] to [VAL:424] for the [TABLE:comments] where [COL:comments.post_id] [OP:eq] [VAL:930]",
+    "nl_prompt": "Change post id to 424 for the replies where post id is 930"
+  },
+  {
+    "id": 265,
+    "complexity": "update",
+    "sql": "UPDATE users SET email = 'updated_user64@example.com' WHERE users.signup_date <= DATETIME('now', '-3 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user64@example.com'] for the [TABLE:users] where [COL:users.signup_date] [OP:lte] [VAL:3 days ago]",
+    "nl_prompt": "Adjust email to 'updated_user64@example.com' for the account where registration date maximum of 3 days ago"
+  },
+  {
+    "id": 266,
+    "complexity": "update",
+    "sql": "UPDATE users SET email = 'updated_user53@example.com' WHERE users.username = 'user'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user53@example.com'] for the [TABLE:users] where [COL:users.username] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Edit email to 'updated_user53@example.com' for the account where account name is equal to 'user'"
+  },
+  {
+    "id": 267,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id > 180",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followee_id] [OP:gt] [VAL:180]",
+    "nl_prompt": "Change followed at to the current time for the following where followed user id more than 180"
+  },
+  {
+    "id": 268,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at >= DATETIME('now', '-29 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.liked_at] [OP:gte] [VAL:29 days ago]",
+    "nl_prompt": "Update liked at to the current time for the likes where like date greater than or equal to 29 days ago"
+  },
+  {
+    "id": 269,
+    "complexity": "update",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.comment_text <> 'user'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:created_at] to [VAL:the current time] for the [TABLE:comments] where [COL:comments.comment_text] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Edit created at to the current time for the comment where reply text is not equal to 'user'"
+  },
+  {
+    "id": 270,
+    "complexity": "update",
+    "sql": "UPDATE posts SET user_id = 555 WHERE posts.id <= 780",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:user_id] to [VAL:555] for the [TABLE:posts] where [COL:posts.id] [OP:lte] [VAL:780]",
+    "nl_prompt": "Modify user id to 555 for the posts where post id maximum of 780"
+  },
+  {
+    "id": 271,
+    "complexity": "update",
+    "sql": "UPDATE comments SET user_id = 637 WHERE comments.comment_text LIKE 'b%'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:user_id] to [VAL:637] for the [TABLE:comments] where [COL:comments.comment_text] like [VAL:'b%']",
+    "nl_prompt": "Change user id to 637 for the comments where comment like 'b%'"
+  },
+  {
+    "id": 272,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followed_at > DATETIME('now', '-20 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followed_at] [OP:gt] [VAL:20 days ago]",
+    "nl_prompt": "Edit followed at to the current time for the following where time followed greater than 20 days ago"
+  },
+  {
+    "id": 273,
+    "complexity": "update",
+    "sql": "UPDATE users SET is_verified = 1 WHERE users.signup_date <= DATETIME('now', '-18 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:is_verified] to [VAL:1] for the [TABLE:users] where [COL:users.signup_date] [OP:lte] [VAL:18 days ago]",
+    "nl_prompt": "Change is verified to 1 for the users where registration date at most 18 days ago"
+  },
+  {
+    "id": 274,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.follower_id <= 644",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.follower_id] [OP:lte] [VAL:644]",
+    "nl_prompt": "Adjust followed at to the current time for the follow relationship where follower id no more than 644"
+  },
+  {
+    "id": 275,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id >= 934",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.user_id] [OP:gte] [VAL:934]",
+    "nl_prompt": "Update liked at to the current time for the reactions where user id greater than or equal to 934"
+  },
+  {
+    "id": 276,
+    "complexity": "update",
+    "sql": "UPDATE posts SET view_count = 431 WHERE posts.view_count <= 500",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:view_count] to [VAL:431] for the [TABLE:posts] where [COL:posts.view_count] [OP:lte] [VAL:500]",
+    "nl_prompt": "Adjust view count to 431 for the update where view count less than or equal to 500"
+  },
+  {
+    "id": 277,
+    "complexity": "update",
+    "sql": "UPDATE comments SET user_id = 46 WHERE comments.comment_text = 'user'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:user_id] to [VAL:46] for the [TABLE:comments] where [COL:comments.comment_text] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Update user id to 46 for the responses where response text is 'user'"
+  },
+  {
+    "id": 278,
+    "complexity": "update",
+    "sql": "UPDATE users SET is_verified = 1 WHERE users.id >= 269",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:is_verified] to [VAL:1] for the [TABLE:users] where [COL:users.id] [OP:gte] [VAL:269]",
+    "nl_prompt": "Change is verified to 1 for the profile where account id no less than 269"
+  },
+  {
+    "id": 279,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id >= 452",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followee_id] [OP:gte] [VAL:452]",
+    "nl_prompt": "Adjust followed at to the current time for the following where account followed id minimum of 452"
+  },
+  {
+    "id": 280,
+    "complexity": "update",
+    "sql": "UPDATE posts SET view_count = 854 WHERE posts.id = 340",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:view_count] to [VAL:854] for the [TABLE:posts] where [COL:posts.id] [OP:eq] [VAL:340]",
+    "nl_prompt": "Modify view count to 854 for the post where post id is equal to 340"
+  },
+  {
+    "id": 281,
+    "complexity": "update",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 62' WHERE comments.user_id <= 780",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:comment_text] to [VAL:'Updated text 62'] for the [TABLE:comments] where [COL:comments.user_id] [OP:lte] [VAL:780]",
+    "nl_prompt": "Adjust comment text to 'Updated text 62' for the comments where user id no more than 780"
+  },
+  {
+    "id": 282,
+    "complexity": "update",
+    "sql": "UPDATE posts SET view_count = 624 WHERE posts.content <> 'activity'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:view_count] to [VAL:624] for the [TABLE:posts] where [COL:posts.content] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Update view count to 624 for the status update where post text is not equal to 'activity'"
+  },
+  {
+    "id": 283,
+    "complexity": "update",
+    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.email = 'user67@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:signup_date] to [VAL:the current time] for the [TABLE:users] where [COL:users.email] [OP:eq] [VAL:'user67@example.com']",
+    "nl_prompt": "Edit signup date to the current time for the member where email is equal to 'user67@example.com'"
+  },
+  {
+    "id": 284,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id < 302",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followee_id] [OP:lt] [VAL:302]",
+    "nl_prompt": "Edit followed at to the current time for the follows where account followed id less than 302"
+  },
+  {
+    "id": 285,
+    "complexity": "update",
+    "sql": "UPDATE comments SET created_at = DATETIME('now') WHERE comments.comment_text <> 'user'",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:created_at] to [VAL:the current time] for the [TABLE:comments] where [COL:comments.comment_text] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Update created at to the current time for the replies where comment text differs from 'user'"
+  },
+  {
+    "id": 286,
+    "complexity": "update",
+    "sql": "UPDATE posts SET view_count = 425 WHERE posts.view_count = 44",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:view_count] to [VAL:425] for the [TABLE:posts] where [COL:posts.view_count] [OP:eq] [VAL:44]",
+    "nl_prompt": "Update view count to 425 for the social media post where number of views is 44"
+  },
+  {
+    "id": 287,
+    "complexity": "update",
+    "sql": "UPDATE posts SET content = 'Updated text 31' WHERE posts.view_count <= 651",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:content] to [VAL:'Updated text 31'] for the [TABLE:posts] where [COL:posts.view_count] [OP:lte] [VAL:651]",
+    "nl_prompt": "Edit content to 'Updated text 31' for the update where view total at most 651"
+  },
+  {
+    "id": 288,
+    "complexity": "update",
+    "sql": "UPDATE posts SET content = 'Updated text 75' WHERE posts.view_count < 108",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:content] to [VAL:'Updated text 75'] for the [TABLE:posts] where [COL:posts.view_count] [OP:lt] [VAL:108]",
+    "nl_prompt": "Adjust content to 'Updated text 75' for the status update where views below 108"
+  },
+  {
+    "id": 289,
+    "complexity": "update",
+    "sql": "UPDATE users SET signup_date = DATETIME('now') WHERE users.email = 'user16@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:signup_date] to [VAL:the current time] for the [TABLE:users] where [COL:users.email] [OP:eq] [VAL:'user16@example.com']",
+    "nl_prompt": "Edit signup date to the current time for the users where e-mail equals 'user16@example.com'"
+  },
+  {
+    "id": 290,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followed_at > DATETIME('now', '-21 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followed_at] [OP:gt] [VAL:21 days ago]",
+    "nl_prompt": "Modify followed at to the current time for the follow where followed at above 21 days ago"
+  },
+  {
+    "id": 291,
+    "complexity": "update",
+    "sql": "UPDATE posts SET content = 'Updated text 100' WHERE posts.posted_at < DATETIME('now', '-20 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:update] [COL:content] to [VAL:'Updated text 100'] for the [TABLE:posts] where [COL:posts.posted_at] [OP:lt] [VAL:20 days ago]",
+    "nl_prompt": "Change content to 'Updated text 100' for the status update where time posted below 20 days ago"
+  },
+  {
+    "id": 292,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followed_at <= DATETIME('now', '-16 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followed_at] [OP:lte] [VAL:16 days ago]",
+    "nl_prompt": "Edit followed at to the current time for the follow relationship where follow date maximum of 16 days ago"
+  },
+  {
+    "id": 293,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id = 653",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.user_id] [OP:eq] [VAL:653]",
+    "nl_prompt": "Change liked at to the current time for the post likes where user id matches 653"
+  },
+  {
+    "id": 294,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at >= DATETIME('now', '-9 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.liked_at] [OP:gte] [VAL:9 days ago]",
+    "nl_prompt": "Change liked at to the current time for the post likes where time liked at least 9 days ago"
+  },
+  {
+    "id": 295,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.user_id <> 781",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.user_id] [OP:neq] [VAL:781]",
+    "nl_prompt": "Update liked at to the current time for the like where liker id is not 781"
+  },
+  {
+    "id": 296,
+    "complexity": "update",
+    "sql": "UPDATE comments SET comment_text = 'Updated text 85' WHERE comments.user_id > 852",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:update] [COL:comment_text] to [VAL:'Updated text 85'] for the [TABLE:comments] where [COL:comments.user_id] [OP:gt] [VAL:852]",
+    "nl_prompt": "Change comment text to 'Updated text 85' for the replies where author id greater than 852"
+  },
+  {
+    "id": 297,
+    "complexity": "update",
+    "sql": "UPDATE users SET email = 'updated_user72@example.com' WHERE users.id > 780",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user72@example.com'] for the [TABLE:users] where [COL:users.id] [OP:gt] [VAL:780]",
+    "nl_prompt": "Update email to 'updated_user72@example.com' for the account where user id above 780"
+  },
+  {
+    "id": 298,
+    "complexity": "update",
+    "sql": "UPDATE follows SET followed_at = DATETIME('now') WHERE follows.followee_id <> 440",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:update] [COL:followed_at] to [VAL:the current time] for the [TABLE:follows] where [COL:follows.followee_id] [OP:neq] [VAL:440]",
+    "nl_prompt": "Change followed at to the current time for the following where followee id is not 440"
+  },
+  {
+    "id": 299,
+    "complexity": "update",
+    "sql": "UPDATE users SET email = 'updated_user100@example.com' WHERE users.signup_date >= DATETIME('now', '-26 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user100@example.com'] for the [TABLE:users] where [COL:users.signup_date] [OP:gte] [VAL:26 days ago]",
+    "nl_prompt": "Adjust email to 'updated_user100@example.com' for the profile where signup date minimum of 26 days ago"
+  },
+  {
+    "id": 300,
+    "complexity": "update",
+    "sql": "UPDATE likes SET liked_at = DATETIME('now') WHERE likes.liked_at > DATETIME('now', '-16 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:update] [COL:liked_at] to [VAL:the current time] for the [TABLE:likes] where [COL:likes.liked_at] [OP:gt] [VAL:16 days ago]",
+    "nl_prompt": "Edit liked at to the current time for the like where liked at greater than 16 days ago"
+  },
+  {
+    "id": 301,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.posted_at <= DATETIME('now', '-15 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.posted_at] [OP:lte] [VAL:15 days ago]",
+    "nl_prompt": "Remove post where posted at at most 15 days ago"
+  },
+  {
+    "id": 302,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.signup_date >= DATETIME('now', '-27 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.signup_date] [OP:gte] [VAL:27 days ago]",
+    "nl_prompt": "Delete member where registration date no less than 27 days ago"
+  },
+  {
+    "id": 303,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followee_id <= 208",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followee_id] [OP:lte] [VAL:208]",
+    "nl_prompt": "Strip out following where followee id no more than 208"
+  },
+  {
+    "id": 304,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.posted_at >= DATETIME('now', '-25 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.posted_at] [OP:gte] [VAL:25 days ago]",
+    "nl_prompt": "Drop posts where post date no less than 25 days ago"
+  },
+  {
+    "id": 305,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.follower_id > 830",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.follower_id] [OP:gt] [VAL:830]",
+    "nl_prompt": "Wipe out follow where subscriber id higher than 830"
+  },
+  {
+    "id": 306,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followee_id = 194",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followee_id] [OP:eq] [VAL:194]",
+    "nl_prompt": "Drop following where account followed id matches 194"
+  },
+  {
+    "id": 307,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.view_count < 257",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.view_count] [OP:lt] [VAL:257]",
+    "nl_prompt": "Drop post where number of views below 257"
+  },
+  {
+    "id": 308,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.content = '123'",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.content] [OP:eq] [VAL:'123']",
+    "nl_prompt": "Strip out status update where message matches '123'"
+  },
+  {
+    "id": 309,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at <= DATETIME('now', '-18 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followed_at] [OP:lte] [VAL:18 days ago]",
+    "nl_prompt": "Drop follow where time followed no more than 18 days ago"
+  },
+  {
+    "id": 310,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.user_id <= 641",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.user_id] [OP:lte] [VAL:641]",
+    "nl_prompt": "Wipe out reactions where liker id no more than 641"
+  },
+  {
+    "id": 311,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.email = 'user21@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.email] [OP:eq] [VAL:'user21@example.com']",
+    "nl_prompt": "Drop user where email matches 'user21@example.com'"
+  },
+  {
+    "id": 312,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.post_id = 372",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.post_id] [OP:eq] [VAL:372]",
+    "nl_prompt": "Remove likes where liked post id equals 372"
+  },
+  {
+    "id": 313,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.signup_date > DATETIME('now', '-26 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.signup_date] [OP:gt] [VAL:26 days ago]",
+    "nl_prompt": "Delete user where signup date greater than 26 days ago"
+  },
+  {
+    "id": 314,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.post_id < 277",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.post_id] [OP:lt] [VAL:277]",
+    "nl_prompt": "Delete likes where liked post id under 277"
+  },
+  {
+    "id": 315,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.email LIKE 'user%@%'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.email] like [VAL:'user%@%']",
+    "nl_prompt": "Remove member where electronic mail like 'user%@%'"
+  },
+  {
+    "id": 316,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at >= DATETIME('now', '-2 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followed_at] [OP:gte] [VAL:2 days ago]",
+    "nl_prompt": "Delete follow relationship where followed at greater than or equal to 2 days ago"
+  },
+  {
+    "id": 317,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.username LIKE '%a%'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.username] like [VAL:'%a%']",
+    "nl_prompt": "Delete user where account name like '%a%'"
+  },
+  {
+    "id": 318,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.is_verified = 0",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.is_verified] [OP:eq] [VAL:0]",
+    "nl_prompt": "Remove profile where verified is equal to 0"
+  },
+  {
+    "id": 319,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.country_code <> 'test'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.country_code] [OP:neq] [VAL:'test']",
+    "nl_prompt": "Delete account where country is not 'test'"
+  },
+  {
+    "id": 320,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.id <> 83",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.id] [OP:neq] [VAL:83]",
+    "nl_prompt": "Wipe out post where post id differs from 83"
+  },
+  {
+    "id": 321,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.signup_date <= DATETIME('now', '-29 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.signup_date] [OP:lte] [VAL:29 days ago]",
+    "nl_prompt": "Wipe out profile where account creation date less than or equal to 29 days ago"
+  },
+  {
+    "id": 322,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.liked_at < DATETIME('now', '-11 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.liked_at] [OP:lt] [VAL:11 days ago]",
+    "nl_prompt": "Delete likes where like date under 11 days ago"
+  },
+  {
+    "id": 323,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.post_id = 871",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.post_id] [OP:eq] [VAL:871]",
+    "nl_prompt": "Remove comments where related post id equals 871"
+  },
+  {
+    "id": 324,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.post_id <> 589",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.post_id] [OP:neq] [VAL:589]",
+    "nl_prompt": "Drop comment where related post id is not 589"
+  },
+  {
+    "id": 325,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.id >= 240",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.id] [OP:gte] [VAL:240]",
+    "nl_prompt": "Remove responses where id greater than or equal to 240"
+  },
+  {
+    "id": 326,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.id >= 308",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.id] [OP:gte] [VAL:308]",
+    "nl_prompt": "Remove profile where account id no less than 308"
+  },
+  {
+    "id": 327,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.user_id >= 944",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.user_id] [OP:gte] [VAL:944]",
+    "nl_prompt": "Strip out status update where user id at least 944"
+  },
+  {
+    "id": 328,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.user_id <= 576",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.user_id] [OP:lte] [VAL:576]",
+    "nl_prompt": "Drop reactions where user id at most 576"
+  },
+  {
+    "id": 329,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.created_at < DATETIME('now', '-10 days')",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.created_at] [OP:lt] [VAL:10 days ago]",
+    "nl_prompt": "Remove replies where date created less than 10 days ago"
+  },
+  {
+    "id": 330,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.id = 250",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.id] [OP:eq] [VAL:250]",
+    "nl_prompt": "Drop responses where comment id equals 250"
+  },
+  {
+    "id": 331,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at <= DATETIME('now', '-11 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followed_at] [OP:lte] [VAL:11 days ago]",
+    "nl_prompt": "Remove follow relationship where follow date at most 11 days ago"
+  },
+  {
+    "id": 332,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.user_id < 275",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.user_id] [OP:lt] [VAL:275]",
+    "nl_prompt": "Remove posts where poster id less than 275"
+  },
+  {
+    "id": 333,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followee_id <= 801",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followee_id] [OP:lte] [VAL:801]",
+    "nl_prompt": "Drop follow where account followed id less than or equal to 801"
+  },
+  {
+    "id": 334,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.created_at <= DATETIME('now', '-21 days')",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.created_at] [OP:lte] [VAL:21 days ago]",
+    "nl_prompt": "Delete replies where comment date maximum of 21 days ago"
+  },
+  {
+    "id": 335,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.view_count = 685",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.view_count] [OP:eq] [VAL:685]",
+    "nl_prompt": "Strip out update where views is 685"
+  },
+  {
+    "id": 336,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.user_id > 197",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.user_id] [OP:gt] [VAL:197]",
+    "nl_prompt": "Delete comments where author id exceeds 197"
+  },
+  {
+    "id": 337,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followee_id < 282",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followee_id] [OP:lt] [VAL:282]",
+    "nl_prompt": "Remove follow relationship where account followed id fewer than 282"
+  },
+  {
+    "id": 338,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.post_id < 924",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.post_id] [OP:lt] [VAL:924]",
+    "nl_prompt": "Remove comment where related post id lower than 924"
+  },
+  {
+    "id": 339,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.post_id <= 304",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.post_id] [OP:lte] [VAL:304]",
+    "nl_prompt": "Delete reactions where liked post id maximum of 304"
+  },
+  {
+    "id": 340,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.email <> 'user20@example.com'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.email] [OP:neq] [VAL:'user20@example.com']",
+    "nl_prompt": "Strip out member where email is not equal to 'user20@example.com'"
+  },
+  {
+    "id": 341,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.user_id > 538",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.user_id] [OP:gt] [VAL:538]",
+    "nl_prompt": "Remove social media post where user id more than 538"
+  },
+  {
+    "id": 342,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followee_id < 238",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followee_id] [OP:lt] [VAL:238]",
+    "nl_prompt": "Wipe out following where followee id below 238"
+  },
+  {
+    "id": 343,
+    "complexity": "delete",
+    "sql": "DELETE FROM likes WHERE likes.liked_at > DATETIME('now', '-1 days')",
+    "tables": [
+      "likes"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:likes] where [COL:likes.liked_at] [OP:gt] [VAL:1 day ago]",
+    "nl_prompt": "Strip out likes where liked at more than 1 day ago"
+  },
+  {
+    "id": 344,
+    "complexity": "delete",
+    "sql": "DELETE FROM posts WHERE posts.posted_at < DATETIME('now', '-12 days')",
+    "tables": [
+      "posts"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:posts] where [COL:posts.posted_at] [OP:lt] [VAL:12 days ago]",
+    "nl_prompt": "Remove update where time posted lower than 12 days ago"
+  },
+  {
+    "id": 345,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.follower_id < 627",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.follower_id] [OP:lt] [VAL:627]",
+    "nl_prompt": "Wipe out follow relationship where subscriber id fewer than 627"
+  },
+  {
+    "id": 346,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.follower_id <= 277",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.follower_id] [OP:lte] [VAL:277]",
+    "nl_prompt": "Strip out follow where follower id less than or equal to 277"
+  },
+  {
+    "id": 347,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.signup_date >= DATETIME('now', '-12 days')",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.signup_date] [OP:gte] [VAL:12 days ago]",
+    "nl_prompt": "Drop account where account creation date greater than or equal to 12 days ago"
+  },
+  {
+    "id": 348,
+    "complexity": "delete",
+    "sql": "DELETE FROM follows WHERE follows.followed_at < DATETIME('now', '-16 days')",
+    "tables": [
+      "follows"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:follows] where [COL:follows.followed_at] [OP:lt] [VAL:16 days ago]",
+    "nl_prompt": "Drop following where follow date below 16 days ago"
+  },
+  {
+    "id": 349,
+    "complexity": "delete",
+    "sql": "DELETE FROM users WHERE users.username <> 'user'",
+    "tables": [
+      "users"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:users] where [COL:users.username] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Wipe out profile where username is not 'user'"
+  },
+  {
+    "id": 350,
+    "complexity": "delete",
+    "sql": "DELETE FROM comments WHERE comments.post_id < 195",
+    "tables": [
+      "comments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:comments] where [COL:comments.post_id] [OP:lt] [VAL:195]",
+    "nl_prompt": "Strip out comment where post id below 195"
+  }
+]

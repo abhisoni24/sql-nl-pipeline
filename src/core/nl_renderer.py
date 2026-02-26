@@ -41,7 +41,8 @@ class SQLToNLRenderer:
     
     def __init__(self, config: Optional[PerturbationConfig] = None):
         self.config = config or PerturbationConfig()
-        self._ambig_pronoun_count = 0 
+        self._ambig_pronoun_count = 0
+        self._emit_mode = 'text'  # 'text' for final NL, 'template' for IR tokens
         
         # Data Banks: The first element MUST be the canonical word from the original dataset
         self.synonyms = {
@@ -210,6 +211,13 @@ class SQLToNLRenderer:
         # ALWAYS consume exactly one choice from the main RNG to keep sequence in sync
         baseline_choice = self._rng.choice(options)
         
+        # Template mode: emit IR token instead of resolved text
+        if self._emit_mode == 'template':
+            _verb_keys = {'get', 'select', 'show', 'insert', 'update', 'delete'}
+            if key.lower() in _verb_keys:
+                return f'[VERB:{key}]'
+            return f'[CONN:{key}]'
+        
         # If SYNONYM_SUBSTITUTION is the ONLY thing we are doing, we MUST pick something else
         # to ensure the perturbation is visible.
         if self.config.is_active(PerturbationType.SYNONYM_SUBSTITUTION) and len(options) > 1:
@@ -307,6 +315,55 @@ class SQLToNLRenderer:
 
         return base_nl
 
+    def render_template(self, ast) -> str:
+        """Pass 1 of two-pass rendering: produce IR template with [TYPE:value] tokens.
+
+        Token format:
+            [TABLE:users]   - Table reference
+            [COL:email]     - Column reference (unqualified)
+            [COL:users.email] - Column reference (table-qualified)
+            [OP:gt]         - Comparison operator
+            [AGG:COUNT]     - Aggregate function
+            [VAL:42]        - Literal value
+            [VERB:get]      - Action verb key
+            [CONN:where]    - Structural connector
+
+        The template preserves all structural decisions (join type, clause
+        ordering, qualification) but defers word-choice to the resolver
+        (Pass 2).
+        """
+        # Save state
+        saved_config = self.config
+        saved_emit = self._emit_mode
+
+        # Set template mode with clean config (no perturbations)
+        self.config = PerturbationConfig(seed=saved_config.seed)
+        self._emit_mode = 'template'
+        self._rng = random.Random(self.config.seed)
+        self._ambig_pronoun_count = 0
+        self._mentions = set()
+        self._recent_mentions = []
+        self._use_pronouns = False
+        self._is_self_join = False
+
+        try:
+            if isinstance(ast, exp.Select):
+                result = self.render_select(ast)
+            elif isinstance(ast, exp.Union):
+                result = self.render_union(ast)
+            elif isinstance(ast, exp.Insert):
+                result = self.render_insert(ast)
+            elif isinstance(ast, exp.Update):
+                result = self.render_update(ast)
+            elif isinstance(ast, exp.Delete):
+                result = self.render_delete(ast)
+            else:
+                result = str(ast)
+            return result
+        finally:
+            # Restore state
+            self.config = saved_config
+            self._emit_mode = saved_emit
 
 
     def render_select(self, node):
@@ -573,25 +630,33 @@ class SQLToNLRenderer:
         if isinstance(expr, exp.AggFunc) and self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
             return f"{agg_template} {self._render_expression(expr.this, context)}"
 
+        # Template mode: emit aggregate token
+        if isinstance(expr, exp.AggFunc) and self._emit_mode == 'template':
+            inner = self._render_expression(expr.this, context)
+            return f"[AGG:{agg_key}] {inner}"
+
         # Bug 1 Fix: Handle SELECT * wildcard
         if isinstance(expr, exp.Star):
             return "all columns"
         
         # Bug 2 Fix: Handle DATE_SUB temporal expressions
         if isinstance(expr, exp.DateSub):
-            return self._render_date_sub(expr, context)
+            rendered = self._render_date_sub(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
         # Handle SQLite datetime() function: datetime('now') or datetime('now', '-X days')
         if isinstance(expr, exp.Anonymous) and str(expr.this).lower() == 'datetime':
-            return self._render_sqlite_datetime(expr, context)
+            rendered = self._render_sqlite_datetime(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
         # Bug 2 Fix: Handle sqlglot.expressions.Datetime nodes
         if isinstance(expr, exp.Datetime):
-            return self._render_datetime_node(expr, context)
+            rendered = self._render_datetime_node(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
         # Handle standalone NOW() function calls
         if isinstance(expr, exp.CurrentTimestamp):
-            return "the current time"
+            return "[VAL:the current time]" if self._emit_mode == 'template' else "the current time"
 
         # ID 5: Operators - ALWAYS roll
         op_options = self.op_variations.get(expr.key, ["matches"])
@@ -600,6 +665,10 @@ class SQLToNLRenderer:
         if isinstance(expr, (exp.GT, exp.LT, exp.GTE, exp.LTE, exp.EQ, exp.NEQ)):
             left = self._render_expression(expr.left, context+'_l')
             right = self._render_expression(expr.right, context+'_r')
+
+            # Template mode: emit clean operator token
+            if self._emit_mode == 'template':
+                return f"{left} [OP:{expr.key}] {right}"
 
             # Detect if right-hand side is a temporal phrase
             # Self-contained temporal phrases already encode the comparison direction
@@ -742,12 +811,18 @@ class SQLToNLRenderer:
         
         # Bug 6 Fix: Handle literals with proper formatting
         if isinstance(expr, exp.Literal):
+            if self._emit_mode == 'template':
+                if expr.is_string:
+                    return f"[VAL:'{expr.this}']"
+                return f"[VAL:{expr.this}]"
             if expr.is_string:
                 return f"'{expr.this}'"  # Quote string literals
             return str(expr.this)
         
         # Bug 6 Fix: Handle Boolean values (TRUE/FALSE)
         if isinstance(expr, exp.Boolean):
+            if self._emit_mode == 'template':
+                return f"[VAL:{'TRUE' if expr.this else 'FALSE'}]"
             return "TRUE" if expr.this else "FALSE"
         
         if isinstance(expr, exp.Binary):
@@ -773,6 +848,14 @@ class SQLToNLRenderer:
             if hasattr(inner_query, 'args') and inner_query.args.get('where'):
                 inner_where = self._render_expression(inner_query.args['where'].this, context + "_inner_where")
             
+            if self._emit_mode == 'template':
+                table_ref = f"[TABLE:{source_table}]" if source_table else ""
+                if source_table and inner_where:
+                    return f"{table_ref} where {inner_where}"
+                elif source_table:
+                    return f"{table_ref} results"
+                return "a derived query"
+
             if source_table and inner_where:
                 return f"{source_table} where {inner_where}"
             elif source_table:
@@ -789,6 +872,10 @@ class SQLToNLRenderer:
         # Rename derived_table
         if table_name == 'derived_table':
              return "the results"
+
+        # Template mode: emit token and skip synonym/pronoun logic
+        if self._emit_mode == 'template':
+            return f"[TABLE:{table_name}]"
         
         # ID 14 Pronoun Logic: ALWAYS roll to keep sequence in sync
         roll = self._rng.random()
@@ -826,6 +913,22 @@ class SQLToNLRenderer:
         rng = self._get_rng(context)
         col_name = col_node.name if isinstance(col_node, exp.Column) else str(col_node)
         table = col_node.table if hasattr(col_node, 'table') else ""
+
+        # Template mode: emit IR token with optional table qualifier
+        if self._emit_mode == 'template':
+            actual_table = table
+            if table:
+                if table.startswith('inner_'):
+                    actual_table = table.replace('inner_', '')
+                elif self._is_technical_alias(table):
+                    base = self._get_base_type_from_alias(table)
+                    if base:
+                        actual_table = base
+                if actual_table == 'derived_table':
+                    actual_table = ""
+            if actual_table:
+                return f"[COL:{actual_table}.{col_name}]"
+            return f"[COL:{col_name}]"
         
         # ID 14 Pronoun Logic: ALWAYS roll
         roll = self._rng.random()

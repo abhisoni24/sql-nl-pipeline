@@ -1,0 +1,164 @@
+# social_media_dictionary.yaml
+
+column_synonyms:
+
+  comments.comment_text:
+    - comment text
+    - comment
+    - reply text
+    - response text
+    - comment body
+
+  comments.created_at:
+    - created at
+    - comment date
+    - date created
+    - time created
+
+  comments.id:
+    - id
+    - comment id
+
+  comments.post_id:
+    - post id
+    - related post id
+
+  comments.user_id:
+    - user id
+    - commenter id
+    - author id
+
+  follows.followed_at:
+    - followed at
+    - follow date
+    - date followed
+    - time followed
+
+  follows.followee_id:
+    - followee id
+    - followed user id
+    - account followed id
+
+  follows.follower_id:
+    - follower id
+    - following user id
+    - subscriber id
+
+  likes.liked_at:
+    - liked at
+    - like date
+    - date liked
+    - time liked
+
+  likes.post_id:
+    - post id
+    - liked post id
+
+  likes.user_id:
+    - user id
+    - liker id
+
+  posts.content:
+    - content
+    - post content
+    - post text
+    - message
+    - caption
+
+  posts.id:
+    - id
+    - post id
+
+  posts.posted_at:
+    - posted at
+    - post date
+    - date posted
+    - time posted
+
+  posts.user_id:
+    - user id
+    - author id
+    - poster id
+
+  posts.view_count:
+    - view count
+    - number of views
+    - views
+    - view total
+
+  users.country_code:
+    - country code
+    - country
+    - country abbreviation
+    - iso country code
+
+  users.email:
+    - email
+    - email address
+    - electronic mail
+    - e-mail
+
+  users.id:
+    - id
+    - user id
+    - account id
+
+  users.is_verified:
+    - is verified
+    - verified
+    - verification status
+
+  users.signup_date:
+    - signup date
+    - registration date
+    - account creation date
+    - date joined
+
+  users.username:
+    - username
+    - handle
+    - user handle
+    - account name
+
+
+table_categories:
+  comments: object
+  follows: relation
+  likes: relation
+  posts: object
+  users: person
+
+
+table_synonyms:
+
+  comments:
+    - comments
+    - comment
+    - replies
+    - responses
+
+  follows:
+    - follows
+    - follow
+    - follow relationship
+    - following
+
+  likes:
+    - likes
+    - like
+    - reactions
+    - post likes
+
+  posts:
+    - posts
+    - post
+    - social media post
+    - update
+    - status update
+
+  users:
+    - users
+    - user
+    - account
+    - member
+    - profile

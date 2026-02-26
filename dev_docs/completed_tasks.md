@@ -34,13 +34,13 @@
 
 ## Phase 4: Two-Pass NL Renderer
 
-| Step                                    | Status     | Notes |
-| --------------------------------------- | ---------- | ----- |
-| 4.1 Define IR token format              | ⬜ Pending |       |
-| 4.2 Refactor renderer to emit IR tokens | ⬜ Pending |       |
-| 4.3 Create `TemplateResolver` (Pass 2)  | ⬜ Pending |       |
-| 4.4 Wire two-pass pipeline together     | ⬜ Pending |       |
-| 4.5 Verify NL quality                   | ⬜ Pending |       |
+| Step                                    | Status  | Notes                                                                                                                        |
+| --------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 4.1 Define IR token format              | ✅ Done | 7 token types: `[TABLE:x]`, `[COL:x]`, `[OP:x]`, `[AGG:x]`, `[VAL:x]`, `[VERB:x]`, `[CONN:x]`                             |
+| 4.2 Refactor renderer to emit IR tokens | ✅ Done | `render_template()` added to `SQLToNLRenderer`; `_render_table`, `_render_column`, `_render_expression`, `_choose_word` emit IR via `_emit_mode` flag |
+| 4.3 Create `TemplateResolver` (Pass 2)  | ✅ Done | `src/core/template_resolver.py` — resolves IR tokens against `LinguisticDictionary` with seeded RNG                          |
+| 4.4 Wire two-pass pipeline together     | ✅ Done | `02_generate_nl_prompts.py` supports `--two-pass` and `--schema` CLI flags; stores `ir_template` in JSON                     |
+| 4.5 Verify NL quality                   | ✅ Done | 3150/3150 template checks passed (350 queries × 9 checks); 5172/5172 NL tests, 5969/5969 SQL tests, 40187/40187 perturbation tests — **0 regressions** |
 
 ## Phase 5: Modular Perturbation Framework
 

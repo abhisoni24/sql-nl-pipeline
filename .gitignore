@@ -15,3 +15,5 @@ local_eval_workspace_worker_*
 sample_exp_run/*each
 sample_exp_run/**/outputs/*.jsonl
 .DS_Store
+.vscode
+.pytest_cache

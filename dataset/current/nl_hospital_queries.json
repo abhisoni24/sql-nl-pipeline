@@ -1,0 +1,2183 @@
+[
+  {
+    "id": 1,
+    "complexity": "simple",
+    "sql": "SELECT d1.name, d1.id, d1.floor_number, d1.budget FROM departments AS d1",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.name], [COL:d1.id], [COL:d1.floor_number], [COL:d1.budget] [CONN:from] [TABLE:departments]",
+    "nl_prompt": "Produce a listing of the name, id, floor number, budget in department"
+  },
+  {
+    "id": 2,
+    "complexity": "simple",
+    "sql": "SELECT * FROM departments AS d1 WHERE d1.budget <> 790",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.budget] [OP:neq] [VAL:790]",
+    "nl_prompt": "Get all columns within department for which budget is not 790"
+  },
+  {
+    "id": 3,
+    "complexity": "simple",
+    "sql": "SELECT * FROM prescriptions AS p1 WHERE p1.is_active = 0 ORDER BY p1.frequency",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.is_active] [OP:eq] [VAL:0] ordered by [COL:posts.frequency]",
+    "nl_prompt": "Single out all columns from prescription for which is active matches 0 ordered by frequency"
+  },
+  {
+    "id": 4,
+    "complexity": "simple",
+    "sql": "SELECT * FROM prescriptions AS p1 WHERE p1.medication_name <> 'user' ORDER BY p1.patient_id",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.medication_name] [OP:neq] [VAL:'user'] ordered by [COL:posts.patient_id]",
+    "nl_prompt": "Spot all columns out of drug prescription looking only at medication name differs from 'user' ordered by patient id"
+  },
+  {
+    "id": 5,
+    "complexity": "simple",
+    "sql": "SELECT * FROM appointments AS a1",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:appointments]",
+    "nl_prompt": "Get all columns out of appointments"
+  },
+  {
+    "id": 6,
+    "complexity": "simple",
+    "sql": "SELECT p1.is_active, p1.dosage, p1.end_date, p1.start_date FROM prescriptions AS p1",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.is_active], [COL:posts.dosage], [COL:posts.end_date], [COL:posts.start_date] [CONN:from] [TABLE:prescriptions]",
+    "nl_prompt": "Spot the is active, dosage, end date, start date within drug prescription"
+  },
+  {
+    "id": 7,
+    "complexity": "simple",
+    "sql": "SELECT p1.is_active, p1.dosage, p1.patient_id FROM prescriptions AS p1 ORDER BY p1.doctor_id LIMIT 47",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.is_active], [COL:posts.dosage], [COL:posts.patient_id] [CONN:from] [TABLE:prescriptions] ordered by [COL:posts.doctor_id] limited to 47 results",
+    "nl_prompt": "Run a check for the is active, dosage, patient id in drug prescription ordered by doctor id limited to 47 results"
+  },
+  {
+    "id": 8,
+    "complexity": "simple",
+    "sql": "SELECT * FROM departments AS d1",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:departments]",
+    "nl_prompt": "Get all columns within hospital department"
+  },
+  {
+    "id": 9,
+    "complexity": "simple",
+    "sql": "SELECT d1.department, d1.hire_date, d1.email FROM doctors AS d1",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.department], [COL:d1.hire_date], [COL:d1.email] [CONN:from] [TABLE:doctors]",
+    "nl_prompt": "Single out the department, hire date, email out of physician"
+  },
+  {
+    "id": 10,
+    "complexity": "simple",
+    "sql": "SELECT * FROM lab_results AS l1 ORDER BY l1.test_name",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:lab_results] ordered by [COL:likes.test_name]",
+    "nl_prompt": "Retrieve all columns in laboratory results ordered by test name"
+  },
+  {
+    "id": 11,
+    "complexity": "simple",
+    "sql": "SELECT a1.notes, a1.duration_minutes, a1.created_at FROM appointments AS a1 LIMIT 41",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:select] the [COL:a1.notes], [COL:a1.duration_minutes], [COL:a1.created_at] [CONN:from] [TABLE:appointments] limited to 41 results",
+    "nl_prompt": "Spot the notes, duration minutes, created at out of appointments limited to 41 results"
+  },
+  {
+    "id": 12,
+    "complexity": "simple",
+    "sql": "SELECT l1.patient_id, l1.result_unit, l1.result_value, l1.test_date FROM lab_results AS l1 WHERE l1.notes LIKE '%a%'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.patient_id], [COL:likes.result_unit], [COL:likes.result_value], [COL:likes.test_date] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.notes] like [VAL:'%a%']",
+    "nl_prompt": "Run a check for the patient id, result unit, result value, test date out of lab results where notes like '%a%'"
+  },
+  {
+    "id": 13,
+    "complexity": "simple",
+    "sql": "SELECT p1.end_date, p1.dosage FROM prescriptions AS p1 WHERE p1.dosage <> 'admin'",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.end_date], [COL:posts.dosage] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.dosage] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Retrieve the end date, dosage out of drug prescription for which dosage differs from 'admin'"
+  },
+  {
+    "id": 14,
+    "complexity": "simple",
+    "sql": "SELECT a1.notes FROM appointments AS a1",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] the [COL:a1.notes] [CONN:from] [TABLE:appointments]",
+    "nl_prompt": "Get the notes in medical appointment"
+  },
+  {
+    "id": 15,
+    "complexity": "simple",
+    "sql": "SELECT l1.id, l1.is_abnormal FROM lab_results AS l1",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.id], [COL:likes.is_abnormal] [CONN:from] [TABLE:lab_results]",
+    "nl_prompt": "Run a check for the id, is abnormal within laboratory report"
+  },
+  {
+    "id": 16,
+    "complexity": "simple",
+    "sql": "SELECT p1.dosage, p1.frequency FROM prescriptions AS p1 LIMIT 79",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.dosage], [COL:posts.frequency] [CONN:from] [TABLE:prescriptions] limited to 79 results",
+    "nl_prompt": "Get the dosage, frequency in medication order limited to 79 results"
+  },
+  {
+    "id": 17,
+    "complexity": "simple",
+    "sql": "SELECT * FROM departments AS d1 WHERE d1.floor_number >= 676 LIMIT 1",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.floor_number] [OP:gte] [VAL:676] limited to 1 results",
+    "nl_prompt": "Run a check for all columns in department filtered for floor number greater than or equal to 676 limited to 1 results"
+  },
+  {
+    "id": 18,
+    "complexity": "simple",
+    "sql": "SELECT p1.is_active, p1.id, p1.frequency, p1.start_date FROM prescriptions AS p1 WHERE p1.patient_id >= 279 LIMIT 8",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.is_active], [COL:posts.id], [COL:posts.frequency], [COL:posts.start_date] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.patient_id] [OP:gte] [VAL:279] limited to 8 results",
+    "nl_prompt": "Retrieve the is active, id, frequency, start date within prescriptions that have patient id no less than 279 limited to 8 results"
+  },
+  {
+    "id": 19,
+    "complexity": "simple",
+    "sql": "SELECT l1.test_date, l1.result_value, l1.patient_id FROM lab_results AS l1 ORDER BY l1.patient_id LIMIT 18",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.test_date], [COL:likes.result_value], [COL:likes.patient_id] [CONN:from] [TABLE:lab_results] ordered by [COL:likes.patient_id] limited to 18 results",
+    "nl_prompt": "Spot the test date, result value, patient id in lab report ordered by patient id limited to 18 results"
+  },
+  {
+    "id": 20,
+    "complexity": "simple",
+    "sql": "SELECT * FROM prescriptions AS p1",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions]",
+    "nl_prompt": "Single out all columns in prescription"
+  },
+  {
+    "id": 21,
+    "complexity": "simple",
+    "sql": "SELECT * FROM lab_results AS l1 WHERE l1.result_unit <> 'admin'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.result_unit] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Run a check for all columns in lab results filtered for result unit differs from 'admin'"
+  },
+  {
+    "id": 22,
+    "complexity": "simple",
+    "sql": "SELECT * FROM patients AS p1 ORDER BY p1.insurance_id",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:patients] ordered by [COL:posts.insurance_id]",
+    "nl_prompt": "Single out all columns out of patient ordered by insurance id"
+  },
+  {
+    "id": 23,
+    "complexity": "simple",
+    "sql": "SELECT * FROM appointments AS a1",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:appointments]",
+    "nl_prompt": "Single out all columns from visit"
+  },
+  {
+    "id": 24,
+    "complexity": "simple",
+    "sql": "SELECT p1.gender, p1.id FROM patients AS p1",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.gender], [COL:posts.id] [CONN:from] [TABLE:patients]",
+    "nl_prompt": "Single out the gender, id in patient"
+  },
+  {
+    "id": 25,
+    "complexity": "simple",
+    "sql": "SELECT * FROM patients AS p1 ORDER BY p1.date_of_birth LIMIT 63",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:patients] ordered by [COL:posts.date_of_birth] limited to 63 results",
+    "nl_prompt": "Get all columns within patient ordered by date of birth limited to 63 results"
+  },
+  {
+    "id": 26,
+    "complexity": "simple",
+    "sql": "SELECT d1.head_doctor_id FROM departments AS d1",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.head_doctor_id] [CONN:from] [TABLE:departments]",
+    "nl_prompt": "Get the head doctor id out of hospital department"
+  },
+  {
+    "id": 27,
+    "complexity": "simple",
+    "sql": "SELECT a1.scheduled_at, a1.patient_id, a1.duration_minutes, a1.doctor_id FROM appointments AS a1",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:show] the [COL:a1.scheduled_at], [COL:a1.patient_id], [COL:a1.duration_minutes], [COL:a1.doctor_id] [CONN:from] [TABLE:appointments]",
+    "nl_prompt": "Produce a listing of the scheduled at, patient id, duration minutes, doctor id out of medical appointment"
+  },
+  {
+    "id": 28,
+    "complexity": "simple",
+    "sql": "SELECT * FROM doctors AS d1 WHERE d1.last_name = 'user' LIMIT 86",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.last_name] [OP:eq] [VAL:'user'] limited to 86 results",
+    "nl_prompt": "Produce a listing of all columns from doctors filtered for last name matches 'user' limited to 86 results"
+  },
+  {
+    "id": 29,
+    "complexity": "simple",
+    "sql": "SELECT d1.floor_number, d1.id FROM departments AS d1 WHERE d1.floor_number > 279 LIMIT 91",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.floor_number], [COL:d1.id] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.floor_number] [OP:gt] [VAL:279] limited to 91 results",
+    "nl_prompt": "Get the floor number, id out of department looking only at floor number exceeds 279 limited to 91 results"
+  },
+  {
+    "id": 30,
+    "complexity": "simple",
+    "sql": "SELECT d1.email FROM doctors AS d1 WHERE d1.specialization LIKE 'b%' LIMIT 58",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.email] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.specialization] like [VAL:'b%'] limited to 58 results",
+    "nl_prompt": "Spot the email within doctor filtered for specialization like 'b%' limited to 58 results"
+  },
+  {
+    "id": 31,
+    "complexity": "join",
+    "sql": "SELECT * FROM patients AS p1 RIGHT JOIN appointments AS a9 ON p1.id = a9.patient_id WHERE a9.created_at < DATETIME('now', '-24 days')",
+    "tables": [
+      "patients",
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:patients] RIGHT JOIN [TABLE:appointments] on [COL:posts.id] [OP:eq] [COL:a9.patient_id] [CONN:where] [COL:a9.created_at] [OP:lt] [VAL:24 days ago]",
+    "nl_prompt": "Get all columns in patient RIGHT JOIN visit on id matches patient id looking only at created at fewer than 24 days ago"
+  },
+  {
+    "id": 32,
+    "complexity": "join",
+    "sql": "SELECT * FROM prescriptions AS p1 FULL JOIN doctors AS d6 ON p1.doctor_id = d6.id WHERE d6.hire_date <= DATETIME('now', '-10 days')",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions] FULL JOIN [TABLE:doctors] on [COL:posts.doctor_id] [OP:eq] [COL:d6.id] [CONN:where] [COL:d6.hire_date] [OP:lte] [VAL:10 days ago]",
+    "nl_prompt": "Spot all columns from drug prescription FULL JOIN doctor on doctor id matches id for which hire date less than or equal to 10 days ago"
+  },
+  {
+    "id": 33,
+    "complexity": "join",
+    "sql": "SELECT * FROM patients AS p1 INNER JOIN lab_results AS l9 ON p1.id = l9.patient_id",
+    "tables": [
+      "patients",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:patients] joined with [TABLE:lab_results] on [COL:posts.id] [OP:eq] [COL:likes.patient_id]",
+    "nl_prompt": "Run a check for all columns from patient joined with lab results on id is patient id"
+  },
+  {
+    "id": 34,
+    "complexity": "join",
+    "sql": "SELECT p8.date_of_birth, p8.first_name, l1.patient_id, l1.test_date FROM lab_results AS l1 FULL JOIN patients AS p8 ON l1.patient_id = p8.id WHERE p8.gender <> 'activity'",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.date_of_birth], [COL:posts.first_name], [COL:likes.patient_id], [COL:likes.test_date] [CONN:from] [TABLE:lab_results] FULL JOIN [TABLE:patients] on [COL:likes.patient_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.gender] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Single out the date of birth, first name, patient id, test date within lab results FULL JOIN patient on patient id matches id for which gender is not 'activity'"
+  },
+  {
+    "id": 35,
+    "complexity": "join",
+    "sql": "SELECT * FROM patients AS p1 LEFT JOIN prescriptions AS p4 ON p1.id = p4.patient_id",
+    "tables": [
+      "patients",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:patients] LEFT JOIN [TABLE:prescriptions] on [COL:posts.id] [OP:eq] [COL:posts.patient_id]",
+    "nl_prompt": "Spot all columns out of patient LEFT JOIN prescription on id equals patient id"
+  },
+  {
+    "id": 36,
+    "complexity": "join",
+    "sql": "SELECT * FROM prescriptions AS p1 INNER JOIN patients AS p8 ON p1.patient_id = p8.id WHERE p8.id = 510",
+    "tables": [
+      "prescriptions",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions] joined with [TABLE:patients] on [COL:posts.patient_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.id] [OP:eq] [VAL:510]",
+    "nl_prompt": "Spot all columns within prescription joined with patients on patient id equals id for which id is 510"
+  },
+  {
+    "id": 37,
+    "complexity": "join",
+    "sql": "SELECT * FROM departments AS d1 RIGHT JOIN doctors AS d1 ON d1.head_doctor_id = d1.id",
+    "tables": [
+      "departments",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:departments] RIGHT JOIN [TABLE:doctors] on [COL:d1.head_doctor_id] [OP:eq] [COL:d1.id]",
+    "nl_prompt": "Fetch me all columns in departments RIGHT JOIN physician on head doctor id is equal to id"
+  },
+  {
+    "id": 38,
+    "complexity": "join",
+    "sql": "SELECT * FROM doctors AS d1 LEFT JOIN departments AS d9 ON d1.id = d9.head_doctor_id",
+    "tables": [
+      "doctors",
+      "departments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:doctors] LEFT JOIN [TABLE:departments] on [COL:d1.id] [OP:eq] [COL:d9.head_doctor_id]",
+    "nl_prompt": "Retrieve all columns out of physician LEFT JOIN department on id is head doctor id"
+  },
+  {
+    "id": 39,
+    "complexity": "join",
+    "sql": "SELECT l1.test_date, l1.test_name, l1.result_value, p7.last_name FROM lab_results AS l1 FULL JOIN patients AS p7 ON l1.patient_id = p7.id",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.test_date], [COL:likes.test_name], [COL:likes.result_value], [COL:posts.last_name] [CONN:from] [TABLE:lab_results] FULL JOIN [TABLE:patients] on [COL:likes.patient_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Spot the test date, test name, result value, last name out of test results FULL JOIN patients on patient id is id"
+  },
+  {
+    "id": 40,
+    "complexity": "join",
+    "sql": "SELECT p1.is_active, a1.notes, p1.first_name, a1.doctor_id FROM appointments AS a1 RIGHT JOIN patients AS p1 ON a1.patient_id = p1.id WHERE p1.last_name LIKE '%c'",
+    "tables": [
+      "appointments",
+      "patients"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.is_active], [COL:a1.notes], [COL:posts.first_name], [COL:a1.doctor_id] [CONN:from] [TABLE:appointments] RIGHT JOIN [TABLE:patients] on [COL:a1.patient_id] [OP:eq] [COL:posts.id] [CONN:where] [COL:posts.last_name] like [VAL:'%c']",
+    "nl_prompt": "Run a check for the is active, notes, first name, doctor id from appointment RIGHT JOIN patients on patient id equals id looking only at last name like '%c'"
+  },
+  {
+    "id": 41,
+    "complexity": "join",
+    "sql": "SELECT * FROM patients AS p1 LEFT JOIN prescriptions AS p3 ON p1.id = p3.patient_id",
+    "tables": [
+      "patients",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:patients] LEFT JOIN [TABLE:prescriptions] on [COL:posts.id] [OP:eq] [COL:posts.patient_id]",
+    "nl_prompt": "Retrieve all columns out of patient LEFT JOIN prescription on id matches patient id"
+  },
+  {
+    "id": 42,
+    "complexity": "join",
+    "sql": "SELECT * FROM lab_results AS l1 LEFT JOIN doctors AS d3 ON l1.doctor_id = d3.id",
+    "tables": [
+      "lab_results",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:lab_results] LEFT JOIN [TABLE:doctors] on [COL:likes.doctor_id] [OP:eq] [COL:d3.id]",
+    "nl_prompt": "Single out all columns out of lab results LEFT JOIN doctor on doctor id equals id"
+  },
+  {
+    "id": 43,
+    "complexity": "join",
+    "sql": "SELECT d1.budget, d7.last_name, d7.is_active, d1.head_doctor_id FROM departments AS d1 RIGHT JOIN doctors AS d7 ON d1.head_doctor_id = d7.id",
+    "tables": [
+      "departments",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.budget], [COL:d7.last_name], [COL:d7.is_active], [COL:d1.head_doctor_id] [CONN:from] [TABLE:departments] RIGHT JOIN [TABLE:doctors] on [COL:d1.head_doctor_id] [OP:eq] [COL:d7.id]",
+    "nl_prompt": "Produce a listing of the budget, last name, is active, head doctor id within department RIGHT JOIN medical doctor on head doctor id matches id"
+  },
+  {
+    "id": 44,
+    "complexity": "join",
+    "sql": "SELECT d8.budget, d8.head_doctor_id, d1.first_name, d1.is_active FROM doctors AS d1 INNER JOIN departments AS d8 ON d1.id = d8.head_doctor_id",
+    "tables": [
+      "doctors",
+      "departments"
+    ],
+    "ir_template": "[VERB:get] the [COL:d8.budget], [COL:d8.head_doctor_id], [COL:d1.first_name], [COL:d1.is_active] [CONN:from] [TABLE:doctors] joined with [TABLE:departments] on [COL:d1.id] [OP:eq] [COL:d8.head_doctor_id]",
+    "nl_prompt": "Retrieve the budget, head doctor id, first name, is active out of physician joined with department on id is head doctor id"
+  },
+  {
+    "id": 45,
+    "complexity": "join",
+    "sql": "SELECT * FROM prescriptions AS p1 INNER JOIN patients AS p8 ON p1.patient_id = p8.id",
+    "tables": [
+      "prescriptions",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:prescriptions] joined with [TABLE:patients] on [COL:posts.patient_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Fetch me all columns from medication order joined with patients on patient id matches id"
+  },
+  {
+    "id": 46,
+    "complexity": "join",
+    "sql": "SELECT a1.status, d9.last_name, d9.hire_date, d9.is_active FROM appointments AS a1 INNER JOIN doctors AS d9 ON a1.doctor_id = d9.id WHERE d9.id > 377",
+    "tables": [
+      "appointments",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:a1.status], [COL:d9.last_name], [COL:d9.hire_date], [COL:d9.is_active] [CONN:from] [TABLE:appointments] joined with [TABLE:doctors] on [COL:a1.doctor_id] [OP:eq] [COL:d9.id] [CONN:where] [COL:d9.id] [OP:gt] [VAL:377]",
+    "nl_prompt": "Retrieve the status, last name, hire date, is active within appointments joined with physician on doctor id matches id where id higher than 377"
+  },
+  {
+    "id": 47,
+    "complexity": "join",
+    "sql": "SELECT * FROM prescriptions AS p1 INNER JOIN doctors AS d7 ON p1.doctor_id = d7.id",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:prescriptions] joined with [TABLE:doctors] on [COL:posts.doctor_id] [OP:eq] [COL:d7.id]",
+    "nl_prompt": "Single out all columns in medication order joined with doctor on doctor id equals id"
+  },
+  {
+    "id": 48,
+    "complexity": "join",
+    "sql": "SELECT * FROM appointments AS a1 RIGHT JOIN patients AS p8 ON a1.patient_id = p8.id",
+    "tables": [
+      "appointments",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:appointments] RIGHT JOIN [TABLE:patients] on [COL:a1.patient_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Get all columns within appointment RIGHT JOIN patient on patient id is id"
+  },
+  {
+    "id": 49,
+    "complexity": "join",
+    "sql": "SELECT * FROM doctors AS d1 INNER JOIN appointments AS a2 ON d1.id = a2.doctor_id WHERE a2.created_at >= DATETIME('now', '-27 days')",
+    "tables": [
+      "doctors",
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:doctors] joined with [TABLE:appointments] on [COL:d1.id] [OP:eq] [COL:a2.doctor_id] [CONN:where] [COL:a2.created_at] [OP:gte] [VAL:27 days ago]",
+    "nl_prompt": "Retrieve all columns from medical doctor joined with visit on id matches doctor id that have created at minimum of 27 days ago"
+  },
+  {
+    "id": 50,
+    "complexity": "join",
+    "sql": "SELECT * FROM doctors AS d1 LEFT JOIN lab_results AS l1 ON d1.id = l1.doctor_id WHERE l1.doctor_id > 91",
+    "tables": [
+      "doctors",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:doctors] LEFT JOIN [TABLE:lab_results] on [COL:d1.id] [OP:eq] [COL:likes.doctor_id] [CONN:where] [COL:likes.doctor_id] [OP:gt] [VAL:91]",
+    "nl_prompt": "Get all columns in doctor LEFT JOIN lab report on id is equal to doctor id for which doctor id exceeds 91"
+  },
+  {
+    "id": 51,
+    "complexity": "join",
+    "sql": "SELECT a1.notes, a1.patient_id, a1.created_at, d5.hire_date FROM appointments AS a1 LEFT JOIN doctors AS d5 ON a1.doctor_id = d5.id WHERE d5.hire_date > DATETIME('now', '-11 days')",
+    "tables": [
+      "appointments",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] the [COL:a1.notes], [COL:a1.patient_id], [COL:a1.created_at], [COL:d5.hire_date] [CONN:from] [TABLE:appointments] LEFT JOIN [TABLE:doctors] on [COL:a1.doctor_id] [OP:eq] [COL:d5.id] [CONN:where] [COL:d5.hire_date] [OP:gt] [VAL:11 days ago]",
+    "nl_prompt": "Single out the notes, patient id, created at, hire date from visit LEFT JOIN physician on doctor id equals id filtered for hire date higher than 11 days ago"
+  },
+  {
+    "id": 52,
+    "complexity": "join",
+    "sql": "SELECT p1.dosage, p2.insurance_provider, p2.id, p1.doctor_id FROM prescriptions AS p1 INNER JOIN patients AS p2 ON p1.patient_id = p2.id",
+    "tables": [
+      "prescriptions",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.dosage], [COL:posts.insurance_provider], [COL:posts.id], [COL:posts.doctor_id] [CONN:from] [TABLE:prescriptions] joined with [TABLE:patients] on [COL:posts.patient_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Single out the dosage, insurance provider, id, doctor id in prescription joined with patient on patient id is id"
+  },
+  {
+    "id": 53,
+    "complexity": "join",
+    "sql": "SELECT l1.notes, l1.id, l1.is_abnormal, p5.first_name FROM lab_results AS l1 INNER JOIN patients AS p5 ON l1.patient_id = p5.id",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.notes], [COL:likes.id], [COL:likes.is_abnormal], [COL:posts.first_name] [CONN:from] [TABLE:lab_results] joined with [TABLE:patients] on [COL:likes.patient_id] [OP:eq] [COL:posts.id]",
+    "nl_prompt": "Run a check for the notes, id, is abnormal, first name out of lab results joined with patient on patient id matches id"
+  },
+  {
+    "id": 54,
+    "complexity": "join",
+    "sql": "SELECT * FROM doctors AS d1 RIGHT JOIN lab_results AS l8 ON d1.id = l8.doctor_id WHERE l8.result_unit = '123'",
+    "tables": [
+      "doctors",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:doctors] RIGHT JOIN [TABLE:lab_results] on [COL:d1.id] [OP:eq] [COL:likes.doctor_id] [CONN:where] [COL:likes.result_unit] [OP:eq] [VAL:'123']",
+    "nl_prompt": "Run a check for all columns in medical doctor RIGHT JOIN lab results on id equals doctor id looking only at result unit equals '123'"
+  },
+  {
+    "id": 55,
+    "complexity": "join",
+    "sql": "SELECT p1.is_active, p2.patient_id, p2.dosage, p2.start_date FROM patients AS p1 RIGHT JOIN prescriptions AS p2 ON p1.id = p2.patient_id WHERE p2.start_date > DATETIME('now', '-1 days')",
+    "tables": [
+      "patients",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.is_active], [COL:posts.patient_id], [COL:posts.dosage], [COL:posts.start_date] [CONN:from] [TABLE:patients] RIGHT JOIN [TABLE:prescriptions] on [COL:posts.id] [OP:eq] [COL:posts.patient_id] [CONN:where] [COL:posts.start_date] [OP:gt] [VAL:1 day ago]",
+    "nl_prompt": "Spot the is active, patient id, dosage, start date within patients RIGHT JOIN prescriptions on id is equal to patient id where start date more than 1 day ago"
+  },
+  {
+    "id": 56,
+    "complexity": "join",
+    "sql": "SELECT p1.id, p1.frequency, p1.medication_name, d7.specialization FROM prescriptions AS p1 FULL JOIN doctors AS d7 ON p1.doctor_id = d7.id",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:posts.frequency], [COL:posts.medication_name], [COL:d7.specialization] [CONN:from] [TABLE:prescriptions] FULL JOIN [TABLE:doctors] on [COL:posts.doctor_id] [OP:eq] [COL:d7.id]",
+    "nl_prompt": "Retrieve the id, frequency, medication name, specialization from prescriptions FULL JOIN physician on doctor id equals id"
+  },
+  {
+    "id": 57,
+    "complexity": "join",
+    "sql": "SELECT * FROM doctors AS d1 FULL JOIN departments AS d6 ON d1.id = d6.head_doctor_id WHERE d6.budget <> 433",
+    "tables": [
+      "doctors",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:doctors] FULL JOIN [TABLE:departments] on [COL:d1.id] [OP:eq] [COL:d6.head_doctor_id] [CONN:where] [COL:d6.budget] [OP:neq] [VAL:433]",
+    "nl_prompt": "Spot all columns from physician FULL JOIN hospital department on id is equal to head doctor id that have budget differs from 433"
+  },
+  {
+    "id": 58,
+    "complexity": "join",
+    "sql": "SELECT * FROM lab_results AS l1 LEFT JOIN doctors AS d4 ON l1.doctor_id = d4.id WHERE d4.is_active = 1",
+    "tables": [
+      "lab_results",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:lab_results] LEFT JOIN [TABLE:doctors] on [COL:likes.doctor_id] [OP:eq] [COL:d4.id] [CONN:where] [COL:d4.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Single out all columns out of laboratory results LEFT JOIN doctor on doctor id is id where is active is equal to 1"
+  },
+  {
+    "id": 59,
+    "complexity": "join",
+    "sql": "SELECT * FROM prescriptions AS p1 FULL JOIN doctors AS d3 ON p1.doctor_id = d3.id",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:prescriptions] FULL JOIN [TABLE:doctors] on [COL:posts.doctor_id] [OP:eq] [COL:d3.id]",
+    "nl_prompt": "Retrieve all columns out of drug prescription FULL JOIN doctor on doctor id matches id"
+  },
+  {
+    "id": 60,
+    "complexity": "join",
+    "sql": "SELECT l1.test_date, d2.first_name, d2.department, d2.email FROM lab_results AS l1 RIGHT JOIN doctors AS d2 ON l1.doctor_id = d2.id WHERE d2.department <> 'activity'",
+    "tables": [
+      "lab_results",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.test_date], [COL:d2.first_name], [COL:d2.department], [COL:d2.email] [CONN:from] [TABLE:lab_results] RIGHT JOIN [TABLE:doctors] on [COL:likes.doctor_id] [OP:eq] [COL:d2.id] [CONN:where] [COL:d2.department] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Run a check for the test date, first name, department, email in laboratory report RIGHT JOIN doctor on doctor id is equal to id looking only at department is not equal to 'activity'"
+  },
+  {
+    "id": 61,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM lab_results AS l1 WHERE l1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.insurance_provider LIKE 'b%')",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.insurance_provider] like [VAL:'b%']",
+    "nl_prompt": "Retrieve all columns within laboratory results that have patient id matches any of the ids from patient where insurance provider like 'b%'"
+  },
+  {
+    "id": 62,
+    "complexity": "advanced",
+    "sql": "SELECT l1.is_abnormal FROM lab_results AS l1 WHERE l1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.date_of_birth >= DATETIME('now', '-23 days'))",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.is_abnormal] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.date_of_birth] [OP:gte] [VAL:23 days ago]",
+    "nl_prompt": "Produce a listing of the is abnormal in lab results that have patient id matches any of the ids from patient where date of birth at least 23 days ago"
+  },
+  {
+    "id": 63,
+    "complexity": "advanced",
+    "sql": "SELECT d1.first_name, d1.last_name, d1.specialization FROM doctors AS d1 JOIN doctors AS d2 ON d1.id = d2.id AND d1.id <> d2.id LIMIT 16",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.first_name], [COL:d1.last_name], [COL:d1.specialization] [CONN:from] [TABLE:doctors] JOIN [TABLE:doctors] on [COL:d1.id] [OP:eq] [COL:d2.id] and [COL:d1.id] [OP:neq] [COL:d2.id] limited to 16 results",
+    "nl_prompt": "Get the first name, last name, specialization within doctors JOIN doctor on id is id and id is not equal to id limited to 16 results"
+  },
+  {
+    "id": 64,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM appointments AS inner_appointments WHERE inner_appointments.id <> 943) AS derived_table",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:appointments] where [COL:appointments.id] [OP:neq] [VAL:943]",
+    "nl_prompt": "Run a check for all columns within visit where id is not equal to 943"
+  },
+  {
+    "id": 65,
+    "complexity": "advanced",
+    "sql": "SELECT d1.floor_number, d1.id FROM departments AS d1 WHERE d1.head_doctor_id IN (SELECT sub_d.id FROM doctors AS sub_d WHERE sub_d.email LIKE 'user%@%')",
+    "tables": [
+      "departments",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.floor_number], [COL:d1.id] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.head_doctor_id] matches any of the [COL:sub_d.id]s from [TABLE:doctors] where [COL:sub_d.email] like [VAL:'user%@%']",
+    "nl_prompt": "Produce a listing of the floor number, id out of departments looking only at head doctor id matches any of the ids from medical doctor where email like 'user%@%'"
+  },
+  {
+    "id": 66,
+    "complexity": "advanced",
+    "sql": "SELECT p1.phone_number, p1.email FROM patients AS p1 WHERE EXISTS(SELECT 1 FROM lab_results AS sub_l WHERE sub_l.patient_id = p1.id AND sub_l.patient_id >= 155)",
+    "tables": [
+      "patients",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.phone_number], [COL:posts.email] [CONN:from] [TABLE:patients] [CONN:where] where there is a corresponding [TABLE:lab_results] who [COL:sub_l.patient_id] [OP:eq] [COL:posts.id] and [COL:sub_l.patient_id] [OP:gte] [VAL:155]",
+    "nl_prompt": "Retrieve the phone number, email within patients for which where there is a corresponding laboratory report who patient id matches id and patient id minimum of 155"
+  },
+  {
+    "id": 67,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM prescriptions AS inner_prescriptions WHERE inner_prescriptions.frequency = 'activity') AS derived_table",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:prescriptions] where [COL:prescriptions.frequency] [OP:eq] [VAL:'activity']",
+    "nl_prompt": "Retrieve all columns from drug prescription where administration frequency matches 'activity'"
+  },
+  {
+    "id": 68,
+    "complexity": "advanced",
+    "sql": "SELECT p1.doctor_id, p1.id, p1.medication_name, p1.dosage FROM prescriptions AS p1 WHERE p1.doctor_id IN (SELECT sub_d.id FROM doctors AS sub_d WHERE sub_d.first_name LIKE '%c')",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.doctor_id], [COL:posts.id], [COL:posts.medication_name], [COL:posts.dosage] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.doctor_id] matches any of the [COL:sub_d.id]s from [TABLE:doctors] where [COL:sub_d.first_name] like [VAL:'%c']",
+    "nl_prompt": "Spot the doctor id, id, medication name, dosage from prescription that have doctor id matches any of the ids from doctors where first name like '%c'"
+  },
+  {
+    "id": 69,
+    "complexity": "advanced",
+    "sql": "SELECT l1.is_abnormal FROM lab_results AS l1 WHERE l1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.phone_number = 'user')",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.is_abnormal] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.phone_number] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Single out the is abnormal out of lab report looking only at patient id matches any of the ids from patient where phone number equals 'user'"
+  },
+  {
+    "id": 70,
+    "complexity": "advanced",
+    "sql": "SELECT p1.id, p1.patient_id, p1.doctor_id FROM prescriptions AS p1 JOIN prescriptions AS p2 ON p1.patient_id = p2.patient_id AND p1.id <> p2.id",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:posts.patient_id], [COL:posts.doctor_id] [CONN:from] [TABLE:prescriptions] JOIN [TABLE:prescriptions] on [COL:posts.patient_id] [OP:eq] [COL:posts.patient_id] and [COL:posts.id] [OP:neq] [COL:posts.id]",
+    "nl_prompt": "Fetch me the id, patient id, doctor id in drug prescription JOIN drug prescription on patient id is patient id and id is not equal to id"
+  },
+  {
+    "id": 71,
+    "complexity": "advanced",
+    "sql": "SELECT l1.id, l1.patient_id, l1.doctor_id FROM lab_results AS l1 JOIN lab_results AS l2 ON l1.patient_id = l2.patient_id AND l1.id <> l2.id",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.id], [COL:likes.patient_id], [COL:likes.doctor_id] [CONN:from] [TABLE:lab_results] JOIN [TABLE:lab_results] on [COL:likes.patient_id] [OP:eq] [COL:likes.patient_id] and [COL:likes.id] [OP:neq] [COL:likes.id]",
+    "nl_prompt": "Single out the id, patient id, doctor id in test results JOIN laboratory results on patient id equals patient id and id is not id"
+  },
+  {
+    "id": 72,
+    "complexity": "advanced",
+    "sql": "SELECT a1.status, a1.doctor_id, a1.duration_minutes, a1.id FROM appointments AS a1 WHERE a1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.email = 'user94@example.com')",
+    "tables": [
+      "appointments",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] the [COL:a1.status], [COL:a1.doctor_id], [COL:a1.duration_minutes], [COL:a1.id] [CONN:from] [TABLE:appointments] [CONN:where] [COL:a1.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.email] [OP:eq] [VAL:'user94@example.com']",
+    "nl_prompt": "Get the status, doctor id, duration minutes, id in clinic visit where patient id matches any of the ids from patients where email is equal to 'user94@example.com'"
+  },
+  {
+    "id": 73,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM appointments AS a1 WHERE EXISTS(SELECT 1 FROM patients AS sub_p WHERE sub_p.id = a1.patient_id AND sub_p.last_name LIKE '%a%')",
+    "tables": [
+      "appointments",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:appointments] [CONN:where] where there is a corresponding [TABLE:patients] who [COL:sub_p.id] [OP:eq] [COL:a1.patient_id] and [COL:sub_p.last_name] like [VAL:'%a%']",
+    "nl_prompt": "Retrieve all columns from medical appointment filtered for where there is a corresponding patients who id matches patient id and last name like '%a%'"
+  },
+  {
+    "id": 74,
+    "complexity": "advanced",
+    "sql": "SELECT l1.id FROM lab_results AS l1 WHERE l1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.phone_number <> 'admin')",
+    "tables": [
+      "lab_results",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.id] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.phone_number] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Spot the id from laboratory report where patient id matches any of the ids from patient where phone number differs from 'admin'"
+  },
+  {
+    "id": 75,
+    "complexity": "advanced",
+    "sql": "SELECT p1.is_active, p1.start_date, p1.doctor_id, p1.end_date FROM prescriptions AS p1 WHERE p1.doctor_id IN (SELECT sub_d.id FROM doctors AS sub_d WHERE sub_d.department <> 'activity')",
+    "tables": [
+      "prescriptions",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.is_active], [COL:posts.start_date], [COL:posts.doctor_id], [COL:posts.end_date] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.doctor_id] matches any of the [COL:sub_d.id]s from [TABLE:doctors] where [COL:sub_d.department] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Produce a listing of the is active, start date, doctor id, end date out of drug prescription filtered for doctor id matches any of the ids from medical doctor where department differs from 'activity'"
+  },
+  {
+    "id": 76,
+    "complexity": "advanced",
+    "sql": "SELECT d1.id FROM doctors AS d1 WHERE EXISTS(SELECT 1 FROM prescriptions AS sub_p WHERE sub_p.doctor_id = d1.id AND sub_p.doctor_id > 574)",
+    "tables": [
+      "doctors",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.id] [CONN:from] [TABLE:doctors] [CONN:where] where there is a corresponding [TABLE:prescriptions] who [COL:sub_p.doctor_id] [OP:eq] [COL:d1.id] and [COL:sub_p.doctor_id] [OP:gt] [VAL:574]",
+    "nl_prompt": "Retrieve the id in doctor for which where there is a corresponding prescription who doctor id equals id and doctor id above 574"
+  },
+  {
+    "id": 77,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM lab_results AS inner_lab_results WHERE inner_lab_results.result_unit <> 'user') AS derived_table WHERE derived_table.test_name = 'user'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:lab_results] where [COL:lab_results.result_unit] [OP:neq] [VAL:'user'] [CONN:where] [COL:test_name] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Produce a listing of all columns in test results where result unit is not 'user' looking only at test name equals 'user'"
+  },
+  {
+    "id": 78,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM lab_results AS inner_lab_results WHERE inner_lab_results.result_value <> 405) AS derived_table",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:lab_results] where [COL:lab_results.result_value] [OP:neq] [VAL:405]",
+    "nl_prompt": "Spot all columns in laboratory report where measurement value is not 405"
+  },
+  {
+    "id": 79,
+    "complexity": "advanced",
+    "sql": "SELECT p1.frequency, p1.doctor_id FROM prescriptions AS p1 WHERE p1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.admitted_on <= DATETIME('now', '-26 days'))",
+    "tables": [
+      "prescriptions",
+      "patients"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.frequency], [COL:posts.doctor_id] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.admitted_on] [OP:lte] [VAL:26 days ago]",
+    "nl_prompt": "Run a check for the frequency, doctor id out of prescriptions looking only at patient id matches any of the ids from patient where admitted on no more than 26 days ago"
+  },
+  {
+    "id": 80,
+    "complexity": "advanced",
+    "sql": "SELECT p1.patient_id, p1.frequency, p1.id, p1.medication_name FROM prescriptions AS p1 WHERE p1.patient_id IN (SELECT sub_p.id FROM patients AS sub_p WHERE sub_p.insurance_id = '123')",
+    "tables": [
+      "prescriptions",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.patient_id], [COL:posts.frequency], [COL:posts.id], [COL:posts.medication_name] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.patient_id] matches any of the [COL:sub_p.id]s from [TABLE:patients] where [COL:sub_p.insurance_id] [OP:eq] [VAL:'123']",
+    "nl_prompt": "Get the patient id, frequency, id, medication name within medication order filtered for patient id matches any of the ids from patient where insurance id equals '123'"
+  },
+  {
+    "id": 81,
+    "complexity": "advanced",
+    "sql": "SELECT p1.id FROM patients AS p1 WHERE p1.id IN (SELECT sub_l.patient_id FROM lab_results AS sub_l WHERE sub_l.doctor_id <= 870)",
+    "tables": [
+      "patients",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.id] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.id] matches any of the [COL:sub_l.patient_id]s from [TABLE:lab_results] where [COL:sub_l.doctor_id] [OP:lte] [VAL:870]",
+    "nl_prompt": "Run a check for the id within patients looking only at id matches any of the patient ids from laboratory report where doctor id at most 870"
+  },
+  {
+    "id": 82,
+    "complexity": "advanced",
+    "sql": "SELECT p1.id, p1.gender FROM patients AS p1 WHERE p1.id IN (SELECT sub_a.patient_id FROM appointments AS sub_a WHERE sub_a.created_at > DATETIME('now', '-26 days'))",
+    "tables": [
+      "patients",
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:posts.gender] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.id] matches any of the [COL:sub_a.patient_id]s from [TABLE:appointments] where [COL:sub_a.created_at] [OP:gt] [VAL:26 days ago]",
+    "nl_prompt": "Get the id, gender out of patient where id matches any of the patient ids from visit where created at more than 26 days ago"
+  },
+  {
+    "id": 83,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM doctors AS d1 WHERE EXISTS(SELECT 1 FROM prescriptions AS sub_p WHERE sub_p.doctor_id = d1.id AND sub_p.patient_id <= 839)",
+    "tables": [
+      "doctors",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:doctors] [CONN:where] where there is a corresponding [TABLE:prescriptions] who [COL:sub_p.doctor_id] [OP:eq] [COL:d1.id] and [COL:sub_p.patient_id] [OP:lte] [VAL:839]",
+    "nl_prompt": "Spot all columns from doctor where where there is a corresponding drug prescription who doctor id matches id and patient id less than or equal to 839"
+  },
+  {
+    "id": 84,
+    "complexity": "advanced",
+    "sql": "SELECT d1.last_name FROM doctors AS d1 WHERE d1.id IN (SELECT sub_p.doctor_id FROM prescriptions AS sub_p WHERE sub_p.end_date < DATETIME('now', '-20 days'))",
+    "tables": [
+      "doctors",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.last_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.id] matches any of the [COL:sub_p.doctor_id]s from [TABLE:prescriptions] where [COL:sub_p.end_date] [OP:lt] [VAL:20 days ago]",
+    "nl_prompt": "Retrieve the last name within doctor looking only at id matches any of the doctor ids from prescriptions where end date below 20 days ago"
+  },
+  {
+    "id": 85,
+    "complexity": "advanced",
+    "sql": "SELECT l1.id, l1.patient_id, l1.doctor_id FROM lab_results AS l1 JOIN lab_results AS l2 ON l1.patient_id = l2.patient_id AND l1.id <> l2.id",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.id], [COL:likes.patient_id], [COL:likes.doctor_id] [CONN:from] [TABLE:lab_results] JOIN [TABLE:lab_results] on [COL:likes.patient_id] [OP:eq] [COL:likes.patient_id] and [COL:likes.id] [OP:neq] [COL:likes.id]",
+    "nl_prompt": "Run a check for the id, patient id, doctor id in lab report JOIN lab report on patient id is patient id and id is not equal to id"
+  },
+  {
+    "id": 86,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM doctors AS inner_doctors WHERE inner_doctors.specialization <> 'user') AS derived_table WHERE derived_table.id = 77",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:doctors] where [COL:doctors.specialization] [OP:neq] [VAL:'user'] [CONN:where] [COL:id] [OP:eq] [VAL:77]",
+    "nl_prompt": "Get all columns from doctors where specialization differs from 'user' filtered for id is 77"
+  },
+  {
+    "id": 87,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM patients AS inner_patients WHERE inner_patients.insurance_id LIKE '%a%') AS derived_table WHERE derived_table.admitted_on < DATETIME('now', '-11 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:patients] where [COL:patients.insurance_id] like [VAL:'%a%'] [CONN:where] [COL:admitted_on] [OP:lt] [VAL:11 days ago]",
+    "nl_prompt": "Fetch me all columns in patient where insurance policy number like '%a%' looking only at admitted on fewer than 11 days ago"
+  },
+  {
+    "id": 88,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM departments AS inner_departments WHERE inner_departments.id < 466) AS derived_table",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:departments] where [COL:departments.id] [OP:lt] [VAL:466]",
+    "nl_prompt": "Run a check for all columns within departments where department id below 466"
+  },
+  {
+    "id": 89,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM patients AS inner_patients WHERE inner_patients.last_name = 'user') AS derived_table",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:patients] where [COL:patients.last_name] [OP:eq] [VAL:'user']",
+    "nl_prompt": "Run a check for all columns out of patient where family name is equal to 'user'"
+  },
+  {
+    "id": 90,
+    "complexity": "advanced",
+    "sql": "SELECT * FROM (SELECT * FROM patients AS inner_patients WHERE inner_patients.gender = 'admin') AS derived_table WHERE derived_table.last_name LIKE '%a%'",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:patients] where [COL:patients.gender] [OP:eq] [VAL:'admin'] [CONN:where] [COL:last_name] like [VAL:'%a%']",
+    "nl_prompt": "Spot all columns within patients where sex matches 'admin' where last name like '%a%'"
+  },
+  {
+    "id": 91,
+    "complexity": "union",
+    "sql": "SELECT p1.insurance_id, p1.id FROM patients AS p1 WHERE p1.gender <> 'test' UNION SELECT p2.insurance_id, p2.id FROM patients AS p2 WHERE p2.is_active = 0",
+    "tables": [
+      "patients",
+      "patients"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.insurance_id], [COL:posts.id] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.gender] [OP:neq] [VAL:'test'], combined with (removing duplicates) [VERB:select] the [COL:posts.insurance_id], [COL:posts.id] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.is_active] [OP:eq] [VAL:0]",
+    "nl_prompt": "Single out the insurance id, id from patients where gender is not equal to 'test', combined with (removing duplicates) Choose the insurance id, id out of patient filtered for is active is 0"
+  },
+  {
+    "id": 92,
+    "complexity": "union",
+    "sql": "SELECT p1.frequency, p1.end_date FROM prescriptions AS p1 WHERE p1.frequency <> 'admin' UNION SELECT p2.frequency, p2.end_date FROM prescriptions AS p2 WHERE p2.frequency = 'activity'",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.frequency], [COL:posts.end_date] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.frequency] [OP:neq] [VAL:'admin'], combined with (removing duplicates) [VERB:select] the [COL:posts.frequency], [COL:posts.end_date] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.frequency] [OP:eq] [VAL:'activity']",
+    "nl_prompt": "Single out the frequency, end date within medication order that have frequency is not 'admin', combined with (removing duplicates) Select the frequency, end date within prescription where frequency is equal to 'activity'"
+  },
+  {
+    "id": 93,
+    "complexity": "union",
+    "sql": "SELECT l1.doctor_id, l1.test_date, l1.result_unit FROM lab_results AS l1 WHERE l1.is_abnormal = 0 UNION ALL SELECT l2.doctor_id, l2.test_date, l2.result_unit FROM lab_results AS l2 WHERE l2.test_date >= DATETIME('now', '-23 days') LIMIT 34",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.doctor_id], [COL:likes.test_date], [COL:likes.result_unit] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.is_abnormal] [OP:eq] [VAL:0], combined with (including duplicates) [VERB:select] the [COL:likes.doctor_id], [COL:likes.test_date], [COL:likes.result_unit] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.test_date] [OP:gte] [VAL:23 days ago] limited to 34 results",
+    "nl_prompt": "Single out the doctor id, test date, result unit out of lab results for which is abnormal is equal to 0, combined with (including duplicates) Pick out the doctor id, test date, result unit within laboratory report looking only at test date at least 23 days ago limited to 34 results"
+  },
+  {
+    "id": 94,
+    "complexity": "union",
+    "sql": "SELECT d1.is_active, d1.specialization, d1.id FROM doctors AS d1 WHERE d1.hire_date > DATETIME('now', '-16 days') UNION ALL SELECT d2.is_active, d2.specialization, d2.id FROM doctors AS d2 WHERE d2.id >= 546",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.is_active], [COL:d1.specialization], [COL:d1.id] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.hire_date] [OP:gt] [VAL:16 days ago], combined with (including duplicates) [VERB:show] the [COL:d2.is_active], [COL:d2.specialization], [COL:d2.id] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.id] [OP:gte] [VAL:546]",
+    "nl_prompt": "Produce a listing of the is active, specialization, id within doctors for which hire date greater than 16 days ago, combined with (including duplicates) Run a check for the is active, specialization, id within physician looking only at id minimum of 546"
+  },
+  {
+    "id": 95,
+    "complexity": "union",
+    "sql": "SELECT d1.is_active, d1.department, d1.first_name FROM doctors AS d1 WHERE d1.email LIKE '%@gmail.com' UNION ALL SELECT d2.is_active, d2.department, d2.first_name FROM doctors AS d2 WHERE d2.is_active = 0 ORDER BY is_active LIMIT 18",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.is_active], [COL:d1.department], [COL:d1.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.email] like [VAL:'%@gmail.com'], combined with (including duplicates) [VERB:show] the [COL:d2.is_active], [COL:d2.department], [COL:d2.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.is_active] [OP:eq] [VAL:0] ordered by [COL:is_active] limited to 18 results",
+    "nl_prompt": "Run a check for the is active, department, first name out of doctor for which email like '%@gmail.com', combined with (including duplicates) Display the is active, department, first name from doctors filtered for is active matches 0 ordered by is active limited to 18 results"
+  },
+  {
+    "id": 96,
+    "complexity": "union",
+    "sql": "SELECT d1.specialization, d1.last_name FROM doctors AS d1 WHERE d1.hire_date > DATETIME('now', '-23 days') UNION SELECT d2.specialization, d2.last_name FROM doctors AS d2 WHERE d2.id >= 410",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.specialization], [COL:d1.last_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.hire_date] [OP:gt] [VAL:23 days ago], combined with (removing duplicates) [VERB:get] the [COL:d2.specialization], [COL:d2.last_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.id] [OP:gte] [VAL:410]",
+    "nl_prompt": "Get the specialization, last name within doctor filtered for hire date more than 23 days ago, combined with (removing duplicates) Get the specialization, last name out of medical doctor filtered for id minimum of 410"
+  },
+  {
+    "id": 97,
+    "complexity": "union",
+    "sql": "SELECT p1.insurance_id, p1.gender, p1.last_name FROM patients AS p1 WHERE p1.first_name LIKE 'b%' UNION SELECT p2.insurance_id, p2.gender, p2.last_name FROM patients AS p2 WHERE p2.phone_number = 'activity'",
+    "tables": [
+      "patients",
+      "patients"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.insurance_id], [COL:posts.gender], [COL:posts.last_name] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.first_name] like [VAL:'b%'], combined with (removing duplicates) [VERB:get] the [COL:posts.insurance_id], [COL:posts.gender], [COL:posts.last_name] [CONN:from] [TABLE:patients] [CONN:where] [COL:posts.phone_number] [OP:eq] [VAL:'activity']",
+    "nl_prompt": "Retrieve the insurance id, gender, last name in patient filtered for first name like 'b%', combined with (removing duplicates) Retrieve the insurance id, gender, last name in patients for which phone number is 'activity'"
+  },
+  {
+    "id": 98,
+    "complexity": "union",
+    "sql": "SELECT d1.name, d1.floor_number, d1.id FROM departments AS d1 WHERE d1.id > 938 UNION SELECT d2.name, d2.floor_number, d2.id FROM departments AS d2 WHERE d2.floor_number > 338",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.name], [COL:d1.floor_number], [COL:d1.id] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.id] [OP:gt] [VAL:938], combined with (removing duplicates) [VERB:get] the [COL:d2.name], [COL:d2.floor_number], [COL:d2.id] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.floor_number] [OP:gt] [VAL:338]",
+    "nl_prompt": "Get the name, floor number, id within medical department that have id higher than 938, combined with (removing duplicates) Fetch me the name, floor number, id out of department looking only at floor number higher than 338"
+  },
+  {
+    "id": 99,
+    "complexity": "union",
+    "sql": "SELECT d1.specialization, d1.department, d1.email FROM doctors AS d1 WHERE d1.last_name = 'admin' UNION ALL SELECT d2.specialization, d2.department, d2.email FROM doctors AS d2 WHERE d2.is_active = 0",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.specialization], [COL:d1.department], [COL:d1.email] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.last_name] [OP:eq] [VAL:'admin'], combined with (including duplicates) [VERB:get] the [COL:d2.specialization], [COL:d2.department], [COL:d2.email] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.is_active] [OP:eq] [VAL:0]",
+    "nl_prompt": "Fetch me the specialization, department, email from doctors filtered for last name is 'admin', combined with (including duplicates) Go get the specialization, department, email from doctor filtered for is active is equal to 0"
+  },
+  {
+    "id": 100,
+    "complexity": "union",
+    "sql": "SELECT p1.doctor_id, p1.dosage FROM prescriptions AS p1 WHERE p1.frequency LIKE 'b%' UNION ALL SELECT p2.doctor_id, p2.dosage FROM prescriptions AS p2 WHERE p2.patient_id >= 424",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.doctor_id], [COL:posts.dosage] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.frequency] like [VAL:'b%'], combined with (including duplicates) [VERB:show] the [COL:posts.doctor_id], [COL:posts.dosage] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.patient_id] [OP:gte] [VAL:424]",
+    "nl_prompt": "Run a check for the doctor id, dosage in drug prescription where frequency like 'b%', combined with (including duplicates) Produce a listing of the doctor id, dosage out of prescription looking only at patient id no less than 424"
+  },
+  {
+    "id": 101,
+    "complexity": "union",
+    "sql": "SELECT l1.test_date, l1.is_abnormal, l1.result_unit FROM lab_results AS l1 WHERE l1.result_unit <> 'test' UNION SELECT l2.test_date, l2.is_abnormal, l2.result_unit FROM lab_results AS l2 WHERE l2.result_value = 959 ORDER BY test_date",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:show] the [COL:likes.test_date], [COL:likes.is_abnormal], [COL:likes.result_unit] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.result_unit] [OP:neq] [VAL:'test'], combined with (removing duplicates) [VERB:show] the [COL:likes.test_date], [COL:likes.is_abnormal], [COL:likes.result_unit] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.result_value] [OP:eq] [VAL:959] ordered by [COL:test_date]",
+    "nl_prompt": "Run a check for the test date, is abnormal, result unit within test results looking only at result unit is not equal to 'test', combined with (removing duplicates) Show the test date, is abnormal, result unit from lab report filtered for result value matches 959 ordered by test date"
+  },
+  {
+    "id": 102,
+    "complexity": "union",
+    "sql": "SELECT p1.id, p1.end_date, p1.frequency FROM prescriptions AS p1 WHERE p1.start_date < DATETIME('now', '-29 days') UNION SELECT p2.id, p2.end_date, p2.frequency FROM prescriptions AS p2 WHERE p2.start_date <= DATETIME('now', '-16 days') ORDER BY id LIMIT 23",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:get] the [COL:posts.id], [COL:posts.end_date], [COL:posts.frequency] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.start_date] [OP:lt] [VAL:29 days ago], combined with (removing duplicates) [VERB:get] the [COL:posts.id], [COL:posts.end_date], [COL:posts.frequency] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.start_date] [OP:lte] [VAL:16 days ago] ordered by [COL:id] limited to 23 results",
+    "nl_prompt": "Retrieve the id, end date, frequency in prescription where start date fewer than 29 days ago, combined with (removing duplicates) Retrieve the id, end date, frequency out of prescriptions looking only at start date maximum of 16 days ago ordered by id limited to 23 results"
+  },
+  {
+    "id": 103,
+    "complexity": "union",
+    "sql": "SELECT d1.id, d1.name, d1.is_active FROM departments AS d1 WHERE d1.is_active = 0 UNION ALL SELECT d2.id, d2.name, d2.is_active FROM departments AS d2 WHERE d2.id > 39",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.id], [COL:d1.name], [COL:d1.is_active] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.is_active] [OP:eq] [VAL:0], combined with (including duplicates) [VERB:select] the [COL:d2.id], [COL:d2.name], [COL:d2.is_active] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.id] [OP:gt] [VAL:39]",
+    "nl_prompt": "Single out the id, name, is active in hospital department where is active is equal to 0, combined with (including duplicates) Choose the id, name, is active in hospital department where id greater than 39"
+  },
+  {
+    "id": 104,
+    "complexity": "union",
+    "sql": "SELECT d1.email, d1.id, d1.hire_date, d1.last_name FROM doctors AS d1 WHERE d1.is_active = 0 UNION SELECT d2.email, d2.id, d2.hire_date, d2.last_name FROM doctors AS d2 WHERE d2.last_name LIKE '%c' ORDER BY email",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.email], [COL:d1.id], [COL:d1.hire_date], [COL:d1.last_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.is_active] [OP:eq] [VAL:0], combined with (removing duplicates) [VERB:select] the [COL:d2.email], [COL:d2.id], [COL:d2.hire_date], [COL:d2.last_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.last_name] like [VAL:'%c'] ordered by [COL:email]",
+    "nl_prompt": "Single out the email, id, hire date, last name out of physician where is active is 0, combined with (removing duplicates) Select the email, id, hire date, last name within physician for which last name like '%c' ordered by email"
+  },
+  {
+    "id": 105,
+    "complexity": "union",
+    "sql": "SELECT d1.is_active, d1.first_name FROM doctors AS d1 WHERE d1.email <> 'user27@example.com' UNION SELECT d2.is_active, d2.first_name FROM doctors AS d2 WHERE d2.last_name LIKE '%a%'",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.is_active], [COL:d1.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.email] [OP:neq] [VAL:'user27@example.com'], combined with (removing duplicates) [VERB:get] the [COL:d2.is_active], [COL:d2.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.last_name] like [VAL:'%a%']",
+    "nl_prompt": "Retrieve the is active, first name from doctor that have email is not equal to 'user27@example.com', combined with (removing duplicates) Find the is active, first name out of physician that have last name like '%a%'"
+  },
+  {
+    "id": 106,
+    "complexity": "union",
+    "sql": "SELECT d1.budget, d1.floor_number FROM departments AS d1 WHERE d1.floor_number <> 782 UNION SELECT d2.budget, d2.floor_number FROM departments AS d2 WHERE d2.name LIKE 'b%' ORDER BY budget LIMIT 10",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.budget], [COL:d1.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.floor_number] [OP:neq] [VAL:782], combined with (removing duplicates) [VERB:show] the [COL:d2.budget], [COL:d2.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.name] like [VAL:'b%'] ordered by [COL:budget] limited to 10 results",
+    "nl_prompt": "Run a check for the budget, floor number out of hospital department filtered for floor number differs from 782, combined with (removing duplicates) Give me a look at the budget, floor number within departments for which name like 'b%' ordered by budget limited to 10 results"
+  },
+  {
+    "id": 107,
+    "complexity": "union",
+    "sql": "SELECT d1.id, d1.head_doctor_id, d1.budget, d1.name FROM departments AS d1 WHERE d1.name = 'user' UNION SELECT d2.id, d2.head_doctor_id, d2.budget, d2.name FROM departments AS d2 WHERE d2.is_active = 1",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.id], [COL:d1.head_doctor_id], [COL:d1.budget], [COL:d1.name] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.name] [OP:eq] [VAL:'user'], combined with (removing duplicates) [VERB:select] the [COL:d2.id], [COL:d2.head_doctor_id], [COL:d2.budget], [COL:d2.name] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Single out the id, head doctor id, budget, name within departments filtered for name equals 'user', combined with (removing duplicates) Spot the id, head doctor id, budget, name from hospital department looking only at is active equals 1"
+  },
+  {
+    "id": 108,
+    "complexity": "union",
+    "sql": "SELECT l1.id, l1.test_date FROM lab_results AS l1 WHERE l1.patient_id < 755 UNION SELECT l2.id, l2.test_date FROM lab_results AS l2 WHERE l2.notes = 'activity' ORDER BY id",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:get] the [COL:likes.id], [COL:likes.test_date] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.patient_id] [OP:lt] [VAL:755], combined with (removing duplicates) [VERB:get] the [COL:likes.id], [COL:likes.test_date] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.notes] [OP:eq] [VAL:'activity'] ordered by [COL:id]",
+    "nl_prompt": "Get the id, test date out of laboratory results filtered for patient id less than 755, combined with (removing duplicates) Fetch me the id, test date out of lab results where notes equals 'activity' ordered by id"
+  },
+  {
+    "id": 109,
+    "complexity": "union",
+    "sql": "SELECT l1.notes, l1.test_date, l1.patient_id FROM lab_results AS l1 WHERE l1.result_value > 141 UNION SELECT l2.notes, l2.test_date, l2.patient_id FROM lab_results AS l2 WHERE l2.id = 565 LIMIT 39",
+    "tables": [
+      "lab_results",
+      "lab_results"
+    ],
+    "ir_template": "[VERB:select] the [COL:likes.notes], [COL:likes.test_date], [COL:likes.patient_id] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.result_value] [OP:gt] [VAL:141], combined with (removing duplicates) [VERB:select] the [COL:likes.notes], [COL:likes.test_date], [COL:likes.patient_id] [CONN:from] [TABLE:lab_results] [CONN:where] [COL:likes.id] [OP:eq] [VAL:565] limited to 39 results",
+    "nl_prompt": "Spot the notes, test date, patient id within lab report filtered for result value above 141, combined with (removing duplicates) Select the notes, test date, patient id out of lab report where id is 565 limited to 39 results"
+  },
+  {
+    "id": 110,
+    "complexity": "union",
+    "sql": "SELECT d1.department, d1.specialization FROM doctors AS d1 WHERE d1.email = 'user24@example.com' UNION ALL SELECT d2.department, d2.specialization FROM doctors AS d2 WHERE d2.is_active = 1",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.department], [COL:d1.specialization] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.email] [OP:eq] [VAL:'user24@example.com'], combined with (including duplicates) [VERB:show] the [COL:d2.department], [COL:d2.specialization] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Produce a listing of the department, specialization within physician looking only at email is equal to 'user24@example.com', combined with (including duplicates) Give me a look at the department, specialization from medical doctor looking only at is active matches 1"
+  },
+  {
+    "id": 111,
+    "complexity": "union",
+    "sql": "SELECT d1.name, d1.id, d1.budget FROM departments AS d1 WHERE d1.is_active = 0 UNION SELECT d2.name, d2.id, d2.budget FROM departments AS d2 WHERE d2.name = 'user' ORDER BY name",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.name], [COL:d1.id], [COL:d1.budget] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.is_active] [OP:eq] [VAL:0], combined with (removing duplicates) [VERB:select] the [COL:d2.name], [COL:d2.id], [COL:d2.budget] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.name] [OP:eq] [VAL:'user'] ordered by [COL:name]",
+    "nl_prompt": "Single out the name, id, budget from departments where is active equals 0, combined with (removing duplicates) Spot the name, id, budget in department where name equals 'user' ordered by name"
+  },
+  {
+    "id": 112,
+    "complexity": "union",
+    "sql": "SELECT p1.doctor_id, p1.id, p1.frequency FROM prescriptions AS p1 WHERE p1.start_date <= DATETIME('now', '-9 days') UNION SELECT p2.doctor_id, p2.id, p2.frequency FROM prescriptions AS p2 WHERE p2.end_date <= DATETIME('now', '-18 days')",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:select] the [COL:posts.doctor_id], [COL:posts.id], [COL:posts.frequency] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.start_date] [OP:lte] [VAL:9 days ago], combined with (removing duplicates) [VERB:select] the [COL:posts.doctor_id], [COL:posts.id], [COL:posts.frequency] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.end_date] [OP:lte] [VAL:18 days ago]",
+    "nl_prompt": "Single out the doctor id, id, frequency out of medication order for which start date no more than 9 days ago, combined with (removing duplicates) Choose the doctor id, id, frequency out of prescriptions looking only at end date no more than 18 days ago"
+  },
+  {
+    "id": 113,
+    "complexity": "union",
+    "sql": "SELECT a1.id, a1.created_at, a1.doctor_id, a1.scheduled_at FROM appointments AS a1 WHERE a1.patient_id < 435 UNION SELECT a2.id, a2.created_at, a2.doctor_id, a2.scheduled_at FROM appointments AS a2 WHERE a2.id < 388 LIMIT 16",
+    "tables": [
+      "appointments",
+      "appointments"
+    ],
+    "ir_template": "[VERB:get] the [COL:a1.id], [COL:a1.created_at], [COL:a1.doctor_id], [COL:a1.scheduled_at] [CONN:from] [TABLE:appointments] [CONN:where] [COL:a1.patient_id] [OP:lt] [VAL:435], combined with (removing duplicates) [VERB:get] the [COL:a2.id], [COL:a2.created_at], [COL:a2.doctor_id], [COL:a2.scheduled_at] [CONN:from] [TABLE:appointments] [CONN:where] [COL:a2.id] [OP:lt] [VAL:388] limited to 16 results",
+    "nl_prompt": "Retrieve the id, created at, doctor id, scheduled at from clinic visit looking only at patient id fewer than 435, combined with (removing duplicates) Go get the id, created at, doctor id, scheduled at out of clinic visit for which id under 388 limited to 16 results"
+  },
+  {
+    "id": 114,
+    "complexity": "union",
+    "sql": "SELECT a1.status, a1.id, a1.created_at, a1.duration_minutes FROM appointments AS a1 WHERE a1.created_at < DATETIME('now', '-12 days') UNION ALL SELECT a2.status, a2.id, a2.created_at, a2.duration_minutes FROM appointments AS a2 WHERE a2.doctor_id = 787 LIMIT 13",
+    "tables": [
+      "appointments",
+      "appointments"
+    ],
+    "ir_template": "[VERB:show] the [COL:a1.status], [COL:a1.id], [COL:a1.created_at], [COL:a1.duration_minutes] [CONN:from] [TABLE:appointments] [CONN:where] [COL:a1.created_at] [OP:lt] [VAL:12 days ago], combined with (including duplicates) [VERB:show] the [COL:a2.status], [COL:a2.id], [COL:a2.created_at], [COL:a2.duration_minutes] [CONN:from] [TABLE:appointments] [CONN:where] [COL:a2.doctor_id] [OP:eq] [VAL:787] limited to 13 results",
+    "nl_prompt": "Run a check for the status, id, created at, duration minutes in appointments that have created at lower than 12 days ago, combined with (including duplicates) Show the status, id, created at, duration minutes from visit where doctor id matches 787 limited to 13 results"
+  },
+  {
+    "id": 115,
+    "complexity": "union",
+    "sql": "SELECT d1.name, d1.floor_number FROM departments AS d1 WHERE d1.head_doctor_id = 569 UNION ALL SELECT d2.name, d2.floor_number FROM departments AS d2 WHERE d2.is_active = 1",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.name], [COL:d1.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.head_doctor_id] [OP:eq] [VAL:569], combined with (including duplicates) [VERB:select] the [COL:d2.name], [COL:d2.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Single out the name, floor number within department filtered for head doctor id is 569, combined with (including duplicates) Choose the name, floor number within department where is active is 1"
+  },
+  {
+    "id": 116,
+    "complexity": "union",
+    "sql": "SELECT d1.specialization, d1.last_name, d1.first_name FROM doctors AS d1 WHERE d1.is_active = 0 UNION SELECT d2.specialization, d2.last_name, d2.first_name FROM doctors AS d2 WHERE d2.department = 'user' LIMIT 22",
+    "tables": [
+      "doctors",
+      "doctors"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.specialization], [COL:d1.last_name], [COL:d1.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d1.is_active] [OP:eq] [VAL:0], combined with (removing duplicates) [VERB:show] the [COL:d2.specialization], [COL:d2.last_name], [COL:d2.first_name] [CONN:from] [TABLE:doctors] [CONN:where] [COL:d2.department] [OP:eq] [VAL:'user'] limited to 22 results",
+    "nl_prompt": "Run a check for the specialization, last name, first name from doctors looking only at is active is 0, combined with (removing duplicates) Bring up the specialization, last name, first name in doctors where department is equal to 'user' limited to 22 results"
+  },
+  {
+    "id": 117,
+    "complexity": "union",
+    "sql": "SELECT d1.name, d1.head_doctor_id, d1.id, d1.is_active FROM departments AS d1 WHERE d1.floor_number > 365 UNION SELECT d2.name, d2.head_doctor_id, d2.id, d2.is_active FROM departments AS d2 WHERE d2.budget >= 215",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:show] the [COL:d1.name], [COL:d1.head_doctor_id], [COL:d1.id], [COL:d1.is_active] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.floor_number] [OP:gt] [VAL:365], combined with (removing duplicates) [VERB:show] the [COL:d2.name], [COL:d2.head_doctor_id], [COL:d2.id], [COL:d2.is_active] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.budget] [OP:gte] [VAL:215]",
+    "nl_prompt": "Produce a listing of the name, head doctor id, id, is active within hospital department where floor number greater than 365, combined with (removing duplicates) Show the name, head doctor id, id, is active within departments filtered for budget no less than 215"
+  },
+  {
+    "id": 118,
+    "complexity": "union",
+    "sql": "SELECT d1.is_active, d1.floor_number FROM departments AS d1 WHERE d1.budget <= 256 UNION SELECT d2.is_active, d2.floor_number FROM departments AS d2 WHERE d2.floor_number >= 151",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:select] the [COL:d1.is_active], [COL:d1.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.budget] [OP:lte] [VAL:256], combined with (removing duplicates) [VERB:select] the [COL:d2.is_active], [COL:d2.floor_number] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.floor_number] [OP:gte] [VAL:151]",
+    "nl_prompt": "Single out the is active, floor number in department that have budget at most 256, combined with (removing duplicates) Single out the is active, floor number within hospital department filtered for floor number no less than 151"
+  },
+  {
+    "id": 119,
+    "complexity": "union",
+    "sql": "SELECT d1.head_doctor_id, d1.is_active, d1.id, d1.budget FROM departments AS d1 WHERE d1.name LIKE '%a%' UNION ALL SELECT d2.head_doctor_id, d2.is_active, d2.id, d2.budget FROM departments AS d2 WHERE d2.budget = 557 ORDER BY head_doctor_id",
+    "tables": [
+      "departments",
+      "departments"
+    ],
+    "ir_template": "[VERB:get] the [COL:d1.head_doctor_id], [COL:d1.is_active], [COL:d1.id], [COL:d1.budget] [CONN:from] [TABLE:departments] [CONN:where] [COL:d1.name] like [VAL:'%a%'], combined with (including duplicates) [VERB:get] the [COL:d2.head_doctor_id], [COL:d2.is_active], [COL:d2.id], [COL:d2.budget] [CONN:from] [TABLE:departments] [CONN:where] [COL:d2.budget] [OP:eq] [VAL:557] ordered by [COL:head_doctor_id]",
+    "nl_prompt": "Get the head doctor id, is active, id, budget out of department for which name like '%a%', combined with (including duplicates) Get the head doctor id, is active, id, budget in departments for which budget matches 557 ordered by head doctor id"
+  },
+  {
+    "id": 120,
+    "complexity": "union",
+    "sql": "SELECT p1.end_date, p1.start_date, p1.medication_name, p1.doctor_id FROM prescriptions AS p1 WHERE p1.patient_id >= 979 UNION SELECT p2.end_date, p2.start_date, p2.medication_name, p2.doctor_id FROM prescriptions AS p2 WHERE p2.id >= 907 ORDER BY end_date",
+    "tables": [
+      "prescriptions",
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:show] the [COL:posts.end_date], [COL:posts.start_date], [COL:posts.medication_name], [COL:posts.doctor_id] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.patient_id] [OP:gte] [VAL:979], combined with (removing duplicates) [VERB:show] the [COL:posts.end_date], [COL:posts.start_date], [COL:posts.medication_name], [COL:posts.doctor_id] [CONN:from] [TABLE:prescriptions] [CONN:where] [COL:posts.id] [OP:gte] [VAL:907] ordered by [COL:end_date]",
+    "nl_prompt": "Run a check for the end date, start date, medication name, doctor id from drug prescription for which patient id no less than 979, combined with (removing duplicates) Produce a listing of the end date, start date, medication name, doctor id from prescriptions looking only at id no less than 907 ordered by end date"
+  },
+  {
+    "id": 121,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (166, 940, 'Sample text 25', 'Sample text 83', 'Sample text 99', DATETIME('now'), DATETIME('now'), 1)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:166], [COL:doctor_id] as [VAL:940], [COL:medication_name] as [VAL:'Sample text 25'], [COL:dosage] as [VAL:'Sample text 83'], [COL:frequency] as [VAL:'Sample text 99'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Add a new prescription with patient id as 166, doctor id as 940, medication name as 'Sample text 25', dosage as 'Sample text 83', frequency as 'Sample text 99', start date as the current time, end date as the current time, is active as 1."
+  },
+  {
+    "id": 122,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 87', 'Sample text 95', DATETIME('now'), 'Sample text 63', 'Sample text 40', 'user114@example.com', 'Sample text 24', 'Sample text 84', DATETIME('now'), 0)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 87'], [COL:last_name] as [VAL:'Sample text 95'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 63'], [COL:phone_number] as [VAL:'Sample text 40'], [COL:email] as [VAL:'user114@example.com'], [COL:insurance_provider] as [VAL:'Sample text 24'], [COL:insurance_id] as [VAL:'Sample text 84'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Create a new patient with first name as 'Sample text 87', last name as 'Sample text 95', date of birth as the current time, gender as 'Sample text 63', phone number as 'Sample text 40', email as 'user114@example.com', insurance provider as 'Sample text 24', insurance id as 'Sample text 84', admitted on as the current time, is active as 0."
+  },
+  {
+    "id": 123,
+    "complexity": "insert",
+    "sql": "INSERT INTO doctors (first_name, last_name, specialization, department, email, hire_date, is_active) VALUES ('Sample text 6', 'Sample text 8', 'Sample text 60', 'Sample text 52', 'user562@example.com', DATETIME('now'), 0)",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:doctors] with [COL:first_name] as [VAL:'Sample text 6'], [COL:last_name] as [VAL:'Sample text 8'], [COL:specialization] as [VAL:'Sample text 60'], [COL:department] as [VAL:'Sample text 52'], [COL:email] as [VAL:'user562@example.com'], [COL:hire_date] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Add a new physician with first name as 'Sample text 6', last name as 'Sample text 8', specialization as 'Sample text 60', department as 'Sample text 52', email as 'user562@example.com', hire date as the current time, is active as 0."
+  },
+  {
+    "id": 124,
+    "complexity": "insert",
+    "sql": "INSERT INTO lab_results (patient_id, doctor_id, test_name, test_date, result_value, result_unit, is_abnormal, notes) VALUES (59, 947, 'Sample text 16', DATETIME('now'), 428, 'Sample text 22', 0, 'Sample text 78')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:lab_results] with [COL:patient_id] as [VAL:59], [COL:doctor_id] as [VAL:947], [COL:test_name] as [VAL:'Sample text 16'], [COL:test_date] as [VAL:the current time], [COL:result_value] as [VAL:428], [COL:result_unit] as [VAL:'Sample text 22'], [COL:is_abnormal] as [VAL:0], [COL:notes] as [VAL:'Sample text 78'].",
+    "nl_prompt": "Add a new lab results with patient id as 59, doctor id as 947, test name as 'Sample text 16', test date as the current time, result value as 428, result unit as 'Sample text 22', is abnormal as 0, notes as 'Sample text 78'."
+  },
+  {
+    "id": 125,
+    "complexity": "insert",
+    "sql": "INSERT INTO appointments (patient_id, doctor_id, scheduled_at, duration_minutes, status, notes, created_at) VALUES (27, 870, DATETIME('now'), 69, 'Sample text 6', 'Sample text 19', DATETIME('now'))",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:appointments] with [COL:patient_id] as [VAL:27], [COL:doctor_id] as [VAL:870], [COL:scheduled_at] as [VAL:the current time], [COL:duration_minutes] as [VAL:69], [COL:status] as [VAL:'Sample text 6'], [COL:notes] as [VAL:'Sample text 19'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Insert a new visit with patient id as 27, doctor id as 870, scheduled at as the current time, duration minutes as 69, status as 'Sample text 6', notes as 'Sample text 19', created at as the current time."
+  },
+  {
+    "id": 126,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 72', 'Sample text 29', DATETIME('now'), 'Sample text 60', 'Sample text 42', 'user547@example.com', 'Sample text 20', 'Sample text 33', DATETIME('now'), 0)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 72'], [COL:last_name] as [VAL:'Sample text 29'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 60'], [COL:phone_number] as [VAL:'Sample text 42'], [COL:email] as [VAL:'user547@example.com'], [COL:insurance_provider] as [VAL:'Sample text 20'], [COL:insurance_id] as [VAL:'Sample text 33'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Insert a new patients with first name as 'Sample text 72', last name as 'Sample text 29', date of birth as the current time, gender as 'Sample text 60', phone number as 'Sample text 42', email as 'user547@example.com', insurance provider as 'Sample text 20', insurance id as 'Sample text 33', admitted on as the current time, is active as 0."
+  },
+  {
+    "id": 127,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (525, 506, 'Sample text 26', 'Sample text 84', 'Sample text 2', DATETIME('now'), DATETIME('now'), 1)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:525], [COL:doctor_id] as [VAL:506], [COL:medication_name] as [VAL:'Sample text 26'], [COL:dosage] as [VAL:'Sample text 84'], [COL:frequency] as [VAL:'Sample text 2'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Add a new medication order with patient id as 525, doctor id as 506, medication name as 'Sample text 26', dosage as 'Sample text 84', frequency as 'Sample text 2', start date as the current time, end date as the current time, is active as 1."
+  },
+  {
+    "id": 128,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (781, 554, 'Sample text 54', 'Sample text 42', 'Sample text 39', DATETIME('now'), DATETIME('now'), 0)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:781], [COL:doctor_id] as [VAL:554], [COL:medication_name] as [VAL:'Sample text 54'], [COL:dosage] as [VAL:'Sample text 42'], [COL:frequency] as [VAL:'Sample text 39'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Put a new prescription with patient id as 781, doctor id as 554, medication name as 'Sample text 54', dosage as 'Sample text 42', frequency as 'Sample text 39', start date as the current time, end date as the current time, is active as 0."
+  },
+  {
+    "id": 129,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 21', 'Sample text 69', DATETIME('now'), 'Sample text 20', 'Sample text 53', 'user655@example.com', 'Sample text 45', 'Sample text 48', DATETIME('now'), 1)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 21'], [COL:last_name] as [VAL:'Sample text 69'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 20'], [COL:phone_number] as [VAL:'Sample text 53'], [COL:email] as [VAL:'user655@example.com'], [COL:insurance_provider] as [VAL:'Sample text 45'], [COL:insurance_id] as [VAL:'Sample text 48'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Put a new patient with first name as 'Sample text 21', last name as 'Sample text 69', date of birth as the current time, gender as 'Sample text 20', phone number as 'Sample text 53', email as 'user655@example.com', insurance provider as 'Sample text 45', insurance id as 'Sample text 48', admitted on as the current time, is active as 1."
+  },
+  {
+    "id": 130,
+    "complexity": "insert",
+    "sql": "INSERT INTO lab_results (patient_id, doctor_id, test_name, test_date, result_value, result_unit, is_abnormal, notes) VALUES (706, 84, 'Sample text 32', DATETIME('now'), 83, 'Sample text 47', 1, 'Sample text 51')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:lab_results] with [COL:patient_id] as [VAL:706], [COL:doctor_id] as [VAL:84], [COL:test_name] as [VAL:'Sample text 32'], [COL:test_date] as [VAL:the current time], [COL:result_value] as [VAL:83], [COL:result_unit] as [VAL:'Sample text 47'], [COL:is_abnormal] as [VAL:1], [COL:notes] as [VAL:'Sample text 51'].",
+    "nl_prompt": "Create a new lab report with patient id as 706, doctor id as 84, test name as 'Sample text 32', test date as the current time, result value as 83, result unit as 'Sample text 47', is abnormal as 1, notes as 'Sample text 51'."
+  },
+  {
+    "id": 131,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 74', 196, 543, 859, 0)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 74'], [COL:floor_number] as [VAL:196], [COL:head_doctor_id] as [VAL:543], [COL:budget] as [VAL:859], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Put a new department with name as 'Sample text 74', floor number as 196, head doctor id as 543, budget as 859, is active as 0."
+  },
+  {
+    "id": 132,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 42', 572, 609, 675, 1)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 42'], [COL:floor_number] as [VAL:572], [COL:head_doctor_id] as [VAL:609], [COL:budget] as [VAL:675], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Put a new hospital department with name as 'Sample text 42', floor number as 572, head doctor id as 609, budget as 675, is active as 1."
+  },
+  {
+    "id": 133,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 12', 'Sample text 1', DATETIME('now'), 'Sample text 15', 'Sample text 88', 'user277@example.com', 'Sample text 31', 'Sample text 65', DATETIME('now'), 0)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 12'], [COL:last_name] as [VAL:'Sample text 1'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 15'], [COL:phone_number] as [VAL:'Sample text 88'], [COL:email] as [VAL:'user277@example.com'], [COL:insurance_provider] as [VAL:'Sample text 31'], [COL:insurance_id] as [VAL:'Sample text 65'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Add a new patient with first name as 'Sample text 12', last name as 'Sample text 1', date of birth as the current time, gender as 'Sample text 15', phone number as 'Sample text 88', email as 'user277@example.com', insurance provider as 'Sample text 31', insurance id as 'Sample text 65', admitted on as the current time, is active as 0."
+  },
+  {
+    "id": 134,
+    "complexity": "insert",
+    "sql": "INSERT INTO appointments (patient_id, doctor_id, scheduled_at, duration_minutes, status, notes, created_at) VALUES (917, 188, DATETIME('now'), 986, 'Sample text 44', 'Sample text 13', DATETIME('now'))",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:appointments] with [COL:patient_id] as [VAL:917], [COL:doctor_id] as [VAL:188], [COL:scheduled_at] as [VAL:the current time], [COL:duration_minutes] as [VAL:986], [COL:status] as [VAL:'Sample text 44'], [COL:notes] as [VAL:'Sample text 13'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Include a new appointment with patient id as 917, doctor id as 188, scheduled at as the current time, duration minutes as 986, status as 'Sample text 44', notes as 'Sample text 13', created at as the current time."
+  },
+  {
+    "id": 135,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (190, 703, 'Sample text 87', 'Sample text 10', 'Sample text 39', DATETIME('now'), DATETIME('now'), 0)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:190], [COL:doctor_id] as [VAL:703], [COL:medication_name] as [VAL:'Sample text 87'], [COL:dosage] as [VAL:'Sample text 10'], [COL:frequency] as [VAL:'Sample text 39'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Add a new prescriptions with patient id as 190, doctor id as 703, medication name as 'Sample text 87', dosage as 'Sample text 10', frequency as 'Sample text 39', start date as the current time, end date as the current time, is active as 0."
+  },
+  {
+    "id": 136,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (82, 846, 'Sample text 47', 'Sample text 74', 'Sample text 85', DATETIME('now'), DATETIME('now'), 1)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:82], [COL:doctor_id] as [VAL:846], [COL:medication_name] as [VAL:'Sample text 47'], [COL:dosage] as [VAL:'Sample text 74'], [COL:frequency] as [VAL:'Sample text 85'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Insert a new drug prescription with patient id as 82, doctor id as 846, medication name as 'Sample text 47', dosage as 'Sample text 74', frequency as 'Sample text 85', start date as the current time, end date as the current time, is active as 1."
+  },
+  {
+    "id": 137,
+    "complexity": "insert",
+    "sql": "INSERT INTO lab_results (patient_id, doctor_id, test_name, test_date, result_value, result_unit, is_abnormal, notes) VALUES (968, 652, 'Sample text 99', DATETIME('now'), 635, 'Sample text 73', 1, 'Sample text 91')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:lab_results] with [COL:patient_id] as [VAL:968], [COL:doctor_id] as [VAL:652], [COL:test_name] as [VAL:'Sample text 99'], [COL:test_date] as [VAL:the current time], [COL:result_value] as [VAL:635], [COL:result_unit] as [VAL:'Sample text 73'], [COL:is_abnormal] as [VAL:1], [COL:notes] as [VAL:'Sample text 91'].",
+    "nl_prompt": "Add a new laboratory report with patient id as 968, doctor id as 652, test name as 'Sample text 99', test date as the current time, result value as 635, result unit as 'Sample text 73', is abnormal as 1, notes as 'Sample text 91'."
+  },
+  {
+    "id": 138,
+    "complexity": "insert",
+    "sql": "INSERT INTO lab_results (patient_id, doctor_id, test_name, test_date, result_value, result_unit, is_abnormal, notes) VALUES (854, 178, 'Sample text 44', DATETIME('now'), 773, 'Sample text 56', 1, 'Sample text 37')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:lab_results] with [COL:patient_id] as [VAL:854], [COL:doctor_id] as [VAL:178], [COL:test_name] as [VAL:'Sample text 44'], [COL:test_date] as [VAL:the current time], [COL:result_value] as [VAL:773], [COL:result_unit] as [VAL:'Sample text 56'], [COL:is_abnormal] as [VAL:1], [COL:notes] as [VAL:'Sample text 37'].",
+    "nl_prompt": "Insert a new lab results with patient id as 854, doctor id as 178, test name as 'Sample text 44', test date as the current time, result value as 773, result unit as 'Sample text 56', is abnormal as 1, notes as 'Sample text 37'."
+  },
+  {
+    "id": 139,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 21', 774, 138, 988, 0)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 21'], [COL:floor_number] as [VAL:774], [COL:head_doctor_id] as [VAL:138], [COL:budget] as [VAL:988], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Insert a new departments with name as 'Sample text 21', floor number as 774, head doctor id as 138, budget as 988, is active as 0."
+  },
+  {
+    "id": 140,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 76', 315, 621, 37, 1)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 76'], [COL:floor_number] as [VAL:315], [COL:head_doctor_id] as [VAL:621], [COL:budget] as [VAL:37], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Create a new departments with name as 'Sample text 76', floor number as 315, head doctor id as 621, budget as 37, is active as 1."
+  },
+  {
+    "id": 141,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 37', 202, 311, 269, 1)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 37'], [COL:floor_number] as [VAL:202], [COL:head_doctor_id] as [VAL:311], [COL:budget] as [VAL:269], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Include a new medical department with name as 'Sample text 37', floor number as 202, head doctor id as 311, budget as 269, is active as 1."
+  },
+  {
+    "id": 142,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (597, 529, 'Sample text 65', 'Sample text 68', 'Sample text 87', DATETIME('now'), DATETIME('now'), 0)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:597], [COL:doctor_id] as [VAL:529], [COL:medication_name] as [VAL:'Sample text 65'], [COL:dosage] as [VAL:'Sample text 68'], [COL:frequency] as [VAL:'Sample text 87'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Add a new prescriptions with patient id as 597, doctor id as 529, medication name as 'Sample text 65', dosage as 'Sample text 68', frequency as 'Sample text 87', start date as the current time, end date as the current time, is active as 0."
+  },
+  {
+    "id": 143,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 62', 'Sample text 92', DATETIME('now'), 'Sample text 38', 'Sample text 61', 'user555@example.com', 'Sample text 36', 'Sample text 6', DATETIME('now'), 0)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 62'], [COL:last_name] as [VAL:'Sample text 92'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 38'], [COL:phone_number] as [VAL:'Sample text 61'], [COL:email] as [VAL:'user555@example.com'], [COL:insurance_provider] as [VAL:'Sample text 36'], [COL:insurance_id] as [VAL:'Sample text 6'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Put a new patients with first name as 'Sample text 62', last name as 'Sample text 92', date of birth as the current time, gender as 'Sample text 38', phone number as 'Sample text 61', email as 'user555@example.com', insurance provider as 'Sample text 36', insurance id as 'Sample text 6', admitted on as the current time, is active as 0."
+  },
+  {
+    "id": 144,
+    "complexity": "insert",
+    "sql": "INSERT INTO patients (first_name, last_name, date_of_birth, gender, phone_number, email, insurance_provider, insurance_id, admitted_on, is_active) VALUES ('Sample text 41', 'Sample text 56', DATETIME('now'), 'Sample text 42', 'Sample text 34', 'user631@example.com', 'Sample text 6', 'Sample text 67', DATETIME('now'), 1)",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:patients] with [COL:first_name] as [VAL:'Sample text 41'], [COL:last_name] as [VAL:'Sample text 56'], [COL:date_of_birth] as [VAL:the current time], [COL:gender] as [VAL:'Sample text 42'], [COL:phone_number] as [VAL:'Sample text 34'], [COL:email] as [VAL:'user631@example.com'], [COL:insurance_provider] as [VAL:'Sample text 6'], [COL:insurance_id] as [VAL:'Sample text 67'], [COL:admitted_on] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Add a new patients with first name as 'Sample text 41', last name as 'Sample text 56', date of birth as the current time, gender as 'Sample text 42', phone number as 'Sample text 34', email as 'user631@example.com', insurance provider as 'Sample text 6', insurance id as 'Sample text 67', admitted on as the current time, is active as 1."
+  },
+  {
+    "id": 145,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 55', 482, 736, 754, 1)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 55'], [COL:floor_number] as [VAL:482], [COL:head_doctor_id] as [VAL:736], [COL:budget] as [VAL:754], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Put a new hospital department with name as 'Sample text 55', floor number as 482, head doctor id as 736, budget as 754, is active as 1."
+  },
+  {
+    "id": 146,
+    "complexity": "insert",
+    "sql": "INSERT INTO appointments (patient_id, doctor_id, scheduled_at, duration_minutes, status, notes, created_at) VALUES (631, 117, DATETIME('now'), 77, 'Sample text 37', 'Sample text 13', DATETIME('now'))",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:appointments] with [COL:patient_id] as [VAL:631], [COL:doctor_id] as [VAL:117], [COL:scheduled_at] as [VAL:the current time], [COL:duration_minutes] as [VAL:77], [COL:status] as [VAL:'Sample text 37'], [COL:notes] as [VAL:'Sample text 13'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Put a new clinic visit with patient id as 631, doctor id as 117, scheduled at as the current time, duration minutes as 77, status as 'Sample text 37', notes as 'Sample text 13', created at as the current time."
+  },
+  {
+    "id": 147,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (60, 174, 'Sample text 30', 'Sample text 26', 'Sample text 41', DATETIME('now'), DATETIME('now'), 0)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:60], [COL:doctor_id] as [VAL:174], [COL:medication_name] as [VAL:'Sample text 30'], [COL:dosage] as [VAL:'Sample text 26'], [COL:frequency] as [VAL:'Sample text 41'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:0].",
+    "nl_prompt": "Insert a new medication order with patient id as 60, doctor id as 174, medication name as 'Sample text 30', dosage as 'Sample text 26', frequency as 'Sample text 41', start date as the current time, end date as the current time, is active as 0."
+  },
+  {
+    "id": 148,
+    "complexity": "insert",
+    "sql": "INSERT INTO departments (name, floor_number, head_doctor_id, budget, is_active) VALUES ('Sample text 90', 878, 836, 266, 1)",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:departments] with [COL:name] as [VAL:'Sample text 90'], [COL:floor_number] as [VAL:878], [COL:head_doctor_id] as [VAL:836], [COL:budget] as [VAL:266], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Include a new medical department with name as 'Sample text 90', floor number as 878, head doctor id as 836, budget as 266, is active as 1."
+  },
+  {
+    "id": 149,
+    "complexity": "insert",
+    "sql": "INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage, frequency, start_date, end_date, is_active) VALUES (525, 961, 'Sample text 43', 'Sample text 3', 'Sample text 9', DATETIME('now'), DATETIME('now'), 1)",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:prescriptions] with [COL:patient_id] as [VAL:525], [COL:doctor_id] as [VAL:961], [COL:medication_name] as [VAL:'Sample text 43'], [COL:dosage] as [VAL:'Sample text 3'], [COL:frequency] as [VAL:'Sample text 9'], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:is_active] as [VAL:1].",
+    "nl_prompt": "Add a new prescription with patient id as 525, doctor id as 961, medication name as 'Sample text 43', dosage as 'Sample text 3', frequency as 'Sample text 9', start date as the current time, end date as the current time, is active as 1."
+  },
+  {
+    "id": 150,
+    "complexity": "insert",
+    "sql": "INSERT INTO appointments (patient_id, doctor_id, scheduled_at, duration_minutes, status, notes, created_at) VALUES (269, 165, DATETIME('now'), 845, 'Sample text 68', 'Sample text 29', DATETIME('now'))",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:insert] a new [TABLE:appointments] with [COL:patient_id] as [VAL:269], [COL:doctor_id] as [VAL:165], [COL:scheduled_at] as [VAL:the current time], [COL:duration_minutes] as [VAL:845], [COL:status] as [VAL:'Sample text 68'], [COL:notes] as [VAL:'Sample text 29'], [COL:created_at] as [VAL:the current time].",
+    "nl_prompt": "Create a new visit with patient id as 269, doctor id as 165, scheduled at as the current time, duration minutes as 845, status as 'Sample text 68', notes as 'Sample text 29', created at as the current time."
+  },
+  {
+    "id": 151,
+    "complexity": "update",
+    "sql": "UPDATE departments SET name = 'Updated text 9' WHERE departments.head_doctor_id <= 834",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:name] to [VAL:'Updated text 9'] for the [TABLE:departments] where [COL:departments.head_doctor_id] [OP:lte] [VAL:834]",
+    "nl_prompt": "Modify name to 'Updated text 9' for the departments where department head id no more than 834"
+  },
+  {
+    "id": 152,
+    "complexity": "update",
+    "sql": "UPDATE prescriptions SET medication_name = 'Updated text 6' WHERE prescriptions.id = 329",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:update] [COL:medication_name] to [VAL:'Updated text 6'] for the [TABLE:prescriptions] where [COL:prescriptions.id] [OP:eq] [VAL:329]",
+    "nl_prompt": "Edit medication name to 'Updated text 6' for the prescription where prescription id matches 329"
+  },
+  {
+    "id": 153,
+    "complexity": "update",
+    "sql": "UPDATE lab_results SET patient_id = 268 WHERE lab_results.result_value <> 562",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:update] [COL:patient_id] to [VAL:268] for the [TABLE:lab_results] where [COL:lab_results.result_value] [OP:neq] [VAL:562]",
+    "nl_prompt": "Edit patient id to 268 for the laboratory report where result value differs from 562"
+  },
+  {
+    "id": 154,
+    "complexity": "update",
+    "sql": "UPDATE patients SET is_active = 0 WHERE patients.date_of_birth >= DATETIME('now', '-29 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:is_active] to [VAL:0] for the [TABLE:patients] where [COL:patients.date_of_birth] [OP:gte] [VAL:29 days ago]",
+    "nl_prompt": "Edit is active to 0 for the patients where dob greater than or equal to 29 days ago"
+  },
+  {
+    "id": 155,
+    "complexity": "update",
+    "sql": "UPDATE appointments SET duration_minutes = 861 WHERE appointments.id <> 958",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:update] [COL:duration_minutes] to [VAL:861] for the [TABLE:appointments] where [COL:appointments.id] [OP:neq] [VAL:958]",
+    "nl_prompt": "Edit duration minutes to 861 for the appointment where appointment id is not 958"
+  },
+  {
+    "id": 156,
+    "complexity": "update",
+    "sql": "UPDATE patients SET insurance_id = 'Updated text 1' WHERE patients.admitted_on <= DATETIME('now', '-11 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:insurance_id] to [VAL:'Updated text 1'] for the [TABLE:patients] where [COL:patients.admitted_on] [OP:lte] [VAL:11 days ago]",
+    "nl_prompt": "Edit insurance id to 'Updated text 1' for the patients where admitted on at most 11 days ago"
+  },
+  {
+    "id": 157,
+    "complexity": "update",
+    "sql": "UPDATE departments SET budget = 981 WHERE departments.floor_number >= 156",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:budget] to [VAL:981] for the [TABLE:departments] where [COL:departments.floor_number] [OP:gte] [VAL:156]",
+    "nl_prompt": "Update budget to 981 for the departments where storey no less than 156"
+  },
+  {
+    "id": 158,
+    "complexity": "update",
+    "sql": "UPDATE prescriptions SET start_date = DATETIME('now') WHERE prescriptions.doctor_id = 348",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:update] [COL:start_date] to [VAL:the current time] for the [TABLE:prescriptions] where [COL:prescriptions.doctor_id] [OP:eq] [VAL:348]",
+    "nl_prompt": "Modify start date to the current time for the medication order where prescribing doctor id matches 348"
+  },
+  {
+    "id": 159,
+    "complexity": "update",
+    "sql": "UPDATE departments SET floor_number = 949 WHERE departments.id > 1",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:floor_number] to [VAL:949] for the [TABLE:departments] where [COL:departments.id] [OP:gt] [VAL:1]",
+    "nl_prompt": "Update floor number to 949 for the departments where id higher than 1"
+  },
+  {
+    "id": 160,
+    "complexity": "update",
+    "sql": "UPDATE patients SET is_active = 0 WHERE patients.date_of_birth < DATETIME('now', '-4 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:is_active] to [VAL:0] for the [TABLE:patients] where [COL:patients.date_of_birth] [OP:lt] [VAL:4 days ago]",
+    "nl_prompt": "Update is active to 0 for the patient where date of birth under 4 days ago"
+  },
+  {
+    "id": 161,
+    "complexity": "update",
+    "sql": "UPDATE departments SET name = 'Updated text 78' WHERE departments.head_doctor_id <> 940",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:name] to [VAL:'Updated text 78'] for the [TABLE:departments] where [COL:departments.head_doctor_id] [OP:neq] [VAL:940]",
+    "nl_prompt": "Adjust name to 'Updated text 78' for the hospital department where head doctor id is not equal to 940"
+  },
+  {
+    "id": 162,
+    "complexity": "update",
+    "sql": "UPDATE departments SET is_active = 0 WHERE departments.floor_number < 321",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:is_active] to [VAL:0] for the [TABLE:departments] where [COL:departments.floor_number] [OP:lt] [VAL:321]",
+    "nl_prompt": "Update is active to 0 for the hospital department where floor less than 321"
+  },
+  {
+    "id": 163,
+    "complexity": "update",
+    "sql": "UPDATE departments SET budget = 424 WHERE departments.is_active = 0",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:budget] to [VAL:424] for the [TABLE:departments] where [COL:departments.is_active] [OP:eq] [VAL:0]",
+    "nl_prompt": "Adjust budget to 424 for the department where is active is equal to 0"
+  },
+  {
+    "id": 164,
+    "complexity": "update",
+    "sql": "UPDATE appointments SET duration_minutes = 674 WHERE appointments.duration_minutes > 408",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:update] [COL:duration_minutes] to [VAL:674] for the [TABLE:appointments] where [COL:appointments.duration_minutes] [OP:gt] [VAL:408]",
+    "nl_prompt": "Adjust duration minutes to 674 for the appointments where visit length above 408"
+  },
+  {
+    "id": 165,
+    "complexity": "update",
+    "sql": "UPDATE lab_results SET test_date = DATETIME('now') WHERE lab_results.notes = 'test'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:update] [COL:test_date] to [VAL:the current time] for the [TABLE:lab_results] where [COL:lab_results.notes] [OP:eq] [VAL:'test']",
+    "nl_prompt": "Update test date to the current time for the test results where lab notes is 'test'"
+  },
+  {
+    "id": 166,
+    "complexity": "update",
+    "sql": "UPDATE lab_results SET test_name = 'Updated text 23' WHERE lab_results.result_unit LIKE 'b%'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:update] [COL:test_name] to [VAL:'Updated text 23'] for the [TABLE:lab_results] where [COL:lab_results.result_unit] like [VAL:'b%']",
+    "nl_prompt": "Edit test name to 'Updated text 23' for the laboratory results where result unit like 'b%'"
+  },
+  {
+    "id": 167,
+    "complexity": "update",
+    "sql": "UPDATE doctors SET email = 'updated_user13@example.com' WHERE doctors.last_name = '123'",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user13@example.com'] for the [TABLE:doctors] where [COL:doctors.last_name] [OP:eq] [VAL:'123']",
+    "nl_prompt": "Modify email to 'updated_user13@example.com' for the doctors where family name matches '123'"
+  },
+  {
+    "id": 168,
+    "complexity": "update",
+    "sql": "UPDATE doctors SET first_name = 'Updated text 52' WHERE doctors.hire_date < DATETIME('now', '-1 days')",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:update] [COL:first_name] to [VAL:'Updated text 52'] for the [TABLE:doctors] where [COL:doctors.hire_date] [OP:lt] [VAL:1 day ago]",
+    "nl_prompt": "Edit first name to 'Updated text 52' for the doctor where date hired under 1 day ago"
+  },
+  {
+    "id": 169,
+    "complexity": "update",
+    "sql": "UPDATE patients SET insurance_provider = 'Updated text 15' WHERE patients.phone_number <> 'user'",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:insurance_provider] to [VAL:'Updated text 15'] for the [TABLE:patients] where [COL:patients.phone_number] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Adjust insurance provider to 'Updated text 15' for the patient where phone number is not 'user'"
+  },
+  {
+    "id": 170,
+    "complexity": "update",
+    "sql": "UPDATE appointments SET patient_id = 192 WHERE appointments.duration_minutes <= 423",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:update] [COL:patient_id] to [VAL:192] for the [TABLE:appointments] where [COL:appointments.duration_minutes] [OP:lte] [VAL:423]",
+    "nl_prompt": "Edit patient id to 192 for the appointment where duration minutes no more than 423"
+  },
+  {
+    "id": 171,
+    "complexity": "update",
+    "sql": "UPDATE appointments SET scheduled_at = DATETIME('now') WHERE appointments.duration_minutes >= 638",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:update] [COL:scheduled_at] to [VAL:the current time] for the [TABLE:appointments] where [COL:appointments.duration_minutes] [OP:gte] [VAL:638]",
+    "nl_prompt": "Adjust scheduled at to the current time for the visit where duration minutes minimum of 638"
+  },
+  {
+    "id": 172,
+    "complexity": "update",
+    "sql": "UPDATE doctors SET last_name = 'Updated text 9' WHERE doctors.first_name = 'activity'",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:update] [COL:last_name] to [VAL:'Updated text 9'] for the [TABLE:doctors] where [COL:doctors.first_name] [OP:eq] [VAL:'activity']",
+    "nl_prompt": "Change last name to 'Updated text 9' for the doctor where given name equals 'activity'"
+  },
+  {
+    "id": 173,
+    "complexity": "update",
+    "sql": "UPDATE departments SET name = 'Updated text 82' WHERE departments.name <> 'user'",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:name] to [VAL:'Updated text 82'] for the [TABLE:departments] where [COL:departments.name] [OP:neq] [VAL:'user']",
+    "nl_prompt": "Edit name to 'Updated text 82' for the hospital department where department name is not 'user'"
+  },
+  {
+    "id": 174,
+    "complexity": "update",
+    "sql": "UPDATE departments SET budget = 723 WHERE departments.name LIKE '%a%'",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:update] [COL:budget] to [VAL:723] for the [TABLE:departments] where [COL:departments.name] like [VAL:'%a%']",
+    "nl_prompt": "Update budget to 723 for the departments where department name like '%a%'"
+  },
+  {
+    "id": 175,
+    "complexity": "update",
+    "sql": "UPDATE patients SET phone_number = 'Updated text 64' WHERE patients.admitted_on <= DATETIME('now', '-5 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:phone_number] to [VAL:'Updated text 64'] for the [TABLE:patients] where [COL:patients.admitted_on] [OP:lte] [VAL:5 days ago]",
+    "nl_prompt": "Change phone number to 'Updated text 64' for the patient where admission date at most 5 days ago"
+  },
+  {
+    "id": 176,
+    "complexity": "update",
+    "sql": "UPDATE appointments SET notes = 'Updated text 96' WHERE appointments.id >= 489",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:update] [COL:notes] to [VAL:'Updated text 96'] for the [TABLE:appointments] where [COL:appointments.id] [OP:gte] [VAL:489]",
+    "nl_prompt": "Modify notes to 'Updated text 96' for the appointment where appointment id greater than or equal to 489"
+  },
+  {
+    "id": 177,
+    "complexity": "update",
+    "sql": "UPDATE patients SET insurance_provider = 'Updated text 78' WHERE patients.id <= 445",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:insurance_provider] to [VAL:'Updated text 78'] for the [TABLE:patients] where [COL:patients.id] [OP:lte] [VAL:445]",
+    "nl_prompt": "Modify insurance provider to 'Updated text 78' for the patients where patient identifier no more than 445"
+  },
+  {
+    "id": 178,
+    "complexity": "update",
+    "sql": "UPDATE patients SET date_of_birth = DATETIME('now') WHERE patients.admitted_on <= DATETIME('now', '-16 days')",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:date_of_birth] to [VAL:the current time] for the [TABLE:patients] where [COL:patients.admitted_on] [OP:lte] [VAL:16 days ago]",
+    "nl_prompt": "Modify date of birth to the current time for the patient where date admitted at most 16 days ago"
+  },
+  {
+    "id": 179,
+    "complexity": "update",
+    "sql": "UPDATE doctors SET email = 'updated_user40@example.com' WHERE doctors.department = '123'",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:update] [COL:email] to [VAL:'updated_user40@example.com'] for the [TABLE:doctors] where [COL:doctors.department] [OP:eq] [VAL:'123']",
+    "nl_prompt": "Change email to 'updated_user40@example.com' for the medical doctor where medical department is equal to '123'"
+  },
+  {
+    "id": 180,
+    "complexity": "update",
+    "sql": "UPDATE patients SET phone_number = 'Updated text 83' WHERE patients.id <= 852",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:update] [COL:phone_number] to [VAL:'Updated text 83'] for the [TABLE:patients] where [COL:patients.id] [OP:lte] [VAL:852]",
+    "nl_prompt": "Change phone number to 'Updated text 83' for the patients where patient id no more than 852"
+  },
+  {
+    "id": 181,
+    "complexity": "delete",
+    "sql": "DELETE FROM lab_results WHERE lab_results.test_date > DATETIME('now', '-1 days')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:lab_results] where [COL:lab_results.test_date] [OP:gt] [VAL:1 day ago]",
+    "nl_prompt": "Remove laboratory results where lab test date more than 1 day ago"
+  },
+  {
+    "id": 182,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.name LIKE 'b%'",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.name] like [VAL:'b%']",
+    "nl_prompt": "Drop medical department where department name like 'b%'"
+  },
+  {
+    "id": 183,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.id >= 565",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.id] [OP:gte] [VAL:565]",
+    "nl_prompt": "Remove prescription where prescription id at least 565"
+  },
+  {
+    "id": 184,
+    "complexity": "delete",
+    "sql": "DELETE FROM doctors WHERE doctors.id = 699",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:doctors] where [COL:doctors.id] [OP:eq] [VAL:699]",
+    "nl_prompt": "Delete doctor where physician id is 699"
+  },
+  {
+    "id": 185,
+    "complexity": "delete",
+    "sql": "DELETE FROM lab_results WHERE lab_results.test_date > DATETIME('now', '-16 days')",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:lab_results] where [COL:lab_results.test_date] [OP:gt] [VAL:16 days ago]",
+    "nl_prompt": "Strip out lab results where date of test higher than 16 days ago"
+  },
+  {
+    "id": 186,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.is_active = 0",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.is_active] [OP:eq] [VAL:0]",
+    "nl_prompt": "Strip out medication order where is active is equal to 0"
+  },
+  {
+    "id": 187,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.patient_id <> 645",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.patient_id] [OP:neq] [VAL:645]",
+    "nl_prompt": "Delete prescription where patient id differs from 645"
+  },
+  {
+    "id": 188,
+    "complexity": "delete",
+    "sql": "DELETE FROM patients WHERE patients.insurance_provider <> 'admin'",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:patients] where [COL:patients.insurance_provider] [OP:neq] [VAL:'admin']",
+    "nl_prompt": "Wipe out patients where insurance provider is not 'admin'"
+  },
+  {
+    "id": 189,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.budget = 888",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.budget] [OP:eq] [VAL:888]",
+    "nl_prompt": "Delete medical department where allocated budget equals 888"
+  },
+  {
+    "id": 190,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.is_active = 1",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Remove prescription where active matches 1"
+  },
+  {
+    "id": 191,
+    "complexity": "delete",
+    "sql": "DELETE FROM appointments WHERE appointments.scheduled_at > DATETIME('now', '-23 days')",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:appointments] where [COL:appointments.scheduled_at] [OP:gt] [VAL:23 days ago]",
+    "nl_prompt": "Drop appointments where appointment time greater than 23 days ago"
+  },
+  {
+    "id": 192,
+    "complexity": "delete",
+    "sql": "DELETE FROM patients WHERE patients.is_active = 1",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:patients] where [COL:patients.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Delete patients where active is 1"
+  },
+  {
+    "id": 193,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.budget <> 169",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.budget] [OP:neq] [VAL:169]",
+    "nl_prompt": "Drop medical department where budget is not 169"
+  },
+  {
+    "id": 194,
+    "complexity": "delete",
+    "sql": "DELETE FROM lab_results WHERE lab_results.result_unit <> 'activity'",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:lab_results] where [COL:lab_results.result_unit] [OP:neq] [VAL:'activity']",
+    "nl_prompt": "Drop laboratory report where result unit is not equal to 'activity'"
+  },
+  {
+    "id": 195,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.head_doctor_id >= 241",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.head_doctor_id] [OP:gte] [VAL:241]",
+    "nl_prompt": "Drop hospital department where chief doctor id minimum of 241"
+  },
+  {
+    "id": 196,
+    "complexity": "delete",
+    "sql": "DELETE FROM patients WHERE patients.id >= 547",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:patients] where [COL:patients.id] [OP:gte] [VAL:547]",
+    "nl_prompt": "Wipe out patient where id greater than or equal to 547"
+  },
+  {
+    "id": 197,
+    "complexity": "delete",
+    "sql": "DELETE FROM appointments WHERE appointments.created_at < DATETIME('now', '-26 days')",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:appointments] where [COL:appointments.created_at] [OP:lt] [VAL:26 days ago]",
+    "nl_prompt": "Drop appointments where record created date less than 26 days ago"
+  },
+  {
+    "id": 198,
+    "complexity": "delete",
+    "sql": "DELETE FROM patients WHERE patients.last_name LIKE 'b%'",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:patients] where [COL:patients.last_name] like [VAL:'b%']",
+    "nl_prompt": "Remove patients where family name like 'b%'"
+  },
+  {
+    "id": 199,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.id < 845",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.id] [OP:lt] [VAL:845]",
+    "nl_prompt": "Wipe out departments where id under 845"
+  },
+  {
+    "id": 200,
+    "complexity": "delete",
+    "sql": "DELETE FROM doctors WHERE doctors.specialization = 'admin'",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:doctors] where [COL:doctors.specialization] [OP:eq] [VAL:'admin']",
+    "nl_prompt": "Wipe out doctors where specialty equals 'admin'"
+  },
+  {
+    "id": 201,
+    "complexity": "delete",
+    "sql": "DELETE FROM patients WHERE patients.email = 'user35@example.com'",
+    "tables": [
+      "patients"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:patients] where [COL:patients.email] [OP:eq] [VAL:'user35@example.com']",
+    "nl_prompt": "Drop patients where e-mail is equal to 'user35@example.com'"
+  },
+  {
+    "id": 202,
+    "complexity": "delete",
+    "sql": "DELETE FROM lab_results WHERE lab_results.doctor_id <> 61",
+    "tables": [
+      "lab_results"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:lab_results] where [COL:lab_results.doctor_id] [OP:neq] [VAL:61]",
+    "nl_prompt": "Wipe out test results where physician id is not equal to 61"
+  },
+  {
+    "id": 203,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.is_active = 1",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.is_active] [OP:eq] [VAL:1]",
+    "nl_prompt": "Strip out drug prescription where prescription active status is equal to 1"
+  },
+  {
+    "id": 204,
+    "complexity": "delete",
+    "sql": "DELETE FROM prescriptions WHERE prescriptions.end_date <= DATETIME('now', '-8 days')",
+    "tables": [
+      "prescriptions"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:prescriptions] where [COL:prescriptions.end_date] [OP:lte] [VAL:8 days ago]",
+    "nl_prompt": "Delete medication order where prescription end date at most 8 days ago"
+  },
+  {
+    "id": 205,
+    "complexity": "delete",
+    "sql": "DELETE FROM appointments WHERE appointments.duration_minutes > 832",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:appointments] where [COL:appointments.duration_minutes] [OP:gt] [VAL:832]",
+    "nl_prompt": "Remove visit where visit length more than 832"
+  },
+  {
+    "id": 206,
+    "complexity": "delete",
+    "sql": "DELETE FROM appointments WHERE appointments.id <> 942",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:appointments] where [COL:appointments.id] [OP:neq] [VAL:942]",
+    "nl_prompt": "Strip out medical appointment where id differs from 942"
+  },
+  {
+    "id": 207,
+    "complexity": "delete",
+    "sql": "DELETE FROM doctors WHERE doctors.id = 872",
+    "tables": [
+      "doctors"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:doctors] where [COL:doctors.id] [OP:eq] [VAL:872]",
+    "nl_prompt": "Strip out medical doctor where physician id is 872"
+  },
+  {
+    "id": 208,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.is_active = 0",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.is_active] [OP:eq] [VAL:0]",
+    "nl_prompt": "Drop medical department where department operational status is equal to 0"
+  },
+  {
+    "id": 209,
+    "complexity": "delete",
+    "sql": "DELETE FROM appointments WHERE appointments.status = 'admin'",
+    "tables": [
+      "appointments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:appointments] where [COL:appointments.status] [OP:eq] [VAL:'admin']",
+    "nl_prompt": "Strip out clinic visit where status equals 'admin'"
+  },
+  {
+    "id": 210,
+    "complexity": "delete",
+    "sql": "DELETE FROM departments WHERE departments.head_doctor_id > 551",
+    "tables": [
+      "departments"
+    ],
+    "ir_template": "[VERB:delete] [TABLE:departments] where [COL:departments.head_doctor_id] [OP:gt] [VAL:551]",
+    "nl_prompt": "Strip out hospital department where chief doctor id higher than 551"
+  }
+]

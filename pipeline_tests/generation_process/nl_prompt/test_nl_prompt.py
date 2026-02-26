@@ -193,7 +193,7 @@ UPDATE_INTENT_VERBS = {
 
 DELETE_INTENT_VERBS = {
     "delete", "remove", "erase", "drop", "purge", "eliminate",
-    "clear", "discard",
+    "clear", "discard", "strip", "wipe",
 }
 
 # Words that confirm a WHERE/filter is present in the NL
@@ -204,10 +204,8 @@ FILTER_INDICATORS = {
     "is in [", "is not", "not equal",
 }
 
-# Table synonyms used by the renderer (from schema_synonyms in nl_renderer.py).
-# IMPORTANT: only multi-character / unambiguous synonyms here — single-word synonyms
-# that overlap with column name fragments (e.g. "user" matches "user_id") must be
-# matched with word-boundary checks in _table_in_nl.
+# Table synonyms used by the renderer.
+# Base set (social_media) — extended at runtime when a dictionary YAML is loaded.
 TABLE_SYNONYMS = {
     "users": {"users", "user", "members", "member", "accounts", "account", "people"},
     "posts": {"posts", "post", "articles", "article", "entries", "entry"},
@@ -216,11 +214,40 @@ TABLE_SYNONYMS = {
     "follows": {"follows", "follow", "connections", "connection", "subscriptions"},
 }
 
+# Column synonyms — populated by _load_dictionary()
+# Key: qualified "table.column", Value: set of synonym strings
+COLUMN_SYNONYMS: dict[str, set[str]] = {}
+
 # Reverse: any synonym → canonical table name
 SYNONYM_TO_TABLE = {}
-for canonical, syns in TABLE_SYNONYMS.items():
-    for s in syns:
-        SYNONYM_TO_TABLE[s] = canonical
+
+
+def _rebuild_synonym_to_table():
+    """Rebuild the reverse index after TABLE_SYNONYMS is modified."""
+    SYNONYM_TO_TABLE.clear()
+    for canonical, syns in TABLE_SYNONYMS.items():
+        for s in syns:
+            SYNONYM_TO_TABLE[s] = canonical
+
+
+_rebuild_synonym_to_table()
+
+
+def _load_dictionary(dict_path: str):
+    """Merge table & column synonyms from a dictionary YAML into the test lookups."""
+    import yaml
+    with open(dict_path) as f:
+        data = yaml.safe_load(f)
+
+    # Merge table synonyms
+    for tname, syns in data.get("table_synonyms", {}).items():
+        existing = TABLE_SYNONYMS.get(tname, {tname})
+        TABLE_SYNONYMS[tname] = existing | set(syns)
+    _rebuild_synonym_to_table()
+
+    # Load column synonyms
+    for qualified_col, syns in data.get("column_synonyms", {}).items():
+        COLUMN_SYNONYMS[qualified_col] = set(syns)
 
 # Words that indicate successful rendering of union connector
 UNION_DISTINCT_INDICATOR = "removing duplicates"
@@ -251,6 +278,32 @@ def _has_filter(nl: str) -> bool:
     return any(ind in nl_lower for ind in FILTER_INDICATORS)
 
 
+def _col_in_nl(col: str, nl_lower: str, table: str = None) -> bool:
+    """Return True if a column name (or any of its dictionary synonyms) appears in the NL.
+
+    Checks:
+      1. The raw column name with underscores replaced by spaces (e.g. 'user_id' → 'user id')
+      2. All synonyms from the COLUMN_SYNONYMS dictionary
+    """
+    col_lower = col.lower().replace("_", " ")
+    if col_lower in nl_lower:
+        return True
+
+    # Check dictionary synonyms for this column
+    qualified_keys = []
+    if table:
+        qualified_keys.append(f"{table}.{col}")
+    # Also try all tables that have this column
+    for qk in COLUMN_SYNONYMS:
+        if qk.endswith(f".{col}"):
+            qualified_keys.append(qk)
+    for qk in qualified_keys:
+        for syn in COLUMN_SYNONYMS.get(qk, set()):
+            if syn.lower() in nl_lower:
+                return True
+    return False
+
+
 def _table_in_nl(table: str, nl_lower: str) -> bool:
     """Return True if the table name or any of its synonyms appear in the NL as a
     genuine table reference (not as part of a column name compound or string literal).
@@ -260,6 +313,7 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
       - 'user' inside "'user'"           (string literal value, not table reference)
       - 'like' followed by a quote/percent (SQL LIKE operator pattern)
       - 'follow' inside 'followed_at'   (column fragment)
+      - 'account' inside 'account followed id' (column synonym containing a table synonym)
     """
     candidates = TABLE_SYNONYMS.get(table, {table})
     for c in candidates:
@@ -280,8 +334,53 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
             if before.endswith("'") or rest.startswith("'"):
                 continue
 
+            # Reject: match is embedded in a column synonym phrase
+            if _match_inside_column_synonym(c, nl_lower, start, end):
+                continue
+
+            # Reject: match is inside a longer table synonym for a *different* table
+            if _match_inside_other_table_synonym(table, c, nl_lower, start, end):
+                continue
+
             # This match is a genuine table reference
             return True
+    return False
+
+
+def _match_inside_other_table_synonym(table: str, word: str, nl_lower: str,
+                                       start: int, end: int) -> bool:
+    """Check if a word match is part of a longer multi-word table synonym for a different table."""
+    for other_table, syns in TABLE_SYNONYMS.items():
+        if other_table == table:
+            continue
+        for syn in syns:
+            syn_l = syn.lower()
+            # Only check multi-word synonyms that contain the matched word
+            if " " not in syn_l or word not in syn_l:
+                continue
+            idx = nl_lower.find(syn_l)
+            while idx != -1:
+                if idx <= start and idx + len(syn_l) >= end:
+                    return True
+                idx = nl_lower.find(syn_l, idx + 1)
+    return False
+
+
+def _match_inside_column_synonym(word: str, nl_lower: str, start: int, end: int) -> bool:
+    """Check if a word match at [start:end] is part of a longer column synonym phrase."""
+    if not COLUMN_SYNONYMS:
+        return False
+    for syns in COLUMN_SYNONYMS.values():
+        for syn in syns:
+            syn_l = syn.lower()
+            if word not in syn_l or syn_l == word:
+                continue
+            # See if this column synonym phrase is present in the NL around the match
+            idx = nl_lower.find(syn_l)
+            while idx != -1:
+                if idx <= start and idx + len(syn_l) >= end:
+                    return True
+                idx = nl_lower.find(syn_l, idx + 1)
     return False
 
 
@@ -449,7 +548,7 @@ def check_structural(r: dict, result: TestResult):
     # and SELECT-type prompts may begin with "select" as a natural language intent word.
     # Flag only if the first word is a structural-only SQL keyword that has no NL meaning.
     first_word_upper = nl.split()[0].upper() if nl.split() else ""
-    structural_only_sql_kws = {"FROM", "WHERE", "JOIN", "GROUP", "HAVING", "DROP"}
+    structural_only_sql_kws = {"FROM", "WHERE", "JOIN", "GROUP", "HAVING"}
     if first_word_upper in structural_only_sql_kws:
         result.fail(rid, comp, "no_raw_sql_start",
                     f"NL starts with structural SQL keyword '{first_word_upper}'")
@@ -498,9 +597,12 @@ def check_select_fidelity(r: dict, result: TestResult):
     # 10. Specific columns present in NL
     else:
         cols = _selected_columns(sql)
+        # Try to determine the source table for better synonym lookup
+        table_match = re.search(r"FROM\s+(\w+)", sql, re.IGNORECASE)
+        source_table = table_match.group(1) if table_match else None
         for col in cols:
             # Column names can appear as "the user's email", "email", "the like's liked_at"
-            if col.lower() not in nl_l:
+            if not _col_in_nl(col, nl_l, source_table):
                 result.fail(rid, comp, "column_name_in_nl",
                             f"Column '{col}' not found in NL: {nl[:120]}")
             else:
@@ -963,9 +1065,11 @@ def check_insert(r: dict, result: TestResult):
     # 52. Inserted column names present in NL
     cols_match = re.search(r"INSERT\s+INTO\s+\w+\s*\(([^)]+)\)", sql, re.IGNORECASE)
     if cols_match:
+        insert_table_match = re.search(r"INSERT\s+INTO\s+(\w+)", sql, re.IGNORECASE)
+        insert_table = insert_table_match.group(1) if insert_table_match else None
         col_names = [c.strip() for c in cols_match.group(1).split(",")]
         for col in col_names:
-            if col.lower() not in nl_l:
+            if not _col_in_nl(col, nl_l, insert_table):
                 result.fail(rid, comp, "insert_column_in_nl",
                             f"Insert column '{col}' not in NL: {nl[:120]}")
             else:
@@ -996,7 +1100,9 @@ def check_update(r: dict, result: TestResult):
     set_match = re.search(r"SET\s+(\w+)\s*=", sql, re.IGNORECASE)
     if set_match:
         col = set_match.group(1)
-        if col.lower() not in nl_l:
+        update_table_match = re.search(r"UPDATE\s+(\w+)", sql, re.IGNORECASE)
+        update_table = update_table_match.group(1) if update_table_match else None
+        if not _col_in_nl(col, nl_l, update_table):
             result.fail(rid, comp, "update_set_col_in_nl",
                         f"SET column '{col}' not in NL: {nl[:100]}")
         else:
@@ -1139,6 +1245,11 @@ def main():
         help="Path to a YAML schema file (default: use legacy src/core/schema.py)"
     )
     parser.add_argument(
+        "--dictionary", "-d",
+        default=None,
+        help="Path to a dictionary YAML to load table/column synonyms from"
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Print each failure as it occurs"
@@ -1147,6 +1258,11 @@ def main():
 
     # Load schema before running tests
     _load_schema(args.schema)
+
+    # Load dictionary synonyms if provided
+    if args.dictionary:
+        _load_dictionary(args.dictionary)
+        print(f"Loaded dictionary synonyms from {args.dictionary}")
 
     result = run_tests(args.input, verbose=args.verbose)
     print(result.summary())
