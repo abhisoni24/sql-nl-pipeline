@@ -25,16 +25,16 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from src.core.schema_loader import load_from_yaml
+from src.core.schema_loader import load_schema
 from src.core.dictionary_builder import build_dictionary, save_dictionary
 
 
 def generate_and_save(schema_path: str, outdir: str) -> str:
-    """Build a dictionary from a schema YAML and save it for review.
+    """Build a dictionary from a schema file (YAML or SQLite) and save it for review.
 
     Returns the path of the saved dictionary YAML.
     """
-    schema_cfg = load_from_yaml(schema_path)
+    schema_cfg = load_schema(schema_path)
     dictionary = build_dictionary(schema_cfg, use_wordnet=True)
 
     os.makedirs(outdir, exist_ok=True)

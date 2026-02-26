@@ -52,8 +52,8 @@ def _load_records(path):
 def _resolve_dialect(schema_path=None, upstream_meta=None):
     """Determine the SQL dialect to use, with fallback chain."""
     if schema_path:
-        from src.core.schema_loader import load_from_yaml
-        cfg = load_from_yaml(schema_path)
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(schema_path)
         return cfg.dialect, cfg.schema_name
     if upstream_meta and upstream_meta.get("dialect"):
         return upstream_meta["dialect"], upstream_meta.get("schema_name", "unknown")
@@ -90,9 +90,9 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
             if not schema_path:
                 schema_path = "schemas/social_media.yaml"
                 print(f"No --schema provided, defaulting to {schema_path}")
-            from src.core.schema_loader import load_from_yaml
+            from src.core.schema_loader import load_schema
             from src.core.dictionary_builder import build_dictionary
-            schema_cfg = load_from_yaml(schema_path)
+            schema_cfg = load_schema(schema_path)
             dictionary = build_dictionary(schema_cfg, use_wordnet=True)
             resolver = TemplateResolver(dictionary, seed=42)
             print(f"WARNING: Building dictionary on-the-fly (synonyms not reviewed).")
@@ -181,8 +181,8 @@ if __name__ == "__main__":
     # ── Derive defaults from --schema if provided ────────────────────
     schema_name = "social_media"
     if args.schema:
-        from src.core.schema_loader import load_from_yaml
-        schema_name = load_from_yaml(args.schema).schema_name
+        from src.core.schema_loader import load_schema
+        schema_name = load_schema(args.schema).schema_name
 
     input_file = args.input or f"./dataset/{schema_name}/raw_queries.json"
     output_file = args.output or f"./dataset/{schema_name}/nl_prompts.json"

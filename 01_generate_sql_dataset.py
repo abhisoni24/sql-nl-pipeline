@@ -34,7 +34,8 @@ def main():
     )
     parser.add_argument(
         "--schema", "-s", default=None,
-        help="Path to a YAML schema file (e.g. schemas/social_media.yaml). "
+        help="Path to a schema file — YAML (e.g. schemas/social_media.yaml) or "
+             "SQLite (e.g. database.sqlite). "
              "If omitted, falls back to the legacy hardcoded social_media schema."
     )
     parser.add_argument(
@@ -49,8 +50,8 @@ def main():
 
     # ── Load schema ──────────────────────────────────────────────────
     if args.schema:
-        from src.core.schema_loader import load_from_yaml
-        schema_cfg = load_from_yaml(args.schema)
+        from src.core.schema_loader import load_schema
+        schema_cfg = load_schema(args.schema)
         schema = schema_cfg.get_legacy_schema()
         foreign_keys = schema_cfg.get_fk_pairs()
         schema_name = schema_cfg.schema_name

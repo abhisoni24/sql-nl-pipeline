@@ -47,8 +47,8 @@ def _load_records(path):
 def _resolve_dialect(schema_path=None, upstream_meta=None):
     """Determine the SQL dialect to use, with fallback chain."""
     if schema_path:
-        from src.core.schema_loader import load_from_yaml
-        cfg = load_from_yaml(schema_path)
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(schema_path)
         return cfg.dialect, cfg.schema_name
     if upstream_meta and upstream_meta.get("dialect"):
         return upstream_meta["dialect"], upstream_meta.get("schema_name", "unknown")
@@ -70,8 +70,8 @@ def main():
     schema_name = "social_media"
     dialect = "sqlite"
     if args.schema:
-        from src.core.schema_loader import load_from_yaml
-        cfg = load_from_yaml(args.schema)
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(args.schema)
         schema_name = cfg.schema_name
         dialect = cfg.dialect
         print(f"Schema: '{schema_name}', dialect: '{dialect}'")
