@@ -3,7 +3,7 @@ Configuration for the SQL Equivalence Framework.
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import Dict, Optional, List, Tuple
 from enum import Enum
 
 
@@ -51,6 +51,12 @@ class EquivalenceConfig:
     
     # Cleanup temp databases after checking
     cleanup_temp_dbs: bool = True
+    
+    # Schema definition: {table_name: {col_name: col_type}}
+    schema: Optional[Dict[str, Dict[str, str]]] = None
+    
+    # Foreign key relationships: {(from_table, to_table): (from_col, to_col)}
+    foreign_keys: Optional[Dict[Tuple[str, str], Tuple[str, str]]] = None
     
     # Path to TestSuiteEval directory
     testsuite_eval_path: str = ""

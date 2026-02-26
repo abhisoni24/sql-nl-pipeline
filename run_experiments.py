@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 from src.harness.llm_worker import LLMWorker
 from src.harness.experiment_runner import ExperimentRunner
+from src.core.schema_loader import load_from_yaml
 from src.utils.data_loader import (
     load_baseline_queries,
     load_systematic_perturbations,
@@ -64,6 +65,19 @@ def load_all_tasks(dataset_dir: str):
     return all_tasks
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Run SQL generation experiments.")
+    parser.add_argument('--schema', default='schemas/social_media.yaml',
+                        help='Path to schema YAML (default: schemas/social_media.yaml)')
+    cli_args = parser.parse_args()
+
+    # Load schema config
+    schema_cfg = load_from_yaml(cli_args.schema)
+    schema = schema_cfg.get_legacy_schema()
+    foreign_keys = schema_cfg.get_fk_pairs()
+    dialect = schema_cfg.dialect
+    schema_name = schema_cfg.schema_name
+
     # 1. Setup
     run_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     local_run_dir, inputs_dir, outputs_dir = setup_directories(run_timestamp)
@@ -71,7 +85,7 @@ def main():
     # Initialize Storage Manager
     storage_mgr = StorageManager()
     
-    print(f"🚀 Starting Experiment Run: {run_timestamp}")
+    print(f"🚀 Starting Experiment Run: {run_timestamp} (schema: {schema_name})")
     print(f"   📂 Output Dir: {outputs_dir}")
     print(f"   💾 Free Disk Space: {storage_mgr.get_free_space_gb():.1f}GB")
     
@@ -139,6 +153,9 @@ def main():
                 adapter_type=worker_args.pop('adapter_type'),
                 model_identifier=worker_args.pop('model_identifier'),
                 rate_limit=worker_args.pop('rate_limit', None),
+                schema=schema,
+                foreign_keys=foreign_keys,
+                dialect=dialect,
                 **worker_args # Pass remaining config (max_model_len, quantization, etc.)
             )
             

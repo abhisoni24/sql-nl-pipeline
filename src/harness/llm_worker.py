@@ -3,22 +3,34 @@ import asyncio
 from typing import List, Dict, Any, Optional
 from tqdm.auto import tqdm
 
-from src.core.schema import USED_SQL_DIALECT
 
-# System prompt for SQL generation (consistent across all models)
-SYSTEM_PROMPT = f"""You are a SQL expert. Given the database schema and a natural language query,
-provide ONLY the SQL code. No explanations. No preamble. Return only valid SQL.
-IMPORTANT: Generate SQL compatible with the {USED_SQL_DIALECT.upper()} dialect."""
+# Default SQL dialect (used when no schema is provided)
+_DEFAULT_DIALECT = "sqlite"
 
-# Database schema context
-SCHEMA_CONTEXT = """
-Database Schema:
-- users(id INT, username VARCHAR, email VARCHAR, signup_date DATETIME, is_verified BOOLEAN, country_code VARCHAR)
-- posts(id INT, user_id INT, content TEXT, posted_at DATETIME, view_count INT)
-- comments(id INT, user_id INT, post_id INT, comment_text TEXT, created_at DATETIME)
-- likes(user_id INT, post_id INT, liked_at DATETIME)
-- follows(follower_id INT, followee_id INT, followed_at DATETIME)
-"""
+
+def _build_system_prompt(dialect: str = _DEFAULT_DIALECT) -> str:
+    """Build the system prompt with the given SQL dialect."""
+    return (
+        f"You are a SQL expert. Given the database schema and a natural language query,\n"
+        f"provide ONLY the SQL code. No explanations. No preamble. Return only valid SQL.\n"
+        f"IMPORTANT: Generate SQL compatible with the {dialect.upper()} dialect."
+    )
+
+
+def _build_schema_context(schema: Dict[str, Dict[str, str]],
+                           foreign_keys: Dict = None) -> str:
+    """Build human-readable schema context from a schema dict.
+    
+    Args:
+        schema: {table_name: {col_name: col_type, ...}, ...}
+        foreign_keys: optional FK dict for reference
+    """
+    lines = ["Database Schema:"]
+    for table, cols in schema.items():
+        col_strs = [f"{c} {t.upper()}" for c, t in cols.items()]
+        lines.append(f"- {table}({', '.join(col_strs)})")
+    return "\n".join(lines)
+
 
 class LLMWorker:
     """Unified wrapper for both local (vLLM) and API-based models."""
@@ -28,6 +40,9 @@ class LLMWorker:
         adapter_type: str,
         model_identifier: str,
         rate_limit: Optional[Dict[str, Any]] = None,
+        schema: Optional[Dict[str, Dict[str, str]]] = None,
+        foreign_keys: Optional[Dict] = None,
+        dialect: str = _DEFAULT_DIALECT,
         **kwargs
     ):
         self.adapter_type = adapter_type
@@ -35,6 +50,15 @@ class LLMWorker:
         self.rate_limit = rate_limit or {}
         self.adapter_config = kwargs
         self._adapter = None
+        
+        # Build prompts from schema config
+        self._system_prompt = _build_system_prompt(dialect)
+        if schema is not None:
+            self._schema_context = _build_schema_context(schema, foreign_keys)
+        else:
+            # Fallback: no schema provided — callers must provide full prompts
+            self._schema_context = ""
+        
         self._initialize_adapter()
     
     def _initialize_adapter(self):
@@ -58,7 +82,7 @@ class LLMWorker:
     
     def _format_prompt(self, nl_prompt: str) -> str:
         """Format prompt with schema context and system instructions."""
-        return f"{SYSTEM_PROMPT}\n\n{SCHEMA_CONTEXT}\n\nQuery: {nl_prompt}\n\nSQL:"
+        return f"{self._system_prompt}\n\n{self._schema_context}\n\nQuery: {nl_prompt}\n\nSQL:"
     
     def generate_batch(self, prompts: List[str], batch_size: int = 500) -> List[str]:
         """

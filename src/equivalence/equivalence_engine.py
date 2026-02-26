@@ -6,9 +6,7 @@ to the appropriate checker based on query type.
 """
 
 import os
-import re
 from typing import Optional, List
-from pathlib import Path
 
 from .config import EquivalenceConfig, EquivalenceResult, EquivalenceCheckResult
 from .schema_adapter import create_database_from_schema
@@ -57,38 +55,34 @@ class SQLEquivalenceEngine:
         if os.path.exists(self.config.base_db_path):
             return
         
-        # Import schema from the project
-        try:
-            import sys
-            # Add project root to path
-            project_root = Path(self.config.base_db_path).parent.parent.parent
-            if str(project_root) not in sys.path:
-                sys.path.insert(0, str(project_root))
-            
-            from src.core.schema import SCHEMA, FOREIGN_KEYS
-            
-            # Create database with schema
-            create_database_from_schema(
-                self.config.base_db_path,
-                SCHEMA,
-                FOREIGN_KEYS,
-                overwrite=True
-            )
-            
-            # Seed with data
-            seed_database(
-                self.config.base_db_path,
-                SCHEMA,
-                FOREIGN_KEYS,
-                min_rows=self.config.min_rows_per_table,
-                max_rows=self.config.max_rows_per_table
-            )
-            
-        except ImportError:
+        schema = self.config.schema
+        foreign_keys = self.config.foreign_keys
+        
+        if schema is None or foreign_keys is None:
             raise RuntimeError(
-                f"Could not import schema. Please create base database manually at: "
-                f"{self.config.base_db_path}"
+                "Cannot create base database: schema and foreign_keys must be "
+                "provided in EquivalenceConfig (or use SQLEquivalenceEngine.from_schema())."
             )
+        
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(self.config.base_db_path) or ".", exist_ok=True)
+        
+        # Create database with schema
+        create_database_from_schema(
+            self.config.base_db_path,
+            schema,
+            foreign_keys,
+            overwrite=True
+        )
+        
+        # Seed with data
+        seed_database(
+            self.config.base_db_path,
+            schema,
+            foreign_keys,
+            min_rows=self.config.min_rows_per_table,
+            max_rows=self.config.max_rows_per_table
+        )
     
     def check_equivalence(
         self,
@@ -198,10 +192,13 @@ class SQLEquivalenceEngine:
         # Seed database
         seed_database(db_path, schema, foreign_keys)
         
-        # Create config
+        # Create config (include schema/fk so _ensure_base_database is a no-op
+        # since we already created the DB above, but store for reference)
         config = EquivalenceConfig(
             base_db_path=db_path,
             test_suite_dir=test_suite_dir,
+            schema=schema,
+            foreign_keys=foreign_keys,
             **config_kwargs
         )
         

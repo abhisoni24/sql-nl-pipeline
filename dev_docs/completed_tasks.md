@@ -66,11 +66,15 @@
 
 | Step                                   | Status     | Notes |
 | -------------------------------------- | ---------- | ----- |
-| 7.1 Remove hardcoded schema import     | ⬜ Pending |       |
-| 7.2 Update `EquivalenceConfig`         | ⬜ Pending |       |
-| 7.3 Update `from_schema()` classmethod | ⬜ Pending |       |
-| 7.4 Update `analyze_results.py`        | ⬜ Pending |       |
-| 7.5 Verify equivalence checker         | ⬜ Pending |       |
+| 7.1 Remove hardcoded schema import     | ✅ Done | `_ensure_base_database()` now uses `self.config.schema` / `self.config.foreign_keys` instead of `from src.core.schema import SCHEMA, FOREIGN_KEYS` |
+| 7.2 Update `EquivalenceConfig`         | ✅ Done | Added `schema: Optional[Dict]` and `foreign_keys: Optional[Dict]` fields to `EquivalenceConfig` dataclass |
+| 7.3 Update `from_schema()` classmethod | ✅ Done | `from_schema()` now stores `schema`/`foreign_keys` in the config it creates |
+| 7.4 Update `analyze_results.py`        | ✅ Done | Added `--schema` CLI arg; `setup_equivalence_engine()` and `_get_or_create_worker_engine()` create DBs from schema YAML instead of copying hardcoded test_dbs |
+| 7.5 Update `analyze_results_systematic.py` | ✅ Done | Same changes as 7.4; both sequential and parallel evaluation paths are schema-agnostic |
+| 7.6 Update `run_equivalence_test.py`   | ✅ Done | Added `--schema` CLI arg; `create_engine()` uses `load_from_yaml()` instead of hardcoded `SCHEMA`/`FOREIGN_KEYS` |
+| 7.7 Make `llm_worker.py` schema-agnostic | ✅ Done | Removed hardcoded `USED_SQL_DIALECT` import and `SCHEMA_CONTEXT` string; `LLMWorker` now accepts `schema`, `foreign_keys`, `dialect` kwargs; system prompt and schema context built dynamically |
+| 7.8 Update `run_experiments.py`        | ✅ Done | Added `--schema` CLI arg; passes `schema`/`foreign_keys`/`dialect` to `LLMWorker` |
+| 7.9 Verify equivalence checker         | ✅ Done | 24/24 checks pass: self-equivalence works on social_media, bank, hospital schemas; no hardcoded imports remain |
 
 ## Phase 8: Test Suite Migration
 

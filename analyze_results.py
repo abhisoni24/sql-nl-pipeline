@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.abspath('.'))
 from src.utils.sql_utils import extract_sql
 from src.equivalence.equivalence_engine import SQLEquivalenceEngine
 from src.equivalence.config import EquivalenceConfig, EquivalenceResult, EquivalenceCheckResult
+from src.core.schema_loader import load_from_yaml
 
 # Configuration Defaults
 LOCAL_BASE = os.getenv('LOCAL_BASE', './')
@@ -191,22 +192,36 @@ def load_existing_evaluated(eval_path: str) -> set:
 # ---------------------------------------------------------------------------
 # Core Functions
 # ---------------------------------------------------------------------------
-def setup_equivalence_engine(local_workspace='./local_eval_workspace'):
+def setup_equivalence_engine(local_workspace='./local_eval_workspace',
+                             schema_path='schemas/social_media.yaml'):
     """Copy DBs locally and init engine."""
     if os.path.exists(local_workspace):
         shutil.rmtree(local_workspace)
     os.makedirs(local_workspace, exist_ok=True)
 
-    print("📂 Copying test databases to local VM...")
-    src_db_dir = f'{REPO_PATH}/test_dbs'
-    dest_db_dir = f'{local_workspace}/test_dbs'
+    # Load schema from YAML
+    schema_cfg = load_from_yaml(schema_path)
+    schema = schema_cfg.get_legacy_schema()
+    foreign_keys = schema_cfg.get_fk_pairs()
+    schema_name = schema_cfg.schema_name
 
-    shutil.copytree(src_db_dir, dest_db_dir)
-    print("✅ Database files copied.")
+    print(f"📂 Setting up evaluation workspace (schema: {schema_name})...")
+    dest_db_dir = f'{local_workspace}/test_dbs'
+    os.makedirs(dest_db_dir, exist_ok=True)
+
+    # Create & seed base database from schema
+    from src.equivalence.schema_adapter import create_database_from_schema
+    from src.equivalence.seed_database import seed_database
+    base_db = f'{dest_db_dir}/base.sqlite'
+    create_database_from_schema(base_db, schema, foreign_keys, overwrite=True)
+    seed_database(base_db, schema, foreign_keys)
+    print("✅ Base database created and seeded.")
 
     config = EquivalenceConfig(
-        base_db_path=f'{dest_db_dir}/base.sqlite',
-        test_suite_dir=dest_db_dir
+        base_db_path=base_db,
+        test_suite_dir=dest_db_dir,
+        schema=schema,
+        foreign_keys=foreign_keys,
     )
     return SQLEquivalenceEngine(config)
 
@@ -294,19 +309,31 @@ def _get_or_create_worker_engine(config_template):
 
     # Create isolated workspace for this process
     worker_workspace = f'./local_eval_workspace_worker_{pid}'
-    if not os.path.exists(worker_workspace):
-        os.makedirs(worker_workspace, exist_ok=True)
-        src_db_dir = config_template['source_db_dir']
-        dest_db_dir = f'{worker_workspace}/test_dbs'
-        shutil.copytree(src_db_dir, dest_db_dir)
-
     dest_db_dir = f'{worker_workspace}/test_dbs'
+    if not os.path.exists(worker_workspace):
+        os.makedirs(dest_db_dir, exist_ok=True)
+        # Create & seed base database from schema in worker workspace
+        from src.equivalence.schema_adapter import create_database_from_schema
+        from src.equivalence.seed_database import seed_database
+        base_db = f'{dest_db_dir}/base.sqlite'
+        schema = config_template.get('schema')
+        fks = config_template.get('foreign_keys')
+        if schema and fks:
+            create_database_from_schema(base_db, schema, fks, overwrite=True)
+            seed_database(base_db, schema, fks)
+        else:
+            # Fallback: copy existing test_dbs
+            src_db_dir = config_template['source_db_dir']
+            shutil.copytree(src_db_dir, dest_db_dir, dirs_exist_ok=True)
+
     config = EquivalenceConfig(
         base_db_path=f'{dest_db_dir}/base.sqlite',
         test_suite_dir=dest_db_dir,
         max_fuzz_iterations=config_template.get('max_fuzz_iterations', 100),
         max_distilled_dbs=config_template.get('max_distilled_dbs', 10),
         order_matters=config_template.get('order_matters', False),
+        schema=config_template.get('schema'),
+        foreign_keys=config_template.get('foreign_keys'),
     )
 
     _subprocess_engine = SQLEquivalenceEngine(config)
@@ -404,6 +431,8 @@ def evaluate_dataframe_parallel(
         'max_fuzz_iterations': engine.config.max_fuzz_iterations,
         'max_distilled_dbs': engine.config.max_distilled_dbs,
         'order_matters': engine.config.order_matters,
+        'schema': engine.config.schema,
+        'foreign_keys': engine.config.foreign_keys,
     }
 
     new_count = 0
@@ -688,9 +717,10 @@ def generate_plots(df: pd.DataFrame, output_dir: str):
     print(f"📊 All plots saved to {output_dir}")
 
 
-def main(run_outputs_dir=None, input_files=None, parallel=False, workers=4):
+def main(run_outputs_dir=None, input_files=None, parallel=False, workers=4,
+         schema_path='schemas/social_media.yaml'):
     # 1. Init Engine
-    engine = setup_equivalence_engine()
+    engine = setup_equivalence_engine(schema_path=schema_path)
 
     # 2. Aggregate
     df = aggregate_results(run_outputs_dir, input_files)
@@ -744,6 +774,8 @@ if __name__ == "__main__":
     )
     parser.add_argument('output_dir', nargs='?', help='Directory containing results')
     parser.add_argument('--files', nargs='+', help='Specific result files to process')
+    parser.add_argument('--schema', default='schemas/social_media.yaml',
+                        help='Path to schema YAML file (default: schemas/social_media.yaml)')
     parser.add_argument('--parallel', action='store_true', help='Enable parallel evaluation')
     import psutil
     
@@ -780,9 +812,11 @@ if __name__ == "__main__":
 
 
     if args.files:
-        main(input_files=args.files, parallel=args.parallel, workers=args.workers)
+        main(input_files=args.files, parallel=args.parallel, workers=args.workers,
+             schema_path=args.schema)
     elif args.output_dir:
-        main(run_outputs_dir=args.output_dir, parallel=args.parallel, workers=args.workers)
+        main(run_outputs_dir=args.output_dir, parallel=args.parallel, workers=args.workers,
+             schema_path=args.schema)
     else:
         print("Usage: python analyze_results.py <output_dir> [--parallel] [--workers N]")
         print("       python analyze_results.py --files file1 file2 ... [--parallel]")
