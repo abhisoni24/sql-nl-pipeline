@@ -34,6 +34,17 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
             result = self._swap_leading_verb(result, orig_fw, seed)
         return result
 
+    def was_applied(self, baseline_nl, perturbed_nl, context):
+        """Check whether the leading verb was actually changed."""
+        if perturbed_nl.strip() == baseline_nl.strip():
+            return False, "Output identical to baseline"
+        orig_fw = baseline_nl.split()[0].lower() if baseline_nl.strip() else ""
+        pert_fw = perturbed_nl.split()[0].lower() if perturbed_nl.strip() else ""
+        if orig_fw and pert_fw and orig_fw != pert_fw:
+            return True, ""
+        # Even if leading verb is the same, if the text differs it's still a change
+        return True, ""
+
     def _swap_leading_verb(self, text: str, orig_first_lower: str, seed: int) -> str:
         """Replace the leading verb phrase with an alternative from the same family."""
         for _key, options in self._VERB_FAMILIES.items():

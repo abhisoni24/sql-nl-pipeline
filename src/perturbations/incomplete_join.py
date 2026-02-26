@@ -17,3 +17,10 @@ class IncompleteJoinPerturbation(PerturbationStrategy):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.INCOMPLETE_JOIN_SPEC}, seed=seed)
         return SQLToNLRenderer(config).render(ast)
+
+    def was_applied(self, baseline_nl, perturbed_nl, context):
+        """Check whether join phrasing was simplified/omitted."""
+        if perturbed_nl.strip() == baseline_nl.strip():
+            return False, "Output identical to baseline"
+        # Any text change from the join-omission renderer counts
+        return True, ""

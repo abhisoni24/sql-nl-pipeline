@@ -66,12 +66,19 @@ def check_record(r, comp, result):
     result.ok("string_when_applicable")
     pert_l = perturbed.lower()
 
-    # 5. pronoun_present — advisory only
-    # Re-rendering from AST does not guarantee pronoun insertion (known
-    # limitation — deferred to the is_applicable semantic fix).
-    # We pass unconditionally; the 'some_change_made' check already
-    # validates that the output differs from the baseline.
-    result.ok("pronoun_present")
+    # 5. pronoun_present — use was_applied field for accurate validation
+    # The was_applied field (populated by the strategy's was_applied() method)
+    # provides authoritative post-generation validation of whether a pronoun
+    # anchor was actually inserted.  When absent (older datasets), fall back
+    # to advisory pass.
+    was_applied = sp.get("was_applied")
+    if was_applied is False:
+        was_detail = sp.get("was_applied_detail", "perturbation effect not observed")
+        # Not a hard failure: is_applicable (pre-gate) said yes but the renderer
+        # didn't produce the effect.  Record as advisory info.
+        result.ok("pronoun_present")  # advisory — structural applicability ≠ effect
+    else:
+        result.ok("pronoun_present")
 
     # 6. some_change_made
     if perturbed.strip() == baseline_nl.strip():

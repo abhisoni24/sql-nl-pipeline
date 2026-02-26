@@ -290,10 +290,15 @@ def run_tests(input_file, perturbation_name, check_record_fn, verbose=False):
     result = TestResult(perturbation_name=perturbation_name, verbose=verbose)
     with open(input_file) as f:
         dataset = json.load(f)
-    print(f"Loaded {len(dataset)} records from {input_file}")
+    # Support both bare-list and metadata-wrapped formats
+    if isinstance(dataset, dict) and "records" in dataset:
+        records = dataset["records"]
+    else:
+        records = dataset
+    print(f"Loaded {len(records)} records from {input_file}")
     print(f"Running tests for: {perturbation_name}{'  (verbose)' if verbose else ''}\n")
     by_comp = defaultdict(int)
-    for r in dataset:
+    for r in records:
         comp = complexity(r["sql"])
         by_comp[comp] += 1
         check_record_fn(r, comp, result)

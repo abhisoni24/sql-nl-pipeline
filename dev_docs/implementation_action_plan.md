@@ -1130,48 +1130,132 @@ Expected: 0 failures across all test suites.
 
 ### Step 9.2: Create a second test schema
 
-- [ ] **File:** `schemas/healthcare.yaml` [NEW]
-- [ ] Minimum 3 tables: `patients`, `doctors`, `appointments` with foreign keys.
+- [ ] **File:** `schemas/university_system.yaml` [NEW]
 
 ```yaml
-name: healthcare
+name: university_system
 dialect: sqlite
+
 tables:
-  patients:
+
+  students:
     columns:
       id: { type: int, is_pk: true }
-      name: varchar
-      date_of_birth: datetime
-      insurance_id: varchar
-  doctors:
+      first_name: varchar
+      last_name: varchar
+      email: varchar
+      enrollment_year: int
+      major: varchar
+      gpa: real
+      is_full_time: boolean
+      created_at: datetime
+
+  instructors:
     columns:
       id: { type: int, is_pk: true }
-      name: varchar
-      specialization: varchar
+      first_name: varchar
+      last_name: varchar
+      email: varchar
+      department_id: int
+      hire_date: datetime
+      rank: varchar
+      salary: real
       is_active: boolean
-  appointments:
+
+  departments:
     columns:
       id: { type: int, is_pk: true }
-      patient_id: int
-      doctor_id: int
-      scheduled_at: datetime
-      notes: text
+      name: varchar
+      building: varchar
+      budget: real
+      chair_id: int
+      is_active: boolean
+
+  courses:
+    columns:
+      id: { type: int, is_pk: true }
+      course_code: varchar
+      title: varchar
+      credits: int
+      department_id: int
+      level: varchar
+      is_active: boolean
+
+  sections:
+    columns:
+      id: { type: int, is_pk: true }
+      course_id: int
+      instructor_id: int
+      semester: varchar
+      year: int
+      room_number: varchar
+      schedule_time: varchar
+      capacity: int
+
+  enrollments:
+    columns:
+      student_id: int
+      section_id: int
+      enrolled_at: datetime
+      grade: varchar
+      status: varchar
+
+  assignments:
+    columns:
+      id: { type: int, is_pk: true }
+      section_id: int
+      title: varchar
+      description: text
+      due_date: datetime
+      max_score: real
+
+  submissions:
+    columns:
+      id: { type: int, is_pk: true }
+      assignment_id: int
+      student_id: int
+      submitted_at: datetime
+      score: real
+      feedback: text
+
+  research_projects:
+    columns:
+      id: { type: int, is_pk: true }
+      title: varchar
+      description: text
+      start_date: datetime
+      end_date: datetime
+      funding_amount: real
+      department_id: int
+      principal_investigator_id: int
+      status: varchar
+
 foreign_keys:
-  - [patients, appointments, id, patient_id]
-  - [doctors, appointments, id, doctor_id]
+  - [instructors, departments, id, chair_id]
+  - [departments, instructors, id, department_id]
+  - [departments, courses, id, department_id]
+  - [courses, sections, id, course_id]
+  - [instructors, sections, id, instructor_id]
+  - [students, enrollments, id, student_id]
+  - [sections, enrollments, id, section_id]
+  - [sections, assignments, id, section_id]
+  - [assignments, submissions, id, assignment_id]
+  - [students, submissions, id, student_id]
+  - [departments, research_projects, id, department_id]
+  - [instructors, research_projects, id, principal_investigator_id]
 ```
 
-### Step 9.3: Full pipeline run on healthcare schema
+### Step 9.3: Full pipeline run on university_system schema
 
 ```bash
-python 01_generate_sql_dataset.py --schema schemas/healthcare.yaml
-python 02_generate_nl_prompts.py --schema schemas/healthcare.yaml
-python 03_generate_systematic_perturbations.py --schema schemas/healthcare.yaml
-python pipeline_tests/generation_process/sql/test_sql_generation.py --input dataset/healthcare/raw_queries.json
-python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py --input dataset/healthcare/nl_prompts.json
+python 01_generate_sql_dataset.py --schema schemas/university_system.yaml
+python 02_generate_nl_prompts.py --schema schemas/university_system.yaml
+python 03_generate_systematic_perturbations.py --schema schemas/university_system.yaml
+python pipeline_tests/generation_process/sql/test_sql_generation.py --input dataset/university_system/raw_queries.json
+python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py --input dataset/university_system/nl_prompts.json
 ```
 
-Expected: All structural/type-specific checks pass. Synonym-specific checks use the auto-generated healthcare dictionary.
+Expected: All structural/type-specific checks pass. Synonym-specific checks use the auto-generated university_system dictionary.
 
 ### Step 9.4: Document the new pipeline usage
 

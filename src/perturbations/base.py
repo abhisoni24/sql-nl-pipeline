@@ -13,7 +13,7 @@ extensible interface.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, List, Callable, Any
+from typing import Optional, List, Callable, Any, Tuple
 from sqlglot import exp
 import random
 
@@ -28,7 +28,14 @@ class PerturbationStrategy(ABC):
 
     @abstractmethod
     def is_applicable(self, ast: exp.Expression, nl_text: str, context: dict) -> bool:
-        """Can this perturbation be meaningfully applied to this query?
+        """Pre-generation gate: can this perturbation type be applied to this query?
+
+        This is a **structural check only** — it examines the SQL AST and/or
+        NL text to decide whether the perturbation *could* produce a
+        meaningful change.  It must NOT depend on the rendering output.
+
+        Use ``was_applied()`` for post-generation validation of whether the
+        perturbation actually took effect.
 
         Args:
             ast: Parsed SQL AST (sqlglot expression).
@@ -53,6 +60,32 @@ class PerturbationStrategy(ABC):
         Returns:
             The perturbed NL string.
         """
+
+    def was_applied(self, baseline_nl: str, perturbed_nl: str,
+                    context: dict) -> Tuple[bool, str]:
+        """Post-generation validation: did the perturbation actually take effect?
+
+        Called **after** ``apply()`` returns a perturbed string.  Checks
+        whether the specific perturbation effect is observable in the output
+        (e.g., a pronoun was actually inserted, a synonym was actually used).
+
+        The default implementation checks that the text differs from baseline,
+        which is sufficient for always-applicable post-processing perturbations.
+        Renderer-backed strategies should override this with domain-specific
+        validation.
+
+        Args:
+            baseline_nl: The original NL prompt.
+            perturbed_nl: The perturbed NL prompt returned by ``apply()``.
+            context: Dict with keys like 'schema', 'dictionary', etc.
+
+        Returns:
+            Tuple of (applied: bool, detail: str) where *detail* explains
+            the outcome (empty string when applied=True).
+        """
+        if perturbed_nl.strip() == baseline_nl.strip():
+            return False, "Output identical to baseline"
+        return True, ""
 
     def get_test_checks(self) -> List[Callable]:
         """Return validation check functions for this perturbation.

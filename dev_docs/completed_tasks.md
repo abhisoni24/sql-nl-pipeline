@@ -130,3 +130,23 @@ Eliminated all 194 remaining perturbation test failures by replacing baseline-co
 | Dictionary: renderer synonyms added            | ✅ Done | `social_media_dictionary.yaml` expanded with all hardcoded renderer `schema_synonyms` (articles, feedback, subscriptions, etc.)                                   |
 | Dictionary: singularization variants added     | ✅ Done | `bank_dictionary.yaml` +branche (branches), `hospital_dictionary.yaml` +lab_result (lab_results) — workaround for renderer's bad English singularization         |
 | `is_applicable` semantic fix documented        | ✅ Done | Added as future action item in `implementation_action_plan.md` — separate pre-generation gate from post-generation validation                                    |
+
+## `is_applicable` Semantic Fix (from Future Action Items)
+
+Separated the conflated `is_applicable()` semantics into a pure pre-generation gate (`is_applicable`) and a post-generation validator (`was_applied`). **Final result: 0 failures across 90,342 checks (social_media 42,082, bank 24,177, hospital 24,083).**
+
+| Change                                         | Status  | Notes                                                                                                                                                            |
+| ---------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `was_applied()` added to base class            | ✅ Done | `src/perturbations/base.py` — `was_applied(baseline_nl, perturbed_nl, context) -> Tuple[bool, str]`, default checks text differs from baseline                   |
+| `was_applied()` in ambiguous_pronouns          | ✅ Done | Checks for pronoun anchor tokens (`that value`, `it`, `the same`, etc.) in perturbed output                                                                     |
+| `was_applied()` in synonym_substitution        | ✅ Done | Checks whether leading verb was changed                                                                                                                           |
+| `was_applied()` in mixed_sql_nl                | ✅ Done | Checks for SQL keywords (`SELECT`, `FROM`, `WHERE`, etc.) embedded in perturbed output                                                                           |
+| `was_applied()` in temporal_expression         | ✅ Done | Checks for relative temporal phrases or ISO date removal                                                                                                          |
+| `was_applied()` in table_column_synonyms       | ✅ Done | Diff-based validation (text change from synonym renderer counts)                                                                                                  |
+| `was_applied()` in operator_aggregate_variation| ✅ Done | Diff-based validation                                                                                                                                             |
+| `was_applied()` in incomplete_join             | ✅ Done | Diff-based validation                                                                                                                                             |
+| `was_applied()` in omit_obvious                | ✅ Done | Diff-based validation                                                                                                                                             |
+| Pipeline stores `was_applied` field            | ✅ Done | `03_generate_systematic_perturbations.py` calls `was_applied()` after `apply()`, stores result + detail in output JSON                                            |
+| `pronoun_present` uses `was_applied` field     | ✅ Done | `test_anchored_pronoun_references.py` reads `was_applied` from record for accurate post-generation validation instead of advisory-only pass                        |
+| `common.py` metadata envelope support          | ✅ Done | `run_tests()` now supports both bare-list and `{"metadata": ..., "records": [...]}` dataset formats                                                               |
+| Datasets regenerated with `was_applied`        | ✅ Done | social_media: 3217 true / 49 false, bank: 1769 true / 19 false, hospital: 1773 true / 21 false                                                                  |

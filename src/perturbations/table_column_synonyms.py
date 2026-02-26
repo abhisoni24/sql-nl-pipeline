@@ -17,3 +17,10 @@ class TableColumnSynonymsPerturbation(PerturbationStrategy):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.TABLE_COLUMN_SYNONYMS}, seed=seed)
         return SQLToNLRenderer(config).render(ast)
+
+    def was_applied(self, baseline_nl, perturbed_nl, context):
+        """Check whether any table/column synonym was substituted."""
+        if perturbed_nl.strip() == baseline_nl.strip():
+            return False, "Output identical to baseline"
+        # Any text change from the synonym renderer counts as a synonym substitution
+        return True, ""

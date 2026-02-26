@@ -135,6 +135,12 @@ def main():
                         entry["perturbed_nl_prompt"] = perturbed
                         entry["changes_made"] = strategy.description
                         applicable_count += 1
+
+                        # Post-validation: did the specific perturbation effect fire?
+                        applied, detail = strategy.was_applied(baseline_nl, perturbed, context)
+                        entry["was_applied"] = applied
+                        if detail:
+                            entry["was_applied_detail"] = detail
                 except Exception:
                     entry["applicable"] = False
 

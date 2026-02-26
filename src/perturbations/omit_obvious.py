@@ -17,3 +17,10 @@ class OmitObviousPerturbation(PerturbationStrategy):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.OMIT_OBVIOUS_CLAUSES}, seed=seed)
         return SQLToNLRenderer(config).render(ast)
+
+    def was_applied(self, baseline_nl, perturbed_nl, context):
+        """Check whether obvious clause markers were removed."""
+        if perturbed_nl.strip() == baseline_nl.strip():
+            return False, "Output identical to baseline"
+        # Any text change from the omit-obvious renderer counts
+        return True, ""
