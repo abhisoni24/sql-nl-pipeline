@@ -83,41 +83,87 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
 from sqlglot import exp, parse_one, errors as sqlglot_errors
-from src.core.schema import (
-    SCHEMA,
-    FOREIGN_KEYS,
-    NUMERIC_TYPES,
-    TEXT_TYPES,
-    DATE_TYPES,
-    BOOLEAN_TYPES,
-    USED_SQL_DIALECT,
-)
+
+# ── Schema loading (configurable via --schema CLI arg) ────────────────────
+# We defer schema loading until main() so we can accept the --schema arg.
+# All module-level helpers read from _SCHEMA_STATE which is populated once.
+
+_SCHEMA_STATE = {
+    "SCHEMA": {},
+    "FOREIGN_KEYS": {},
+    "KNOWN_TABLES": set(),
+    "COMPOSITE_PK_COLS": {},
+    "DIALECT": "sqlite",
+    "NUMERIC_TYPES": {"int", "integer", "real", "float"},
+    "TEXT_TYPES": {"varchar", "text", "char"},
+    "DATE_TYPES": {"datetime", "date", "timestamp"},
+    "BOOLEAN_TYPES": {"boolean", "bool"},
+}
+
+
+def _load_schema(schema_path=None):
+    """
+    Load schema from a YAML file or fall back to the legacy hardcoded schema.
+    Populates all module-level schema state variables.
+    """
+    if schema_path:
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(schema_path)
+        _SCHEMA_STATE["SCHEMA"] = cfg.get_legacy_schema()
+        _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
+        _SCHEMA_STATE["DIALECT"] = cfg.dialect
+        # Infer composite PK tables: tables that have no 'id' column use
+        # all their FK columns as a composite PK
+        composite_pks = {}
+        for tname, tdef in cfg.tables.items():
+            if "id" not in tdef.columns:
+                fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
+                if fk_cols:
+                    composite_pks[tname] = fk_cols
+        _SCHEMA_STATE["COMPOSITE_PK_COLS"] = composite_pks
+        type_sets = cfg.get_type_sets()
+        _SCHEMA_STATE["NUMERIC_TYPES"] = type_sets["numeric"]
+        _SCHEMA_STATE["TEXT_TYPES"] = type_sets["text"]
+        _SCHEMA_STATE["DATE_TYPES"] = type_sets["date"]
+        _SCHEMA_STATE["BOOLEAN_TYPES"] = type_sets["boolean"]
+    else:
+        from src.core.schema import (
+            SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT,
+        )
+        _SCHEMA_STATE["SCHEMA"] = SCHEMA
+        _SCHEMA_STATE["FOREIGN_KEYS"] = FOREIGN_KEYS
+        _SCHEMA_STATE["DIALECT"] = USED_SQL_DIALECT
+        # Legacy composite PKs
+        _SCHEMA_STATE["COMPOSITE_PK_COLS"] = {
+            "follows": {"follower_id", "followee_id"},
+            "likes": {"user_id", "post_id"},
+        }
+        from src.core.schema import NUMERIC_TYPES, TEXT_TYPES, DATE_TYPES, BOOLEAN_TYPES
+        _SCHEMA_STATE["NUMERIC_TYPES"] = NUMERIC_TYPES
+        _SCHEMA_STATE["TEXT_TYPES"] = TEXT_TYPES
+        _SCHEMA_STATE["DATE_TYPES"] = DATE_TYPES
+        _SCHEMA_STATE["BOOLEAN_TYPES"] = BOOLEAN_TYPES
+    _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
+
 
 # ── default input file (can be overridden via --input CLI arg) ─────────────
 DEFAULT_INPUT_FILE = "dataset/current/raw_social_media_queries_20.json"
 
 KNOWN_COMPLEXITIES = {"simple", "join", "advanced", "union", "insert", "update", "delete"}
-KNOWN_TABLES = set(SCHEMA.keys())
-
-# Composite primary key columns that must never be updated
-COMPOSITE_PK_COLS = {
-    "follows": {"follower_id", "followee_id"},
-    "likes": {"user_id", "post_id"},
-}
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
 def _fk_pairs():
     """Return a set of (table, table) tuples that share a foreign key."""
-    return set(FOREIGN_KEYS.keys())
+    return set(_SCHEMA_STATE["FOREIGN_KEYS"].keys())
 
 
 def _columns_of(table: str) -> set:
-    return set(SCHEMA.get(table, {}).keys())
+    return set(_SCHEMA_STATE["SCHEMA"].get(table, {}).keys())
 
 
 def _col_type(table: str, col: str) -> str | None:
-    return SCHEMA.get(table, {}).get(col)
+    return _SCHEMA_STATE["SCHEMA"].get(table, {}).get(col)
 
 
 def _ast_table_names(ast: exp.Expression) -> list[str]:
@@ -229,7 +275,7 @@ def check_structural(record: dict, ast: exp.Expression, r: TestResult):
 
     # 5b. All referenced tables exist in schema
     for tname in ast_tables:
-        if tname and tname not in KNOWN_TABLES:
+        if tname and tname not in _SCHEMA_STATE["KNOWN_TABLES"]:
             r.fail(rid, comp, "tables_in_schema", f"Unknown table '{tname}' referenced")
         else:
             r.ok("tables_in_schema")
@@ -311,7 +357,7 @@ def check_join(record: dict, ast: exp.Expression, r: TestResult):
     fk_pair = (left_table, right_table) if left_table and right_table else None
     reverse_pair = (right_table, left_table) if left_table and right_table else None
 
-    if fk_pair not in FOREIGN_KEYS and reverse_pair not in FOREIGN_KEYS:
+    if fk_pair not in _SCHEMA_STATE["FOREIGN_KEYS"] and reverse_pair not in _SCHEMA_STATE["FOREIGN_KEYS"]:
         r.fail(rid, comp, "join_uses_fk",
                f"No FK defined for ({left_table}, {right_table})")
     else:
@@ -323,10 +369,10 @@ def check_join(record: dict, ast: exp.Expression, r: TestResult):
         r.fail(rid, comp, "join_has_on_clause", "JOIN has no ON clause")
     else:
         r.ok("join_has_on_clause")
-        on_sql = on_node.sql(dialect=USED_SQL_DIALECT).lower()
-        pair = fk_pair if fk_pair in FOREIGN_KEYS else reverse_pair
-        if pair and pair in FOREIGN_KEYS:
-            lk, rk = FOREIGN_KEYS[pair]
+        on_sql = on_node.sql(dialect=_SCHEMA_STATE["DIALECT"]).lower()
+        pair = fk_pair if fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"] else reverse_pair
+        if pair and pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
+            lk, rk = _SCHEMA_STATE["FOREIGN_KEYS"][pair]
             if lk.lower() not in on_sql or rk.lower() not in on_sql:
                 r.fail(rid, comp, "join_on_fk_columns",
                        f"ON clause '{on_sql}' missing FK cols ({lk}, {rk})")
@@ -418,7 +464,7 @@ def check_advanced(record: dict, ast: exp.Expression, r: TestResult):
         inner_tables = [t.name for t in inner.find_all(exp.Table)] if isinstance(inner, exp.Select) else []
         for ot in outer_tables:
             for it in inner_tables:
-                if (ot, it) in FOREIGN_KEYS or (it, ot) in FOREIGN_KEYS:
+                if (ot, it) in _SCHEMA_STATE["FOREIGN_KEYS"] or (it, ot) in _SCHEMA_STATE["FOREIGN_KEYS"]:
                     r.ok("subquery_where_fk_related")
                     break
 
@@ -523,7 +569,7 @@ def check_union(record: dict, ast: exp.Expression, r: TestResult):
         # aliases differ: both sides select from their own alias of the same table
         # The check we actually care about: no unknown table involved
         for t in left_tables | right_tables:
-            if t not in KNOWN_TABLES:
+            if t not in _SCHEMA_STATE["KNOWN_TABLES"]:
                 r.fail(rid, comp, "union_tables_in_schema", f"Unknown table '{t}'")
             else:
                 r.ok("union_tables_in_schema")
@@ -554,7 +600,7 @@ def check_insert(record: dict, ast: exp.Expression, r: TestResult):
     # 25. Target table is in schema
     schema_node = ast.this
     table_name = schema_node.this.name if hasattr(schema_node, "this") else str(schema_node)
-    if table_name not in KNOWN_TABLES:
+    if table_name not in _SCHEMA_STATE["KNOWN_TABLES"]:
         r.fail(rid, comp, "insert_table_in_schema", f"Unknown table '{table_name}'")
     else:
         r.ok("insert_table_in_schema")
@@ -597,25 +643,25 @@ def check_insert(record: dict, ast: exp.Expression, r: TestResult):
     # 29. Value types match schema column types (basic check)
     for col, val_node in zip(insert_cols, values):
         expected_type = _col_type(table_name, col)
-        if expected_type in NUMERIC_TYPES:
+        if expected_type in _SCHEMA_STATE["NUMERIC_TYPES"]:
             if not (_is_numeric_literal(val_node) or _is_date_expr(val_node)):
                 r.fail(rid, comp, "insert_value_types",
                        f"Column '{col}' (numeric) got non-numeric value: {val_node}")
             else:
                 r.ok("insert_value_types")
-        elif expected_type in TEXT_TYPES:
+        elif expected_type in _SCHEMA_STATE["TEXT_TYPES"]:
             if not _is_text_literal(val_node):
                 r.fail(rid, comp, "insert_value_types",
                        f"Column '{col}' (text) got non-string value: {val_node}")
             else:
                 r.ok("insert_value_types")
-        elif expected_type in DATE_TYPES:
+        elif expected_type in _SCHEMA_STATE["DATE_TYPES"]:
             if not _is_date_expr(val_node):
                 r.fail(rid, comp, "insert_value_types",
                        f"Column '{col}' (date) got unexpected value: {val_node}")
             else:
                 r.ok("insert_value_types")
-        elif expected_type in BOOLEAN_TYPES:
+        elif expected_type in _SCHEMA_STATE["BOOLEAN_TYPES"]:
             if not _is_numeric_literal(val_node):
                 r.fail(rid, comp, "insert_value_types",
                        f"Column '{col}' (boolean) should be 0 or 1, got: {val_node}")
@@ -635,7 +681,7 @@ def check_update(record: dict, ast: exp.Expression, r: TestResult):
     # 30. Target table in schema
     table_node = ast.this
     table_name = table_node.name if hasattr(table_node, "name") else str(table_node)
-    if table_name not in KNOWN_TABLES:
+    if table_name not in _SCHEMA_STATE["KNOWN_TABLES"]:
         r.fail(rid, comp, "update_table_in_schema", f"Unknown table '{table_name}'")
     else:
         r.ok("update_table_in_schema")
@@ -648,7 +694,7 @@ def check_update(record: dict, ast: exp.Expression, r: TestResult):
         r.ok("update_one_column")
 
     # 32. Composite PK columns NOT updated
-    composite_pk = COMPOSITE_PK_COLS.get(table_name, set())
+    composite_pk = _SCHEMA_STATE["COMPOSITE_PK_COLS"].get(table_name, set())
     for eq in set_exprs:
         updated_col = eq.this.name if hasattr(eq.this, "name") else str(eq.this)
         if updated_col in composite_pk:
@@ -685,7 +731,7 @@ def check_delete(record: dict, ast: exp.Expression, r: TestResult):
     # 35. Target table in schema
     table_node = ast.this
     table_name = table_node.name if hasattr(table_node, "name") else str(table_node)
-    if table_name not in KNOWN_TABLES:
+    if table_name not in _SCHEMA_STATE["KNOWN_TABLES"]:
         r.fail(rid, comp, "delete_table_in_schema", f"Unknown table '{table_name}'")
     else:
         r.ok("delete_table_in_schema")
@@ -736,7 +782,7 @@ def run_tests(input_file: str, verbose: bool = False) -> TestResult:
 
         # 2. Parse SQL — abort this record if unparseable
         try:
-            ast = parse_one(sql_str, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql_str, dialect=_SCHEMA_STATE["DIALECT"])
         except (sqlglot_errors.ParseError, Exception) as e:
             r.fail(rid, comp, "sql_parseable", f"Parse error: {e}  SQL: {sql_str[:80]}")
             continue
@@ -778,11 +824,19 @@ def main():
         help=f"Path to the raw SQL JSON dataset file (default: {DEFAULT_INPUT_FILE})"
     )
     parser.add_argument(
+        "--schema", "-s",
+        default=None,
+        help="Path to a YAML schema file (default: use legacy src/core/schema.py)"
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Print each failure as it occurs"
     )
     args = parser.parse_args()
+
+    # Load schema before running tests
+    _load_schema(args.schema)
 
     result = run_tests(args.input, verbose=args.verbose)
     print(result.summary())

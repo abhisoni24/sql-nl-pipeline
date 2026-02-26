@@ -3,10 +3,21 @@ from sqlglot import exp
 from src.core.schema import SCHEMA, FOREIGN_KEYS, NUMERIC_TYPES, TEXT_TYPES, DATE_TYPES, BOOLEAN_TYPES, USED_SQL_DIALECT
 
 class SQLQueryGenerator:
-    def __init__(self, schema, foreign_keys):
+    def __init__(self, schema, foreign_keys, type_sets=None):
         self.schema = schema
         self.foreign_keys = foreign_keys
         self.queries = []
+        
+        if type_sets is None:
+            self.numeric_types = NUMERIC_TYPES
+            self.text_types = TEXT_TYPES
+            self.date_types = DATE_TYPES
+            self.boolean_types = BOOLEAN_TYPES
+        else:
+            self.numeric_types = type_sets.get("numeric", set())
+            self.text_types = type_sets.get("text", set())
+            self.date_types = type_sets.get("date", set())
+            self.boolean_types = type_sets.get("boolean", set())
 
     def _get_column_type(self, table, column):
         return self.schema[table].get(column)
@@ -35,7 +46,7 @@ class SQLQueryGenerator:
                     select_exprs.append(exp.Count(this=exp.Star()).as_("count_all"))
                 else:
                     select_exprs.append(exp.Count(this=exp.column(agg_col, table=table_alias)).as_(f"count_{agg_col}"))
-            elif self._get_column_type(table, agg_col) in NUMERIC_TYPES:
+            elif self._get_column_type(table, agg_col) in self.numeric_types:
                  # Only sum/avg numeric types
                  if agg_type == 'SUM':
                      select_exprs.append(exp.Sum(this=exp.column(agg_col, table=table_alias)).as_(f"sum_{agg_col}"))
@@ -66,11 +77,11 @@ class SQLQueryGenerator:
         col_type = self._get_column_type(table, col_name)
         col_expr = exp.column(col_name, table=table_alias)
         
-        if col_type in NUMERIC_TYPES:
+        if col_type in self.numeric_types:
             op = random.choice(['=', '!=', '>', '<', '>=', '<='])
             val = random.randint(0, 1000)
             return self._create_binary_op(op, col_expr, exp.Literal.number(val))
-        elif col_type in TEXT_TYPES:
+        elif col_type in self.text_types:
             op = random.choice(['=', '!=', 'LIKE'])
             if op == 'LIKE':
                 # Use email-like pattern for email columns
@@ -86,7 +97,7 @@ class SQLQueryGenerator:
                 else:
                     val = random.choice(['test', 'user', 'admin', 'activity', '123'])
                 return self._create_binary_op(op, col_expr, exp.Literal.string(val))
-        elif col_type in DATE_TYPES:
+        elif col_type in self.date_types:
             op = random.choice(['>', '<', '>=', '<='])
             # SQLite date arithmetic: datetime('now', '-X days')
             days = random.randint(1, 30)
@@ -95,7 +106,7 @@ class SQLQueryGenerator:
                 exp.Literal.string(f'-{days} days')
             ])
             return self._create_binary_op(op, col_expr, date_expr)
-        elif col_type in BOOLEAN_TYPES:
+        elif col_type in self.boolean_types:
             # SQLite uses 1/0 for booleans
             val = random.choice([1, 0])
             return exp.EQ(this=col_expr, expression=exp.Literal.number(val))
@@ -119,19 +130,19 @@ class SQLQueryGenerator:
         values = []
         for col in columns:
             col_type = self._get_column_type(table, col)
-            if col_type in NUMERIC_TYPES:
+            if col_type in self.numeric_types:
                 values.append(exp.Literal.number(random.randint(1, 1000)))
-            elif col_type in TEXT_TYPES:
+            elif col_type in self.text_types:
                 if 'email' in col:
                     values.append(exp.Literal.string(f"user{random.randint(1,1000)}@example.com"))
                 elif 'username' in col:
                     values.append(exp.Literal.string(f"user{random.randint(1,1000)}"))
                 else:
                     values.append(exp.Literal.string(f"Sample text {random.randint(1,100)}"))
-            elif col_type in DATE_TYPES:
+            elif col_type in self.date_types:
                 # SQLite: datetime('now')
                 values.append(exp.Anonymous(this="datetime", expressions=[exp.Literal.string('now')]))
-            elif col_type in BOOLEAN_TYPES:
+            elif col_type in self.boolean_types:
                 # SQLite uses 1/0 for booleans
                 values.append(exp.Literal.number(random.choice([1, 0])))
             else:
@@ -169,18 +180,18 @@ class SQLQueryGenerator:
         col_to_update = random.choice(safe_columns)
         col_type = self._get_column_type(table, col_to_update)
         
-        if col_type in NUMERIC_TYPES:
+        if col_type in self.numeric_types:
             val = exp.Literal.number(random.randint(1, 1000))
-        elif col_type in TEXT_TYPES:
+        elif col_type in self.text_types:
             # Use realistic email for email columns
             if 'email' in col_to_update:
                 val = exp.Literal.string(f"updated_user{random.randint(1,100)}@example.com")
             else:
                 val = exp.Literal.string(f"Updated text {random.randint(1,100)}")
-        elif col_type in DATE_TYPES:
+        elif col_type in self.date_types:
             # SQLite: datetime('now')
             val = exp.Anonymous(this="datetime", expressions=[exp.Literal.string('now')])
-        elif col_type in BOOLEAN_TYPES:
+        elif col_type in self.boolean_types:
             # SQLite uses 1/0 for booleans
             val = exp.Literal.number(random.choice([1, 0]))
         else:

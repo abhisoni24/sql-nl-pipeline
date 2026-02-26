@@ -137,12 +137,32 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
 from sqlglot import exp, parse_one, errors as sqlglot_errors
-from src.core.schema import SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT
+
+# ── Schema loading (configurable via --schema CLI arg) ────────────────────
+_SCHEMA_STATE = {
+    "SCHEMA": {},
+    "FOREIGN_KEYS": {},
+    "KNOWN_TABLES": set(),
+    "DIALECT": "sqlite",
+}
+
+
+def _load_schema(schema_path=None):
+    """Load schema from YAML or fall back to legacy schema.py."""
+    if schema_path:
+        from src.core.schema_loader import load_from_yaml
+        cfg = load_from_yaml(schema_path)
+        _SCHEMA_STATE["SCHEMA"] = cfg.get_legacy_schema()
+        _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
+        _SCHEMA_STATE["DIALECT"] = cfg.dialect
+    else:
+        from src.core.schema import SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT
+        _SCHEMA_STATE["SCHEMA"] = SCHEMA
+        _SCHEMA_STATE["FOREIGN_KEYS"] = FOREIGN_KEYS
+        _SCHEMA_STATE["DIALECT"] = USED_SQL_DIALECT
+    _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
 
 DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_20.json"
-
-KNOWN_TABLES = set(SCHEMA.keys())
-
 # ── NL vocabulary maps ─────────────────────────────────────────────────────
 
 # Intent verbs used by the renderer at the start of SELECT prompts
@@ -275,7 +295,7 @@ def _detect_advanced_subtype(sql: str) -> str:
         return "subquery_from"
     # self_join: same table appears more than once in table list
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         tables = [t.name for t in ast.find_all(exp.Table)]
         if len(tables) >= 2 and len(set(tables)) == 1:
             return "self_join"
@@ -304,7 +324,7 @@ def _sql_has_star(sql: str) -> bool:
 def _selected_columns(sql: str) -> list[str]:
     """Extract bare column names referenced in SELECT list (not *)."""
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         sel = ast if isinstance(ast, exp.Select) else None
         if sel is None:
             return []
@@ -322,7 +342,7 @@ def _selected_columns(sql: str) -> list[str]:
 def _join_info(sql: str):
     """Return (left_table, right_table, join_kind, join_side) or None."""
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         if not isinstance(ast, exp.Select):
             return None
         joins = ast.args.get("joins", [])
@@ -443,7 +463,7 @@ def check_structural(r: dict, result: TestResult):
         result.ok("no_none_token")
 
     # 7. Prompt references at least one schema table (name or synonym)
-    mentions_table = any(_table_in_nl(t, nl_l) for t in KNOWN_TABLES)
+    mentions_table = any(_table_in_nl(t, nl_l) for t in _SCHEMA_STATE["KNOWN_TABLES"])
     if not mentions_table:
         result.fail(rid, comp, "mentions_a_table",
                     f"No schema table mentioned in: {nl[:100]}")
@@ -530,7 +550,7 @@ def check_simple(r: dict, result: TestResult):
 
     # Determine single table
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         tables = list({t.name for t in ast.find_all(exp.Table)})
     except Exception:
         return
@@ -554,7 +574,7 @@ def check_simple(r: dict, result: TestResult):
             result.ok("simple_no_sql_kw_leakage")
 
     # 17. No second schema table mentioned (simple should only reference one table)
-    other_tables = KNOWN_TABLES - {tables[0]} if tables else KNOWN_TABLES
+    other_tables = _SCHEMA_STATE["KNOWN_TABLES"] - {tables[0]} if tables else _SCHEMA_STATE["KNOWN_TABLES"]
     for other in other_tables:
         if _table_in_nl(other, nl_l):
             result.fail(rid, comp, "simple_only_one_table",
@@ -585,7 +605,7 @@ def check_join(r: dict, result: TestResult):
     is_inner = (join_kind == "INNER" and not join_side) or (not join_kind and not join_side)
     fk_pair = (left_table, right_table)
     rev_pair = (right_table, left_table)
-    is_standard_fk = fk_pair in FOREIGN_KEYS or rev_pair in FOREIGN_KEYS
+    is_standard_fk = fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"] or rev_pair in _SCHEMA_STATE["FOREIGN_KEYS"]
 
     if is_inner and is_standard_fk:
         coupling_words = ["and their", "with their", "along with", "joined with", "join"]
@@ -626,10 +646,10 @@ def check_join(r: dict, result: TestResult):
     # Standard FK template "and their X" encodes FK implicitly — skip column check for those
     if not (is_inner and is_standard_fk and "and their" in nl_l):
         left_key, right_key = "", ""
-        if fk_pair in FOREIGN_KEYS:
-            left_key, right_key = FOREIGN_KEYS[fk_pair]
-        elif rev_pair in FOREIGN_KEYS:
-            left_key, right_key = FOREIGN_KEYS[rev_pair]
+        if fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
+            left_key, right_key = _SCHEMA_STATE["FOREIGN_KEYS"][fk_pair]
+        elif rev_pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
+            left_key, right_key = _SCHEMA_STATE["FOREIGN_KEYS"][rev_pair]
         if left_key and right_key:
             if left_key not in nl_l and right_key not in nl_l:
                 result.fail(rid, comp, "join_fk_col_in_nl",
@@ -670,7 +690,7 @@ def check_advanced(r: dict, result: TestResult):
 
         # 26. Outer table mentioned
         try:
-            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
             from_node = ast.args.get("from_")
             outer_table = from_node.this.this.name if from_node else ""
         except Exception:
@@ -689,7 +709,7 @@ def check_advanced(r: dict, result: TestResult):
             inner_table = inner_table_match.group(1).rstrip(")")
             # strip alias suffix (e.g. "likes AS sub_l" → "likes")
             inner_table = inner_table.split()[0]
-            if inner_table in KNOWN_TABLES and not _table_in_nl(inner_table, nl_l):
+            if inner_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(inner_table, nl_l):
                 result.fail(rid, comp, "subq_where_inner_table",
                             f"Inner table '{inner_table}' missing from NL: {nl[:120]}")
             else:
@@ -731,7 +751,7 @@ def check_advanced(r: dict, result: TestResult):
         )
         if inner_table_match:
             inner_table = inner_table_match.group(1)
-            if inner_table in KNOWN_TABLES and not _table_in_nl(inner_table, nl_l):
+            if inner_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(inner_table, nl_l):
                 result.fail(rid, comp, "subq_from_source_table",
                             f"Source table '{inner_table}' missing from NL: {nl[:120]}")
             else:
@@ -752,7 +772,7 @@ def check_advanced(r: dict, result: TestResult):
             result.ok("subq_from_no_inner_prefix")
 
         # 34. NL does not say ONLY "a derived query" without naming the table
-        if "a derived query" in nl_l and not any(_table_in_nl(t, nl_l) for t in KNOWN_TABLES):
+        if "a derived query" in nl_l and not any(_table_in_nl(t, nl_l) for t in _SCHEMA_STATE["KNOWN_TABLES"]):
             result.fail(rid, comp, "subq_from_no_bare_derived_query",
                         f"NL says 'a derived query' with no table name: {nl[:120]}")
         else:
@@ -771,7 +791,7 @@ def check_advanced(r: dict, result: TestResult):
     elif subtype == "self_join":
         # 36. Joined table mentioned
         try:
-            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
             tables = [t.name for t in ast.find_all(exp.Table)]
             base_table = tables[0] if tables else ""
         except Exception:
@@ -828,7 +848,7 @@ def check_advanced(r: dict, result: TestResult):
         )
         if exists_table_match:
             exists_table = exists_table_match.group(1)
-            if exists_table in KNOWN_TABLES and not _table_in_nl(exists_table, nl_l):
+            if exists_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(exists_table, nl_l):
                 result.fail(rid, comp, "exists_subquery_table_in_nl",
                             f"EXISTS table '{exists_table}' not in NL: {nl[:120]}")
             else:
@@ -887,7 +907,7 @@ def check_union(r: dict, result: TestResult):
 
     # 47. Both legs' table names in NL
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         if isinstance(ast, exp.Union):
             left_tables = {t.name for t in ast.left.find_all(exp.Table)} if ast.left else set()
             right_tables = {t.name for t in ast.right.find_all(exp.Table)} if ast.right else set()
@@ -1114,11 +1134,19 @@ def main():
         help=f"Path to the NL prompt JSON dataset file (default: {DEFAULT_INPUT_FILE})"
     )
     parser.add_argument(
+        "--schema", "-s",
+        default=None,
+        help="Path to a YAML schema file (default: use legacy src/core/schema.py)"
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Print each failure as it occurs"
     )
     args = parser.parse_args()
+
+    # Load schema before running tests
+    _load_schema(args.schema)
 
     result = run_tests(args.input, verbose=args.verbose)
     print(result.summary())

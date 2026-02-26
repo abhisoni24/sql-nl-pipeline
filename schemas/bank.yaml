@@ -1,0 +1,85 @@
+name: bank
+dialect: sqlite
+tables:
+  customers:
+    columns:
+      id: { type: int, is_pk: true }
+      first_name: varchar
+      last_name: varchar
+      email: varchar
+      phone: varchar
+      date_of_birth: datetime
+      address: text
+      credit_score: int
+      is_active: boolean
+      created_at: datetime
+  accounts:
+    columns:
+      id: { type: int, is_pk: true }
+      customer_id: int
+      account_type: varchar
+      balance: real
+      currency: varchar
+      opened_on: datetime
+      is_active: boolean
+      interest_rate: real
+  transactions:
+    columns:
+      id: { type: int, is_pk: true }
+      from_account_id: int
+      to_account_id: int
+      amount: real
+      transaction_type: varchar
+      description: text
+      transaction_date: datetime
+      status: varchar
+  loans:
+    columns:
+      id: { type: int, is_pk: true }
+      customer_id: int
+      loan_type: varchar
+      principal_amount: real
+      interest_rate: real
+      term_months: int
+      monthly_payment: real
+      start_date: datetime
+      end_date: datetime
+      status: varchar
+      is_active: boolean
+  cards:
+    columns:
+      id: { type: int, is_pk: true }
+      account_id: int
+      card_type: varchar
+      card_number: varchar
+      expiry_date: datetime
+      credit_limit: real
+      is_active: boolean
+      issued_on: datetime
+  branches:
+    columns:
+      id: { type: int, is_pk: true }
+      name: varchar
+      city: varchar
+      state: varchar
+      manager_id: int
+      employee_count: int
+      is_active: boolean
+  employees:
+    columns:
+      id: { type: int, is_pk: true }
+      first_name: varchar
+      last_name: varchar
+      branch_id: int
+      position: varchar
+      hire_date: datetime
+      salary: real
+      is_active: boolean
+foreign_keys:
+  - [customers, accounts, id, customer_id]
+  - [accounts, transactions, id, from_account_id]
+  - [accounts, transactions, id, to_account_id]
+  - [customers, loans, id, customer_id]
+  - [accounts, cards, id, account_id]
+  - [employees, branches, id, manager_id]
+  - [branches, employees, id, branch_id]

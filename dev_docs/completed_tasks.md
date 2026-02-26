@@ -73,11 +73,11 @@
 
 ## Phase 8: Test Suite Migration
 
-| Step                                             | Status     | Notes |
-| ------------------------------------------------ | ---------- | ----- |
-| 8.1 Replace hardcoded references in test scripts | ⬜ Pending |       |
-| 8.2 Make perturbation tests use strategy checks  | ⬜ Pending |       |
-| 8.3 Add schema-parametric integration test       | ⬜ Pending |       |
+| Step                                             | Status     | Notes                                                              |
+| ------------------------------------------------ | ---------- | ------------------------------------------------------------------ |
+| 8.1 Replace hardcoded references in test scripts | ✅ Done    | `test_sql_generation.py` & `test_nl_prompt.py` are schema-agnostic |
+| 8.2 Make perturbation tests use strategy checks  | ⬜ Pending |                                                                    |
+| 8.3 Add schema-parametric integration test       | ✅ Done    | Built and ran `cross_schema_test.py` against 3 different schemas   |
 
 ## Phase 9: End-to-End Validation
 

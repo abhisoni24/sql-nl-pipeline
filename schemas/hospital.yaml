@@ -1,0 +1,74 @@
+name: hospital
+dialect: sqlite
+tables:
+  patients:
+    columns:
+      id: { type: int, is_pk: true }
+      first_name: varchar
+      last_name: varchar
+      date_of_birth: datetime
+      gender: varchar
+      phone_number: varchar
+      email: varchar
+      insurance_provider: varchar
+      insurance_id: varchar
+      admitted_on: datetime
+      is_active: boolean
+  doctors:
+    columns:
+      id: { type: int, is_pk: true }
+      first_name: varchar
+      last_name: varchar
+      specialization: varchar
+      department: varchar
+      email: varchar
+      hire_date: datetime
+      is_active: boolean
+  appointments:
+    columns:
+      id: { type: int, is_pk: true }
+      patient_id: int
+      doctor_id: int
+      scheduled_at: datetime
+      duration_minutes: int
+      status: varchar
+      notes: text
+      created_at: datetime
+  prescriptions:
+    columns:
+      id: { type: int, is_pk: true }
+      patient_id: int
+      doctor_id: int
+      medication_name: varchar
+      dosage: varchar
+      frequency: varchar
+      start_date: datetime
+      end_date: datetime
+      is_active: boolean
+  lab_results:
+    columns:
+      id: { type: int, is_pk: true }
+      patient_id: int
+      doctor_id: int
+      test_name: varchar
+      test_date: datetime
+      result_value: real
+      result_unit: varchar
+      is_abnormal: boolean
+      notes: text
+  departments:
+    columns:
+      id: { type: int, is_pk: true }
+      name: varchar
+      floor_number: int
+      head_doctor_id: int
+      budget: real
+      is_active: boolean
+foreign_keys:
+  - [patients, appointments, id, patient_id]
+  - [doctors, appointments, id, doctor_id]
+  - [patients, prescriptions, id, patient_id]
+  - [doctors, prescriptions, id, doctor_id]
+  - [patients, lab_results, id, patient_id]
+  - [doctors, lab_results, id, doctor_id]
+  - [doctors, departments, id, head_doctor_id]
