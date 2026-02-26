@@ -14,8 +14,9 @@ local_eval_workspace_worker_*
 */test_dbs
 sample_exp_run/*each
 sample_exp_run/**/outputs/*.jsonl
-.DS_Store
+*.DS_Store
 .vscode
 .pytest_cache
 dataset/spider_data*
-dataset/train.zip
+dataset/train*
+*.sqlite
