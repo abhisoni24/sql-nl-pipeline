@@ -82,6 +82,35 @@ def load_from_yaml(yaml_path: str) -> SchemaConfig:
 
 
 # ---------------------------------------------------------------------------
+# Auto-detecting Loader
+# ---------------------------------------------------------------------------
+
+def load_schema(path: str, schema_name: Optional[str] = None) -> SchemaConfig:
+    """
+    Auto-detect file type and load a SchemaConfig.
+
+    - If ``path`` ends with ``.yaml`` or ``.yml``, delegates to ``load_from_yaml()``.
+    - If ``path`` ends with ``.sqlite``, ``.db``, or ``.sqlite3``, delegates to
+      ``load_from_sqlite()``.  The *schema_name* is inferred from the filename
+      stem (e.g., ``authors.sqlite`` → ``"authors"``) unless explicitly provided.
+    """
+    import os
+
+    ext = os.path.splitext(path)[1].lower()
+    if ext in (".yaml", ".yml"):
+        return load_from_yaml(path)
+    elif ext in (".sqlite", ".db", ".sqlite3"):
+        if schema_name is None:
+            schema_name = os.path.splitext(os.path.basename(path))[0]
+        return load_from_sqlite(path, schema_name=schema_name)
+    else:
+        raise ValueError(
+            f"Unsupported schema file extension '{ext}'. "
+            f"Expected .yaml, .yml, .sqlite, .db, or .sqlite3."
+        )
+
+
+# ---------------------------------------------------------------------------
 # SQLite Reflection Loader
 # ---------------------------------------------------------------------------
 

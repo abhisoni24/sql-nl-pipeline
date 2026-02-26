@@ -148,10 +148,10 @@ _SCHEMA_STATE = {
 
 
 def _load_schema(schema_path=None):
-    """Load schema from YAML or fall back to legacy schema.py."""
+    """Load schema from YAML/SQLite or fall back to legacy schema.py."""
     if schema_path:
-        from src.core.schema_loader import load_from_yaml
-        cfg = load_from_yaml(schema_path)
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(schema_path)
         _SCHEMA_STATE["SCHEMA"] = cfg.get_legacy_schema()
         _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
         _SCHEMA_STATE["DIALECT"] = cfg.dialect
@@ -324,15 +324,16 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
     # "research projects" (space-separated, plural).
     expanded = set()
     for c in candidates:
-        expanded.add(c)
+        expanded.add(c.lower())
         # Underscore ↔ space variants
-        if "_" in c:
-            expanded.add(c.replace("_", " "))
-        elif " " in c:
-            expanded.add(c.replace(" ", "_"))
+        c_l = c.lower()
+        if "_" in c_l:
+            expanded.add(c_l.replace("_", " "))
+        elif " " in c_l:
+            expanded.add(c_l.replace(" ", "_"))
         # Naive singular: strip trailing 's' (catches tables/projects/enrollments...)
-        if c.endswith("s") and len(c) > 2:
-            singular = c[:-1]
+        if c_l.endswith("s") and len(c_l) > 2:
+            singular = c_l[:-1]
             expanded.add(singular)
             if "_" in singular:
                 expanded.add(singular.replace("_", " "))
@@ -760,7 +761,7 @@ def check_join(r: dict, result: TestResult):
 
     # 22. Right-hand table NOT omitted entirely
     right_syns = TABLE_SYNONYMS.get(right_table, {right_table})
-    if not any(s in nl_l for s in right_syns):
+    if not any(s.lower() in nl_l for s in right_syns):
         result.fail(rid, comp, "join_right_table_present",
                     f"Right-hand table '{right_table}' entirely absent from NL: {nl[:120]}")
     else:
@@ -775,7 +776,7 @@ def check_join(r: dict, result: TestResult):
         elif rev_pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
             left_key, right_key = _SCHEMA_STATE["FOREIGN_KEYS"][rev_pair]
         if left_key and right_key:
-            if left_key not in nl_l and right_key not in nl_l:
+            if left_key.lower() not in nl_l and right_key.lower() not in nl_l:
                 result.fail(rid, comp, "join_fk_col_in_nl",
                             f"Neither FK col ('{left_key}','{right_key}') in NL: {nl[:120]}")
             else:

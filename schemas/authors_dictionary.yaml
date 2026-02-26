@@ -1,0 +1,111 @@
+column_synonyms:
+  Author.Affiliation:
+  - Affiliation
+  - association
+  - tie
+  - tie-up
+  Author.Id:
+  - Id
+  Author.Name:
+  - Name
+  - gens
+  Conference.FullName:
+  - FullName
+  - full moon name
+  - full-of-the-moon name
+  - full phase of the moon name
+  Conference.HomePage:
+  - HomePage
+  - place page
+  - dwelling page
+  - domicile page
+  Conference.Id:
+  - Id
+  Conference.ShortName:
+  - ShortName
+  - short circuit name
+  - shortstop name
+  Journal.FullName:
+  - FullName
+  - full moon name
+  - full-of-the-moon name
+  - full phase of the moon name
+  Journal.HomePage:
+  - HomePage
+  - place page
+  - dwelling page
+  - domicile page
+  Journal.Id:
+  - Id
+  Journal.ShortName:
+  - ShortName
+  - short circuit name
+  - shortstop name
+  Paper.ConferenceId:
+  - ConferenceId
+  - league id
+  - group discussion id
+  Paper.Id:
+  - Id
+  Paper.JournalId:
+  - JournalId
+  - diary id
+  - daybook id
+  Paper.Keyword:
+  - Keyword
+  Paper.Title:
+  - Title
+  - statute title
+  - rubric
+  Paper.Year:
+  - Year
+  - twelvemonth
+  PaperAuthor.Affiliation:
+  - Affiliation
+  - association
+  - tie
+  - tie-up
+  PaperAuthor.AuthorId:
+  - AuthorId
+  - writer id
+  - generator id
+  - source id
+  PaperAuthor.Name:
+  - Name
+  - gens
+  PaperAuthor.PaperId:
+  - PaperId
+  - composition id
+  - report id
+  - newspaper id
+table_categories:
+  Author: person
+  Conference: object
+  Journal: object
+  Paper: object
+  PaperAuthor: person
+table_synonyms:
+  Author:
+  - Author
+  - writer
+  - generator
+  - source
+  Conference:
+  - Conference
+  - league
+  - group discussion
+  Journal:
+  - Journal
+  - diary
+  - daybook
+  Paper:
+  - Paper
+  - composition
+  - report
+  - theme
+  - newspaper
+  PaperAuthor:
+  - PaperAuthor
+  - paper author
+  - authorship
+  - paper contributor

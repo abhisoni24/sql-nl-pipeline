@@ -103,12 +103,12 @@ _SCHEMA_STATE = {
 
 def _load_schema(schema_path=None):
     """
-    Load schema from a YAML file or fall back to the legacy hardcoded schema.
+    Load schema from a YAML/SQLite file or fall back to the legacy hardcoded schema.
     Populates all module-level schema state variables.
     """
     if schema_path:
-        from src.core.schema_loader import load_from_yaml
-        cfg = load_from_yaml(schema_path)
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(schema_path)
         _SCHEMA_STATE["SCHEMA"] = cfg.get_legacy_schema()
         _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
         _SCHEMA_STATE["DIALECT"] = cfg.dialect

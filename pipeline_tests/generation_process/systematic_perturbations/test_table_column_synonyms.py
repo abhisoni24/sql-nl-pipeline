@@ -88,7 +88,7 @@ def check_record(r, comp, result):
     any_entity_present = any(table_in_nl(t, pert_l) for t in known_tables())
     # Also accept any table synonym appearing in perturbed
     any_syns_present = any(
-        syn in pert_l
+        syn.lower() in pert_l
         for syns in table_synonyms().values()
         for syn in syns
     )

@@ -94,7 +94,7 @@ def check_record(r, comp, result):
                 continue
             # Accept if any dictionary synonym appears in perturbed
             synonyms = col_syns.get(col, set())
-            if not any(syn in pert_l for syn in synonyms):
+            if not any(syn.lower() in pert_l for syn in synonyms):
                 result.fail(rid, comp, "columns_preserved", f"Column '{col}' missing"); break
     else:
         result.ok("columns_preserved")

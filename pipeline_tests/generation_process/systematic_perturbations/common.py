@@ -38,16 +38,25 @@ _STATE: Dict = {
 # ── Schema loading ────────────────────────────────────────────────────────
 
 def load_schema(schema_path: Optional[str] = None):
-    """Load schema from YAML or fall back to legacy ``src/core/schema.py``."""
+    """Load schema from YAML / SQLite or fall back to legacy ``src/core/schema.py``."""
     if schema_path:
-        import yaml
-        with open(schema_path) as f:
-            cfg = yaml.safe_load(f)
-        schema = {}
-        for tname, tdata in cfg.get("tables", {}).items():
-            cols = tdata.get("columns", {})
-            schema[tname] = set(cols.keys())
-        _STATE["SCHEMA"] = schema
+        ext = Path(schema_path).suffix.lower()
+        if ext in (".sqlite", ".db", ".sqlite3"):
+            from src.core.schema_loader import load_from_sqlite
+            cfg_obj = load_from_sqlite(schema_path, schema_name=Path(schema_path).stem)
+            schema = {}
+            for tname, tdef in cfg_obj.tables.items():
+                schema[tname] = set(tdef.columns.keys())
+            _STATE["SCHEMA"] = schema
+        else:
+            import yaml
+            with open(schema_path) as f:
+                cfg = yaml.safe_load(f)
+            schema = {}
+            for tname, tdata in cfg.get("tables", {}).items():
+                cols = tdata.get("columns", {})
+                schema[tname] = set(cols.keys())
+            _STATE["SCHEMA"] = schema
     else:
         from src.core.schema import SCHEMA
         # Legacy SCHEMA may be {table: {col: type}} or {table: {col, …}}
@@ -137,16 +146,21 @@ def init_from_args(args):
 # ── Shared helper functions ───────────────────────────────────────────────
 
 def table_in_nl(table: str, nl_lower: str) -> bool:
-    """Check if *table* (or any of its synonyms) appears in the NL string."""
+    """Check if *table* (or any of its synonyms) appears in the NL string.
+
+    Candidates are lowercased before matching since *nl_lower* is expected to
+    be already lower-case (supports PascalCase schema names).
+    """
     for candidate in _STATE["TABLE_SYNONYMS"].get(table, {table}):
-        for m in re.finditer(rf"\b{re.escape(candidate)}\b", nl_lower):
+        c = candidate.lower()
+        for m in re.finditer(rf"\b{re.escape(c)}\b", nl_lower):
             rest   = nl_lower[m.end():]
             before = nl_lower[:m.start()]
             # Reject if part of a column name token (e.g. "like_id")
             if rest.startswith("_"):
                 continue
             # Reject SQL LIKE operator usage (e.g. "like '%foo'")
-            if candidate == "like" and re.match(r"\s*['\"%]", rest):
+            if c == "like" and re.match(r"\s*['\"%]", rest):
                 continue
             # Reject string literal boundaries
             if before.endswith("'") or rest.startswith("'"):
@@ -156,8 +170,11 @@ def table_in_nl(table: str, nl_lower: str) -> bool:
 
 
 def col_in_text(col: str, text_lower: str) -> bool:
-    """Check if *col* appears as a whole word in *text_lower* (word-boundary match)."""
-    return bool(re.search(r"\b" + re.escape(col) + r"\b", text_lower))
+    """Check if *col* appears as a whole word in *text_lower* (word-boundary match).
+
+    The column name is lowercased to support PascalCase schema names.
+    """
+    return bool(re.search(r"\b" + re.escape(col.lower()) + r"\b", text_lower))
 
 
 def is_synonym_fragment(col: str, text_lower: str) -> bool:

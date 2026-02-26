@@ -53,7 +53,7 @@ CONTENT INTEGRITY (when applicable)
   12. condition_values_preserved    – SQL string literals and numeric values preserved
   13. ordering_cue_preserved        – if baseline has "ordered by", perturbed retains it
   14. limit_cue_preserved           – if baseline has "limited to", perturbed retains it
-  15. length_reasonable             – word count of perturbed is within ±8 of original
+  15. length_reasonable             – word count of perturbed is within ±30 (or 100% of original)
                                      (verb phrase replacement, not content rewrite)
   16. no_object_repr                – no [None], None token, Subquery(, Column(
 
@@ -217,7 +217,7 @@ def check_record(r: dict, comp: str, result: TestResult):
             if is_synonym_fragment(col, base_l):
                 continue
             synonyms = col_syns.get(col, set())
-            if not any(syn in pert_l for syn in synonyms):
+            if not any(syn.lower() in pert_l for syn in synonyms):
                 result.fail(rid, comp, "columns_preserved",
                             f"Column '{col}' in baseline but missing from perturbed: {perturbed[:120]}")
                 break
@@ -275,9 +275,12 @@ def check_record(r: dict, comp: str, result: TestResult):
             result.ok("limit_cue_preserved")
 
     # ── 15. length_reasonable ────────────────────────────────────────────
+    #    Schemas with many columns or PascalCase names can inflate word counts
+    #    via possessive expansions, so allow up to ±30 words or 100 % of original.
     orig_wc = len(baseline_nl.split())
     pert_wc = len(perturbed.split())
-    if abs(pert_wc - orig_wc) > 15:
+    max_delta = max(30, orig_wc)
+    if abs(pert_wc - orig_wc) > max_delta:
         result.fail(rid, comp, "length_reasonable",
                     f"Word count delta too large: orig={orig_wc}, pert={pert_wc} "
                     f"(delta={pert_wc-orig_wc}): {perturbed[:100]}")

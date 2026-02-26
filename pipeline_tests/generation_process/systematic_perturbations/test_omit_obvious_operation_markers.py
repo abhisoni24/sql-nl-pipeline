@@ -208,7 +208,7 @@ def check_record(r: dict, comp: str, result: TestResult):
             if is_synonym_fragment(col, base_l):
                 continue
             synonyms = col_syns.get(col, set())
-            if not any(syn in pert_l for syn in synonyms):
+            if not any(syn.lower() in pert_l for syn in synonyms):
                 result.fail(rid, comp, "columns_preserved",
                             f"Column '{col}' in baseline but missing from perturbed: {perturbed[:120]}")
                 break
