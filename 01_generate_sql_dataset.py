@@ -33,10 +33,9 @@ def main():
         description="Generate raw SQL queries for a given schema."
     )
     parser.add_argument(
-        "--schema", "-s", default=None,
+        "--schema", "-s", required=True,
         help="Path to a schema file — YAML (e.g. schemas/social_media.yaml) or "
-             "SQLite (e.g. database.sqlite). "
-             "If omitted, falls back to the legacy hardcoded social_media schema."
+             "SQLite (e.g. database.sqlite)."
     )
     parser.add_argument(
         "--output", "-o", default=None,
@@ -49,23 +48,14 @@ def main():
     args = parser.parse_args()
 
     # ── Load schema ──────────────────────────────────────────────────
-    if args.schema:
-        from src.core.schema_loader import load_schema
-        schema_cfg = load_schema(args.schema)
-        schema = schema_cfg.get_legacy_schema()
-        foreign_keys = schema_cfg.get_fk_pairs()
-        schema_name = schema_cfg.schema_name
-        dialect = schema_cfg.dialect
-        schema_source = args.schema
-        print(f"Loaded schema '{schema_name}' from {args.schema}")
-    else:
-        from src.core.schema import SCHEMA, FOREIGN_KEYS
-        schema = SCHEMA
-        foreign_keys = FOREIGN_KEYS
-        schema_name = "social_media"
-        dialect = "sqlite"
-        schema_source = "src/core/schema.py (legacy)"
-        print("Using legacy hardcoded social_media schema")
+    from src.core.schema_loader import load_schema
+    schema_cfg = load_schema(args.schema)
+    schema = schema_cfg.get_legacy_schema()
+    foreign_keys = schema_cfg.get_fk_pairs()
+    schema_name = schema_cfg.schema_name
+    dialect = schema_cfg.dialect
+    schema_source = args.schema
+    print(f"Loaded schema '{schema_name}' from {args.schema}")
 
     # ── Determine output path ────────────────────────────────────────
     if args.output:
@@ -74,20 +64,16 @@ def main():
         output_file = f"./dataset/{schema_name}/raw_queries.json"
 
     # ── Derive composite PK tables ────────────────────────────────────
-    if args.schema:
-        composite_pks = {}
-        for tname, tdef in schema_cfg.tables.items():
-            if "id" not in tdef.columns:
-                fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
-                if fk_cols:
-                    composite_pks[tname] = fk_cols
-        type_sets = schema_cfg.get_type_sets()
-    else:
-        composite_pks = None   # legacy fallback inside generator
-        type_sets = None
+    composite_pks = {}
+    for tname, tdef in schema_cfg.tables.items():
+        if "id" not in tdef.columns:
+            fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
+            if fk_cols:
+                composite_pks[tname] = fk_cols
+    type_sets = schema_cfg.get_type_sets()
 
     # ── Generate queries ─────────────────────────────────────────────
-    generator = SQLQueryGenerator(schema, foreign_keys, type_sets=type_sets, composite_pks=composite_pks)
+    generator = SQLQueryGenerator(schema, foreign_keys, type_sets=type_sets, composite_pks=composite_pks, dialect=dialect)
     print(f"Generating {args.num_per_complexity} queries per complexity type...")
     records = generator.generate_dataset(num_per_complexity=args.num_per_complexity)
     print(f"Successfully generated {len(records)} queries.")

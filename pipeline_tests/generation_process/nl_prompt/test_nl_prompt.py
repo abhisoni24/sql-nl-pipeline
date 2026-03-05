@@ -156,10 +156,7 @@ def _load_schema(schema_path=None):
         _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
         _SCHEMA_STATE["DIALECT"] = cfg.dialect
     else:
-        from src.core.schema import SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT
-        _SCHEMA_STATE["SCHEMA"] = SCHEMA
-        _SCHEMA_STATE["FOREIGN_KEYS"] = FOREIGN_KEYS
-        _SCHEMA_STATE["DIALECT"] = USED_SQL_DIALECT
+        raise ValueError("--schema is required. Provide a YAML or SQLite schema file.")
     _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
 
 DEFAULT_INPUT_FILE = "dataset/social_media/nl_prompts.json"

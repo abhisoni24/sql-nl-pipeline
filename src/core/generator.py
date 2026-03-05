@@ -1,18 +1,18 @@
 import random
 from sqlglot import exp
-from src.core.schema import SCHEMA, FOREIGN_KEYS, NUMERIC_TYPES, TEXT_TYPES, DATE_TYPES, BOOLEAN_TYPES, USED_SQL_DIALECT
 
 class SQLQueryGenerator:
-    def __init__(self, schema, foreign_keys, type_sets=None, composite_pks=None):
+    def __init__(self, schema, foreign_keys, type_sets=None, composite_pks=None, dialect="sqlite"):
         self.schema = schema
         self.foreign_keys = foreign_keys
+        self.dialect = dialect
         self.queries = []
         
         if type_sets is None:
-            self.numeric_types = NUMERIC_TYPES
-            self.text_types = TEXT_TYPES
-            self.date_types = DATE_TYPES
-            self.boolean_types = BOOLEAN_TYPES
+            self.numeric_types = set()
+            self.text_types = set()
+            self.date_types = set()
+            self.boolean_types = set()
         else:
             self.numeric_types = type_sets.get("numeric", set())
             self.text_types = type_sets.get("text", set())
@@ -24,11 +24,7 @@ class SQLQueryGenerator:
         if composite_pks is not None:
             self.composite_pks = composite_pks
         else:
-            # Legacy fallback for social_media
-            self.composite_pks = {
-                'follows': {'follower_id', 'followee_id'},
-                'likes': {'user_id', 'post_id'},
-            }
+            self.composite_pks = {}
 
     def _get_column_type(self, table, column):
         return self.schema[table].get(column)
@@ -308,7 +304,7 @@ class SQLQueryGenerator:
             while count < num_per_complexity:
                 try:
                     query_ast, comp = self.generate_query(complexity=complexity)
-                    sql_string = query_ast.sql(dialect=USED_SQL_DIALECT)
+                    sql_string = query_ast.sql(dialect=self.dialect)
                     dataset.append({
                         "id": global_id_counter,
                         "complexity": comp,

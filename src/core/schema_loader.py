@@ -181,51 +181,6 @@ def load_from_sqlite(db_path: str, schema_name: Optional[str] = None) -> SchemaC
 
 
 # ---------------------------------------------------------------------------
-# Legacy Loader (backward compatibility)
-# ---------------------------------------------------------------------------
-
-def load_from_legacy() -> SchemaConfig:
-    """
-    Load a SchemaConfig from the existing hardcoded src/core/schema.py.
-
-    This allows incremental migration: existing code can keep working
-    while we transition consumers to the new SchemaConfig API one by one.
-    """
-    from src.core.schema import SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT
-
-    config = SchemaConfig(
-        dialect=USED_SQL_DIALECT,
-        schema_name="social_media",
-    )
-
-    # Build tables
-    for tname, tcols in SCHEMA.items():
-        cols = {}
-        for cname, ctype in tcols.items():
-            cols[cname] = ColumnDef(name=cname, col_type=ctype)
-        config.tables[tname] = TableDef(name=tname, columns=cols)
-
-    # Build foreign keys (deduplicate — legacy dict has both forward and reverse)
-    seen = set()
-    for (t1, t2), (c1, c2) in FOREIGN_KEYS.items():
-        # Normalize to avoid duplicates (A->B and B->A are the same FK)
-        fk_key = tuple(sorted([(t1, c1), (t2, c2)]))
-        if fk_key not in seen:
-            seen.add(fk_key)
-            config.foreign_keys.append(ForeignKeyDef(
-                source_table=t1,
-                source_column=c1,
-                target_table=t2,
-                target_column=c2,
-            ))
-
-    # Mark FK columns
-    _mark_fk_columns(config)
-
-    return config
-
-
-# ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
 

@@ -1,19 +1,8 @@
 .venv
-__pycache__
+__pycache__/
+*.pyc
 .env
-temp.__pycache__
-misc_unrelated
-dataset/archived
-ignored_for_now
 .DS_Store
-exp.zip
-parseval_benchmark_workspace
-parseval_workspace_*
-parseval*
-local_eval_workspace_worker_*
-*/test_dbs
-sample_exp_run/*each
-sample_exp_run/**/outputs/*.jsonl
 *.DS_Store
 .vscode
 .pytest_cache
@@ -22,3 +11,4 @@ dataset/train*
 *.sqlite
 test_dbs/spider/*
 schemas
+brainstorm

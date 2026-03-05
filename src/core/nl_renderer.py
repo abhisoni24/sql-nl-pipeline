@@ -9,7 +9,6 @@ import random
 import re
 from typing import List, Dict, Optional, Set, Any
 from sqlglot import exp
-from src.core.schema import FOREIGN_KEYS
 
 class PerturbationType(Enum):
     """Enumeration of the 13 active perturbation categories."""
@@ -44,7 +43,7 @@ class SQLToNLRenderer:
         self._ambig_pronoun_count = 0
         self._emit_mode = 'text'  # 'text' for final NL, 'template' for IR tokens
         # Use provided FK dict, falling back to hardcoded social_media FKs
-        self.foreign_keys = foreign_keys if foreign_keys is not None else FOREIGN_KEYS
+        self.foreign_keys = foreign_keys if foreign_keys is not None else {}
         
         # Data Banks: The first element MUST be the canonical word from the original dataset
         self.synonyms = {

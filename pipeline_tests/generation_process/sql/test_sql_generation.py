@@ -127,22 +127,7 @@ def _load_schema(schema_path=None):
         _SCHEMA_STATE["DATE_TYPES"] = type_sets["date"]
         _SCHEMA_STATE["BOOLEAN_TYPES"] = type_sets["boolean"]
     else:
-        from src.core.schema import (
-            SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT,
-        )
-        _SCHEMA_STATE["SCHEMA"] = SCHEMA
-        _SCHEMA_STATE["FOREIGN_KEYS"] = FOREIGN_KEYS
-        _SCHEMA_STATE["DIALECT"] = USED_SQL_DIALECT
-        # Legacy composite PKs
-        _SCHEMA_STATE["COMPOSITE_PK_COLS"] = {
-            "follows": {"follower_id", "followee_id"},
-            "likes": {"user_id", "post_id"},
-        }
-        from src.core.schema import NUMERIC_TYPES, TEXT_TYPES, DATE_TYPES, BOOLEAN_TYPES
-        _SCHEMA_STATE["NUMERIC_TYPES"] = NUMERIC_TYPES
-        _SCHEMA_STATE["TEXT_TYPES"] = TEXT_TYPES
-        _SCHEMA_STATE["DATE_TYPES"] = DATE_TYPES
-        _SCHEMA_STATE["BOOLEAN_TYPES"] = BOOLEAN_TYPES
+        raise ValueError("--schema is required. Provide a YAML or SQLite schema file.")
     _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
 
 

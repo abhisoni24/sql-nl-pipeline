@@ -52,7 +52,7 @@ def _resolve_dialect(schema_path=None, upstream_meta=None):
         return cfg.dialect, cfg.schema_name
     if upstream_meta and upstream_meta.get("dialect"):
         return upstream_meta["dialect"], upstream_meta.get("schema_name", "unknown")
-    return "sqlite", "social_media"
+    return "sqlite", "unknown"
 
 
 def main():

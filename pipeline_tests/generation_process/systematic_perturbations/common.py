@@ -58,15 +58,7 @@ def load_schema(schema_path: Optional[str] = None):
                 schema[tname] = set(cols.keys())
             _STATE["SCHEMA"] = schema
     else:
-        from src.core.schema import SCHEMA
-        # Legacy SCHEMA may be {table: {col: type}} or {table: {col, …}}
-        normalised = {}
-        for tname, cols in SCHEMA.items():
-            if isinstance(cols, dict):
-                normalised[tname] = set(cols.keys())
-            else:
-                normalised[tname] = set(cols)
-        _STATE["SCHEMA"] = normalised
+        raise ValueError("schema_path is required. Provide a YAML or SQLite schema file.")
 
     _STATE["KNOWN_TABLES"] = set(_STATE["SCHEMA"].keys())
     _STATE["KNOWN_COLUMNS"] = {col for cols in _STATE["SCHEMA"].values() for col in cols}

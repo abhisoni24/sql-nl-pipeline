@@ -51,12 +51,12 @@ def setup_directories(run_timestamp: str):
         
     return local_run_dir, inputs_dir, outputs_dir
 
-def load_all_tasks(dataset_dir: str):
+def load_all_tasks(dataset_dir: str, schema_name: str = "social_media"):
     """Load and merge all task types."""
     print("⏳ Loading datasets...")
-    baseline = load_baseline_queries(f'{dataset_dir}/social_media/nl_prompts.json')
-    systematic = load_systematic_perturbations(f'{dataset_dir}/social_media/systematic_perturbations.json')
-    llm = load_llm_perturbations(f'{dataset_dir}/social_media/llm_perturbations.json')
+    baseline = load_baseline_queries(f'{dataset_dir}/{schema_name}/nl_prompts.json')
+    systematic = load_systematic_perturbations(f'{dataset_dir}/{schema_name}/systematic_perturbations.json')
+    llm = load_llm_perturbations(f'{dataset_dir}/{schema_name}/llm_perturbations.json')
     
     all_tasks = baseline + systematic + llm
     random.shuffle(all_tasks)
@@ -94,7 +94,7 @@ def main():
         config = yaml.safe_load(f)
         
     # 3. Load Data
-    tasks = load_all_tasks(DATASET_DIR)
+    tasks = load_all_tasks(DATASET_DIR, schema_name)
     
     # Save flat tasks for reference
     with open(f'{inputs_dir}/flat_tasks.jsonl', 'w') as f:

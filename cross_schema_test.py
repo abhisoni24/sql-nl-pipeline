@@ -29,7 +29,7 @@ def generate_dataset(schema_path, num_per_complexity=20):
     schema = cfg.get_legacy_schema()
     fks = cfg.get_fk_pairs()
 
-    gen = SQLQueryGenerator(schema, fks, type_sets=cfg.get_type_sets())
+    gen = SQLQueryGenerator(schema, fks, type_sets=cfg.get_type_sets(), dialect=cfg.dialect)
     dataset = gen.generate_dataset(num_per_complexity=num_per_complexity)
     return dataset, cfg
 
