@@ -28,7 +28,7 @@ class OpenAIAdapter(BaseModelAdapter):
             raise ImportError("openai package is required for OpenAIAdapter")
 
         self._model_name = model_name
-        self._max_tokens = max_tokens
+        self._max_completed_tokens = max_tokens
         self._temperature = temperature
         self._system_prompt = system_prompt or "You are a helpful assistant."
 
@@ -52,7 +52,7 @@ class OpenAIAdapter(BaseModelAdapter):
                     {"role": "user", "content": formatted_prompt},
                 ],
                 temperature=self._temperature,
-                max_tokens=self._max_tokens,
+                max_completion_tokens=self._max_completed_tokens,
             )
             results.append(response.choices[0].message.content)
         return results
@@ -66,5 +66,5 @@ class OpenAIAdapter(BaseModelAdapter):
     def decoding_config(self) -> Dict[str, Any]:
         return {
             "temperature": self._temperature,
-            "max_tokens": self._max_tokens,
+            "max_tokens": self._max_completed_tokens,
         }

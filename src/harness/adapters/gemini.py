@@ -35,7 +35,7 @@ class GeminiAdapter(BaseModelAdapter):
         # Initialize client with timeout
         self.client = genai.Client(
             api_key=self.api_key,
-            http_options=types.HttpOptions(timeout=60000),
+            # http_options=types.HttpOptions(timeout=120),
         )
         # Suppress noisy AFC logs
         import logging
