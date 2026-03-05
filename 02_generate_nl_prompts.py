@@ -74,8 +74,15 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
     dialect, schema_name = _resolve_dialect(schema_path, upstream_meta)
     print(f"Using dialect '{dialect}' for schema '{schema_name}'")
 
+    # ── Load FK pairs for the renderer ───────────────────────────────
+    fk_pairs = None
+    if schema_path:
+        from src.core.schema_loader import load_schema as _load_schema
+        _cfg = _load_schema(schema_path)
+        fk_pairs = _cfg.get_fk_pairs()
+
     # ── Initialize renderer ──────────────────────────────────────────
-    renderer = SQLToNLRenderer()
+    renderer = SQLToNLRenderer(foreign_keys=fk_pairs)
 
     resolver = None
     if two_pass:

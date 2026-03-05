@@ -162,7 +162,7 @@ class SQLQueryGenerator:
         return exp.insert(
             exp.Values(expressions=[exp.Tuple(expressions=values)]),
             table,
-            columns=[exp.Identifier(this=c, quoted=False) for c in columns]
+            columns=[exp.Identifier(this=c, quoted=True) for c in columns]
         )
 
     def generate_update(self, table):
@@ -201,7 +201,7 @@ class SQLQueryGenerator:
         else:
             val = exp.Literal.string("val")
             
-        update_expr = exp.update(table, {col_to_update: val})
+        update_expr = exp.update(table, {exp.column(col_to_update): val})
         
         # Add WHERE clause
         where = self.generate_where(table)

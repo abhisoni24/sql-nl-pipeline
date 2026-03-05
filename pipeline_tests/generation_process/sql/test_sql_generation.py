@@ -373,7 +373,10 @@ def check_join(record: dict, ast: exp.Expression, r: TestResult):
         pair = fk_pair if fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"] else reverse_pair
         if pair and pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
             lk, rk = _SCHEMA_STATE["FOREIGN_KEYS"][pair]
-            if lk.lower() not in on_sql or rk.lower() not in on_sql:
+            if lk is None or rk is None:
+                r.fail(rid, comp, "join_on_fk_columns",
+                       f"FK column is None for pair {pair}")
+            elif lk.lower() not in on_sql or rk.lower() not in on_sql:
                 r.fail(rid, comp, "join_on_fk_columns",
                        f"ON clause '{on_sql}' missing FK cols ({lk}, {rk})")
             else:

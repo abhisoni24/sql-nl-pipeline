@@ -89,8 +89,12 @@ def check_record(r, comp, result):
         result.ok("join_implicit_marker")
 
     # 8. both_tables_present
-    tables_in_base = [t for t in known_tables() if t in base_l]
+    # Use word-boundary matching to avoid substring false positives
+    # (e.g. 'game' matching inside 'game_platform')
+    tables_in_base = [t for t in known_tables()
+                      if re.search(r'\b' + re.escape(t) + r'\b', base_l)]
     tables_in_pert = [t for t in tables_in_base if table_in_nl(t, pert_l)]
+    # For self-joins (only 1 distinct table) the requirement is relaxed
     if len(tables_in_base) >= 2 and len(tables_in_pert) < 2:
         result.fail(rid, comp, "both_tables_present",
                     f"Only {len(tables_in_pert)}/{len(tables_in_base)} tables found: {perturbed[:120]}")

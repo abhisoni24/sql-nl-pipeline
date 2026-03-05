@@ -150,14 +150,26 @@ def load_from_sqlite(db_path: str, schema_name: Optional[str] = None) -> SchemaC
 
         config.tables[tname] = TableDef(name=tname, columns=cols, primary_keys=pks)
 
+    # Second pass: get foreign keys (after all tables/PKs are loaded)
+    for tname in table_names:
         # Get foreign keys: (id, seq, table, from, to, on_update, on_delete, match)
         cursor.execute(f"PRAGMA foreign_key_list('{tname}')")
         for fk_row in cursor.fetchall():
+            target_col = fk_row[4]
+            # When target column is empty/None, SQLite implies the target
+            # table's primary key. Look it up from already-loaded table info.
+            if not target_col:
+                target_tbl = fk_row[2]
+                if target_tbl in config.tables and config.tables[target_tbl].primary_keys:
+                    target_col = config.tables[target_tbl].primary_keys[0]
+                else:
+                    # Can't resolve – skip this FK to avoid downstream crashes
+                    continue
             config.foreign_keys.append(ForeignKeyDef(
                 source_table=tname,
                 source_column=fk_row[3],
                 target_table=fk_row[2],
-                target_column=fk_row[4],
+                target_column=target_col,
             ))
 
     conn.close()

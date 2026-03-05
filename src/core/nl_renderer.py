@@ -39,10 +39,12 @@ class PerturbationConfig:
 class SQLToNLRenderer:
     """Renders SQL AST nodes to natural language using deterministic templates."""
     
-    def __init__(self, config: Optional[PerturbationConfig] = None):
+    def __init__(self, config: Optional[PerturbationConfig] = None, foreign_keys=None):
         self.config = config or PerturbationConfig()
         self._ambig_pronoun_count = 0
         self._emit_mode = 'text'  # 'text' for final NL, 'template' for IR tokens
+        # Use provided FK dict, falling back to hardcoded social_media FKs
+        self.foreign_keys = foreign_keys if foreign_keys is not None else FOREIGN_KEYS
         
         # Data Banks: The first element MUST be the canonical word from the original dataset
         self.synonyms = {
@@ -500,7 +502,7 @@ class SQLToNLRenderer:
         if len(values) == 1:
              val_list = values[0].strip('()').split(',')
              assignments = [f"{c} as {v.strip()}" for c, v in zip(columns, val_list)]
-             return f"{verb} a new {table_nl.rstrip('s')} with {', '.join(assignments)}."
+             return f"{verb} a new {self._singularize(table_nl)} with {', '.join(assignments)}."
         
         col_str = f"({', '.join(columns)})"
         val_str = ", ".join(values)
@@ -530,10 +532,11 @@ class SQLToNLRenderer:
         where_str = ""
         if where_node:
             kw = "WHERE" if self.config.is_active(PerturbationType.MIXED_SQL_NL) else "where"
+            singular = self._singularize(table_nl)
             if self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-                where_str = f" for the {table_nl.rstrip('s')} {self._render_expression(where_node.this, 'upd_where')}"
+                where_str = f" for the {singular} {self._render_expression(where_node.this, 'upd_where')}"
             else:
-                where_str = f" for the {table_nl.rstrip('s')} {kw} {self._render_expression(where_node.this, 'upd_where')}"
+                where_str = f" for the {singular} {kw} {self._render_expression(where_node.this, 'upd_where')}"
         else:
             where_str = f" for all {table_nl}"
         
@@ -573,7 +576,7 @@ class SQLToNLRenderer:
         if self.config.is_active(PerturbationType.INCOMPLETE_JOIN_SPEC):
              # For incomplete join spec, we almost always want "and their" or "along with"
              if left_table_name and right_table_name:
-                 if (left_table_name, right_table_name) in FOREIGN_KEYS or (right_table_name, left_table_name) in FOREIGN_KEYS:
+                 if (left_table_name, right_table_name) in self.foreign_keys or (right_table_name, left_table_name) in self.foreign_keys:
                       return f"and their {table}", right_table_name
              return f"{choice_incomplete} {table}", right_table_name
         
@@ -585,14 +588,14 @@ class SQLToNLRenderer:
              on_str = f" on {self._render_expression(on, context + '_on')}"
              # Check if this is a standard FK join
              if left_table_name and right_table_name:
-                 fk = FOREIGN_KEYS.get((left_table_name, right_table_name))
+                 fk = self.foreign_keys.get((left_table_name, right_table_name))
                  if fk:
                       # Check if ON clause matches the FK (simplistic check)
                       on_text = str(on).lower()
                       if fk[0].lower() in on_text and fk[1].lower() in on_text:
                            is_standard_join = True
                  else:
-                      fk = FOREIGN_KEYS.get((right_table_name, left_table_name))
+                      fk = self.foreign_keys.get((right_table_name, left_table_name))
                       if fk and fk[0].lower() in on_text and fk[1].lower() in on_text:
                            is_standard_join = True
 
@@ -830,6 +833,38 @@ class SQLToNLRenderer:
         
         return str(expr.this) if hasattr(expr, 'this') else str(expr)
 
+    # ── singularisation helper (RC-4 fix) ──────────────────────────
+    @staticmethod
+    def _singularize(word: str) -> str:
+        """Best-effort singular form of an English table name.
+
+        Handles the common patterns that appear in SQL table names while
+        being conservative enough not to mangle non-plural words.
+        """
+        if not word or len(word) <= 2:
+            return word
+
+        low = word.lower()
+
+        # Don't touch words that aren't really plural
+        # (ending in 'ss', 'us', 'is' — e.g. Address, Status, Analysis)
+        if low.endswith(('ss', 'us', 'is')):
+            return word
+
+        # -ies  →  -y   (breweries → brewery, cities → city)
+        if low.endswith('ies'):
+            return word[:-3] + ('Y' if word[-4].isupper() else 'y')
+
+        # -ses / -zes / -xes / -ches / -shes  →  drop 'es'
+        if low.endswith(('ses', 'zes', 'xes', 'ches', 'shes')):
+            return word[:-2]
+
+        # regular -s  (users → user)
+        if low.endswith('s') and not low.endswith('ss'):
+            return word[:-1]
+
+        return word
+
     def _render_table(self, table_node, context) -> str:
         rng = self._get_rng(context)
         
@@ -911,7 +946,13 @@ class SQLToNLRenderer:
 
     def _render_column(self, col_node, context) -> str:
         rng = self._get_rng(context)
-        col_name = col_node.name if isinstance(col_node, exp.Column) else str(col_node)
+        # Extract column name: handle Column, Identifier, and fallback
+        if isinstance(col_node, exp.Column):
+            col_name = col_node.name
+        elif isinstance(col_node, exp.Identifier):
+            col_name = col_node.name  # .name strips quotes automatically
+        else:
+            col_name = str(col_node)
         table = col_node.table if hasattr(col_node, 'table') else ""
 
         # Template mode: emit IR token with optional table qualifier
@@ -1017,7 +1058,7 @@ class SQLToNLRenderer:
                         # Unambiguous: u1 -> "the user's"
                         # Make it possessive "the user's" if it's a field
                         # Or just "user's"
-                        noun = base_table.rstrip('s') # user
+                        noun = self._singularize(base_table)
                         return f"the {noun}'s {col_name}"
                     else:
                         # Ambiguous: Keep alias or strictly "u1.id"

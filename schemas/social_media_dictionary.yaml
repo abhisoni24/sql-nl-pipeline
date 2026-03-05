@@ -1,202 +1,112 @@
-# social_media_dictionary.yaml
-
 column_synonyms:
-
-  comments.comment_text:
-    - comment text
-    - comment
-    - reply text
-    - response text
-    - comment body
-
-  comments.created_at:
-    - created at
-    - comment date
-    - date created
-    - time created
-
-  comments.id:
-    - id
-    - comment id
-    - unique id
-    - identifier
-    - record id
-
-  comments.post_id:
-    - post id
-    - related post id
-    - article id
-    - content id
-
-  comments.user_id:
-    - user id
-    - commenter id
-    - author id
-    - member id
-    - account id
-
-  follows.followed_at:
-    - followed at
-    - follow date
-    - date followed
-    - time followed
-
-  follows.followee_id:
-    - followee id
-    - followed user id
-    - account followed id
-
-  follows.follower_id:
-    - follower id
-    - following user id
-    - subscriber id
-
-  likes.liked_at:
-    - liked at
-    - like date
-    - date liked
-    - time liked
-
-  likes.post_id:
-    - post id
-    - liked post id
-    - article id
-    - content id
-
-  likes.user_id:
-    - user id
-    - liker id
-
-  posts.content:
-    - content
-    - post content
-    - post text
-    - message
-    - caption
-
-  posts.id:
-    - id
-    - post id
-    - unique id
-    - identifier
-    - record id
-
-  posts.posted_at:
-    - posted at
-    - post date
-    - date posted
-    - time posted
-
-  posts.user_id:
-    - user id
-    - author id
-    - poster id
-    - member id
-    - account id
-
-  posts.view_count:
-    - view count
-    - number of views
-    - views
-    - view total
-
-  users.country_code:
-    - country code
-    - country
-    - country abbreviation
-    - iso country code
-
-  users.email:
-    - email
-    - email address
-    - electronic mail
-    - e-mail
-    - contact
-    - email_address
-
-  users.id:
-    - id
-    - user id
-    - account id
-    - unique id
-    - identifier
-    - record id
-
-  users.is_verified:
-    - is verified
-    - verified
-    - verification status
-
-  users.signup_date:
-    - signup date
-    - registration date
-    - account creation date
-    - date joined
-    - join date
-    - member since
-
-  users.username:
-    - username
-    - handle
-    - user handle
-    - account name
-
-
+  location.City:
+  - City
+  - metropolis
+  - urban center
+  location.Country:
+  - Country
+  - state
+  - nation
+  - land
+  location.LocationID:
+  - LocationID
+  - placement id
+  - locating id
+  - localization id
+  - localisation id
+  location.State:
+  - State
+  - province
+  location.StateCode:
+  - StateCode
+  - province code
+  twitter.Day:
+  - Day
+  - twenty-four hours
+  - twenty-four hour period
+  - 24-hour interval
+  twitter.Hour:
+  - Hour
+  - 60 minutes
+  - time of day
+  twitter.IsReshare:
+  - IsReshare
+  twitter.Klout:
+  - Klout
+  twitter.Lang:
+  - Lang
+  twitter.Likes:
+  - Likes
+  - like
+  - the like
+  - the likes of
+  - ilk
+  twitter.LocationID:
+  - LocationID
+  - placement id
+  - locating id
+  - localization id
+  - localisation id
+  twitter.Reach:
+  - Reach
+  - range
+  - scope
+  - orbit
+  - reaching
+  twitter.RetweetCount:
+  - RetweetCount
+  twitter.Sentiment:
+  - Sentiment
+  - opinion
+  - persuasion
+  - view
+  twitter.TweetID:
+  - TweetID
+  - twirp id
+  - pinch id
+  - squeeze id
+  - twinge id
+  twitter.UserID:
+  - UserID
+  - exploiter id
+  - drug user id
+  - substance abuser id
+  twitter.Weekday:
+  - Weekday
+  twitter.text:
+  - text
+  - textual matter
+  - textbook
+  - text edition
+  - schoolbook
+  user.Gender:
+  - Gender
+  - grammatical gender
+  - sex
+  - sexuality
+  user.UserID:
+  - UserID
+  - exploiter id
+  - drug user id
+  - substance abuser id
 table_categories:
-  comments: object
-  follows: relation
-  likes: relation
-  posts: object
-  users: person
-
-
+  location: event
+  twitter: event
+  user: person
 table_synonyms:
-
-  comments:
-    - comments
-    - comment
-    - replies
-    - responses
-    - feedback
-    - remarks
-    - messages
-
-  follows:
-    - follows
-    - follow
-    - follow relationship
-    - following
-    - subscriptions
-    - connections
-    - followers
-
-  likes:
-    - likes
-    - like
-    - reactions
-    - post likes
-    - approvals
-    - favorites
-    - interests
-
-  posts:
-    - posts
-    - post
-    - social media post
-    - update
-    - status update
-    - articles
-    - entries
-    - content
-    - updates
-
-  users:
-    - users
-    - user
-    - account
-    - member
-    - profile
-    - accounts
-    - members
-    - profiles
-    - clients
+  location:
+  - location
+  - placement
+  - locating
+  - position
+  - localization
+  - localisation
+  twitter:
+  - twitter
+  - chirrup
+  - chitter
+  user:
+  - user
+  - exploiter
+  - drug user
+  - substance abuser

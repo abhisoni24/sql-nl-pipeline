@@ -72,10 +72,13 @@ def check_record(r, comp, result):
     base_words = set(re.sub(r"[',]","",base_l).split())
     pert_words = set(re.sub(r"[',]","",pert_l).split())
     novel_words = pert_words - base_words
-    tbl_syn_used = any(syn.replace(" ","") in pert_l.replace(" ","") for syns in table_synonyms().values() for syn in syns)
-    col_syn_used = any(syn.replace(" ","") in pert_l.replace(" ","") for syns in column_synonyms_bare().values() for syn in syns)
+    tbl_syn_used = any(syn.lower().replace(" ","") in pert_l.replace(" ","") for syns in table_synonyms().values() for syn in syns)
+    col_syn_used = any(syn.lower().replace(" ","") in pert_l.replace(" ","") for syns in column_synonyms_bare().values() for syn in syns)
     # Also accept any novel meaningful word (synonym substitution happened)
-    meaningful_novel = any(len(w) > 3 and w.isalpha() for w in novel_words)
+    # Strip alias prefixes (e.g. "a1.record" → "record") before checking
+    def _strip_alias(w):
+        return w.split(".")[-1] if "." in w else w
+    meaningful_novel = any(len(_strip_alias(w)) > 3 and _strip_alias(w).isalpha() for w in novel_words)
     if not (tbl_syn_used or col_syn_used or meaningful_novel):
         result.fail(rid, comp, "synonym_used",
                     f"No synonym change detected: {perturbed[:120]}")

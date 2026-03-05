@@ -25,7 +25,7 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.SYNONYM_SUBSTITUTION}, seed=seed)
-        result = SQLToNLRenderer(config).render(ast)
+        result = SQLToNLRenderer(config, foreign_keys=context.get("foreign_keys")).render(ast)
 
         # Guarantee the leading verb differs from the original NL text
         orig_fw = nl_text.split()[0].lower() if nl_text.strip() else ""

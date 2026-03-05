@@ -16,7 +16,7 @@ class TableColumnSynonymsPerturbation(PerturbationStrategy):
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.TABLE_COLUMN_SYNONYMS}, seed=seed)
-        return SQLToNLRenderer(config).render(ast)
+        return SQLToNLRenderer(config, foreign_keys=context.get("foreign_keys")).render(ast)
 
     def was_applied(self, baseline_nl, perturbed_nl, context):
         """Check whether any table/column synonym was substituted."""

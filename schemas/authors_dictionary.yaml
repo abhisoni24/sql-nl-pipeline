@@ -106,6 +106,8 @@ table_synonyms:
   - newspaper
   PaperAuthor:
   - PaperAuthor
-  - paper author
-  - authorship
-  - paper contributor
+  - composition
+  - report
+  - theme
+  - newspaper
+  - writer

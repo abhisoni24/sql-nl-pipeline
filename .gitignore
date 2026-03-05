@@ -20,3 +20,5 @@ sample_exp_run/**/outputs/*.jsonl
 dataset/spider_data*
 dataset/train*
 *.sqlite
+test_dbs/spider/*
+schemas

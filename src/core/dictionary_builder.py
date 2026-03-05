@@ -47,6 +47,16 @@ def build_dictionary(
     if use_wordnet:
         use_wordnet = _ensure_wordnet()
 
+    # Collect all table names (and their underscore/space variants) for
+    # cross-table-name synonym filtering.  A synonym of table A that
+    # coincides with the *name* of table B would cause false positives
+    # in the NL pipeline tests.
+    _all_table_name_forms: set[str] = set()
+    for tname in schema.tables:
+        tl = tname.lower()
+        _all_table_name_forms.add(tl)
+        _all_table_name_forms.add(tl.replace("_", " "))
+
     for tname, tdef in schema.tables.items():
         tokens = _tokenize_identifier(tname)
 
@@ -57,6 +67,11 @@ def build_dictionary(
             wn_syns = _expand_tokens_wordnet(tokens)
             # Filter out synonyms that are too generic or identical
             wn_syns = [s for s in wn_syns if s != base_name and len(s) > 2]
+            # Filter out synonyms that collide with another table's name
+            wn_syns = [
+                s for s in wn_syns
+                if s.lower() not in _all_table_name_forms
+            ]
             table_syns.extend(wn_syns[:5])
         dictionary.table_synonyms[tname] = table_syns
 

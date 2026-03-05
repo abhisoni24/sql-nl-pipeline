@@ -306,6 +306,22 @@ def _col_in_nl(col: str, nl_lower: str, table: str = None) -> bool:
     return False
 
 
+def _singularize_for_test(word: str) -> str:
+    """Best-effort singular form — mirrors SQLToNLRenderer._singularize."""
+    if not word or len(word) <= 2:
+        return word
+    low = word.lower()
+    if low.endswith(('ss', 'us', 'is')):
+        return word
+    if low.endswith('ies'):
+        return word[:-3] + 'y'
+    if low.endswith(('ses', 'zes', 'xes', 'ches', 'shes')):
+        return word[:-2]
+    if low.endswith('s') and not low.endswith('ss'):
+        return word[:-1]
+    return word
+
+
 def _table_in_nl(table: str, nl_lower: str) -> bool:
     """Return True if the table name or any of its synonyms appear in the NL as a
     genuine table reference (not as part of a column name compound or string literal).
@@ -331,9 +347,9 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
             expanded.add(c_l.replace("_", " "))
         elif " " in c_l:
             expanded.add(c_l.replace(" ", "_"))
-        # Naive singular: strip trailing 's' (catches tables/projects/enrollments...)
-        if c_l.endswith("s") and len(c_l) > 2:
-            singular = c_l[:-1]
+        # Proper singularisation (matches renderer's _singularize logic)
+        singular = _singularize_for_test(c_l)
+        if singular != c_l:
             expanded.add(singular)
             if "_" in singular:
                 expanded.add(singular.replace("_", " "))
@@ -347,6 +363,10 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
 
             # Reject: synonym is a column name prefix (followed by underscore: user_id)
             if rest.startswith("_"):
+                continue
+
+            # Reject: alias-qualified column reference (e.g. S1.Region, a1.name)
+            if start > 0 and nl_lower[start - 1] == '.':
                 continue
 
             # Reject: LIKE operator (synonym 'like' followed by quote/percent pattern)
@@ -700,7 +720,23 @@ def check_simple(r: dict, result: TestResult):
 
     # 17. No second schema table mentioned (simple should only reference one table)
     other_tables = _SCHEMA_STATE["KNOWN_TABLES"] - {tables[0]} if tables else _SCHEMA_STATE["KNOWN_TABLES"]
+    # Get column names of the query's primary table to avoid false positives
+    # when a column name coincides with another table name (e.g. column 'words'
+    # in table 'langs' vs table 'words').
+    primary_cols = set()
+    if tables:
+        primary_cols = {c.lower() for c in _SCHEMA_STATE["SCHEMA"].get(tables[0], {}).keys()}
     for other in other_tables:
+        # Skip if the other table name (or its singular) is also a column of the primary table
+        other_l = other.lower()
+        other_singular = _singularize_for_test(other_l)
+        if other_l in primary_cols or other_singular in primary_cols:
+            continue
+        # Skip if any synonym of the other table is also a column of the primary table
+        other_syns = TABLE_SYNONYMS.get(other, set())
+        if any(s.lower() in primary_cols or s.lower().replace(" ", "_") in primary_cols
+               for s in other_syns):
+            continue
         if _table_in_nl(other, nl_l):
             result.fail(rid, comp, "simple_only_one_table",
                         f"Second table '{other}' (or synonym) appears in simple NL: {nl[:120]}")
@@ -1090,7 +1126,7 @@ def check_insert(r: dict, result: TestResult):
     if cols_match:
         insert_table_match = re.search(r"INSERT\s+INTO\s+(\w+)", sql, re.IGNORECASE)
         insert_table = insert_table_match.group(1) if insert_table_match else None
-        col_names = [c.strip() for c in cols_match.group(1).split(",")]
+        col_names = [c.strip().strip('"').strip("'").strip('`') for c in cols_match.group(1).split(",")]
         for col in col_names:
             if not _col_in_nl(col, nl_l, insert_table):
                 result.fail(rid, comp, "insert_column_in_nl",
@@ -1120,9 +1156,9 @@ def check_update(r: dict, result: TestResult):
         result.ok("update_verb")
 
     # 55. SET column mentioned
-    set_match = re.search(r"SET\s+(\w+)\s*=", sql, re.IGNORECASE)
+    set_match = re.search(r'SET\s+"?([^"=]+)"?\s*=', sql, re.IGNORECASE)
     if set_match:
-        col = set_match.group(1)
+        col = set_match.group(1).strip()
         update_table_match = re.search(r"UPDATE\s+(\w+)", sql, re.IGNORECASE)
         update_table = update_table_match.group(1) if update_table_match else None
         if not _col_in_nl(col, nl_l, update_table):
