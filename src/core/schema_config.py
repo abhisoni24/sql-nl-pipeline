@@ -2,8 +2,7 @@
 Schema Configuration Dataclasses.
 
 Provides domain-agnostic dataclasses for representing any SQL database schema.
-These replace the hardcoded dicts in src/core/schema.py and serve as the
-universal internal representation consumed by the generator, renderer,
+These serve as the universal internal representation consumed by the generator, renderer,
 and equivalence checker.
 """
 

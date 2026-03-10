@@ -194,7 +194,7 @@ def _expand_tokens_wordnet(tokens: List[str]) -> List[str]:
         if token in skip_tokens or len(token) <= 2:
             continue
         for synset in wn.synsets(token)[:3]:  # Top 3 synsets
-            for lemma in synset.lemmas()[:4]:  # Top 4 lemmas per synset
+            for lemma in synset.lemmas()[:4]:  # type: ignore # Top 4 lemmas per synset
                 syn = lemma.name().replace("_", " ").lower()
                 if syn != token and syn not in seen and len(syn) > 2:
                     seen.add(syn)
@@ -229,7 +229,7 @@ def _expand_compound_wordnet(tokens: List[str]) -> List[str]:
     seen = set()
 
     for synset in wn.synsets(target)[:3]:
-        for lemma in synset.lemmas()[:3]:
+        for lemma in synset.lemmas()[:3]: # type: ignore
             alt = lemma.name().replace("_", " ").lower()
             if alt != target and alt not in seen and len(alt) > 2:
                 seen.add(alt)
@@ -278,7 +278,7 @@ def _infer_category(tokens: List[str], use_wordnet: bool) -> str:
                 synsets = wn.synsets(token)
                 for synset in synsets[:2]:
                     hypernyms = set()
-                    for path in synset.hypernym_paths():
+                    for path in synset.hypernym_paths(): # type: ignore
                         for h in path:
                             hypernyms.add(h.name().split(".")[0])
                     if "person" in hypernyms or "organism" in hypernyms:
