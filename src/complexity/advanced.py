@@ -39,7 +39,7 @@ class AdvancedHandler(ComplexityHandler):
 
         candidates = [
             (t2, k1, k2)
-            for (t1, t2), (k1, k2) in gen.foreign_keys.items()
+            for (t1, t2), (k1, k2) in gen.fk_pairs.items()
             if t1 == root_table
         ]
 
@@ -87,9 +87,9 @@ class AdvancedHandler(ComplexityHandler):
     def _self_join(self, gen):
         """Self-join with various patterns."""
         # Pick a table that can meaningfully self-join
-        self_joinable = [t for t in gen.schema.keys() if len(gen.schema[t]) >= 3]
+        self_joinable = [t for t in gen.cfg.tables if len(gen.cfg.tables[t].columns) >= 3]
         if not self_joinable:
-            self_joinable = list(gen.schema.keys())
+            self_joinable = gen._table_names()
 
         root_table = random.choice(self_joinable)
         root_alias = f"{root_table[0]}1"
@@ -98,14 +98,14 @@ class AdvancedHandler(ComplexityHandler):
         query = exp.select()
         query = query.from_(exp.to_table(root_table).as_(root_alias))
 
-        cols = list(gen.schema[root_table].keys())
+        cols = gen._get_column_names(root_table)
 
         # Generic self-join: find columns suitable for joining
         # Prefer FK columns or columns with same type for meaningful joins
         join_col = None
 
         # Check if this table has FK columns pointing to itself or shared columns
-        for (t1, t2), (k1, k2) in gen.foreign_keys.items():
+        for (t1, t2), (k1, k2) in gen.fk_pairs.items():
             if t1 == root_table and t2 == root_table:
                 join_col = (k1, k2)
                 break
@@ -182,7 +182,7 @@ class AdvancedHandler(ComplexityHandler):
 
         candidates = [
             (t2, k1, k2)
-            for (t1, t2), (k1, k2) in gen.foreign_keys.items()
+            for (t1, t2), (k1, k2) in gen.fk_pairs.items()
             if t1 == root_table
         ]
         if not candidates:

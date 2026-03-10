@@ -26,10 +26,8 @@ from src.core.generator import SQLQueryGenerator
 def generate_dataset(schema_path, num_per_complexity=20):
     """Generate SQL dataset from a YAML schema."""
     cfg = load_from_yaml(schema_path)
-    schema = cfg.get_legacy_schema()
-    fks = cfg.get_fk_pairs()
 
-    gen = SQLQueryGenerator(schema, fks, type_sets=cfg.get_type_sets(), dialect=cfg.dialect)
+    gen = SQLQueryGenerator(cfg)
     dataset = gen.generate_dataset(num_per_complexity=num_per_complexity)
     return dataset, cfg
 

@@ -12,3 +12,4 @@ dataset/train*
 test_dbs/spider/*
 schemas
 brainstorm
+llm_quirks_tests/*

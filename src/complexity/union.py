@@ -16,7 +16,7 @@ class UnionHandler(ComplexityHandler):
     def generate(self, gen, root_table, root_alias):
         # Pick a table for consistent columns (use root_table from caller)
         table = root_table
-        columns = list(gen.schema[table].keys())
+        columns = gen._get_column_names(table)
 
         num_cols = random.randint(2, min(4, len(columns)))
         selected_cols = random.sample(columns, num_cols)

@@ -1,19 +1,15 @@
 """
 Step 1: Generate SQL dataset.
 
-Reads a schema definition (YAML or legacy) and produces raw SQL queries
+Reads a schema definition (YAML or SQLite) and produces raw SQL queries
 across all complexity types (simple, join, advanced, union, insert, update, delete).
 
 Usage
 -----
-  # Schema-driven (recommended)
   python 01_generate_sql_dataset.py --schema schemas/social_media.yaml
 
   # With custom output path and query count
   python 01_generate_sql_dataset.py --schema schemas/bank.yaml -n 100 -o dataset/bank/raw_queries.json
-
-  # Legacy mode (defaults to social_media via hardcoded src/core/schema.py)
-  python 01_generate_sql_dataset.py
 """
 
 import argparse
@@ -50,8 +46,6 @@ def main():
     # ── Load schema ──────────────────────────────────────────────────
     from src.core.schema_loader import load_schema
     schema_cfg = load_schema(args.schema)
-    schema = schema_cfg.get_legacy_schema()
-    foreign_keys = schema_cfg.get_fk_pairs()
     schema_name = schema_cfg.schema_name
     dialect = schema_cfg.dialect
     schema_source = args.schema
@@ -63,17 +57,8 @@ def main():
     else:
         output_file = f"./dataset/{schema_name}/raw_queries.json"
 
-    # ── Derive composite PK tables ────────────────────────────────────
-    composite_pks = {}
-    for tname, tdef in schema_cfg.tables.items():
-        if "id" not in tdef.columns:
-            fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
-            if fk_cols:
-                composite_pks[tname] = fk_cols
-    type_sets = schema_cfg.get_type_sets()
-
     # ── Generate queries ─────────────────────────────────────────────
-    generator = SQLQueryGenerator(schema, foreign_keys, type_sets=type_sets, composite_pks=composite_pks, dialect=dialect)
+    generator = SQLQueryGenerator(schema_cfg)
     print(f"Generating {args.num_per_complexity} queries per complexity type...")
     records = generator.generate_dataset(num_per_complexity=args.num_per_complexity)
     print(f"Successfully generated {len(records)} queries.")

@@ -27,7 +27,7 @@ class SimpleHandler(ComplexityHandler):
                 query = query.where(where)
 
         if random.random() < 0.3:
-            cols = list(gen.schema[root_table].keys())
+            cols = gen._get_column_names(root_table)
             query = query.order_by(
                 exp.column(random.choice(cols), table=root_alias),
                 desc=random.choice([True, False])

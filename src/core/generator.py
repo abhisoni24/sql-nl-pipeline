@@ -1,37 +1,43 @@
 import random
 from sqlglot import exp
+from src.core.schema_config import SchemaConfig
+
 
 class SQLQueryGenerator:
-    def __init__(self, schema, foreign_keys, type_sets=None, composite_pks=None, dialect="sqlite"):
-        self.schema = schema
-        self.foreign_keys = foreign_keys
-        self.dialect = dialect
+    def __init__(self, schema_config: SchemaConfig):
+        self.cfg = schema_config
+        self.dialect = self.cfg.dialect
         self.queries = []
-        
-        if type_sets is None:
-            self.numeric_types = set()
-            self.text_types = set()
-            self.date_types = set()
-            self.boolean_types = set()
-        else:
-            self.numeric_types = type_sets.get("numeric", set())
-            self.text_types = type_sets.get("text", set())
-            self.date_types = type_sets.get("date", set())
-            self.boolean_types = type_sets.get("boolean", set())
 
-        # Composite PK tables: {table_name: {col1, col2, ...}}
-        # These columns must never appear in UPDATE SET clauses.
-        if composite_pks is not None:
-            self.composite_pks = composite_pks
-        else:
-            self.composite_pks = {}
+        # Precompute FK pairs in the {(t1,t2): (c1,c2)} shape used by
+        # generate_join and the complexity handlers.
+        self.fk_pairs = self.cfg.get_fk_pairs()
+
+        # Derive composite PK tables: tables without an 'id' column whose
+        # FK columns form a composite key.
+        self.composite_pks = {}
+        for tname, tdef in self.cfg.tables.items():
+            if "id" not in tdef.columns:
+                fk_cols = {c.name for c in tdef.columns.values() if c.is_fk}
+                if fk_cols:
+                    self.composite_pks[tname] = fk_cols
+
+    # ── column helpers ────────────────────────────────────────────────
 
     def _get_column_type(self, table, column):
-        return self.schema[table].get(column)
+        return self.cfg.tables[table].columns[column].col_type
+
+    def _get_column_names(self, table):
+        """Return the list of column names for *table*."""
+        return list(self.cfg.tables[table].columns.keys())
+
+    def _table_names(self):
+        """Return the list of all table names in the schema."""
+        return list(self.cfg.tables.keys())
 
     def generate_select(self, table, use_aggregate=False, group_by_cols=None, alias=None):
         table_alias = alias if alias else table
-        columns = list(self.schema[table].keys())
+        columns = self._get_column_names(table)
         
         if use_aggregate:
             # If grouping, we must select group_by columns + aggregates
@@ -53,7 +59,7 @@ class SQLQueryGenerator:
                     select_exprs.append(exp.Count(this=exp.Star()).as_("count_all"))
                 else:
                     select_exprs.append(exp.Count(this=exp.column(agg_col, table=table_alias)).as_(f"count_{agg_col}"))
-            elif self._get_column_type(table, agg_col) in self.numeric_types:
+            elif self._get_column_type(table, agg_col) in self.cfg.numeric_types:
                  # Only sum/avg numeric types
                  if agg_type == 'SUM':
                      select_exprs.append(exp.Sum(this=exp.column(agg_col, table=table_alias)).as_(f"sum_{agg_col}"))
@@ -79,16 +85,16 @@ class SQLQueryGenerator:
 
     def generate_where(self, table, alias=None):
         table_alias = alias if alias else table
-        columns = list(self.schema[table].keys())
+        columns = self._get_column_names(table)
         col_name = random.choice(columns)
         col_type = self._get_column_type(table, col_name)
         col_expr = exp.column(col_name, table=table_alias)
         
-        if col_type in self.numeric_types:
+        if col_type in self.cfg.numeric_types:
             op = random.choice(['=', '!=', '>', '<', '>=', '<='])
             val = random.randint(0, 1000)
             return self._create_binary_op(op, col_expr, exp.Literal.number(val))
-        elif col_type in self.text_types:
+        elif col_type in self.cfg.text_types:
             op = random.choice(['=', '!=', 'LIKE'])
             if op == 'LIKE':
                 # Use email-like pattern for email columns
@@ -104,7 +110,7 @@ class SQLQueryGenerator:
                 else:
                     val = random.choice(['test', 'user', 'admin', 'activity', '123'])
                 return self._create_binary_op(op, col_expr, exp.Literal.string(val))
-        elif col_type in self.date_types:
+        elif col_type in self.cfg.date_types:
             op = random.choice(['>', '<', '>=', '<='])
             # SQLite date arithmetic: datetime('now', '-X days')
             days = random.randint(1, 30)
@@ -113,7 +119,7 @@ class SQLQueryGenerator:
                 exp.Literal.string(f'-{days} days')
             ])
             return self._create_binary_op(op, col_expr, date_expr)
-        elif col_type in self.boolean_types:
+        elif col_type in self.cfg.boolean_types:
             # SQLite uses 1/0 for booleans
             val = random.choice([1, 0])
             return exp.EQ(this=col_expr, expression=exp.Literal.number(val))
@@ -130,26 +136,26 @@ class SQLQueryGenerator:
         return exp.EQ(this=left, expression=right)
 
     def generate_insert(self, table):
-        columns = list(self.schema[table].keys())
+        columns = self._get_column_names(table)
         # Filter out 'id' if it's an auto-increment primary key (assuming 'id' is always PK)
         columns = [c for c in columns if c != 'id']
         
         values = []
         for col in columns:
             col_type = self._get_column_type(table, col)
-            if col_type in self.numeric_types:
+            if col_type in self.cfg.numeric_types:
                 values.append(exp.Literal.number(random.randint(1, 1000)))
-            elif col_type in self.text_types:
+            elif col_type in self.cfg.text_types:
                 if 'email' in col:
                     values.append(exp.Literal.string(f"user{random.randint(1,1000)}@example.com"))
                 elif 'username' in col:
                     values.append(exp.Literal.string(f"user{random.randint(1,1000)}"))
                 else:
                     values.append(exp.Literal.string(f"Sample text {random.randint(1,100)}"))
-            elif col_type in self.date_types:
+            elif col_type in self.cfg.date_types:
                 # SQLite: datetime('now')
                 values.append(exp.Anonymous(this="datetime", expressions=[exp.Literal.string('now')]))
-            elif col_type in self.boolean_types:
+            elif col_type in self.cfg.boolean_types:
                 # SQLite uses 1/0 for booleans
                 values.append(exp.Literal.number(random.choice([1, 0])))
             else:
@@ -162,7 +168,7 @@ class SQLQueryGenerator:
         )
 
     def generate_update(self, table):
-        columns = list(self.schema[table].keys())
+        columns = self._get_column_names(table)
         
         # Filter out primary key columns
         if table in self.composite_pks:
@@ -180,18 +186,18 @@ class SQLQueryGenerator:
         col_to_update = random.choice(safe_columns)
         col_type = self._get_column_type(table, col_to_update)
         
-        if col_type in self.numeric_types:
+        if col_type in self.cfg.numeric_types:
             val = exp.Literal.number(random.randint(1, 1000))
-        elif col_type in self.text_types:
+        elif col_type in self.cfg.text_types:
             # Use realistic email for email columns
             if 'email' in col_to_update:
                 val = exp.Literal.string(f"updated_user{random.randint(1,100)}@example.com")
             else:
                 val = exp.Literal.string(f"Updated text {random.randint(1,100)}")
-        elif col_type in self.date_types:
+        elif col_type in self.cfg.date_types:
             # SQLite: datetime('now')
             val = exp.Anonymous(this="datetime", expressions=[exp.Literal.string('now')])
-        elif col_type in self.boolean_types:
+        elif col_type in self.cfg.boolean_types:
             # SQLite uses 1/0 for booleans
             val = exp.Literal.number(random.choice([1, 0]))
         else:
@@ -219,7 +225,7 @@ class SQLQueryGenerator:
             delete_expr = delete_expr.where(where)
         else:
             # Ultimate fallback: DELETE WHERE id > 0
-            if 'id' in self.schema[table]:
+            if 'id' in self.cfg.tables[table].columns:
                 delete_expr = delete_expr.where(
                     exp.GT(this=exp.column('id', table=table),
                            expression=exp.Literal.number(0)))
@@ -229,8 +235,8 @@ class SQLQueryGenerator:
     def generate_union(self):
         """Generate a UNION or UNION ALL query from two compatible SELECT statements."""
         # Pick a table for consistent columns
-        table = random.choice(list(self.schema.keys()))
-        columns = list(self.schema[table].keys())
+        table = random.choice(self._table_names())
+        columns = self._get_column_names(table)
         
         # Select same columns for both queries (required for UNION)
         num_cols = random.randint(2, min(4, len(columns)))
@@ -270,7 +276,7 @@ class SQLQueryGenerator:
     def generate_join(self, current_table, current_alias, available_tables):
         # Find potential joins
         candidates = []
-        for (t1, t2), (k1, k2) in self.foreign_keys.items():
+        for (t1, t2), (k1, k2) in self.fk_pairs.items():
             if t1 == current_table and t2 not in available_tables: # Avoid joining same table for simplicity in this level
                 candidates.append((t2, k1, k2))
         
@@ -328,7 +334,7 @@ class SQLQueryGenerator:
         """
         from src.complexity.registry import get_handler, all_handler_names
         
-        root_table = random.choice(list(self.schema.keys()))
+        root_table = random.choice(self._table_names())
         root_alias = f"{root_table[0]}1"
         
         if complexity is None:

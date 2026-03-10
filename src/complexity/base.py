@@ -29,7 +29,9 @@ class ComplexityHandler(ABC):
 
         Args:
             gen: The SQLQueryGenerator instance (provides shared helpers
-                 like generate_select, generate_where, generate_join, etc.)
+                 like generate_select, generate_where, generate_join, etc.
+                 and carries a ``cfg: SchemaConfig`` attribute for native
+                 schema access via ``gen.cfg.tables``, ``gen.fk_pairs``, etc.)
             root_table: The randomly chosen root table name.
             root_alias: The alias for the root table (e.g., "u1").
 
