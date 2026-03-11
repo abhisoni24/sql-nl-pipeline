@@ -1,8 +1,9 @@
 """Synonym substitution perturbation strategy — replaces action verbs with synonyms."""
 
 import random
+from sqlglot import exp
 from .base import PerturbationStrategy
-from src.core.nl_renderer import SQLToNLRenderer, PerturbationConfig, PerturbationType
+from src.core.nl_renderer import SQLToNLRenderer
 
 
 class SynonymSubstitutionPerturbation(PerturbationStrategy):
@@ -19,13 +20,27 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
                  "Run a check for", "Produce a listing of"],
     }
 
+    # ── Hook override ──────────────────────────────────────────────
+    def on_verb(self, key, baseline, rng):
+        """Force a different synonym than the baseline."""
+        families = SQLToNLRenderer.synonyms if hasattr(SQLToNLRenderer, 'synonyms') else {}
+        # Build options from instance data (will be available at render time)
+        options = self._VERB_FAMILIES.get(key.lower())
+        if not options:
+            return baseline
+        if len(options) <= 1:
+            return baseline
+        remaining = [o for o in options if o != baseline]
+        return rng.choice(remaining) if remaining else baseline
+
+    # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return SQLToNLRenderer().is_applicable(ast, PerturbationType.SYNONYM_SUBSTITUTION)
+        return not isinstance(ast, (exp.Insert, exp.Update, exp.Delete))
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
-        config = PerturbationConfig(active_perturbations={PerturbationType.SYNONYM_SUBSTITUTION}, seed=seed)
-        result = SQLToNLRenderer(config, schema_config=context.get("schema_config")).render(ast)
+        renderer = SQLToNLRenderer(seed, schema_config=context.get("schema_config"), strategy=self, dictionary=context.get("dictionary"))
+        result = renderer.render(ast)
 
         # Guarantee the leading verb differs from the original NL text
         orig_fw = nl_text.split()[0].lower() if nl_text.strip() else ""
@@ -42,7 +57,6 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
         pert_fw = perturbed_nl.split()[0].lower() if perturbed_nl.strip() else ""
         if orig_fw and pert_fw and orig_fw != pert_fw:
             return True, ""
-        # Even if leading verb is the same, if the text differs it's still a change
         return True, ""
 
     def _swap_leading_verb(self, text: str, orig_first_lower: str, seed: int) -> str:
@@ -51,7 +65,6 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
             first_words = {o.split()[0].lower() for o in options}
             if orig_first_lower not in first_words:
                 continue
-            # Find the current multi-word prefix in the text
             for opt in sorted(options, key=len, reverse=True):
                 if text.lower().startswith(opt.lower()):
                     alts = [o for o in options if o.split()[0].lower() != orig_first_lower]

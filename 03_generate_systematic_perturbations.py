@@ -70,12 +70,21 @@ def main():
     schema_name = "social_media"
     dialect = "sqlite"
     cfg = None
+    dictionary = None
     if args.schema:
         from src.core.schema_loader import load_schema
         cfg = load_schema(args.schema)
         schema_name = cfg.schema_name
         dialect = cfg.dialect
         print(f"Schema: '{schema_name}', dialect: '{dialect}'")
+
+        # Auto-load dictionary if a matching _dictionary.yaml exists
+        dict_path = args.schema.replace('.yaml', '_dictionary.yaml')
+        if os.path.exists(dict_path):
+            from src.core.dictionary_builder import load_dictionary
+            dictionary = load_dictionary(dict_path)
+            syn_count = len(dictionary.table_synonyms) + len(dictionary.column_synonyms)
+            print(f"Dictionary: loaded {syn_count} synonym entries from {dict_path}")
 
     INPUT_FILE = args.input or f"./dataset/{schema_name}/nl_prompts.json"
     OUTPUT_FILE = args.output or f"./dataset/{schema_name}/systematic_perturbations.json"
@@ -119,6 +128,8 @@ def main():
         context = {"seed": 42 + i}
         if cfg is not None:
             context["schema_config"] = cfg
+        if dictionary is not None:
+            context["dictionary"] = dictionary
         rng = random.Random(42 + i)
 
         applicable_count = 0

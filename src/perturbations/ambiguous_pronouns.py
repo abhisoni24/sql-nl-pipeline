@@ -1,8 +1,9 @@
 """Ambiguous pronouns perturbation strategy — replaces one reference with it/that."""
 
 import re
+from sqlglot import exp
 from .base import PerturbationStrategy
-from src.core.nl_renderer import SQLToNLRenderer, PerturbationConfig, PerturbationType
+from src.core.nl_renderer import SQLToNLRenderer
 
 
 # Pronoun anchors that the renderer may insert
@@ -13,19 +14,51 @@ PRONOUN_ANCHORS = {
 }
 
 
+def _is_technical_alias(name):
+    if not name:
+        return False
+    if re.match(r'^[a-z]\d+$', name.lower()):
+        return True
+    return False
+
+
 class AmbiguousPronounsPerturbation(PerturbationStrategy):
     name = "anchored_pronoun_references"
     display_name = "Ambiguous Pronouns"
     description = "Replaced one table/column reference with a pronoun (it/that)."
     layer = "dictionary"
 
+    # ── Hook overrides ─────────────────────────────────────────────
+    def on_table_reference(self, table_name, default, is_repeated,
+                           pronoun, use_pronoun, can_pronoun, synonym=""):
+        if is_repeated and can_pronoun and use_pronoun:
+            return pronoun
+        return default
+
+    def on_column_reference(self, col_name, table, default,
+                            is_repeated, pronoun, use_pronoun, can_pronoun,
+                            synonym=""):
+        if is_repeated and can_pronoun and use_pronoun:
+            return pronoun
+        return default
+
+    # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return SQLToNLRenderer().is_applicable(ast, PerturbationType.AMBIGUOUS_PRONOUNS)
+        table_names = []
+        for t in ast.find_all(exp.Table):
+            val = t.this.this.lower() if hasattr(t.this, 'this') else str(t.this).lower()
+            if val and not _is_technical_alias(val):
+                table_names.append(val)
+        if len(table_names) < 2:
+            return False
+        if len(set(table_names)) == 1:
+            return False  # self-join
+        return True
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
-        config = PerturbationConfig(active_perturbations={PerturbationType.AMBIGUOUS_PRONOUNS}, seed=seed)
-        return SQLToNLRenderer(config, schema_config=context.get("schema_config")).render(ast)
+        renderer = SQLToNLRenderer(seed, schema_config=context.get("schema_config"), strategy=self, dictionary=context.get("dictionary"))
+        return renderer.render(ast)
 
     def was_applied(self, baseline_nl, perturbed_nl, context):
         """Check whether a pronoun anchor was actually inserted."""

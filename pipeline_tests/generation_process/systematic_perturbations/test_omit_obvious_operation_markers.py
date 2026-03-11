@@ -87,7 +87,7 @@ DML_COMPLEXITIES    = {"insert", "update", "delete"}
 
 # Operation verbs that must survive in update/delete NL
 UPDATE_VERBS = {"update", "modify", "change", "set", "alter", "edit", "adjust", "correct", "amend"}
-DELETE_VERBS = {"delete", "remove", "erase", "drop", "purge", "eliminate", "clear", "discard"}
+DELETE_VERBS = {"delete", "remove", "erase", "drop", "purge", "eliminate", "clear", "discard", "strip", "wipe"}
 
 # Prepositions the renderer uses that directly correspond to "FROM"
 FROM_PREPOSITIONS = {" from ", " in ", " within ", " out of ", " inside ", " across "}

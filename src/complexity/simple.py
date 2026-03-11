@@ -15,21 +15,21 @@ class SimpleHandler(ComplexityHandler):
 
     def generate(self, gen, root_table, root_alias):
         query = exp.select()
-        query = query.from_(exp.to_table(root_table).as_(root_alias))
+        query = query.from_(exp.to_table(root_table))
 
-        selects = gen.generate_select(root_table, alias=root_alias)
+        selects = gen.generate_select(root_table)
         for s in selects:
             query = query.select(s, copy=False)
 
         if random.random() < 0.5:
-            where = gen.generate_where(root_table, alias=root_alias)
+            where = gen.generate_where(root_table)
             if where:
                 query = query.where(where)
 
         if random.random() < 0.3:
             cols = gen._get_column_names(root_table)
             query = query.order_by(
-                exp.column(random.choice(cols), table=root_alias),
+                exp.column(random.choice(cols), table=root_table),
                 desc=random.choice([True, False])
             )
 

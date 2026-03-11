@@ -1,8 +1,9 @@
 """Mixed SQL/NL perturbation strategy — blends raw SQL keywords into NL."""
 
 import re
+from sqlglot import exp
 from .base import PerturbationStrategy
-from src.core.nl_renderer import SQLToNLRenderer, PerturbationConfig, PerturbationType
+from src.core.nl_renderer import SQLToNLRenderer
 
 # SQL keywords that the mixed-mode renderer may embed
 _SQL_KEYWORDS = {
@@ -20,13 +21,18 @@ class MixedSqlNlPerturbation(PerturbationStrategy):
     description = "Blended raw SQL keywords into natural language."
     layer = "template"
 
+    # ── Hook override ──────────────────────────────────────────────
+    def on_keyword(self, keyword, default):
+        return keyword  # Emit raw SQL keywords (SELECT, FROM, WHERE...)
+
+    # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return SQLToNLRenderer().is_applicable(ast, PerturbationType.MIXED_SQL_NL)
+        return not isinstance(ast, exp.Insert)
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
-        config = PerturbationConfig(active_perturbations={PerturbationType.MIXED_SQL_NL}, seed=seed)
-        return SQLToNLRenderer(config, schema_config=context.get("schema_config")).render(ast)
+        renderer = SQLToNLRenderer(seed, schema_config=context.get("schema_config"), strategy=self, dictionary=context.get("dictionary"))
+        return renderer.render(ast)
 
     def was_applied(self, baseline_nl, perturbed_nl, context):
         """Check whether SQL keywords are embedded in the perturbed output."""

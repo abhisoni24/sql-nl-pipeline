@@ -1,7 +1,8 @@
 """Omit obvious clauses perturbation strategy — removes explicit SQL clause keywords."""
 
+from sqlglot import exp
 from .base import PerturbationStrategy
-from src.core.nl_renderer import SQLToNLRenderer, PerturbationConfig, PerturbationType
+from src.core.nl_renderer import SQLToNLRenderer
 
 
 class OmitObviousPerturbation(PerturbationStrategy):
@@ -10,17 +11,24 @@ class OmitObviousPerturbation(PerturbationStrategy):
     description = "Removed explicit SQL clause keywords."
     layer = "template"
 
+    # ── Hook overrides ─────────────────────────────────────────────
+    def on_keyword(self, keyword, default):
+        # Omit FROM, WHERE, ALIAS markers; keep SELECT verb
+        if keyword in ("FROM", "WHERE", "ALIAS"):
+            return ""
+        return default
+
+    # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return SQLToNLRenderer().is_applicable(ast, PerturbationType.OMIT_OBVIOUS_CLAUSES)
+        return not isinstance(ast, exp.Insert)
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
-        config = PerturbationConfig(active_perturbations={PerturbationType.OMIT_OBVIOUS_CLAUSES}, seed=seed)
-        return SQLToNLRenderer(config, schema_config=context.get("schema_config")).render(ast)
+        renderer = SQLToNLRenderer(seed, schema_config=context.get("schema_config"), strategy=self, dictionary=context.get("dictionary"))
+        return renderer.render(ast)
 
     def was_applied(self, baseline_nl, perturbed_nl, context):
         """Check whether obvious clause markers were removed."""
         if perturbed_nl.strip() == baseline_nl.strip():
             return False, "Output identical to baseline"
-        # Any text change from the omit-obvious renderer counts
         return True, ""

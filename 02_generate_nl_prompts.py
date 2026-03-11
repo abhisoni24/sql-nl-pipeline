@@ -19,9 +19,6 @@ Usage
   # With explicit I/O
   python 02_generate_nl_prompts.py -i dataset/bank/raw_queries.json \\
       -o dataset/bank/nl_prompts.json --schema schemas/bank.yaml --two-pass
-
-  # Legacy mode (social_media defaults)
-  python 02_generate_nl_prompts.py
 """
 
 import argparse
@@ -116,7 +113,7 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
         sql = query_data["sql"]
         try:
             ast = parse_one(sql, dialect=dialect)
-            renderer.config.seed = 42 + i
+            renderer._seed = 42 + i
 
             if two_pass and resolver is not None:
                 template = renderer.render_template(ast)
