@@ -9,6 +9,7 @@ import random
 import re
 from typing import List, Dict, Optional, Set, Any
 from sqlglot import exp
+from src.core.schema_config import SchemaConfig
 
 class PerturbationType(Enum):
     """Enumeration of the 13 active perturbation categories."""
@@ -38,12 +39,13 @@ class PerturbationConfig:
 class SQLToNLRenderer:
     """Renders SQL AST nodes to natural language using deterministic templates."""
     
-    def __init__(self, config: Optional[PerturbationConfig] = None, foreign_keys=None):
+    def __init__(self, config: Optional[PerturbationConfig] = None, *,
+                 schema_config: Optional[SchemaConfig] = None):
         self.config = config or PerturbationConfig()
         self._ambig_pronoun_count = 0
         self._emit_mode = 'text'  # 'text' for final NL, 'template' for IR tokens
-        # Use provided FK dict, falling back to hardcoded social_media FKs
-        self.foreign_keys = foreign_keys if foreign_keys is not None else {}
+        # Derive FK lookup from SchemaConfig (if provided)
+        self.foreign_keys = schema_config.get_fk_pairs() if schema_config else {}
         
         # Data Banks: The first element MUST be the canonical word from the original dataset
         self.synonyms = {
@@ -54,7 +56,10 @@ class SQLToNLRenderer:
             'from': ['from', 'in', 'within', 'out of'],
             'equals': ["equals", "is", "matches", "is equal to", "="],
             'and': ["and", "where also", "as well as", "along with"],
-            'joined with': ['joined with', 'linked to', 'connected to', 'join']
+            'joined with': ['joined with', 'linked to', 'connected to', 'join'],
+            'insert': ["Add", "Insert", "Put", "Include", "Create"],
+            'update': ["Update", "Change", "Modify", "Adjust", "Edit"],
+            'delete': ["Remove", "Delete", "Drop", "Strip out", "Wipe out"],
         }
         
         self.canonical_ops = {
@@ -80,40 +85,10 @@ class SQLToNLRenderer:
             'lte': 'less than or equal to'
         }
 
-        self.fillers = ["Um", "Uh", "Well", "Okay", "So", "Alright"]
-        self.hedges = ["I think", "probably", "basically", "mostly", "sort of", "kind of"]
-        self.informal = ["you know", "like", "or something", "or whatever", "wanna", "gotta", "a bunch of"]
-
-        self.annotations = [
-            "-- for the audit",
-            "-- note for later",
-            "-- urgent request",
-            "(note: for analysis)",
-            "-- needed for the report",
-            "(specifically for this check)",
-            "(referencing recent data)"
-        ]
-
-        self.urgency = {
-            'high': ["URGENT:", "ASAP:", "Immediately:", "Critical:", "High priority:"],
-            'low': ["When you can,", "No rush,", "At your convenience,", "Low priority:"]
-        }
-
-        self.schema_synonyms = {
-            'users': ["accounts", "members", "profiles", "users", "clients"],
-            'posts': ["articles", "entries", "content", "posts", "updates"],
-            'comments': ["feedback", "responses", "remarks", "comments", "messages"],
-            'likes': ["reactions", "approvals", "favorites", "likes", "interests"],
-            'follows': ["subscriptions", "connections", "follows", "followers", "following"],
-            'id': ["unique id", "identifier", "record id"],
-            'insert': ["Add", "Insert", "Put", "Include", "Create"],
-            'update': ["Update", "Change", "Modify", "Adjust", "Edit"],
-            'delete': ["Remove", "Delete", "Drop", "Strip out", "Wipe out"],
-            'email': ["contact", "email_address", "electronic mail"],
-            'signup_date': ["registration date", "join date", "member since"],
-            'post_id': ["article id", "content id"],
-            'user_id': ["member id", "account id"]
-        }
+        # Schema-specific table/column synonyms.
+        # Empty by default; for synonym-aware rendering, use the two-pass
+        # pipeline (render_template + TemplateResolver + LinguisticDictionary).
+        self.schema_synonyms = {}
 
         self.op_variations = {
             "gt": ["exceeds", "more than", "above", "higher than"],
@@ -261,58 +236,6 @@ class SQLToNLRenderer:
             base_nl = self.render_delete(ast)
         else:
             base_nl = str(ast)
-
-        # Apply global-style perturbations - ALWAYS roll to keep sequence in sync
-        # ID 4: Verbosity (Fillers)
-        choice_filler = self._rng.choice(self.fillers)
-        choice_informal = self._rng.choice(self.informal)
-        if self.config.is_active(PerturbationType.VERBOSITY_VARIATION):
-            base_nl = f"{choice_filler} {base_nl} {choice_informal}." if not base_nl.endswith('.') else f"{choice_filler} {base_nl.rstrip('.')} {choice_informal}."
-
-        # ID 9: Punctuation
-        roll_punct = self._rng.random()
-        if self.config.is_active(PerturbationType.PUNCTUATION_VARIATION):
-            if ',' in base_nl and roll_punct > 0.5:
-                base_nl = base_nl.replace(',', ';', 1)
-            elif roll_punct > 0.7:
-                base_nl = base_nl.rstrip('.') + "..."
-
-        # ID 6: Typos
-        if self.config.is_active(PerturbationType.TYPOS):
-            words = base_nl.split()
-            if words:
-                # Target ~30% of words for typos
-                num_typos = max(1, int(len(words) * 0.3))
-                
-                # Get indices of words amenable to typos (len >= 2)
-                candidates = [i for i, w in enumerate(words) if len(w) >= 2]
-                
-                if candidates:
-                    # Sample up to num_typos indices
-                    targets = self._rng.sample(candidates, min(len(candidates), num_typos))
-                    
-                    for idx in targets:
-                        word = words[idx]
-                        if len(word) >= 2:
-                            char_idx = self._rng.randint(0, len(word) - 2)
-                            word_list = list(word)
-                            word_list[char_idx], word_list[char_idx+1] = word_list[char_idx+1], word_list[char_idx]
-                            words[idx] = "".join(word_list)
-                    
-                    base_nl = " ".join(words)
-
-        # ID 7: Comments (Meta-comments only, no semantic drift)
-        choice_comment = self._rng.choice(self.annotations)
-        if self.config.is_active(PerturbationType.COMMENT_ANNOTATIONS):
-            if not base_nl.endswith('.'):
-                 base_nl += "."
-            base_nl = f"{base_nl} {choice_comment}"
-
-        # ID 10: Urgency
-        urgency_level = self._rng.choice(['high', 'low'])
-        urgency_prefix = self._rng.choice(self.urgency[urgency_level])
-        if self.config.is_active(PerturbationType.URGENCY_QUALIFIERS):
-            base_nl = f"{urgency_prefix} {base_nl}"
 
         return base_nl
 

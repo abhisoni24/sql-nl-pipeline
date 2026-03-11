@@ -4,8 +4,8 @@
     "dialect": "sqlite",
     "schema_source": "schemas/social_media.yaml",
     "dictionary_source": null,
-    "rendering_mode": "legacy",
-    "generated_at": "2026-02-26T06:47:28.038979+00:00",
+    "rendering_mode": "direct",
+    "generated_at": "2026-03-11T00:06:26.402062+00:00",
     "num_records": 350,
     "pipeline_step": "02_generate_nl_prompts",
     "upstream": {
@@ -134,7 +134,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "Pull up the user's username, the user's id, the user's signup_date within users limited to 73 results"
+      "nl_prompt": "Pull up the user's username, the user's id, the user's signup_date in users limited to 73 results"
     },
     {
       "id": 14,
@@ -233,7 +233,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "Spot all columns in comments looking only at the comment's user_id greater than 14"
+      "nl_prompt": "Spot all columns in comments for which the comment's user_id greater than 14"
     },
     {
       "id": 25,
@@ -305,7 +305,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "Select the comment's comment_text, the comment's user_id, the comment's post_id in comments that have the comment's user_id less than or equal to 412 ordered by the comment's created_at limited to 72 results"
+      "nl_prompt": "Select the comment's comment_text, the comment's user_id, the comment's post_id in comments where the comment's user_id less than or equal to 412 ordered by the comment's created_at limited to 72 results"
     },
     {
       "id": 33,
@@ -314,7 +314,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "Run a check for the post's content, the post's posted_at, the post's id from posts limited to 12 results"
+      "nl_prompt": "Run a check for the post's content, the post's posted_at, the post's id in posts limited to 12 results"
     },
     {
       "id": 34,
@@ -341,7 +341,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "Spot the comment's post_id, the comment's created_at, the comment's id out of comments where the comment's user_id greater than 72"
+      "nl_prompt": "Spot the comment's post_id, the comment's created_at, the comment's id in comments that have the comment's user_id greater than 72"
     },
     {
       "id": 37,
@@ -487,7 +487,7 @@
         "comments",
         "users"
       ],
-      "nl_prompt": "choose all columns from comments FULL JOIN users on the comment's user_id equals the user's id filtered for the user's signup_date older than 11 days inclusive"
+      "nl_prompt": "choose all columns from comments FULL JOIN users on the comment's user_id equals the user's id where the user's signup_date older than 11 days inclusive"
     },
     {
       "id": 53,
@@ -507,7 +507,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "Run a check for all columns out of follows LEFT JOIN users on the follow's follower_id equals the user's id for which the user's username is not equal to 'user'"
+      "nl_prompt": "Run a check for all columns out of follows LEFT JOIN users on the follow's follower_id equals the user's id where the user's username is not equal to 'user'"
     },
     {
       "id": 55,
@@ -517,7 +517,7 @@
         "likes",
         "users"
       ],
-      "nl_prompt": "Spot all columns in likes and their users that have the user's email is not equal to 'user99@example.com'"
+      "nl_prompt": "Spot all columns in likes and their users where the user's email is not equal to 'user99@example.com'"
     },
     {
       "id": 56,
@@ -557,7 +557,7 @@
         "likes",
         "posts"
       ],
-      "nl_prompt": "Pull up the like's user_id, the like's liked_at, the post's view_count, the post's id out of likes and their posts filtered for the post's id greater than 274"
+      "nl_prompt": "Pull up the like's user_id, the like's liked_at, the post's view_count, the post's id out of likes and their posts that have the post's id greater than 274"
     },
     {
       "id": 60,
@@ -567,7 +567,7 @@
         "users",
         "likes"
       ],
-      "nl_prompt": "Display all columns out of users FULL JOIN likes on the user's id equals the like's user_id for which the like's user_id less than or equal to 680"
+      "nl_prompt": "Display all columns out of users FULL JOIN likes on the user's id equals the like's user_id filtered for the like's user_id less than or equal to 680"
     },
     {
       "id": 61,
@@ -637,7 +637,7 @@
         "users",
         "posts"
       ],
-      "nl_prompt": "Go get the user's country_code, the user's id, the user's username, the user's is_verified from users and their posts that have the post's view_count greater than 586"
+      "nl_prompt": "Go get the user's country_code, the user's id, the user's username, the user's is_verified from users and their posts where the post's view_count greater than 586"
     },
     {
       "id": 68,
@@ -657,7 +657,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "choose all columns out of follows FULL JOIN users on the follow's follower_id equals the user's id that have the user's email like '%@example.com'"
+      "nl_prompt": "choose all columns out of follows FULL JOIN users on the follow's follower_id equals the user's id looking only at the user's email like '%@example.com'"
     },
     {
       "id": 70,
@@ -687,7 +687,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "Go get all columns from follows FULL JOIN users on the follow's follower_id equals the user's id looking only at the user's username equals 'admin'"
+      "nl_prompt": "Go get all columns from follows FULL JOIN users on the follow's follower_id equals the user's id filtered for the user's username equals 'admin'"
     },
     {
       "id": 73,
@@ -727,7 +727,7 @@
         "posts",
         "likes"
       ],
-      "nl_prompt": "Retrieve all columns in posts LEFT JOIN likes on the post's id equals the like's post_id that have the like's liked_at older than 30 days inclusive"
+      "nl_prompt": "Retrieve all columns in posts LEFT JOIN likes on the post's id equals the like's post_id for which the like's liked_at older than 30 days inclusive"
     },
     {
       "id": 77,
@@ -787,7 +787,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "Find the follow's followed_at, the follow's follower_id, the user's id, the user's country_code from follows FULL JOIN users on the follow's follower_id equals the user's id that have the user's is_verified equals 1"
+      "nl_prompt": "Find the follow's followed_at, the follow's follower_id, the user's id, the user's country_code from follows FULL JOIN users on the follow's follower_id equals the user's id looking only at the user's is_verified equals 1"
     },
     {
       "id": 83,
@@ -817,7 +817,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "Show the user's signup_date, the user's country_code, the follow's follower_id, the user's id from follows and their users"
+      "nl_prompt": "Show the user's signup_date, the user's country_code, the follow's follower_id, the user's id within follows and their users"
     },
     {
       "id": 86,
@@ -837,7 +837,7 @@
         "comments",
         "posts"
       ],
-      "nl_prompt": "Pull up all columns in comments LEFT JOIN posts on the comment's post_id equals the post's id looking only at the post's id greater than 179"
+      "nl_prompt": "Pull up all columns in comments LEFT JOIN posts on the comment's post_id equals the post's id for which the post's id greater than 179"
     },
     {
       "id": 88,
@@ -897,7 +897,7 @@
         "users",
         "comments"
       ],
-      "nl_prompt": "choose the user's is_verified, the comment's created_at, the comment's user_id, the user's signup_date within users RIGHT JOIN comments on the user's id equals the comment's user_id looking only at the comment's user_id is not equal to 680"
+      "nl_prompt": "choose the user's is_verified, the comment's created_at, the comment's user_id, the user's signup_date within users RIGHT JOIN comments on the user's id equals the comment's user_id filtered for the comment's user_id is not equal to 680"
     },
     {
       "id": 94,
@@ -985,7 +985,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "Fetch me all columns from users where signup_date within the last 8 days inclusive where the result's signup_date older than 4 days"
+      "nl_prompt": "Fetch me all columns from users where signup_date within the last 8 days inclusive that have the result's signup_date older than 4 days"
     },
     {
       "id": 103,
@@ -1069,7 +1069,7 @@
         "follows",
         "users"
       ],
-      "nl_prompt": "Pick out the follow's followee_id from follows filtered for where there is a corresponding users who sub_u.id equals the follow's follower_id and sub_u.is_verified equals 1"
+      "nl_prompt": "Pick out the follow's followee_id from follows for which where there is a corresponding users who sub_u.id equals the follow's follower_id and sub_u.is_verified equals 1"
     },
     {
       "id": 112,
@@ -1079,7 +1079,7 @@
         "likes",
         "users"
       ],
-      "nl_prompt": "Select all columns within likes that have where there is a corresponding users who sub_u.id equals the like's user_id and sub_u.id greater than or equal to 282"
+      "nl_prompt": "Select all columns within likes for which where there is a corresponding users who sub_u.id equals the like's user_id and sub_u.id greater than or equal to 282"
     },
     {
       "id": 113,
@@ -1089,7 +1089,7 @@
         "likes",
         "users"
       ],
-      "nl_prompt": "Fetch me all columns out of likes where where there is no corresponding users who sub_u.id equals the like's user_id and sub_u.country_code is not equal to 'user'"
+      "nl_prompt": "Fetch me all columns out of likes for which where there is no corresponding users who sub_u.id equals the like's user_id and sub_u.country_code is not equal to 'user'"
     },
     {
       "id": 114,
@@ -1099,7 +1099,7 @@
         "comments",
         "users"
       ],
-      "nl_prompt": "Run a check for the comment's id, the comment's user_id from comments that have where there is no corresponding users who sub_u.id equals the comment's user_id and sub_u.country_code equals '123'"
+      "nl_prompt": "Run a check for the comment's id, the comment's user_id from comments looking only at where there is no corresponding users who sub_u.id equals the comment's user_id and sub_u.country_code equals '123'"
     },
     {
       "id": 115,
@@ -1147,7 +1147,7 @@
         "posts",
         "users"
       ],
-      "nl_prompt": "Dig out the post's id, the post's view_count from posts for which the post's user_id matches any of the sub_u.ids from users where sub_u.id greater than 155"
+      "nl_prompt": "Dig out the post's id, the post's view_count from posts that have the post's user_id matches any of the sub_u.ids from users where sub_u.id greater than 155"
     },
     {
       "id": 120,
@@ -1184,7 +1184,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "Go get all columns within comments where id less than 502 looking only at the result's user_id greater than 625"
+      "nl_prompt": "Go get all columns within comments where id less than 502 where the result's user_id greater than 625"
     },
     {
       "id": 124,
@@ -1204,7 +1204,7 @@
         "users",
         "posts"
       ],
-      "nl_prompt": "Go get the user's is_verified, the user's email, the user's username from users filtered for the user's id matches any of the sub_p.user_ids from posts where sub_p.id less than or equal to 750"
+      "nl_prompt": "Go get the user's is_verified, the user's email, the user's username from users for which the user's id matches any of the sub_p.user_ids from posts where sub_p.id less than or equal to 750"
     },
     {
       "id": 126,
@@ -1234,7 +1234,7 @@
         "likes",
         "posts"
       ],
-      "nl_prompt": "choose the like's user_id out of likes where the like's post_id matches any of the sub_p.ids from posts where sub_p.content equals 'user'"
+      "nl_prompt": "choose the like's user_id out of likes filtered for the like's post_id matches any of the sub_p.ids from posts where sub_p.content equals 'user'"
     },
     {
       "id": 129,
@@ -1262,7 +1262,7 @@
         "comments",
         "users"
       ],
-      "nl_prompt": "Pick out the comment's created_at out of comments where the comment's user_id matches any of the sub_u.ids from users where sub_u.country_code is not equal to 'user'"
+      "nl_prompt": "Pick out the comment's created_at out of comments for which the comment's user_id matches any of the sub_u.ids from users where sub_u.country_code is not equal to 'user'"
     },
     {
       "id": 132,
@@ -1435,7 +1435,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "Retrieve all columns within comments where id less than 788 looking only at the result's user_id greater than or equal to 956"
+      "nl_prompt": "Retrieve all columns within comments where id less than 788 where the result's user_id greater than or equal to 956"
     },
     {
       "id": 150,
@@ -1475,7 +1475,7 @@
         "comments",
         "comments"
       ],
-      "nl_prompt": "Show the comment's user_id, the comment's created_at, the comment's id in comments where the comment's created_at within the last 28 days, combined with (including duplicates) Show the comment's user_id, the comment's created_at, the comment's id in comments where the comment's post_id equals 681 ordered by user_id"
+      "nl_prompt": "Show the comment's user_id, the comment's created_at, the comment's id within comments filtered for the comment's created_at within the last 28 days, combined with (including duplicates) Show the comment's user_id, the comment's created_at, the comment's id within comments filtered for the comment's post_id equals 681 ordered by user_id"
     },
     {
       "id": 154,
@@ -1565,7 +1565,7 @@
         "comments",
         "comments"
       ],
-      "nl_prompt": "Get the comment's post_id, the comment's created_at from comments looking only at the comment's created_at within the last 4 days inclusive, combined with (removing duplicates) Get the comment's post_id, the comment's created_at from comments looking only at the comment's created_at within the last 28 days"
+      "nl_prompt": "Get the comment's post_id, the comment's created_at from comments that have the comment's created_at within the last 4 days inclusive, combined with (removing duplicates) Get the comment's post_id, the comment's created_at from comments that have the comment's created_at within the last 28 days"
     },
     {
       "id": 163,
@@ -1645,7 +1645,7 @@
         "comments",
         "comments"
       ],
-      "nl_prompt": "Bring up the comment's created_at, the comment's comment_text, the comment's user_id, the comment's id out of comments for which the comment's id less than or equal to 645, combined with (including duplicates) Bring up the comment's created_at, the comment's comment_text, the comment's user_id, the comment's id out of comments for which the comment's post_id is not equal to 849 ordered by created_at"
+      "nl_prompt": "Bring up the comment's created_at, the comment's comment_text, the comment's user_id, the comment's id within comments for which the comment's id less than or equal to 645, combined with (including duplicates) Bring up the comment's created_at, the comment's comment_text, the comment's user_id, the comment's id within comments for which the comment's post_id is not equal to 849 ordered by created_at"
     },
     {
       "id": 171,
@@ -1665,7 +1665,7 @@
         "posts",
         "posts"
       ],
-      "nl_prompt": "Pull up the post's content, the post's posted_at out of posts that have the post's posted_at older than 25 days inclusive, combined with (including duplicates) Pull up the post's content, the post's posted_at out of posts that have the post's view_count less than 60"
+      "nl_prompt": "Pull up the post's content, the post's posted_at out of posts where the post's posted_at older than 25 days inclusive, combined with (including duplicates) Pull up the post's content, the post's posted_at out of posts where the post's view_count less than 60"
     },
     {
       "id": 173,
@@ -1685,7 +1685,7 @@
         "comments",
         "comments"
       ],
-      "nl_prompt": "Go get the comment's created_at, the comment's post_id, the comment's id, the comment's user_id within comments filtered for the comment's comment_text like 'b%', combined with (removing duplicates) Go get the comment's created_at, the comment's post_id, the comment's id, the comment's user_id within comments filtered for the comment's id equals 667 ordered by created_at"
+      "nl_prompt": "Go get the comment's created_at, the comment's post_id, the comment's id, the comment's user_id in comments filtered for the comment's comment_text like 'b%', combined with (removing duplicates) Go get the comment's created_at, the comment's post_id, the comment's id, the comment's user_id in comments filtered for the comment's id equals 667 ordered by created_at"
     },
     {
       "id": 175,
@@ -1695,7 +1695,7 @@
         "posts",
         "posts"
       ],
-      "nl_prompt": "Go get the post's view_count, the post's user_id, the post's content, the post's id within posts where the post's posted_at older than 25 days, combined with (removing duplicates) Go get the post's view_count, the post's user_id, the post's content, the post's id within posts where the post's id is not equal to 796 ordered by view_count"
+      "nl_prompt": "Go get the post's view_count, the post's user_id, the post's content, the post's id out of posts looking only at the post's posted_at older than 25 days, combined with (removing duplicates) Go get the post's view_count, the post's user_id, the post's content, the post's id out of posts looking only at the post's id is not equal to 796 ordered by view_count"
     },
     {
       "id": 176,
@@ -1705,7 +1705,7 @@
         "comments",
         "comments"
       ],
-      "nl_prompt": "Pick out the comment's created_at, the comment's id, the comment's post_id, the comment's user_id out of comments for which the comment's comment_text is not equal to 'user', combined with (removing duplicates) Pick out the comment's created_at, the comment's id, the comment's post_id, the comment's user_id out of comments for which the comment's created_at within the last 5 days limited to 19 results"
+      "nl_prompt": "Pick out the comment's created_at, the comment's id, the comment's post_id, the comment's user_id out of comments that have the comment's comment_text is not equal to 'user', combined with (removing duplicates) Pick out the comment's created_at, the comment's id, the comment's post_id, the comment's user_id out of comments that have the comment's created_at within the last 5 days limited to 19 results"
     },
     {
       "id": 177,
@@ -1825,7 +1825,7 @@
         "posts",
         "posts"
       ],
-      "nl_prompt": "Display the post's user_id, the post's content, the post's id, the post's posted_at within posts where the post's view_count equals 823, combined with (removing duplicates) Display the post's user_id, the post's content, the post's id, the post's posted_at within posts where the post's user_id is not equal to 262 ordered by user_id"
+      "nl_prompt": "Display the post's user_id, the post's content, the post's id, the post's posted_at within posts that have the post's view_count equals 823, combined with (removing duplicates) Display the post's user_id, the post's content, the post's id, the post's posted_at within posts that have the post's user_id is not equal to 262 ordered by user_id"
     },
     {
       "id": 189,
@@ -1835,7 +1835,7 @@
         "users",
         "users"
       ],
-      "nl_prompt": "Display the user's country_code, the user's username, the user's email in users for which the user's email like 'user%@%', combined with (removing duplicates) Display the user's country_code, the user's username, the user's email in users for which the user's is_verified equals 0 ordered by country_code"
+      "nl_prompt": "Display the user's country_code, the user's username, the user's email in users looking only at the user's email like 'user%@%', combined with (removing duplicates) Display the user's country_code, the user's username, the user's email in users looking only at the user's is_verified equals 0 ordered by country_code"
     },
     {
       "id": 190,
@@ -1925,7 +1925,7 @@
         "posts",
         "posts"
       ],
-      "nl_prompt": "Retrieve the post's content, the post's id, the post's view_count, the post's user_id out of posts that have the post's posted_at within the last 19 days inclusive, combined with (including duplicates) Retrieve the post's content, the post's id, the post's view_count, the post's user_id out of posts that have the post's view_count greater than 292 ordered by content"
+      "nl_prompt": "Retrieve the post's content, the post's id, the post's view_count, the post's user_id within posts filtered for the post's posted_at within the last 19 days inclusive, combined with (including duplicates) Retrieve the post's content, the post's id, the post's view_count, the post's user_id within posts filtered for the post's view_count greater than 292 ordered by content"
     },
     {
       "id": 199,
@@ -1954,7 +1954,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 205, content as 'Sample text 50', posted_at as the current time, view_count as 66."
+      "nl_prompt": "Insert a new post with user_id as 205, content as 'Sample text 50', posted_at as the current time, view_count as 66."
     },
     {
       "id": 202,
@@ -1963,7 +1963,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user935', email as 'user312@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 67'."
+      "nl_prompt": "Create a new user with username as 'user935', email as 'user312@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 67'."
     },
     {
       "id": 203,
@@ -1972,7 +1972,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 146, content as 'Sample text 47', posted_at as the current time, view_count as 541."
+      "nl_prompt": "Insert a new post with user_id as 146, content as 'Sample text 47', posted_at as the current time, view_count as 541."
     },
     {
       "id": 204,
@@ -1981,7 +1981,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 750, followee_id as 58, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 750, followee_id as 58, followed_at as the current time."
     },
     {
       "id": 205,
@@ -1990,7 +1990,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 340, content as 'Sample text 53', posted_at as the current time, view_count as 918."
+      "nl_prompt": "Insert a new post with user_id as 340, content as 'Sample text 53', posted_at as the current time, view_count as 918."
     },
     {
       "id": 206,
@@ -1999,7 +1999,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 938, content as 'Sample text 53', posted_at as the current time, view_count as 885."
+      "nl_prompt": "Include a new post with user_id as 938, content as 'Sample text 53', posted_at as the current time, view_count as 885."
     },
     {
       "id": 207,
@@ -2008,7 +2008,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user539', email as 'user776@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 61'."
+      "nl_prompt": "Add a new user with username as 'user539', email as 'user776@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 61'."
     },
     {
       "id": 208,
@@ -2017,7 +2017,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user239', email as 'user874@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 89'."
+      "nl_prompt": "Add a new user with username as 'user239', email as 'user874@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 89'."
     },
     {
       "id": 209,
@@ -2026,7 +2026,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "insert a new comment with user_id as 742, post_id as 320, comment_text as 'Sample text 60', created_at as the current time."
+      "nl_prompt": "Include a new comment with user_id as 742, post_id as 320, comment_text as 'Sample text 60', created_at as the current time."
     },
     {
       "id": 210,
@@ -2035,7 +2035,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "insert a new comment with user_id as 516, post_id as 86, comment_text as 'Sample text 83', created_at as the current time."
+      "nl_prompt": "Include a new comment with user_id as 516, post_id as 86, comment_text as 'Sample text 83', created_at as the current time."
     },
     {
       "id": 211,
@@ -2044,7 +2044,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user628', email as 'user114@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 92'."
+      "nl_prompt": "Add a new user with username as 'user628', email as 'user114@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 92'."
     },
     {
       "id": 212,
@@ -2053,7 +2053,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 154, post_id as 7, liked_at as the current time."
+      "nl_prompt": "Put a new like with user_id as 154, post_id as 7, liked_at as the current time."
     },
     {
       "id": 213,
@@ -2062,7 +2062,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 473, post_id as 118, liked_at as the current time."
+      "nl_prompt": "Create a new like with user_id as 473, post_id as 118, liked_at as the current time."
     },
     {
       "id": 214,
@@ -2071,7 +2071,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 144, post_id as 700, liked_at as the current time."
+      "nl_prompt": "Include a new like with user_id as 144, post_id as 700, liked_at as the current time."
     },
     {
       "id": 215,
@@ -2080,7 +2080,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 824, content as 'Sample text 77', posted_at as the current time, view_count as 306."
+      "nl_prompt": "Put a new post with user_id as 824, content as 'Sample text 77', posted_at as the current time, view_count as 306."
     },
     {
       "id": 216,
@@ -2089,7 +2089,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 340, post_id as 35, liked_at as the current time."
+      "nl_prompt": "Add a new like with user_id as 340, post_id as 35, liked_at as the current time."
     },
     {
       "id": 217,
@@ -2098,7 +2098,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user317', email as 'user631@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 60'."
+      "nl_prompt": "Create a new user with username as 'user317', email as 'user631@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 60'."
     },
     {
       "id": 218,
@@ -2107,7 +2107,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user82', email as 'user601@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 56'."
+      "nl_prompt": "Include a new user with username as 'user82', email as 'user601@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 56'."
     },
     {
       "id": 219,
@@ -2116,7 +2116,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user81', email as 'user275@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 73'."
+      "nl_prompt": "Put a new user with username as 'user81', email as 'user275@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 73'."
     },
     {
       "id": 220,
@@ -2125,7 +2125,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 681, post_id as 979, liked_at as the current time."
+      "nl_prompt": "Add a new like with user_id as 681, post_id as 979, liked_at as the current time."
     },
     {
       "id": 221,
@@ -2134,7 +2134,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 396, followee_id as 356, followed_at as the current time."
+      "nl_prompt": "Add a new follow with follower_id as 396, followee_id as 356, followed_at as the current time."
     },
     {
       "id": 222,
@@ -2143,7 +2143,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 630, post_id as 723, liked_at as the current time."
+      "nl_prompt": "Insert a new like with user_id as 630, post_id as 723, liked_at as the current time."
     },
     {
       "id": 223,
@@ -2152,7 +2152,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user676', email as 'user269@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 27'."
+      "nl_prompt": "Include a new user with username as 'user676', email as 'user269@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 27'."
     },
     {
       "id": 224,
@@ -2161,7 +2161,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 43, followee_id as 8, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 43, followee_id as 8, followed_at as the current time."
     },
     {
       "id": 225,
@@ -2170,7 +2170,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 526, followee_id as 987, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 526, followee_id as 987, followed_at as the current time."
     },
     {
       "id": 226,
@@ -2179,7 +2179,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 172, content as 'Sample text 93', posted_at as the current time, view_count as 720."
+      "nl_prompt": "Create a new post with user_id as 172, content as 'Sample text 93', posted_at as the current time, view_count as 720."
     },
     {
       "id": 227,
@@ -2188,7 +2188,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user346', email as 'user508@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 41'."
+      "nl_prompt": "Create a new user with username as 'user346', email as 'user508@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 41'."
     },
     {
       "id": 228,
@@ -2197,7 +2197,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 652, post_id as 48, liked_at as the current time."
+      "nl_prompt": "Add a new like with user_id as 652, post_id as 48, liked_at as the current time."
     },
     {
       "id": 229,
@@ -2206,7 +2206,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "insert a new comment with user_id as 992, post_id as 664, comment_text as 'Sample text 89', created_at as the current time."
+      "nl_prompt": "Create a new comment with user_id as 992, post_id as 664, comment_text as 'Sample text 89', created_at as the current time."
     },
     {
       "id": 230,
@@ -2215,7 +2215,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 54, content as 'Sample text 18', posted_at as the current time, view_count as 702."
+      "nl_prompt": "Insert a new post with user_id as 54, content as 'Sample text 18', posted_at as the current time, view_count as 702."
     },
     {
       "id": 231,
@@ -2224,7 +2224,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 279, followee_id as 558, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 279, followee_id as 558, followed_at as the current time."
     },
     {
       "id": 232,
@@ -2233,7 +2233,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 216, content as 'Sample text 66', posted_at as the current time, view_count as 487."
+      "nl_prompt": "Create a new post with user_id as 216, content as 'Sample text 66', posted_at as the current time, view_count as 487."
     },
     {
       "id": 233,
@@ -2242,7 +2242,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user60', email as 'user568@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 43'."
+      "nl_prompt": "Add a new user with username as 'user60', email as 'user568@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 43'."
     },
     {
       "id": 234,
@@ -2251,7 +2251,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user23', email as 'user516@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 42'."
+      "nl_prompt": "Insert a new user with username as 'user23', email as 'user516@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 42'."
     },
     {
       "id": 235,
@@ -2260,7 +2260,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 7, content as 'Sample text 4', posted_at as the current time, view_count as 572."
+      "nl_prompt": "Insert a new post with user_id as 7, content as 'Sample text 4', posted_at as the current time, view_count as 572."
     },
     {
       "id": 236,
@@ -2269,7 +2269,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user972', email as 'user136@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 36'."
+      "nl_prompt": "Include a new user with username as 'user972', email as 'user136@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 36'."
     },
     {
       "id": 237,
@@ -2278,7 +2278,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 758, followee_id as 9, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 758, followee_id as 9, followed_at as the current time."
     },
     {
       "id": 238,
@@ -2287,7 +2287,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 624, followee_id as 50, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 624, followee_id as 50, followed_at as the current time."
     },
     {
       "id": 239,
@@ -2296,7 +2296,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 139, content as 'Sample text 41', posted_at as the current time, view_count as 993."
+      "nl_prompt": "Put a new post with user_id as 139, content as 'Sample text 41', posted_at as the current time, view_count as 993."
     },
     {
       "id": 240,
@@ -2305,7 +2305,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 557, content as 'Sample text 49', posted_at as the current time, view_count as 536."
+      "nl_prompt": "Put a new post with user_id as 557, content as 'Sample text 49', posted_at as the current time, view_count as 536."
     },
     {
       "id": 241,
@@ -2314,7 +2314,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user988', email as 'user62@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 63'."
+      "nl_prompt": "Put a new user with username as 'user988', email as 'user62@example.com', signup_date as the current time, is_verified as 1, country_code as 'Sample text 63'."
     },
     {
       "id": 242,
@@ -2323,7 +2323,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user437', email as 'user530@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 54'."
+      "nl_prompt": "Insert a new user with username as 'user437', email as 'user530@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 54'."
     },
     {
       "id": 243,
@@ -2332,7 +2332,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 666, followee_id as 351, followed_at as the current time."
+      "nl_prompt": "Create a new follow with follower_id as 666, followee_id as 351, followed_at as the current time."
     },
     {
       "id": 244,
@@ -2341,7 +2341,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "insert a new comment with user_id as 459, post_id as 237, comment_text as 'Sample text 1', created_at as the current time."
+      "nl_prompt": "Include a new comment with user_id as 459, post_id as 237, comment_text as 'Sample text 1', created_at as the current time."
     },
     {
       "id": 245,
@@ -2350,7 +2350,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 496, post_id as 136, liked_at as the current time."
+      "nl_prompt": "Add a new like with user_id as 496, post_id as 136, liked_at as the current time."
     },
     {
       "id": 246,
@@ -2359,7 +2359,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "insert a new follow with follower_id as 649, followee_id as 527, followed_at as the current time."
+      "nl_prompt": "Include a new follow with follower_id as 649, followee_id as 527, followed_at as the current time."
     },
     {
       "id": 247,
@@ -2368,7 +2368,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 242, content as 'Sample text 6', posted_at as the current time, view_count as 691."
+      "nl_prompt": "Include a new post with user_id as 242, content as 'Sample text 6', posted_at as the current time, view_count as 691."
     },
     {
       "id": 248,
@@ -2377,7 +2377,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "insert a new post with user_id as 374, content as 'Sample text 70', posted_at as the current time, view_count as 818."
+      "nl_prompt": "Insert a new post with user_id as 374, content as 'Sample text 70', posted_at as the current time, view_count as 818."
     },
     {
       "id": 249,
@@ -2386,7 +2386,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "insert a new like with user_id as 849, post_id as 176, liked_at as the current time."
+      "nl_prompt": "Create a new like with user_id as 849, post_id as 176, liked_at as the current time."
     },
     {
       "id": 250,
@@ -2395,7 +2395,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "insert a new user with username as 'user204', email as 'user103@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 83'."
+      "nl_prompt": "Include a new user with username as 'user204', email as 'user103@example.com', signup_date as the current time, is_verified as 0, country_code as 'Sample text 83'."
     },
     {
       "id": 251,
@@ -2404,7 +2404,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where user_id is not equal to 519"
+      "nl_prompt": "Update liked_at to the current time for the like where user_id is not equal to 519"
     },
     {
       "id": 252,
@@ -2413,7 +2413,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update posted_at to the current time for the post where user_id less than 962"
+      "nl_prompt": "Modify posted_at to the current time for the post where user_id less than 962"
     },
     {
       "id": 253,
@@ -2422,7 +2422,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where liked_at within the last 25 days"
+      "nl_prompt": "Modify liked_at to the current time for the like where liked_at within the last 25 days"
     },
     {
       "id": 254,
@@ -2431,7 +2431,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update created_at to the current time for the comment where comment_text like 'b%'"
+      "nl_prompt": "Adjust created_at to the current time for the comment where comment_text like 'b%'"
     },
     {
       "id": 255,
@@ -2440,7 +2440,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "update signup_date to the current time for the user where username like 'b%'"
+      "nl_prompt": "Modify signup_date to the current time for the user where username like 'b%'"
     },
     {
       "id": 256,
@@ -2449,7 +2449,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 25' for the comment where post_id less than 175"
+      "nl_prompt": "Adjust comment_text to 'Updated text 25' for the comment where post_id less than 175"
     },
     {
       "id": 257,
@@ -2458,7 +2458,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "update country_code to 'Updated text 41' for the user where signup_date within the last 8 days"
+      "nl_prompt": "Update country_code to 'Updated text 41' for the user where signup_date within the last 8 days"
     },
     {
       "id": 258,
@@ -2467,7 +2467,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update user_id to 454 for the post where user_id is not equal to 496"
+      "nl_prompt": "Update user_id to 454 for the post where user_id is not equal to 496"
     },
     {
       "id": 259,
@@ -2476,7 +2476,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 880 for the post where id greater than 362"
+      "nl_prompt": "Edit view_count to 880 for the post where id greater than 362"
     },
     {
       "id": 260,
@@ -2485,7 +2485,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 982 for the post where posted_at older than 20 days inclusive"
+      "nl_prompt": "Update view_count to 982 for the post where posted_at older than 20 days inclusive"
     },
     {
       "id": 261,
@@ -2494,7 +2494,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where followee_id greater than or equal to 346"
+      "nl_prompt": "Edit followed_at to the current time for the follow where followee_id greater than or equal to 346"
     },
     {
       "id": 262,
@@ -2503,7 +2503,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where post_id greater than 6"
+      "nl_prompt": "Modify liked_at to the current time for the like where post_id greater than 6"
     },
     {
       "id": 263,
@@ -2512,7 +2512,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where post_id less than 530"
+      "nl_prompt": "Change liked_at to the current time for the like where post_id less than 530"
     },
     {
       "id": 264,
@@ -2521,7 +2521,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where liked_at within the last 11 days inclusive"
+      "nl_prompt": "Change liked_at to the current time for the like where liked_at within the last 11 days inclusive"
     },
     {
       "id": 265,
@@ -2530,7 +2530,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 38' for the comment where user_id greater than or equal to 409"
+      "nl_prompt": "Adjust comment_text to 'Updated text 38' for the comment where user_id greater than or equal to 409"
     },
     {
       "id": 266,
@@ -2539,7 +2539,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where followed_at within the last 7 days inclusive"
+      "nl_prompt": "Change followed_at to the current time for the follow where followed_at within the last 7 days inclusive"
     },
     {
       "id": 267,
@@ -2548,7 +2548,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where post_id greater than 22"
+      "nl_prompt": "Edit liked_at to the current time for the like where post_id greater than 22"
     },
     {
       "id": 268,
@@ -2557,7 +2557,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 76' for the comment where id less than 277"
+      "nl_prompt": "Change comment_text to 'Updated text 76' for the comment where id less than 277"
     },
     {
       "id": 269,
@@ -2566,7 +2566,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 81' for the comment where comment_text is not equal to '123'"
+      "nl_prompt": "Modify comment_text to 'Updated text 81' for the comment where comment_text is not equal to '123'"
     },
     {
       "id": 270,
@@ -2575,7 +2575,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 94' for the comment where created_at within the last 9 days"
+      "nl_prompt": "Adjust comment_text to 'Updated text 94' for the comment where created_at within the last 9 days"
     },
     {
       "id": 271,
@@ -2584,7 +2584,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where post_id less than 90"
+      "nl_prompt": "Modify liked_at to the current time for the like where post_id less than 90"
     },
     {
       "id": 272,
@@ -2593,7 +2593,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "update email to 'updated_user13@example.com' for the user where id less than or equal to 756"
+      "nl_prompt": "Modify email to 'updated_user13@example.com' for the user where id less than or equal to 756"
     },
     {
       "id": 273,
@@ -2602,7 +2602,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 700 for the post where id less than 787"
+      "nl_prompt": "Edit view_count to 700 for the post where id less than 787"
     },
     {
       "id": 274,
@@ -2611,7 +2611,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update post_id to 599 for the comment where user_id equals 599"
+      "nl_prompt": "Modify post_id to 599 for the comment where user_id equals 599"
     },
     {
       "id": 275,
@@ -2620,7 +2620,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 33' for the comment where comment_text equals '123'"
+      "nl_prompt": "Update comment_text to 'Updated text 33' for the comment where comment_text equals '123'"
     },
     {
       "id": 276,
@@ -2629,7 +2629,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where followee_id greater than or equal to 336"
+      "nl_prompt": "Modify followed_at to the current time for the follow where followee_id greater than or equal to 336"
     },
     {
       "id": 277,
@@ -2638,7 +2638,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where followed_at within the last 30 days inclusive"
+      "nl_prompt": "Adjust followed_at to the current time for the follow where followed_at within the last 30 days inclusive"
     },
     {
       "id": 278,
@@ -2647,7 +2647,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "update username to 'Updated text 31' for the user where country_code equals 'test'"
+      "nl_prompt": "Adjust username to 'Updated text 31' for the user where country_code equals 'test'"
     },
     {
       "id": 279,
@@ -2656,7 +2656,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where follower_id less than or equal to 986"
+      "nl_prompt": "Modify followed_at to the current time for the follow where follower_id less than or equal to 986"
     },
     {
       "id": 280,
@@ -2665,7 +2665,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where user_id greater than 326"
+      "nl_prompt": "Change liked_at to the current time for the like where user_id greater than 326"
     },
     {
       "id": 281,
@@ -2674,7 +2674,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update created_at to the current time for the comment where user_id equals 683"
+      "nl_prompt": "Update created_at to the current time for the comment where user_id equals 683"
     },
     {
       "id": 282,
@@ -2683,7 +2683,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where follower_id less than 448"
+      "nl_prompt": "Update followed_at to the current time for the follow where follower_id less than 448"
     },
     {
       "id": 283,
@@ -2692,7 +2692,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where followee_id less than or equal to 89"
+      "nl_prompt": "Change followed_at to the current time for the follow where followee_id less than or equal to 89"
     },
     {
       "id": 284,
@@ -2701,7 +2701,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update post_id to 420 for the comment where comment_text equals 'test'"
+      "nl_prompt": "Adjust post_id to 420 for the comment where comment_text equals 'test'"
     },
     {
       "id": 285,
@@ -2710,7 +2710,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 238 for the post where id less than or equal to 948"
+      "nl_prompt": "Adjust view_count to 238 for the post where id less than or equal to 948"
     },
     {
       "id": 286,
@@ -2719,7 +2719,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update post_id to 384 for the comment where comment_text equals 'activity'"
+      "nl_prompt": "Adjust post_id to 384 for the comment where comment_text equals 'activity'"
     },
     {
       "id": 287,
@@ -2728,7 +2728,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where liked_at older than 9 days inclusive"
+      "nl_prompt": "Update liked_at to the current time for the like where liked_at older than 9 days inclusive"
     },
     {
       "id": 288,
@@ -2737,7 +2737,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followee_id to 492 for the follow where follower_id greater than 636"
+      "nl_prompt": "Change followee_id to 492 for the follow where follower_id greater than 636"
     },
     {
       "id": 289,
@@ -2746,7 +2746,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 734 for the post where view_count equals 893"
+      "nl_prompt": "Adjust view_count to 734 for the post where view_count equals 893"
     },
     {
       "id": 290,
@@ -2755,7 +2755,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followee_id to 851 for the follow where followee_id less than 394"
+      "nl_prompt": "Edit followee_id to 851 for the follow where followee_id less than 394"
     },
     {
       "id": 291,
@@ -2764,7 +2764,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followee_id to 9 for the follow where follower_id less than or equal to 598"
+      "nl_prompt": "Edit followee_id to 9 for the follow where follower_id less than or equal to 598"
     },
     {
       "id": 292,
@@ -2773,7 +2773,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update view_count to 159 for the post where view_count less than 777"
+      "nl_prompt": "Adjust view_count to 159 for the post where view_count less than 777"
     },
     {
       "id": 293,
@@ -2782,7 +2782,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update posted_at to the current time for the post where user_id greater than or equal to 107"
+      "nl_prompt": "Edit posted_at to the current time for the post where user_id greater than or equal to 107"
     },
     {
       "id": 294,
@@ -2791,7 +2791,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followee_id to 813 for the follow where followee_id is not equal to 946"
+      "nl_prompt": "Adjust followee_id to 813 for the follow where followee_id is not equal to 946"
     },
     {
       "id": 295,
@@ -2800,7 +2800,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "update followed_at to the current time for the follow where follower_id less than or equal to 119"
+      "nl_prompt": "Edit followed_at to the current time for the follow where follower_id less than or equal to 119"
     },
     {
       "id": 296,
@@ -2809,7 +2809,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "update content to 'Updated text 96' for the post where content like '%c'"
+      "nl_prompt": "Adjust content to 'Updated text 96' for the post where content like '%c'"
     },
     {
       "id": 297,
@@ -2818,7 +2818,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update comment_text to 'Updated text 7' for the comment where user_id greater than 498"
+      "nl_prompt": "Change comment_text to 'Updated text 7' for the comment where user_id greater than 498"
     },
     {
       "id": 298,
@@ -2827,7 +2827,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "update liked_at to the current time for the like where user_id less than 321"
+      "nl_prompt": "Adjust liked_at to the current time for the like where user_id less than 321"
     },
     {
       "id": 299,
@@ -2836,7 +2836,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update post_id to 969 for the comment where post_id is not equal to 165"
+      "nl_prompt": "Change post_id to 969 for the comment where post_id is not equal to 165"
     },
     {
       "id": 300,
@@ -2845,7 +2845,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "update post_id to 825 for the comment where id equals 394"
+      "nl_prompt": "Modify post_id to 825 for the comment where id equals 394"
     },
     {
       "id": 301,
@@ -2854,7 +2854,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followee_id less than 195"
+      "nl_prompt": "Remove follows where followee_id less than 195"
     },
     {
       "id": 302,
@@ -2863,7 +2863,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id less than or equal to 758"
+      "nl_prompt": "Remove likes where post_id less than or equal to 758"
     },
     {
       "id": 303,
@@ -2872,7 +2872,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where id equals 914"
+      "nl_prompt": "Drop users where id equals 914"
     },
     {
       "id": 304,
@@ -2881,7 +2881,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followee_id is not equal to 605"
+      "nl_prompt": "Drop follows where followee_id is not equal to 605"
     },
     {
       "id": 305,
@@ -2890,7 +2890,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where user_id is not equal to 195"
+      "nl_prompt": "Delete likes where user_id is not equal to 195"
     },
     {
       "id": 306,
@@ -2899,7 +2899,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followed_at older than 17 days"
+      "nl_prompt": "Strip out follows where followed_at older than 17 days"
     },
     {
       "id": 307,
@@ -2908,7 +2908,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where id equals 622"
+      "nl_prompt": "Delete users where id equals 622"
     },
     {
       "id": 308,
@@ -2917,7 +2917,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where posted_at within the last 21 days"
+      "nl_prompt": "Delete posts where posted_at within the last 21 days"
     },
     {
       "id": 309,
@@ -2926,7 +2926,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where post_id equals 34"
+      "nl_prompt": "Drop comments where post_id equals 34"
     },
     {
       "id": 310,
@@ -2935,7 +2935,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where created_at within the last 2 days inclusive"
+      "nl_prompt": "Drop comments where created_at within the last 2 days inclusive"
     },
     {
       "id": 311,
@@ -2944,7 +2944,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where id greater than or equal to 734"
+      "nl_prompt": "Delete users where id greater than or equal to 734"
     },
     {
       "id": 312,
@@ -2953,7 +2953,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where follower_id equals 457"
+      "nl_prompt": "Drop follows where follower_id equals 457"
     },
     {
       "id": 313,
@@ -2962,7 +2962,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where user_id less than or equal to 8"
+      "nl_prompt": "Strip out posts where user_id less than or equal to 8"
     },
     {
       "id": 314,
@@ -2971,7 +2971,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where id greater than or equal to 820"
+      "nl_prompt": "Delete comments where id greater than or equal to 820"
     },
     {
       "id": 315,
@@ -2980,7 +2980,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id less than or equal to 746"
+      "nl_prompt": "Strip out likes where post_id less than or equal to 746"
     },
     {
       "id": 316,
@@ -2989,7 +2989,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where posted_at within the last 19 days inclusive"
+      "nl_prompt": "Drop posts where posted_at within the last 19 days inclusive"
     },
     {
       "id": 317,
@@ -2998,7 +2998,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where liked_at older than 21 days"
+      "nl_prompt": "Strip out likes where liked_at older than 21 days"
     },
     {
       "id": 318,
@@ -3007,7 +3007,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followee_id greater than or equal to 928"
+      "nl_prompt": "Remove follows where followee_id greater than or equal to 928"
     },
     {
       "id": 319,
@@ -3016,7 +3016,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id less than or equal to 123"
+      "nl_prompt": "Delete likes where post_id less than or equal to 123"
     },
     {
       "id": 320,
@@ -3025,7 +3025,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where id greater than 45"
+      "nl_prompt": "Remove posts where id greater than 45"
     },
     {
       "id": 321,
@@ -3034,7 +3034,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id greater than or equal to 546"
+      "nl_prompt": "Delete likes where post_id greater than or equal to 546"
     },
     {
       "id": 322,
@@ -3043,7 +3043,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followed_at older than 10 days inclusive"
+      "nl_prompt": "Delete follows where followed_at older than 10 days inclusive"
     },
     {
       "id": 323,
@@ -3052,7 +3052,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where email like 'user%@%'"
+      "nl_prompt": "Remove users where email like 'user%@%'"
     },
     {
       "id": 324,
@@ -3061,7 +3061,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where email is not equal to 'user97@example.com'"
+      "nl_prompt": "Drop users where email is not equal to 'user97@example.com'"
     },
     {
       "id": 325,
@@ -3070,7 +3070,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where email equals 'user88@example.com'"
+      "nl_prompt": "Delete users where email equals 'user88@example.com'"
     },
     {
       "id": 326,
@@ -3079,7 +3079,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where liked_at within the last 20 days"
+      "nl_prompt": "Remove likes where liked_at within the last 20 days"
     },
     {
       "id": 327,
@@ -3088,7 +3088,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followee_id less than 552"
+      "nl_prompt": "Strip out follows where followee_id less than 552"
     },
     {
       "id": 328,
@@ -3097,7 +3097,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where is_verified equals 1"
+      "nl_prompt": "Delete users where is_verified equals 1"
     },
     {
       "id": 329,
@@ -3106,7 +3106,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where follower_id less than 706"
+      "nl_prompt": "Remove follows where follower_id less than 706"
     },
     {
       "id": 330,
@@ -3115,7 +3115,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where liked_at within the last 12 days inclusive"
+      "nl_prompt": "Remove likes where liked_at within the last 12 days inclusive"
     },
     {
       "id": 331,
@@ -3124,7 +3124,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where posted_at within the last 20 days"
+      "nl_prompt": "Wipe out posts where posted_at within the last 20 days"
     },
     {
       "id": 332,
@@ -3133,7 +3133,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where id greater than or equal to 52"
+      "nl_prompt": "Drop posts where id greater than or equal to 52"
     },
     {
       "id": 333,
@@ -3142,7 +3142,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where content is not equal to 'admin'"
+      "nl_prompt": "Delete posts where content is not equal to 'admin'"
     },
     {
       "id": 334,
@@ -3151,7 +3151,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where liked_at older than 15 days inclusive"
+      "nl_prompt": "Delete likes where liked_at older than 15 days inclusive"
     },
     {
       "id": 335,
@@ -3160,7 +3160,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where comment_text is not equal to 'activity'"
+      "nl_prompt": "Wipe out comments where comment_text is not equal to 'activity'"
     },
     {
       "id": 336,
@@ -3169,7 +3169,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id greater than 149"
+      "nl_prompt": "Drop likes where post_id greater than 149"
     },
     {
       "id": 337,
@@ -3178,7 +3178,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where email equals 'user3@example.com'"
+      "nl_prompt": "Strip out users where email equals 'user3@example.com'"
     },
     {
       "id": 338,
@@ -3187,7 +3187,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where id is not equal to 999"
+      "nl_prompt": "Wipe out users where id is not equal to 999"
     },
     {
       "id": 339,
@@ -3196,7 +3196,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where post_id greater than 252"
+      "nl_prompt": "Wipe out comments where post_id greater than 252"
     },
     {
       "id": 340,
@@ -3205,7 +3205,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followed_at older than 18 days"
+      "nl_prompt": "Remove follows where followed_at older than 18 days"
     },
     {
       "id": 341,
@@ -3214,7 +3214,7 @@
       "tables": [
         "posts"
       ],
-      "nl_prompt": "delete posts where content equals 'test'"
+      "nl_prompt": "Delete posts where content equals 'test'"
     },
     {
       "id": 342,
@@ -3223,7 +3223,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followed_at within the last 22 days inclusive"
+      "nl_prompt": "Wipe out follows where followed_at within the last 22 days inclusive"
     },
     {
       "id": 343,
@@ -3232,7 +3232,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where is_verified equals 0"
+      "nl_prompt": "Strip out users where is_verified equals 0"
     },
     {
       "id": 344,
@@ -3241,7 +3241,7 @@
       "tables": [
         "likes"
       ],
-      "nl_prompt": "delete likes where post_id less than or equal to 873"
+      "nl_prompt": "Delete likes where post_id less than or equal to 873"
     },
     {
       "id": 345,
@@ -3250,7 +3250,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where username equals 'activity'"
+      "nl_prompt": "Strip out users where username equals 'activity'"
     },
     {
       "id": 346,
@@ -3259,7 +3259,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where comment_text like '%a%'"
+      "nl_prompt": "Remove comments where comment_text like '%a%'"
     },
     {
       "id": 347,
@@ -3268,7 +3268,7 @@
       "tables": [
         "users"
       ],
-      "nl_prompt": "delete users where signup_date older than 11 days"
+      "nl_prompt": "Remove users where signup_date older than 11 days"
     },
     {
       "id": 348,
@@ -3277,7 +3277,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where follower_id less than or equal to 681"
+      "nl_prompt": "Wipe out follows where follower_id less than or equal to 681"
     },
     {
       "id": 349,
@@ -3286,7 +3286,7 @@
       "tables": [
         "follows"
       ],
-      "nl_prompt": "delete follows where followed_at older than 9 days"
+      "nl_prompt": "Drop follows where followed_at older than 9 days"
     },
     {
       "id": 350,
@@ -3295,7 +3295,7 @@
       "tables": [
         "comments"
       ],
-      "nl_prompt": "delete comments where id equals 528"
+      "nl_prompt": "Delete comments where id equals 528"
     }
   ]
 }

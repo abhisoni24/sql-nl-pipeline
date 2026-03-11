@@ -4,8 +4,8 @@ Step 2: Generate natural language prompts from SQL queries.
 Parses each SQL statement and renders a natural-language prompt using the
 NL renderer. Supports two rendering modes:
 
-  - **Legacy** (default): Direct ``render()`` producing final NL text using
-    hardcoded synonym banks.
+  - **Direct** (default): Direct ``render()`` producing final NL text using
+    deterministic synonym banks.
   - **Two-pass** (``--two-pass``): ``render_template()`` → ``TemplateResolver.resolve()``
     using a ``LinguisticDictionary`` built from a schema YAML, enabling
     schema-agnostic NL rendering.
@@ -74,15 +74,14 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
     dialect, schema_name = _resolve_dialect(schema_path, upstream_meta)
     print(f"Using dialect '{dialect}' for schema '{schema_name}'")
 
-    # ── Load FK pairs for the renderer ───────────────────────────────
-    fk_pairs = None
+    # ── Load SchemaConfig for the renderer (if available) ────────────
+    schema_cfg = None
     if schema_path:
         from src.core.schema_loader import load_schema as _load_schema
-        _cfg = _load_schema(schema_path)
-        fk_pairs = _cfg.get_fk_pairs()
+        schema_cfg = _load_schema(schema_path)
 
     # ── Initialize renderer ──────────────────────────────────────────
-    renderer = SQLToNLRenderer(foreign_keys=fk_pairs)
+    renderer = SQLToNLRenderer(schema_config=schema_cfg)
 
     resolver = None
     if two_pass:
@@ -108,7 +107,7 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
             print(f"Two-pass mode: using schema '{schema_cfg.schema_name}' with dictionary resolver")
 
     # ── Process each query ───────────────────────────────────────────
-    mode_label = "two-pass" if two_pass else "legacy"
+    mode_label = "two-pass" if two_pass else "direct"
     print(f"Generating natural language prompts ({mode_label} mode)...")
     success_count = 0
     error_count = 0
@@ -141,7 +140,7 @@ def generate_nl_prompts(input_file, output_file, two_pass=False,
         "metadata": {
             "schema_name": schema_name,
             "dialect": dialect,
-            "schema_source": schema_path or "src/core/schema.py (legacy)",
+            "schema_source": schema_path or "default (social_media)",
             "dictionary_source": dictionary_path,
             "rendering_mode": mode_label,
             "generated_at": datetime.now(timezone.utc).isoformat(),

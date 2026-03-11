@@ -25,7 +25,7 @@ class AmbiguousPronounsPerturbation(PerturbationStrategy):
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)
         config = PerturbationConfig(active_perturbations={PerturbationType.AMBIGUOUS_PRONOUNS}, seed=seed)
-        return SQLToNLRenderer(config, foreign_keys=context.get("foreign_keys")).render(ast)
+        return SQLToNLRenderer(config, schema_config=context.get("schema_config")).render(ast)
 
     def was_applied(self, baseline_nl, perturbed_nl, context):
         """Check whether a pronoun anchor was actually inserted."""

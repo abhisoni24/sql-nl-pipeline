@@ -69,13 +69,12 @@ def main():
     # ── Resolve schema info ──────────────────────────────────────────
     schema_name = "social_media"
     dialect = "sqlite"
-    fk_pairs = None
+    cfg = None
     if args.schema:
         from src.core.schema_loader import load_schema
         cfg = load_schema(args.schema)
         schema_name = cfg.schema_name
         dialect = cfg.dialect
-        fk_pairs = cfg.get_fk_pairs()
         print(f"Schema: '{schema_name}', dialect: '{dialect}'")
 
     INPUT_FILE = args.input or f"./dataset/{schema_name}/nl_prompts.json"
@@ -118,8 +117,8 @@ def main():
             continue
 
         context = {"seed": 42 + i}
-        if fk_pairs is not None:
-            context["foreign_keys"] = fk_pairs
+        if cfg is not None:
+            context["schema_config"] = cfg
         rng = random.Random(42 + i)
 
         applicable_count = 0

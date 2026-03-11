@@ -1,2183 +1,1328 @@
-[
-  {
-    "id": 1,
-    "complexity": "simple",
-    "sql": "SELECT c1.is_active, c1.expiry_date FROM cards AS c1 ORDER BY c1.card_number LIMIT 87",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.is_active], [COL:comments.expiry_date] [CONN:from] [TABLE:cards] ordered by [COL:comments.card_number] limited to 87 results",
-    "nl_prompt": "Produce a listing of the is active, expiry date within card ordered by card number limited to 87 results"
-  },
-  {
-    "id": 2,
-    "complexity": "simple",
-    "sql": "SELECT * FROM loans AS l1 WHERE l1.customer_id <= 632",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.customer_id] [OP:lte] [VAL:632]",
-    "nl_prompt": "Get all columns within credit filtered for customer id no more than 632"
-  },
-  {
-    "id": 3,
-    "complexity": "simple",
-    "sql": "SELECT * FROM transactions AS t1 WHERE t1.status LIKE '%c'",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.status] like [VAL:'%c']",
-    "nl_prompt": "Single out all columns from transaction for which status like '%c'"
-  },
-  {
-    "id": 4,
-    "complexity": "simple",
-    "sql": "SELECT l1.principal_amount, l1.status, l1.term_months FROM loans AS l1",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:select] the [COL:likes.principal_amount], [COL:likes.status], [COL:likes.term_months] [CONN:from] [TABLE:loans]",
-    "nl_prompt": "Spot the principal amount, status, term months from loan"
-  },
-  {
-    "id": 5,
-    "complexity": "simple",
-    "sql": "SELECT * FROM accounts AS a1 WHERE a1.id <> 657 ORDER BY a1.currency LIMIT 79",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.id] [OP:neq] [VAL:657] ordered by [COL:a1.currency] limited to 79 results",
-    "nl_prompt": "Get all columns out of accounts that have id is not 657 ordered by currency limited to 79 results"
-  },
-  {
-    "id": 6,
-    "complexity": "simple",
-    "sql": "SELECT b1.id, b1.city FROM branches AS b1 ORDER BY b1.state",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:b1.id], [COL:b1.city] [CONN:from] [TABLE:branches] ordered by [COL:b1.state]",
-    "nl_prompt": "Spot the id, city out of bank branch ordered by state"
-  },
-  {
-    "id": 7,
-    "complexity": "simple",
-    "sql": "SELECT a1.interest_rate, a1.id, a1.is_active FROM accounts AS a1 LIMIT 9",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.interest_rate], [COL:a1.id], [COL:a1.is_active] [CONN:from] [TABLE:accounts] limited to 9 results",
-    "nl_prompt": "Run a check for the interest rate, id, is active in bank account limited to 9 results"
-  },
-  {
-    "id": 8,
-    "complexity": "simple",
-    "sql": "SELECT a1.customer_id, a1.interest_rate FROM accounts AS a1",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:a1.customer_id], [COL:a1.interest_rate] [CONN:from] [TABLE:accounts]",
-    "nl_prompt": "Get the customer id, interest rate from account"
-  },
-  {
-    "id": 9,
-    "complexity": "simple",
-    "sql": "SELECT a1.opened_on FROM accounts AS a1 WHERE a1.balance > 707 ORDER BY a1.currency",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] the [COL:a1.opened_on] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.balance] [OP:gt] [VAL:707] ordered by [COL:a1.currency]",
-    "nl_prompt": "Single out the opened on within bank account filtered for balance more than 707 ordered by currency"
-  },
-  {
-    "id": 10,
-    "complexity": "simple",
-    "sql": "SELECT t1.from_account_id, t1.status FROM transactions AS t1 WHERE t1.description LIKE '%c'",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.from_account_id], [COL:t1.status] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.description] like [VAL:'%c']",
-    "nl_prompt": "Retrieve the from account id, status in money transfer looking only at description like '%c'"
-  },
-  {
-    "id": 11,
-    "complexity": "simple",
-    "sql": "SELECT * FROM employees AS e1",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:employees]",
-    "nl_prompt": "Spot all columns from personnel"
-  },
-  {
-    "id": 12,
-    "complexity": "simple",
-    "sql": "SELECT c1.is_active, c1.account_id, c1.card_number, c1.card_type FROM cards AS c1",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.is_active], [COL:comments.account_id], [COL:comments.card_number], [COL:comments.card_type] [CONN:from] [TABLE:cards]",
-    "nl_prompt": "Run a check for the is active, account id, card number, card type out of cards"
-  },
-  {
-    "id": 13,
-    "complexity": "simple",
-    "sql": "SELECT * FROM accounts AS a1 WHERE a1.balance < 273 LIMIT 18",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.balance] [OP:lt] [VAL:273] limited to 18 results",
-    "nl_prompt": "Retrieve all columns out of bank account looking only at balance fewer than 273 limited to 18 results"
-  },
-  {
-    "id": 14,
-    "complexity": "simple",
-    "sql": "SELECT l1.monthly_payment FROM loans AS l1",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:likes.monthly_payment] [CONN:from] [TABLE:loans]",
-    "nl_prompt": "Get the monthly payment in credit"
-  },
-  {
-    "id": 15,
-    "complexity": "simple",
-    "sql": "SELECT t1.description, t1.to_account_id, t1.id, t1.status FROM transactions AS t1 ORDER BY t1.status",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] the [COL:t1.description], [COL:t1.to_account_id], [COL:t1.id], [COL:t1.status] [CONN:from] [TABLE:transactions] ordered by [COL:t1.status]",
-    "nl_prompt": "Run a check for the description, to account id, id, status in transactions ordered by status"
-  },
-  {
-    "id": 16,
-    "complexity": "simple",
-    "sql": "SELECT * FROM accounts AS a1 WHERE a1.customer_id = 862",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.customer_id] [OP:eq] [VAL:862]",
-    "nl_prompt": "Get all columns within bank account that have customer id is 862"
-  },
-  {
-    "id": 17,
-    "complexity": "simple",
-    "sql": "SELECT c1.id, c1.is_active, c1.first_name, c1.date_of_birth FROM customers AS c1 WHERE c1.first_name = 'test' ORDER BY c1.email",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.id], [COL:comments.is_active], [COL:comments.first_name], [COL:comments.date_of_birth] [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.first_name] [OP:eq] [VAL:'test'] ordered by [COL:comments.email]",
-    "nl_prompt": "Run a check for the id, is active, first name, date of birth in account holder for which first name matches 'test' ordered by email"
-  },
-  {
-    "id": 18,
-    "complexity": "simple",
-    "sql": "SELECT * FROM cards AS c1",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:cards]",
-    "nl_prompt": "Retrieve all columns from credit card"
-  },
-  {
-    "id": 19,
-    "complexity": "simple",
-    "sql": "SELECT * FROM branches AS b1 ORDER BY b1.state",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:branches] ordered by [COL:b1.state]",
-    "nl_prompt": "Spot all columns within bank branch ordered by state"
-  },
-  {
-    "id": 20,
-    "complexity": "simple",
-    "sql": "SELECT b1.manager_id, b1.city FROM branches AS b1",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:b1.manager_id], [COL:b1.city] [CONN:from] [TABLE:branches]",
-    "nl_prompt": "Single out the manager id, city within branch"
-  },
-  {
-    "id": 21,
-    "complexity": "simple",
-    "sql": "SELECT * FROM accounts AS a1",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:accounts]",
-    "nl_prompt": "Run a check for all columns in accounts"
-  },
-  {
-    "id": 22,
-    "complexity": "simple",
-    "sql": "SELECT * FROM transactions AS t1 ORDER BY t1.to_account_id",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:transactions] ordered by [COL:t1.to_account_id]",
-    "nl_prompt": "Single out all columns out of payment ordered by to account id"
-  },
-  {
-    "id": 23,
-    "complexity": "simple",
-    "sql": "SELECT c1.credit_limit, c1.id FROM cards AS c1 WHERE c1.issued_on < DATETIME('now', '-8 days')",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.credit_limit], [COL:comments.id] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.issued_on] [OP:lt] [VAL:8 days ago]",
-    "nl_prompt": "Single out the credit limit, id from card looking only at issued on below 8 days ago"
-  },
-  {
-    "id": 24,
-    "complexity": "simple",
-    "sql": "SELECT a1.opened_on, a1.balance FROM accounts AS a1 WHERE a1.is_active = 0",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] the [COL:a1.opened_on], [COL:a1.balance] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Single out the opened on, balance in account for which is active matches 0"
-  },
-  {
-    "id": 25,
-    "complexity": "simple",
-    "sql": "SELECT * FROM branches AS b1 WHERE b1.city LIKE 'b%' ORDER BY b1.city",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.city] like [VAL:'b%'] ordered by [COL:b1.city]",
-    "nl_prompt": "Get all columns within branch filtered for city like 'b%' ordered by city"
-  },
-  {
-    "id": 26,
-    "complexity": "simple",
-    "sql": "SELECT e1.salary, e1.branch_id, e1.first_name, e1.id FROM employees AS e1 WHERE e1.hire_date > DATETIME('now', '-17 days') LIMIT 75",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:get] the [COL:e1.salary], [COL:e1.branch_id], [COL:e1.first_name], [COL:e1.id] [CONN:from] [TABLE:employees] [CONN:where] [COL:e1.hire_date] [OP:gt] [VAL:17 days ago] limited to 75 results",
-    "nl_prompt": "Get the salary, branch id, first name, id within personnel for which hire date exceeds 17 days ago limited to 75 results"
-  },
-  {
-    "id": 27,
-    "complexity": "simple",
-    "sql": "SELECT t1.to_account_id, t1.transaction_date, t1.status FROM transactions AS t1 LIMIT 60",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] the [COL:t1.to_account_id], [COL:t1.transaction_date], [COL:t1.status] [CONN:from] [TABLE:transactions] limited to 60 results",
-    "nl_prompt": "Produce a listing of the to account id, transaction date, status out of transfer limited to 60 results"
-  },
-  {
-    "id": 28,
-    "complexity": "simple",
-    "sql": "SELECT * FROM branches AS b1 ORDER BY b1.employee_count",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:branches] ordered by [COL:b1.employee_count]",
-    "nl_prompt": "Produce a listing of all columns from branches ordered by employee count"
-  },
-  {
-    "id": 29,
-    "complexity": "simple",
-    "sql": "SELECT l1.principal_amount, l1.start_date, l1.end_date, l1.monthly_payment FROM loans AS l1 WHERE l1.monthly_payment <= 912 ORDER BY l1.status",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:likes.principal_amount], [COL:likes.start_date], [COL:likes.end_date], [COL:likes.monthly_payment] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.monthly_payment] [OP:lte] [VAL:912] ordered by [COL:likes.status]",
-    "nl_prompt": "Get the principal amount, start date, end date, monthly payment within loans filtered for monthly payment maximum of 912 ordered by status"
-  },
-  {
-    "id": 30,
-    "complexity": "simple",
-    "sql": "SELECT t1.to_account_id, t1.transaction_date, t1.status FROM transactions AS t1",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.to_account_id], [COL:t1.transaction_date], [COL:t1.status] [CONN:from] [TABLE:transactions]",
-    "nl_prompt": "Spot the to account id, transaction date, status in payment"
-  },
-  {
-    "id": 31,
-    "complexity": "join",
-    "sql": "SELECT c1.id, c1.account_id, a6.opened_on, c1.card_type FROM cards AS c1 INNER JOIN accounts AS a6 ON c1.account_id = a6.id WHERE a6.balance >= 877",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.id], [COL:comments.account_id], [COL:a6.opened_on], [COL:comments.card_type] [CONN:from] [TABLE:cards] joined with [TABLE:accounts] on [COL:comments.account_id] [OP:eq] [COL:a6.id] [CONN:where] [COL:a6.balance] [OP:gte] [VAL:877]",
-    "nl_prompt": "Get the id, account id, opened on, card type in bank card joined with accounts on account id is id filtered for balance at least 877"
-  },
-  {
-    "id": 32,
-    "complexity": "join",
-    "sql": "SELECT t1.transaction_date, t1.transaction_type, t1.description, t1.status FROM transactions AS t1 FULL JOIN accounts AS a7 ON t1.to_account_id = a7.id WHERE a7.id <= 911",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.transaction_date], [COL:t1.transaction_type], [COL:t1.description], [COL:t1.status] [CONN:from] [TABLE:transactions] FULL JOIN [TABLE:accounts] on [COL:t1.to_account_id] [OP:eq] [COL:a7.id] [CONN:where] [COL:a7.id] [OP:lte] [VAL:911]",
-    "nl_prompt": "Spot the transaction date, transaction type, description, status within money transfer FULL JOIN accounts on to account id is equal to id for which id at most 911"
-  },
-  {
-    "id": 33,
-    "complexity": "join",
-    "sql": "SELECT a7.id, t1.description, t1.to_account_id, t1.transaction_type FROM transactions AS t1 FULL JOIN accounts AS a7 ON t1.to_account_id = a7.id",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:a7.id], [COL:t1.description], [COL:t1.to_account_id], [COL:t1.transaction_type] [CONN:from] [TABLE:transactions] FULL JOIN [TABLE:accounts] on [COL:t1.to_account_id] [OP:eq] [COL:a7.id]",
-    "nl_prompt": "Run a check for the id, description, to account id, transaction type in transaction FULL JOIN account on to account id is equal to id"
-  },
-  {
-    "id": 34,
-    "complexity": "join",
-    "sql": "SELECT a1.account_type, c4.id FROM accounts AS a1 INNER JOIN cards AS c4 ON a1.id = c4.account_id",
-    "tables": [
-      "accounts",
-      "cards"
-    ],
-    "ir_template": "[VERB:select] the [COL:a1.account_type], [COL:comments.id] [CONN:from] [TABLE:accounts] joined with [TABLE:cards] on [COL:a1.id] [OP:eq] [COL:comments.account_id]",
-    "nl_prompt": "Single out the account type, id from bank account joined with debit card on id matches account id"
-  },
-  {
-    "id": 35,
-    "complexity": "join",
-    "sql": "SELECT c5.phone, c5.id, l1.status, c5.created_at FROM loans AS l1 INNER JOIN customers AS c5 ON l1.customer_id = c5.id WHERE c5.created_at <= DATETIME('now', '-21 days')",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.phone], [COL:comments.id], [COL:likes.status], [COL:comments.created_at] [CONN:from] [TABLE:loans] joined with [TABLE:customers] on [COL:likes.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.created_at] [OP:lte] [VAL:21 days ago]",
-    "nl_prompt": "Spot the phone, id, status, created at from loan joined with customer on customer id matches id for which created at at most 21 days ago"
-  },
-  {
-    "id": 36,
-    "complexity": "join",
-    "sql": "SELECT c1.is_active, a1.balance, c1.credit_limit, a1.account_type FROM cards AS c1 INNER JOIN accounts AS a1 ON c1.account_id = a1.id WHERE a1.is_active = 0",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.is_active], [COL:a1.balance], [COL:comments.credit_limit], [COL:a1.account_type] [CONN:from] [TABLE:cards] joined with [TABLE:accounts] on [COL:comments.account_id] [OP:eq] [COL:a1.id] [CONN:where] [COL:a1.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Spot the is active, balance, credit limit, account type from bank card joined with account on account id is id looking only at is active is equal to 0"
-  },
-  {
-    "id": 37,
-    "complexity": "join",
-    "sql": "SELECT b1.is_active, b1.id, b1.manager_id, b1.name FROM branches AS b1 RIGHT JOIN employees AS e9 ON b1.id = e9.branch_id",
-    "tables": [
-      "branches",
-      "employees"
-    ],
-    "ir_template": "[VERB:get] the [COL:b1.is_active], [COL:b1.id], [COL:b1.manager_id], [COL:b1.name] [CONN:from] [TABLE:branches] RIGHT JOIN [TABLE:employees] on [COL:b1.id] [OP:eq] [COL:e9.branch_id]",
-    "nl_prompt": "Fetch me the is active, id, manager id, name out of branches RIGHT JOIN employee on id is branch id"
-  },
-  {
-    "id": 38,
-    "complexity": "join",
-    "sql": "SELECT c2.date_of_birth, l1.id, c2.address, c2.id FROM loans AS l1 LEFT JOIN customers AS c2 ON l1.customer_id = c2.id WHERE c2.email <> 'user48@example.com'",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.date_of_birth], [COL:likes.id], [COL:comments.address], [COL:comments.id] [CONN:from] [TABLE:loans] LEFT JOIN [TABLE:customers] on [COL:likes.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.email] [OP:neq] [VAL:'user48@example.com']",
-    "nl_prompt": "Retrieve the date of birth, id, address, id in credit LEFT JOIN account holder on customer id equals id where email is not equal to 'user48@example.com'"
-  },
-  {
-    "id": 39,
-    "complexity": "join",
-    "sql": "SELECT c3.credit_score, c3.first_name, l1.start_date, l1.term_months FROM loans AS l1 RIGHT JOIN customers AS c3 ON l1.customer_id = c3.id WHERE c3.is_active = 0",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.credit_score], [COL:comments.first_name], [COL:likes.start_date], [COL:likes.term_months] [CONN:from] [TABLE:loans] RIGHT JOIN [TABLE:customers] on [COL:likes.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Spot the credit score, first name, start date, term months out of loan RIGHT JOIN customers on customer id is id for which is active is 0"
-  },
-  {
-    "id": 40,
-    "complexity": "join",
-    "sql": "SELECT * FROM accounts AS a1 RIGHT JOIN cards AS c2 ON a1.id = c2.account_id",
-    "tables": [
-      "accounts",
-      "cards"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:accounts] RIGHT JOIN [TABLE:cards] on [COL:a1.id] [OP:eq] [COL:comments.account_id]",
-    "nl_prompt": "Run a check for all columns out of account RIGHT JOIN debit card on id is equal to account id"
-  },
-  {
-    "id": 41,
-    "complexity": "join",
-    "sql": "SELECT t1.status, a1.opened_on, t1.transaction_date, t1.amount FROM transactions AS t1 LEFT JOIN accounts AS a1 ON t1.to_account_id = a1.id WHERE a1.id <= 636",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.status], [COL:a1.opened_on], [COL:t1.transaction_date], [COL:t1.amount] [CONN:from] [TABLE:transactions] LEFT JOIN [TABLE:accounts] on [COL:t1.to_account_id] [OP:eq] [COL:a1.id] [CONN:where] [COL:a1.id] [OP:lte] [VAL:636]",
-    "nl_prompt": "Retrieve the status, opened on, transaction date, amount within transaction LEFT JOIN accounts on to account id is equal to id filtered for id less than or equal to 636"
-  },
-  {
-    "id": 42,
-    "complexity": "join",
-    "sql": "SELECT a1.interest_rate, c3.is_active, c3.account_id, a1.customer_id FROM accounts AS a1 FULL JOIN cards AS c3 ON a1.id = c3.account_id",
-    "tables": [
-      "accounts",
-      "cards"
-    ],
-    "ir_template": "[VERB:select] the [COL:a1.interest_rate], [COL:comments.is_active], [COL:comments.account_id], [COL:a1.customer_id] [CONN:from] [TABLE:accounts] FULL JOIN [TABLE:cards] on [COL:a1.id] [OP:eq] [COL:comments.account_id]",
-    "nl_prompt": "Single out the interest rate, is active, account id, customer id from accounts FULL JOIN card on id is account id"
-  },
-  {
-    "id": 43,
-    "complexity": "join",
-    "sql": "SELECT * FROM branches AS b1 LEFT JOIN employees AS e5 ON b1.id = e5.branch_id",
-    "tables": [
-      "branches",
-      "employees"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:branches] LEFT JOIN [TABLE:employees] on [COL:b1.id] [OP:eq] [COL:e5.branch_id]",
-    "nl_prompt": "Produce a listing of all columns within branches LEFT JOIN personnel on id matches branch id"
-  },
-  {
-    "id": 44,
-    "complexity": "join",
-    "sql": "SELECT a4.opened_on, a4.account_type, a4.balance, c1.is_active FROM cards AS c1 LEFT JOIN accounts AS a4 ON c1.account_id = a4.id",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:a4.opened_on], [COL:a4.account_type], [COL:a4.balance], [COL:comments.is_active] [CONN:from] [TABLE:cards] LEFT JOIN [TABLE:accounts] on [COL:comments.account_id] [OP:eq] [COL:a4.id]",
-    "nl_prompt": "Retrieve the opened on, account type, balance, is active out of bank card LEFT JOIN bank account on account id is equal to id"
-  },
-  {
-    "id": 45,
-    "complexity": "join",
-    "sql": "SELECT * FROM branches AS b1 RIGHT JOIN employees AS e3 ON b1.id = e3.branch_id WHERE e3.position = 'user'",
-    "tables": [
-      "branches",
-      "employees"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:branches] RIGHT JOIN [TABLE:employees] on [COL:b1.id] [OP:eq] [COL:e3.branch_id] [CONN:where] [COL:e3.position] [OP:eq] [VAL:'user']",
-    "nl_prompt": "Fetch me all columns from bank branch RIGHT JOIN staff on id equals branch id for which position equals 'user'"
-  },
-  {
-    "id": 46,
-    "complexity": "join",
-    "sql": "SELECT a1.interest_rate, c9.id, a1.balance FROM accounts AS a1 LEFT JOIN customers AS c9 ON a1.customer_id = c9.id WHERE c9.is_active = 0",
-    "tables": [
-      "accounts",
-      "customers"
-    ],
-    "ir_template": "[VERB:get] the [COL:a1.interest_rate], [COL:comments.id], [COL:a1.balance] [CONN:from] [TABLE:accounts] LEFT JOIN [TABLE:customers] on [COL:a1.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Retrieve the interest rate, id, balance within bank account LEFT JOIN client on customer id matches id looking only at is active equals 0"
-  },
-  {
-    "id": 47,
-    "complexity": "join",
-    "sql": "SELECT b4.id, e1.hire_date, e1.first_name, b4.state FROM employees AS e1 INNER JOIN branches AS b4 ON e1.branch_id = b4.id WHERE b4.state = 'activity'",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:b4.id], [COL:e1.hire_date], [COL:e1.first_name], [COL:b4.state] [CONN:from] [TABLE:employees] joined with [TABLE:branches] on [COL:e1.branch_id] [OP:eq] [COL:b4.id] [CONN:where] [COL:b4.state] [OP:eq] [VAL:'activity']",
-    "nl_prompt": "Single out the id, hire date, first name, state from staff joined with bank branch on branch id is id where state is 'activity'"
-  },
-  {
-    "id": 48,
-    "complexity": "join",
-    "sql": "SELECT * FROM transactions AS t1 LEFT JOIN accounts AS a5 ON t1.to_account_id = a5.id",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:transactions] LEFT JOIN [TABLE:accounts] on [COL:t1.to_account_id] [OP:eq] [COL:a5.id]",
-    "nl_prompt": "Get all columns within transaction LEFT JOIN account on to account id is id"
-  },
-  {
-    "id": 49,
-    "complexity": "join",
-    "sql": "SELECT * FROM cards AS c1 FULL JOIN accounts AS a6 ON c1.account_id = a6.id WHERE a6.id <= 465",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:cards] FULL JOIN [TABLE:accounts] on [COL:comments.account_id] [OP:eq] [COL:a6.id] [CONN:where] [COL:a6.id] [OP:lte] [VAL:465]",
-    "nl_prompt": "Retrieve all columns from credit card FULL JOIN bank account on account id matches id that have id no more than 465"
-  },
-  {
-    "id": 50,
-    "complexity": "join",
-    "sql": "SELECT * FROM cards AS c1 LEFT JOIN accounts AS a6 ON c1.account_id = a6.id",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:cards] LEFT JOIN [TABLE:accounts] on [COL:comments.account_id] [OP:eq] [COL:a6.id]",
-    "nl_prompt": "Get all columns in card LEFT JOIN account on account id is equal to id"
-  },
-  {
-    "id": 51,
-    "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 FULL JOIN accounts AS a6 ON c1.id = a6.customer_id WHERE a6.opened_on > DATETIME('now', '-10 days')",
-    "tables": [
-      "customers",
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:customers] FULL JOIN [TABLE:accounts] on [COL:comments.id] [OP:eq] [COL:a6.customer_id] [CONN:where] [COL:a6.opened_on] [OP:gt] [VAL:10 days ago]",
-    "nl_prompt": "Single out all columns within customers FULL JOIN bank account on id is customer id that have opened on greater than 10 days ago"
-  },
-  {
-    "id": 52,
-    "complexity": "join",
-    "sql": "SELECT * FROM loans AS l1 RIGHT JOIN customers AS c2 ON l1.customer_id = c2.id WHERE c2.first_name LIKE '%c'",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:loans] RIGHT JOIN [TABLE:customers] on [COL:likes.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.first_name] like [VAL:'%c']",
-    "nl_prompt": "Single out all columns within loans RIGHT JOIN customers on customer id is id for which first name like '%c'"
-  },
-  {
-    "id": 53,
-    "complexity": "join",
-    "sql": "SELECT * FROM branches AS b1 INNER JOIN employees AS e6 ON b1.id = e6.branch_id",
-    "tables": [
-      "branches",
-      "employees"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:branches] joined with [TABLE:employees] on [COL:b1.id] [OP:eq] [COL:e6.branch_id]",
-    "nl_prompt": "Run a check for all columns in branches joined with staff on id is equal to branch id"
-  },
-  {
-    "id": 54,
-    "complexity": "join",
-    "sql": "SELECT b5.id, b5.state, e1.hire_date, b5.employee_count FROM employees AS e1 RIGHT JOIN branches AS b5 ON e1.branch_id = b5.id",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:b5.id], [COL:b5.state], [COL:e1.hire_date], [COL:b5.employee_count] [CONN:from] [TABLE:employees] RIGHT JOIN [TABLE:branches] on [COL:e1.branch_id] [OP:eq] [COL:b5.id]",
-    "nl_prompt": "Run a check for the id, state, hire date, employee count from employees RIGHT JOIN bank branch on branch id is id"
-  },
-  {
-    "id": 55,
-    "complexity": "join",
-    "sql": "SELECT l1.is_active, c9.first_name, l1.status, l1.end_date FROM loans AS l1 FULL JOIN customers AS c9 ON l1.customer_id = c9.id WHERE c9.phone = 'admin'",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] the [COL:likes.is_active], [COL:comments.first_name], [COL:likes.status], [COL:likes.end_date] [CONN:from] [TABLE:loans] FULL JOIN [TABLE:customers] on [COL:likes.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.phone] [OP:eq] [VAL:'admin']",
-    "nl_prompt": "Spot the is active, first name, status, end date within loans FULL JOIN customers on customer id is equal to id where phone matches 'admin'"
-  },
-  {
-    "id": 56,
-    "complexity": "join",
-    "sql": "SELECT t1.description, a7.currency, a7.opened_on, a7.balance FROM transactions AS t1 INNER JOIN accounts AS a7 ON t1.to_account_id = a7.id WHERE a7.is_active = 1",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.description], [COL:a7.currency], [COL:a7.opened_on], [COL:a7.balance] [CONN:from] [TABLE:transactions] joined with [TABLE:accounts] on [COL:t1.to_account_id] [OP:eq] [COL:a7.id] [CONN:where] [COL:a7.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Retrieve the description, currency, opened on, balance from transactions joined with bank account on to account id matches id where is active is equal to 1"
-  },
-  {
-    "id": 57,
-    "complexity": "join",
-    "sql": "SELECT e1.is_active, b8.name, b8.city, e1.id FROM employees AS e1 RIGHT JOIN branches AS b8 ON e1.branch_id = b8.id WHERE b8.id = 205",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:e1.is_active], [COL:b8.name], [COL:b8.city], [COL:e1.id] [CONN:from] [TABLE:employees] RIGHT JOIN [TABLE:branches] on [COL:e1.branch_id] [OP:eq] [COL:b8.id] [CONN:where] [COL:b8.id] [OP:eq] [VAL:205]",
-    "nl_prompt": "Spot the is active, name, city, id out of staff RIGHT JOIN bank branch on branch id is equal to id for which id matches 205"
-  },
-  {
-    "id": 58,
-    "complexity": "join",
-    "sql": "SELECT a1.is_active, c8.email, a1.id, a1.currency FROM accounts AS a1 FULL JOIN customers AS c8 ON a1.customer_id = c8.id WHERE c8.id < 862",
-    "tables": [
-      "accounts",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] the [COL:a1.is_active], [COL:comments.email], [COL:a1.id], [COL:a1.currency] [CONN:from] [TABLE:accounts] FULL JOIN [TABLE:customers] on [COL:a1.customer_id] [OP:eq] [COL:comments.id] [CONN:where] [COL:comments.id] [OP:lt] [VAL:862]",
-    "nl_prompt": "Single out the is active, email, id, currency in accounts FULL JOIN customers on customer id is equal to id that have id below 862"
-  },
-  {
-    "id": 59,
-    "complexity": "join",
-    "sql": "SELECT b1.state, e1.first_name, e1.hire_date, b1.city FROM employees AS e1 INNER JOIN branches AS b1 ON e1.branch_id = b1.id WHERE b1.name <> 'admin'",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:get] the [COL:b1.state], [COL:e1.first_name], [COL:e1.hire_date], [COL:b1.city] [CONN:from] [TABLE:employees] joined with [TABLE:branches] on [COL:e1.branch_id] [OP:eq] [COL:b1.id] [CONN:where] [COL:b1.name] [OP:neq] [VAL:'admin']",
-    "nl_prompt": "Retrieve the state, first name, hire date, city within personnel joined with bank branch on branch id equals id for which name is not equal to 'admin'"
-  },
-  {
-    "id": 60,
-    "complexity": "join",
-    "sql": "SELECT c1.email, a1.customer_id FROM customers AS c1 INNER JOIN accounts AS a1 ON c1.id = a1.customer_id WHERE a1.account_type LIKE '%a%'",
-    "tables": [
-      "customers",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.email], [COL:a1.customer_id] [CONN:from] [TABLE:customers] joined with [TABLE:accounts] on [COL:comments.id] [OP:eq] [COL:a1.customer_id] [CONN:where] [COL:a1.account_type] like [VAL:'%a%']",
-    "nl_prompt": "Run a check for the email, customer id out of customers joined with bank account on id is customer id for which account type like '%a%'"
-  },
-  {
-    "id": 61,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.employee_count <> 778) AS derived_table WHERE derived_table.is_active = 0",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:branches] where [COL:branches.employee_count] [OP:neq] [VAL:778] [CONN:where] [COL:is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Retrieve all columns within branches where number of employees is not 778 that have is active is equal to 0"
-  },
-  {
-    "id": 62,
-    "complexity": "advanced",
-    "sql": "SELECT a1.is_active, a1.opened_on, a1.customer_id, a1.balance FROM accounts AS a1 WHERE EXISTS(SELECT 1 FROM customers AS sub_c WHERE sub_c.id = a1.customer_id AND sub_c.credit_score <= 309)",
-    "tables": [
-      "accounts",
-      "customers"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.is_active], [COL:a1.opened_on], [COL:a1.customer_id], [COL:a1.balance] [CONN:from] [TABLE:accounts] [CONN:where] where there is a corresponding [TABLE:customers] who [COL:sub_c.id] [OP:eq] [COL:a1.customer_id] and [COL:sub_c.credit_score] [OP:lte] [VAL:309]",
-    "nl_prompt": "Produce a listing of the is active, opened on, customer id, balance out of account looking only at where there is a corresponding customers who id equals customer id and credit score at most 309"
-  },
-  {
-    "id": 63,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.is_active = 1) AS derived_table WHERE derived_table.start_date < DATETIME('now', '-27 days')",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:loans] where [COL:loans.is_active] [OP:eq] [VAL:1] [CONN:where] [COL:start_date] [OP:lt] [VAL:27 days ago]",
-    "nl_prompt": "Get all columns in credit where is active is equal to 1 looking only at start date below 27 days ago"
-  },
-  {
-    "id": 64,
-    "complexity": "advanced",
-    "sql": "SELECT e1.hire_date FROM employees AS e1 WHERE EXISTS(SELECT 1 FROM branches AS sub_b WHERE sub_b.id = e1.branch_id AND sub_b.city LIKE 'b%')",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:e1.hire_date] [CONN:from] [TABLE:employees] [CONN:where] where there is a corresponding [TABLE:branches] who [COL:sub_b.id] [OP:eq] [COL:e1.branch_id] and [COL:sub_b.city] like [VAL:'b%']",
-    "nl_prompt": "Run a check for the hire date from employees looking only at where there is a corresponding bank branch who id matches branch id and city like 'b%'"
-  },
-  {
-    "id": 65,
-    "complexity": "advanced",
-    "sql": "SELECT a1.interest_rate, a1.account_type, a1.id, a1.balance FROM accounts AS a1 WHERE a1.id IN (SELECT sub_t.to_account_id FROM transactions AS sub_t WHERE sub_t.from_account_id = 963)",
-    "tables": [
-      "accounts",
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.interest_rate], [COL:a1.account_type], [COL:a1.id], [COL:a1.balance] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.id] matches any of the [COL:sub_t.to_account_id]s from [TABLE:transactions] where [COL:sub_t.from_account_id] [OP:eq] [VAL:963]",
-    "nl_prompt": "Produce a listing of the interest rate, account type, id, balance within accounts filtered for id matches any of the to account ids from transfer where from account id matches 963"
-  },
-  {
-    "id": 66,
-    "complexity": "advanced",
-    "sql": "SELECT l1.id, l1.customer_id, l1.loan_type FROM loans AS l1 JOIN loans AS l2 ON l1.customer_id = l2.customer_id AND l1.id <> l2.id",
-    "tables": [
-      "loans",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:likes.id], [COL:likes.customer_id], [COL:likes.loan_type] [CONN:from] [TABLE:loans] JOIN [TABLE:loans] on [COL:likes.customer_id] [OP:eq] [COL:likes.customer_id] and [COL:likes.id] [OP:neq] [COL:likes.id]",
-    "nl_prompt": "Retrieve the id, customer id, loan type in loan JOIN credit on customer id matches customer id and id is not id"
-  },
-  {
-    "id": 67,
-    "complexity": "advanced",
-    "sql": "SELECT c1.id, c1.account_id, c1.card_type FROM cards AS c1 JOIN cards AS c2 ON c1.account_id = c2.account_id AND c1.id <> c2.id",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.id], [COL:comments.account_id], [COL:comments.card_type] [CONN:from] [TABLE:cards] JOIN [TABLE:cards] on [COL:comments.account_id] [OP:eq] [COL:comments.account_id] and [COL:comments.id] [OP:neq] [COL:comments.id]",
-    "nl_prompt": "Retrieve the id, account id, card type out of card JOIN cards on account id is account id and id is not id"
-  },
-  {
-    "id": 68,
-    "complexity": "advanced",
-    "sql": "SELECT l1.monthly_payment, l1.is_active, l1.loan_type, l1.interest_rate FROM loans AS l1 WHERE l1.customer_id IN (SELECT sub_c.id FROM customers AS sub_c WHERE sub_c.is_active = 0)",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] the [COL:likes.monthly_payment], [COL:likes.is_active], [COL:likes.loan_type], [COL:likes.interest_rate] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.customer_id] matches any of the [COL:sub_c.id]s from [TABLE:customers] where [COL:sub_c.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Spot the monthly payment, is active, loan type, interest rate from loans that have customer id matches any of the ids from customers where is active is equal to 0"
-  },
-  {
-    "id": 69,
-    "complexity": "advanced",
-    "sql": "SELECT c1.created_at FROM customers AS c1 WHERE NOT EXISTS(SELECT 1 FROM loans AS sub_l WHERE sub_l.customer_id = c1.id AND sub_l.loan_type <> 'user')",
-    "tables": [
-      "customers",
-      "loans"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.created_at] [CONN:from] [TABLE:customers] [CONN:where] where there is no corresponding [TABLE:loans] who [COL:sub_l.customer_id] [OP:eq] [COL:comments.id] and [COL:sub_l.loan_type] [OP:neq] [VAL:'user']",
-    "nl_prompt": "Single out the created at out of account holder looking only at where there is no corresponding credit who customer id is equal to id and loan type is not equal to 'user'"
-  },
-  {
-    "id": 70,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM customers AS c1 WHERE EXISTS(SELECT 1 FROM loans AS sub_l WHERE sub_l.customer_id = c1.id AND sub_l.customer_id = 642)",
-    "tables": [
-      "customers",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:customers] [CONN:where] where there is a corresponding [TABLE:loans] who [COL:sub_l.customer_id] [OP:eq] [COL:comments.id] and [COL:sub_l.customer_id] [OP:eq] [VAL:642]",
-    "nl_prompt": "Fetch me all columns in client for which where there is a corresponding loans who customer id is equal to id and customer id is equal to 642"
-  },
-  {
-    "id": 71,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM customers AS c1 WHERE c1.id IN (SELECT sub_a.customer_id FROM accounts AS sub_a WHERE sub_a.balance >= 161)",
-    "tables": [
-      "customers",
-      "accounts"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.id] matches any of the [COL:sub_a.customer_id]s from [TABLE:accounts] where [COL:sub_a.balance] [OP:gte] [VAL:161]",
-    "nl_prompt": "Single out all columns within account holder for which id matches any of the customer ids from accounts where balance at least 161"
-  },
-  {
-    "id": 72,
-    "complexity": "advanced",
-    "sql": "SELECT t1.id, t1.from_account_id, t1.to_account_id FROM transactions AS t1 JOIN transactions AS t2 ON t1.from_account_id = t2.from_account_id AND t1.id <> t2.id LIMIT 10",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.id], [COL:t1.from_account_id], [COL:t1.to_account_id] [CONN:from] [TABLE:transactions] JOIN [TABLE:transactions] on [COL:t1.from_account_id] [OP:eq] [COL:t2.from_account_id] and [COL:t1.id] [OP:neq] [COL:t2.id] limited to 10 results",
-    "nl_prompt": "Get the id, from account id, to account id within transaction JOIN transfer on from account id equals from account id and id is not id limited to 10 results"
-  },
-  {
-    "id": 73,
-    "complexity": "advanced",
-    "sql": "SELECT c1.id FROM customers AS c1 WHERE c1.id IN (SELECT sub_l.customer_id FROM loans AS sub_l WHERE sub_l.end_date <= DATETIME('now', '-27 days'))",
-    "tables": [
-      "customers",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.id] [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.id] matches any of the [COL:sub_l.customer_id]s from [TABLE:loans] where [COL:sub_l.end_date] [OP:lte] [VAL:27 days ago]",
-    "nl_prompt": "Retrieve the id within customer that have id matches any of the customer ids from credit where end date at most 27 days ago"
-  },
-  {
-    "id": 74,
-    "complexity": "advanced",
-    "sql": "SELECT e1.first_name, e1.last_name, e1.branch_id FROM employees AS e1 JOIN employees AS e2 ON e1.branch_id = e2.branch_id AND e1.id <> e2.id",
-    "tables": [
-      "employees",
-      "employees"
-    ],
-    "ir_template": "[VERB:select] the [COL:e1.first_name], [COL:e1.last_name], [COL:e1.branch_id] [CONN:from] [TABLE:employees] JOIN [TABLE:employees] on [COL:e1.branch_id] [OP:eq] [COL:e2.branch_id] and [COL:e1.id] [OP:neq] [COL:e2.id]",
-    "nl_prompt": "Spot the first name, last name, branch id within staff JOIN staff on branch id is equal to branch id and id is not equal to id"
-  },
-  {
-    "id": 75,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.term_months > 748) AS derived_table WHERE derived_table.id <> 560",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:loans] where [COL:loans.term_months] [OP:gt] [VAL:748] [CONN:where] [COL:id] [OP:neq] [VAL:560]",
-    "nl_prompt": "Produce a listing of all columns within loans where duration in months greater than 748 filtered for id differs from 560"
-  },
-  {
-    "id": 76,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM transactions AS inner_transactions WHERE inner_transactions.status = 'user') AS derived_table",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:transactions] where [COL:transactions.status] [OP:eq] [VAL:'user']",
-    "nl_prompt": "Retrieve all columns in transaction where status is equal to 'user'"
-  },
-  {
-    "id": 77,
-    "complexity": "advanced",
-    "sql": "SELECT c1.credit_limit FROM cards AS c1 WHERE c1.account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.opened_on < DATETIME('now', '-4 days'))",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.credit_limit] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.account_id] matches any of the [COL:sub_a.id]s from [TABLE:accounts] where [COL:sub_a.opened_on] [OP:lt] [VAL:4 days ago]",
-    "nl_prompt": "Produce a listing of the credit limit within cards looking only at account id matches any of the ids from account where opened on less than 4 days ago"
-  },
-  {
-    "id": 78,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM loans AS l1 WHERE EXISTS(SELECT 1 FROM customers AS sub_c WHERE sub_c.id = l1.customer_id AND sub_c.date_of_birth < DATETIME('now', '-23 days'))",
-    "tables": [
-      "loans",
-      "customers"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:loans] [CONN:where] where there is a corresponding [TABLE:customers] who [COL:sub_c.id] [OP:eq] [COL:likes.customer_id] and [COL:sub_c.date_of_birth] [OP:lt] [VAL:23 days ago]",
-    "nl_prompt": "Spot all columns in credit that have where there is a corresponding account holder who id equals customer id and date of birth below 23 days ago"
-  },
-  {
-    "id": 79,
-    "complexity": "advanced",
-    "sql": "SELECT l1.id, l1.customer_id, l1.loan_type FROM loans AS l1 JOIN loans AS l2 ON l1.customer_id = l2.customer_id AND l1.id <> l2.id",
-    "tables": [
-      "loans",
-      "loans"
-    ],
-    "ir_template": "[VERB:show] the [COL:likes.id], [COL:likes.customer_id], [COL:likes.loan_type] [CONN:from] [TABLE:loans] JOIN [TABLE:loans] on [COL:likes.customer_id] [OP:eq] [COL:likes.customer_id] and [COL:likes.id] [OP:neq] [COL:likes.id]",
-    "nl_prompt": "Run a check for the id, customer id, loan type from loan JOIN loans on customer id matches customer id and id is not id"
-  },
-  {
-    "id": 80,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.employee_count < 998) AS derived_table",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:branches] where [COL:branches.employee_count] [OP:lt] [VAL:998]",
-    "nl_prompt": "Get all columns in bank branch where staff count below 998"
-  },
-  {
-    "id": 81,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM transactions AS inner_transactions WHERE inner_transactions.transaction_date < DATETIME('now', '-12 days')) AS derived_table",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:transactions] where [COL:transactions.transaction_date] [OP:lt] [VAL:12 days ago]",
-    "nl_prompt": "Run a check for all columns in money transfer where date of transaction less than 12 days ago"
-  },
-  {
-    "id": 82,
-    "complexity": "advanced",
-    "sql": "SELECT c1.address FROM customers AS c1 WHERE NOT EXISTS(SELECT 1 FROM loans AS sub_l WHERE sub_l.customer_id = c1.id AND sub_l.customer_id > 412)",
-    "tables": [
-      "customers",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.address] [CONN:from] [TABLE:customers] [CONN:where] where there is no corresponding [TABLE:loans] who [COL:sub_l.customer_id] [OP:eq] [COL:comments.id] and [COL:sub_l.customer_id] [OP:gt] [VAL:412]",
-    "nl_prompt": "Get the address from account holder looking only at where there is no corresponding loans who customer id is equal to id and customer id greater than 412"
-  },
-  {
-    "id": 83,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.loan_type LIKE 'b%') AS derived_table WHERE derived_table.loan_type = 'user'",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:select] all columns [CONN:from] [TABLE:loans] where [COL:loans.loan_type] like [VAL:'b%'] [CONN:where] [COL:loan_type] [OP:eq] [VAL:'user']",
-    "nl_prompt": "Spot all columns from loans where loan type like 'b%' for which loan type matches 'user'"
-  },
-  {
-    "id": 84,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM cards AS c1 WHERE EXISTS(SELECT 1 FROM accounts AS sub_a WHERE sub_a.id = c1.account_id AND sub_a.opened_on >= DATETIME('now', '-25 days'))",
-    "tables": [
-      "cards",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] all columns [CONN:from] [TABLE:cards] [CONN:where] where there is a corresponding [TABLE:accounts] who [COL:sub_a.id] [OP:eq] [COL:comments.account_id] and [COL:sub_a.opened_on] [OP:gte] [VAL:25 days ago]",
-    "nl_prompt": "Retrieve all columns in debit card looking only at where there is a corresponding bank account who id matches account id and opened on at least 25 days ago"
-  },
-  {
-    "id": 85,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM transactions AS inner_transactions WHERE inner_transactions.description = 'user') AS derived_table WHERE derived_table.transaction_type <> '123'",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:transactions] where [COL:transactions.description] [OP:eq] [VAL:'user'] [CONN:where] [COL:transaction_type] [OP:neq] [VAL:'123']",
-    "nl_prompt": "Run a check for all columns from money transfer where note is 'user' filtered for transaction type differs from '123'"
-  },
-  {
-    "id": 86,
-    "complexity": "advanced",
-    "sql": "SELECT t1.amount, t1.from_account_id FROM transactions AS t1 WHERE t1.to_account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.is_active = 1)",
-    "tables": [
-      "transactions",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.amount], [COL:t1.from_account_id] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.to_account_id] matches any of the [COL:sub_a.id]s from [TABLE:accounts] where [COL:sub_a.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Get the amount, from account id from payment filtered for to account id matches any of the ids from account where is active is equal to 1"
-  },
-  {
-    "id": 87,
-    "complexity": "advanced",
-    "sql": "SELECT e1.branch_id FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.state <> 'admin')",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:get] the [COL:e1.branch_id] [CONN:from] [TABLE:employees] [CONN:where] [COL:e1.branch_id] matches any of the [COL:sub_b.id]s from [TABLE:branches] where [COL:sub_b.state] [OP:neq] [VAL:'admin']",
-    "nl_prompt": "Fetch me the branch id out of staff filtered for branch id matches any of the ids from branches where state is not 'admin'"
-  },
-  {
-    "id": 88,
-    "complexity": "advanced",
-    "sql": "SELECT e1.last_name, e1.is_active, e1.id FROM employees AS e1 WHERE EXISTS(SELECT 1 FROM branches AS sub_b WHERE sub_b.id = e1.branch_id AND sub_b.id <> 972)",
-    "tables": [
-      "employees",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:e1.last_name], [COL:e1.is_active], [COL:e1.id] [CONN:from] [TABLE:employees] [CONN:where] where there is a corresponding [TABLE:branches] who [COL:sub_b.id] [OP:eq] [COL:e1.branch_id] and [COL:sub_b.id] [OP:neq] [VAL:972]",
-    "nl_prompt": "Run a check for the last name, is active, id in staff filtered for where there is a corresponding branches who id is branch id and id is not equal to 972"
-  },
-  {
-    "id": 89,
-    "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM employees AS inner_employees WHERE inner_employees.is_active = 1) AS derived_table",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:show] all columns [CONN:from] [TABLE:employees] where [COL:employees.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Run a check for all columns out of staff where employment status active is equal to 1"
-  },
-  {
-    "id": 90,
-    "complexity": "advanced",
-    "sql": "SELECT c1.id, c1.address, c1.created_at FROM customers AS c1 WHERE c1.id IN (SELECT sub_l.customer_id FROM loans AS sub_l WHERE sub_l.status = 'test')",
-    "tables": [
-      "customers",
-      "loans"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.id], [COL:comments.address], [COL:comments.created_at] [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.id] matches any of the [COL:sub_l.customer_id]s from [TABLE:loans] where [COL:sub_l.status] [OP:eq] [VAL:'test']",
-    "nl_prompt": "Spot the id, address, created at within customers for which id matches any of the customer ids from credit where status is 'test'"
-  },
-  {
-    "id": 91,
-    "complexity": "union",
-    "sql": "SELECT e1.branch_id, e1.first_name FROM employees AS e1 WHERE e1.branch_id = 510 UNION SELECT e2.branch_id, e2.first_name FROM employees AS e2 WHERE e2.salary > 13 ORDER BY branch_id",
-    "tables": [
-      "employees",
-      "employees"
-    ],
-    "ir_template": "[VERB:select] the [COL:e1.branch_id], [COL:e1.first_name] [CONN:from] [TABLE:employees] [CONN:where] [COL:e1.branch_id] [OP:eq] [VAL:510], combined with (removing duplicates) [VERB:select] the [COL:e2.branch_id], [COL:e2.first_name] [CONN:from] [TABLE:employees] [CONN:where] [COL:e2.salary] [OP:gt] [VAL:13] ordered by [COL:branch_id]",
-    "nl_prompt": "Single out the branch id, first name from employee where branch id equals 510, combined with (removing duplicates) Choose the branch id, first name out of staff filtered for salary exceeds 13 ordered by branch id"
-  },
-  {
-    "id": 92,
-    "complexity": "union",
-    "sql": "SELECT t1.to_account_id, t1.status, t1.description FROM transactions AS t1 WHERE t1.amount < 891 UNION ALL SELECT t2.to_account_id, t2.status, t2.description FROM transactions AS t2 WHERE t2.to_account_id < 373 ORDER BY to_account_id",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.to_account_id], [COL:t1.status], [COL:t1.description] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.amount] [OP:lt] [VAL:891], combined with (including duplicates) [VERB:select] the [COL:t2.to_account_id], [COL:t2.status], [COL:t2.description] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.to_account_id] [OP:lt] [VAL:373] ordered by [COL:to_account_id]",
-    "nl_prompt": "Single out the to account id, status, description within money transfer that have amount less than 891, combined with (including duplicates) Spot the to account id, status, description from transfer that have to account id below 373 ordered by to account id"
-  },
-  {
-    "id": 93,
-    "complexity": "union",
-    "sql": "SELECT t1.transaction_type, t1.description, t1.status, t1.amount FROM transactions AS t1 WHERE t1.status LIKE '%a%' UNION ALL SELECT t2.transaction_type, t2.description, t2.status, t2.amount FROM transactions AS t2 WHERE t2.transaction_date < DATETIME('now', '-11 days') LIMIT 40",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.transaction_type], [COL:t1.description], [COL:t1.status], [COL:t1.amount] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.status] like [VAL:'%a%'], combined with (including duplicates) [VERB:select] the [COL:t2.transaction_type], [COL:t2.description], [COL:t2.status], [COL:t2.amount] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.transaction_date] [OP:lt] [VAL:11 days ago] limited to 40 results",
-    "nl_prompt": "Single out the transaction type, description, status, amount from transfer filtered for status like '%a%', combined with (including duplicates) Pick out the transaction type, description, status, amount within payment where transaction date fewer than 11 days ago limited to 40 results"
-  },
-  {
-    "id": 94,
-    "complexity": "union",
-    "sql": "SELECT a1.opened_on, a1.currency, a1.interest_rate, a1.customer_id FROM accounts AS a1 WHERE a1.balance > 345 UNION ALL SELECT a2.opened_on, a2.currency, a2.interest_rate, a2.customer_id FROM accounts AS a2 WHERE a2.id < 968",
-    "tables": [
-      "accounts",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.opened_on], [COL:a1.currency], [COL:a1.interest_rate], [COL:a1.customer_id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.balance] [OP:gt] [VAL:345], combined with (including duplicates) [VERB:show] the [COL:a2.opened_on], [COL:a2.currency], [COL:a2.interest_rate], [COL:a2.customer_id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a2.id] [OP:lt] [VAL:968]",
-    "nl_prompt": "Produce a listing of the opened on, currency, interest rate, customer id from account looking only at balance higher than 345, combined with (including duplicates) Display the opened on, currency, interest rate, customer id within account that have id under 968"
-  },
-  {
-    "id": 95,
-    "complexity": "union",
-    "sql": "SELECT b1.city, b1.manager_id FROM branches AS b1 WHERE b1.is_active = 1 UNION SELECT b2.city, b2.manager_id FROM branches AS b2 WHERE b2.is_active = 1",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:b1.city], [COL:b1.manager_id] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.is_active] [OP:eq] [VAL:1], combined with (removing duplicates) [VERB:show] the [COL:b2.city], [COL:b2.manager_id] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Run a check for the city, manager id out of branch filtered for is active is 1, combined with (removing duplicates) Display the city, manager id in branches that have is active is 1"
-  },
-  {
-    "id": 96,
-    "complexity": "union",
-    "sql": "SELECT b1.employee_count, b1.id, b1.name FROM branches AS b1 WHERE b1.is_active = 1 UNION ALL SELECT b2.employee_count, b2.id, b2.name FROM branches AS b2 WHERE b2.employee_count >= 772 LIMIT 47",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:get] the [COL:b1.employee_count], [COL:b1.id], [COL:b1.name] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.is_active] [OP:eq] [VAL:1], combined with (including duplicates) [VERB:get] the [COL:b2.employee_count], [COL:b2.id], [COL:b2.name] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.employee_count] [OP:gte] [VAL:772] limited to 47 results",
-    "nl_prompt": "Get the employee count, id, name in branches for which is active equals 1, combined with (including duplicates) Fetch me the employee count, id, name out of branches for which employee count at least 772 limited to 47 results"
-  },
-  {
-    "id": 97,
-    "complexity": "union",
-    "sql": "SELECT c1.card_type, c1.account_id FROM cards AS c1 WHERE c1.card_number <> 'activity' UNION SELECT c2.card_type, c2.account_id FROM cards AS c2 WHERE c2.is_active = 1 ORDER BY card_type LIMIT 20",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.card_type], [COL:comments.account_id] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.card_number] [OP:neq] [VAL:'activity'], combined with (removing duplicates) [VERB:get] the [COL:comments.card_type], [COL:comments.account_id] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.is_active] [OP:eq] [VAL:1] ordered by [COL:card_type] limited to 20 results",
-    "nl_prompt": "Retrieve the card type, account id within card that have card number is not equal to 'activity', combined with (removing duplicates) Retrieve the card type, account id in bank card filtered for is active is equal to 1 ordered by card type limited to 20 results"
-  },
-  {
-    "id": 98,
-    "complexity": "union",
-    "sql": "SELECT t1.status, t1.amount, t1.transaction_type FROM transactions AS t1 WHERE t1.transaction_type LIKE '%a%' UNION SELECT t2.status, t2.amount, t2.transaction_type FROM transactions AS t2 WHERE t2.description LIKE '%a%'",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.status], [COL:t1.amount], [COL:t1.transaction_type] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.transaction_type] like [VAL:'%a%'], combined with (removing duplicates) [VERB:get] the [COL:t2.status], [COL:t2.amount], [COL:t2.transaction_type] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.description] like [VAL:'%a%']",
-    "nl_prompt": "Get the status, amount, transaction type within payment that have transaction type like '%a%', combined with (removing duplicates) Dig out the status, amount, transaction type out of transaction looking only at description like '%a%'"
-  },
-  {
-    "id": 99,
-    "complexity": "union",
-    "sql": "SELECT l1.status, l1.term_months, l1.customer_id, l1.monthly_payment FROM loans AS l1 WHERE l1.status <> 'activity' UNION ALL SELECT l2.status, l2.term_months, l2.customer_id, l2.monthly_payment FROM loans AS l2 WHERE l2.loan_type <> 'user'",
-    "tables": [
-      "loans",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:likes.status], [COL:likes.term_months], [COL:likes.customer_id], [COL:likes.monthly_payment] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.status] [OP:neq] [VAL:'activity'], combined with (including duplicates) [VERB:get] the [COL:likes.status], [COL:likes.term_months], [COL:likes.customer_id], [COL:likes.monthly_payment] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.loan_type] [OP:neq] [VAL:'user']",
-    "nl_prompt": "Fetch me the status, term months, customer id, monthly payment from credit filtered for status is not 'activity', combined with (including duplicates) Retrieve the status, term months, customer id, monthly payment in loans that have loan type is not 'user'"
-  },
-  {
-    "id": 100,
-    "complexity": "union",
-    "sql": "SELECT a1.currency, a1.is_active, a1.id FROM accounts AS a1 WHERE a1.id >= 527 UNION ALL SELECT a2.currency, a2.is_active, a2.id FROM accounts AS a2 WHERE a2.balance <> 868 ORDER BY currency",
-    "tables": [
-      "accounts",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.currency], [COL:a1.is_active], [COL:a1.id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.id] [OP:gte] [VAL:527], combined with (including duplicates) [VERB:show] the [COL:a2.currency], [COL:a2.is_active], [COL:a2.id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a2.balance] [OP:neq] [VAL:868] ordered by [COL:currency]",
-    "nl_prompt": "Run a check for the currency, is active, id out of accounts looking only at id minimum of 527, combined with (including duplicates) Give me a look at the currency, is active, id out of bank account filtered for balance is not 868 ordered by currency"
-  },
-  {
-    "id": 101,
-    "complexity": "union",
-    "sql": "SELECT a1.customer_id, a1.currency, a1.balance, a1.interest_rate FROM accounts AS a1 WHERE a1.id >= 352 UNION SELECT a2.customer_id, a2.currency, a2.balance, a2.interest_rate FROM accounts AS a2 WHERE a2.interest_rate >= 410 LIMIT 29",
-    "tables": [
-      "accounts",
-      "accounts"
-    ],
-    "ir_template": "[VERB:show] the [COL:a1.customer_id], [COL:a1.currency], [COL:a1.balance], [COL:a1.interest_rate] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.id] [OP:gte] [VAL:352], combined with (removing duplicates) [VERB:show] the [COL:a2.customer_id], [COL:a2.currency], [COL:a2.balance], [COL:a2.interest_rate] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a2.interest_rate] [OP:gte] [VAL:410] limited to 29 results",
-    "nl_prompt": "Run a check for the customer id, currency, balance, interest rate within account looking only at id at least 352, combined with (removing duplicates) Bring up the customer id, currency, balance, interest rate in accounts looking only at interest rate at least 410 limited to 29 results"
-  },
-  {
-    "id": 102,
-    "complexity": "union",
-    "sql": "SELECT l1.end_date, l1.interest_rate, l1.id FROM loans AS l1 WHERE l1.customer_id <= 332 UNION SELECT l2.end_date, l2.interest_rate, l2.id FROM loans AS l2 WHERE l2.term_months <= 259 ORDER BY end_date",
-    "tables": [
-      "loans",
-      "loans"
-    ],
-    "ir_template": "[VERB:get] the [COL:likes.end_date], [COL:likes.interest_rate], [COL:likes.id] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.customer_id] [OP:lte] [VAL:332], combined with (removing duplicates) [VERB:get] the [COL:likes.end_date], [COL:likes.interest_rate], [COL:likes.id] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.term_months] [OP:lte] [VAL:259] ordered by [COL:end_date]",
-    "nl_prompt": "Retrieve the end date, interest rate, id in loans where customer id maximum of 332, combined with (removing duplicates) Retrieve the end date, interest rate, id out of loans looking only at term months maximum of 259 ordered by end date"
-  },
-  {
-    "id": 103,
-    "complexity": "union",
-    "sql": "SELECT c1.card_type, c1.card_number FROM cards AS c1 WHERE c1.credit_limit < 879 UNION SELECT c2.card_type, c2.card_number FROM cards AS c2 WHERE c2.expiry_date >= DATETIME('now', '-2 days')",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.card_type], [COL:comments.card_number] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.credit_limit] [OP:lt] [VAL:879], combined with (removing duplicates) [VERB:select] the [COL:comments.card_type], [COL:comments.card_number] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.expiry_date] [OP:gte] [VAL:2 days ago]",
-    "nl_prompt": "Single out the card type, card number from card for which credit limit fewer than 879, combined with (removing duplicates) Single out the card type, card number in card for which expiry date no less than 2 days ago"
-  },
-  {
-    "id": 104,
-    "complexity": "union",
-    "sql": "SELECT l1.loan_type, l1.end_date, l1.monthly_payment, l1.interest_rate FROM loans AS l1 WHERE l1.end_date >= DATETIME('now', '-28 days') UNION SELECT l2.loan_type, l2.end_date, l2.monthly_payment, l2.interest_rate FROM loans AS l2 WHERE l2.end_date > DATETIME('now', '-11 days') ORDER BY loan_type",
-    "tables": [
-      "loans",
-      "loans"
-    ],
-    "ir_template": "[VERB:select] the [COL:likes.loan_type], [COL:likes.end_date], [COL:likes.monthly_payment], [COL:likes.interest_rate] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.end_date] [OP:gte] [VAL:28 days ago], combined with (removing duplicates) [VERB:select] the [COL:likes.loan_type], [COL:likes.end_date], [COL:likes.monthly_payment], [COL:likes.interest_rate] [CONN:from] [TABLE:loans] [CONN:where] [COL:likes.end_date] [OP:gt] [VAL:11 days ago] ordered by [COL:loan_type]",
-    "nl_prompt": "Single out the loan type, end date, monthly payment, interest rate out of credit that have end date at least 28 days ago, combined with (removing duplicates) Spot the loan type, end date, monthly payment, interest rate from credit looking only at end date more than 11 days ago ordered by loan type"
-  },
-  {
-    "id": 105,
-    "complexity": "union",
-    "sql": "SELECT a1.is_active, a1.interest_rate, a1.customer_id FROM accounts AS a1 WHERE a1.id >= 583 UNION ALL SELECT a2.is_active, a2.interest_rate, a2.customer_id FROM accounts AS a2 WHERE a2.balance = 799 ORDER BY is_active LIMIT 38",
-    "tables": [
-      "accounts",
-      "accounts"
-    ],
-    "ir_template": "[VERB:get] the [COL:a1.is_active], [COL:a1.interest_rate], [COL:a1.customer_id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a1.id] [OP:gte] [VAL:583], combined with (including duplicates) [VERB:get] the [COL:a2.is_active], [COL:a2.interest_rate], [COL:a2.customer_id] [CONN:from] [TABLE:accounts] [CONN:where] [COL:a2.balance] [OP:eq] [VAL:799] ordered by [COL:is_active] limited to 38 results",
-    "nl_prompt": "Retrieve the is active, interest rate, customer id in bank account looking only at id minimum of 583, combined with (including duplicates) Fetch me the is active, interest rate, customer id within bank account for which balance matches 799 ordered by is active limited to 38 results"
-  },
-  {
-    "id": 106,
-    "complexity": "union",
-    "sql": "SELECT t1.status, t1.amount FROM transactions AS t1 WHERE t1.transaction_date < DATETIME('now', '-13 days') UNION ALL SELECT t2.status, t2.amount FROM transactions AS t2 WHERE t2.description LIKE '%a%' ORDER BY status LIMIT 41",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:show] the [COL:t1.status], [COL:t1.amount] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.transaction_date] [OP:lt] [VAL:13 days ago], combined with (including duplicates) [VERB:show] the [COL:t2.status], [COL:t2.amount] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.description] like [VAL:'%a%'] ordered by [COL:status] limited to 41 results",
-    "nl_prompt": "Run a check for the status, amount out of money transfer for which transaction date under 13 days ago, combined with (including duplicates) Give me a look at the status, amount out of payment where description like '%a%' ordered by status limited to 41 results"
-  },
-  {
-    "id": 107,
-    "complexity": "union",
-    "sql": "SELECT t1.amount, t1.status, t1.to_account_id FROM transactions AS t1 WHERE t1.amount >= 481 UNION SELECT t2.amount, t2.status, t2.to_account_id FROM transactions AS t2 WHERE t2.to_account_id < 174 ORDER BY amount LIMIT 11",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.amount], [COL:t1.status], [COL:t1.to_account_id] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.amount] [OP:gte] [VAL:481], combined with (removing duplicates) [VERB:select] the [COL:t2.amount], [COL:t2.status], [COL:t2.to_account_id] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.to_account_id] [OP:lt] [VAL:174] ordered by [COL:amount] limited to 11 results",
-    "nl_prompt": "Single out the amount, status, to account id within payment where amount no less than 481, combined with (removing duplicates) Select the amount, status, to account id within transfer that have to account id fewer than 174 ordered by amount limited to 11 results"
-  },
-  {
-    "id": 108,
-    "complexity": "union",
-    "sql": "SELECT c1.email, c1.is_active, c1.created_at, c1.first_name FROM customers AS c1 WHERE c1.phone = 'admin' UNION SELECT c2.email, c2.is_active, c2.created_at, c2.first_name FROM customers AS c2 WHERE c2.phone LIKE 'b%' ORDER BY email",
-    "tables": [
-      "customers",
-      "customers"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.email], [COL:comments.is_active], [COL:comments.created_at], [COL:comments.first_name] [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.phone] [OP:eq] [VAL:'admin'], combined with (removing duplicates) [VERB:get] the [COL:comments.email], [COL:comments.is_active], [COL:comments.created_at], [COL:comments.first_name] [CONN:from] [TABLE:customers] [CONN:where] [COL:comments.phone] like [VAL:'b%'] ordered by [COL:email]",
-    "nl_prompt": "Get the email, is active, created at, first name in customers where phone equals 'admin', combined with (removing duplicates) Pull up the email, is active, created at, first name in account holder filtered for phone like 'b%' ordered by email"
-  },
-  {
-    "id": 109,
-    "complexity": "union",
-    "sql": "SELECT b1.city, b1.is_active FROM branches AS b1 WHERE b1.state LIKE '%a%' UNION ALL SELECT b2.city, b2.is_active FROM branches AS b2 WHERE b2.state <> 'test' LIMIT 29",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:b1.city], [COL:b1.is_active] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.state] like [VAL:'%a%'], combined with (including duplicates) [VERB:select] the [COL:b2.city], [COL:b2.is_active] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.state] [OP:neq] [VAL:'test'] limited to 29 results",
-    "nl_prompt": "Spot the city, is active in branch for which state like '%a%', combined with (including duplicates) Pick out the city, is active within branch looking only at state differs from 'test' limited to 29 results"
-  },
-  {
-    "id": 110,
-    "complexity": "union",
-    "sql": "SELECT e1.hire_date, e1.first_name, e1.salary FROM employees AS e1 WHERE e1.position = '123' UNION ALL SELECT e2.hire_date, e2.first_name, e2.salary FROM employees AS e2 WHERE e2.hire_date > DATETIME('now', '-30 days') LIMIT 45",
-    "tables": [
-      "employees",
-      "employees"
-    ],
-    "ir_template": "[VERB:show] the [COL:e1.hire_date], [COL:e1.first_name], [COL:e1.salary] [CONN:from] [TABLE:employees] [CONN:where] [COL:e1.position] [OP:eq] [VAL:'123'], combined with (including duplicates) [VERB:show] the [COL:e2.hire_date], [COL:e2.first_name], [COL:e2.salary] [CONN:from] [TABLE:employees] [CONN:where] [COL:e2.hire_date] [OP:gt] [VAL:30 days ago] limited to 45 results",
-    "nl_prompt": "Produce a listing of the hire date, first name, salary within staff that have position is equal to '123', combined with (including duplicates) Give me a look at the hire date, first name, salary out of staff filtered for hire date higher than 30 days ago limited to 45 results"
-  },
-  {
-    "id": 111,
-    "complexity": "union",
-    "sql": "SELECT b1.is_active, b1.id, b1.city, b1.employee_count FROM branches AS b1 WHERE b1.name = 'admin' UNION ALL SELECT b2.is_active, b2.id, b2.city, b2.employee_count FROM branches AS b2 WHERE b2.is_active = 0",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:select] the [COL:b1.is_active], [COL:b1.id], [COL:b1.city], [COL:b1.employee_count] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.name] [OP:eq] [VAL:'admin'], combined with (including duplicates) [VERB:select] the [COL:b2.is_active], [COL:b2.id], [COL:b2.city], [COL:b2.employee_count] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Single out the is active, id, city, employee count from branches where name matches 'admin', combined with (including duplicates) Single out the is active, id, city, employee count from branch that have is active matches 0"
-  },
-  {
-    "id": 112,
-    "complexity": "union",
-    "sql": "SELECT e1.id, e1.first_name, e1.position, e1.last_name FROM employees AS e1 WHERE e1.id > 243 UNION SELECT e2.id, e2.first_name, e2.position, e2.last_name FROM employees AS e2 WHERE e2.first_name <> 'user' ORDER BY id",
-    "tables": [
-      "employees",
-      "employees"
-    ],
-    "ir_template": "[VERB:select] the [COL:e1.id], [COL:e1.first_name], [COL:e1.position], [COL:e1.last_name] [CONN:from] [TABLE:employees] [CONN:where] [COL:e1.id] [OP:gt] [VAL:243], combined with (removing duplicates) [VERB:select] the [COL:e2.id], [COL:e2.first_name], [COL:e2.position], [COL:e2.last_name] [CONN:from] [TABLE:employees] [CONN:where] [COL:e2.first_name] [OP:neq] [VAL:'user'] ordered by [COL:id]",
-    "nl_prompt": "Single out the id, first name, position, last name within personnel filtered for id higher than 243, combined with (removing duplicates) Pick out the id, first name, position, last name within employee looking only at first name is not equal to 'user' ordered by id"
-  },
-  {
-    "id": 113,
-    "complexity": "union",
-    "sql": "SELECT c1.id, c1.account_id, c1.credit_limit FROM cards AS c1 WHERE c1.card_number LIKE 'b%' UNION ALL SELECT c2.id, c2.account_id, c2.credit_limit FROM cards AS c2 WHERE c2.account_id < 659",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:get] the [COL:comments.id], [COL:comments.account_id], [COL:comments.credit_limit] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.card_number] like [VAL:'b%'], combined with (including duplicates) [VERB:get] the [COL:comments.id], [COL:comments.account_id], [COL:comments.credit_limit] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.account_id] [OP:lt] [VAL:659]",
-    "nl_prompt": "Retrieve the id, account id, credit limit out of debit card where card number like 'b%', combined with (including duplicates) Find the id, account id, credit limit out of debit card where account id lower than 659"
-  },
-  {
-    "id": 114,
-    "complexity": "union",
-    "sql": "SELECT c1.card_number, c1.issued_on, c1.id FROM cards AS c1 WHERE c1.issued_on <= DATETIME('now', '-18 days') UNION ALL SELECT c2.card_number, c2.issued_on, c2.id FROM cards AS c2 WHERE c2.credit_limit > 879",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.card_number], [COL:comments.issued_on], [COL:comments.id] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.issued_on] [OP:lte] [VAL:18 days ago], combined with (including duplicates) [VERB:show] the [COL:comments.card_number], [COL:comments.issued_on], [COL:comments.id] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.credit_limit] [OP:gt] [VAL:879]",
-    "nl_prompt": "Run a check for the card number, issued on, id within card where issued on at most 18 days ago, combined with (including duplicates) Display the card number, issued on, id from debit card where credit limit more than 879"
-  },
-  {
-    "id": 115,
-    "complexity": "union",
-    "sql": "SELECT c1.credit_limit, c1.card_number, c1.account_id, c1.expiry_date FROM cards AS c1 WHERE c1.account_id = 784 UNION SELECT c2.credit_limit, c2.card_number, c2.account_id, c2.expiry_date FROM cards AS c2 WHERE c2.issued_on >= DATETIME('now', '-20 days')",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:select] the [COL:comments.credit_limit], [COL:comments.card_number], [COL:comments.account_id], [COL:comments.expiry_date] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.account_id] [OP:eq] [VAL:784], combined with (removing duplicates) [VERB:select] the [COL:comments.credit_limit], [COL:comments.card_number], [COL:comments.account_id], [COL:comments.expiry_date] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.issued_on] [OP:gte] [VAL:20 days ago]",
-    "nl_prompt": "Single out the credit limit, card number, account id, expiry date in card filtered for account id is equal to 784, combined with (removing duplicates) Spot the credit limit, card number, account id, expiry date from credit card where issued on no less than 20 days ago"
-  },
-  {
-    "id": 116,
-    "complexity": "union",
-    "sql": "SELECT b1.is_active, b1.name, b1.state, b1.city FROM branches AS b1 WHERE b1.employee_count = 455 UNION SELECT b2.is_active, b2.name, b2.state, b2.city FROM branches AS b2 WHERE b2.manager_id <= 126 ORDER BY is_active",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:b1.is_active], [COL:b1.name], [COL:b1.state], [COL:b1.city] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.employee_count] [OP:eq] [VAL:455], combined with (removing duplicates) [VERB:show] the [COL:b2.is_active], [COL:b2.name], [COL:b2.state], [COL:b2.city] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.manager_id] [OP:lte] [VAL:126] ordered by [COL:is_active]",
-    "nl_prompt": "Run a check for the is active, name, state, city from branch looking only at employee count matches 455, combined with (removing duplicates) Display the is active, name, state, city from branches for which manager id maximum of 126 ordered by is active"
-  },
-  {
-    "id": 117,
-    "complexity": "union",
-    "sql": "SELECT b1.state, b1.id, b1.name FROM branches AS b1 WHERE b1.employee_count > 816 UNION SELECT b2.state, b2.id, b2.name FROM branches AS b2 WHERE b2.state = 'activity'",
-    "tables": [
-      "branches",
-      "branches"
-    ],
-    "ir_template": "[VERB:show] the [COL:b1.state], [COL:b1.id], [COL:b1.name] [CONN:from] [TABLE:branches] [CONN:where] [COL:b1.employee_count] [OP:gt] [VAL:816], combined with (removing duplicates) [VERB:show] the [COL:b2.state], [COL:b2.id], [COL:b2.name] [CONN:from] [TABLE:branches] [CONN:where] [COL:b2.state] [OP:eq] [VAL:'activity']",
-    "nl_prompt": "Produce a listing of the state, id, name out of bank branch looking only at employee count greater than 816, combined with (removing duplicates) Show the state, id, name from branches where state equals 'activity'"
-  },
-  {
-    "id": 118,
-    "complexity": "union",
-    "sql": "SELECT t1.from_account_id, t1.status FROM transactions AS t1 WHERE t1.status <> 'test' UNION SELECT t2.from_account_id, t2.status FROM transactions AS t2 WHERE t2.status LIKE '%c' ORDER BY from_account_id",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:select] the [COL:t1.from_account_id], [COL:t1.status] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.status] [OP:neq] [VAL:'test'], combined with (removing duplicates) [VERB:select] the [COL:t2.from_account_id], [COL:t2.status] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.status] like [VAL:'%c'] ordered by [COL:from_account_id]",
-    "nl_prompt": "Single out the from account id, status in money transfer filtered for status is not equal to 'test', combined with (removing duplicates) Single out the from account id, status within transfer filtered for status like '%c' ordered by from account id"
-  },
-  {
-    "id": 119,
-    "complexity": "union",
-    "sql": "SELECT t1.id, t1.description, t1.to_account_id, t1.from_account_id FROM transactions AS t1 WHERE t1.description = 'test' UNION ALL SELECT t2.id, t2.description, t2.to_account_id, t2.from_account_id FROM transactions AS t2 WHERE t2.description LIKE '%a%' ORDER BY id LIMIT 22",
-    "tables": [
-      "transactions",
-      "transactions"
-    ],
-    "ir_template": "[VERB:get] the [COL:t1.id], [COL:t1.description], [COL:t1.to_account_id], [COL:t1.from_account_id] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t1.description] [OP:eq] [VAL:'test'], combined with (including duplicates) [VERB:get] the [COL:t2.id], [COL:t2.description], [COL:t2.to_account_id], [COL:t2.from_account_id] [CONN:from] [TABLE:transactions] [CONN:where] [COL:t2.description] like [VAL:'%a%'] ordered by [COL:id] limited to 22 results",
-    "nl_prompt": "Get the id, description, to account id, from account id out of money transfer filtered for description is equal to 'test', combined with (including duplicates) Get the id, description, to account id, from account id in transactions for which description like '%a%' ordered by id limited to 22 results"
-  },
-  {
-    "id": 120,
-    "complexity": "union",
-    "sql": "SELECT c1.account_id, c1.is_active, c1.expiry_date FROM cards AS c1 WHERE c1.card_number = 'admin' UNION ALL SELECT c2.account_id, c2.is_active, c2.expiry_date FROM cards AS c2 WHERE c2.id >= 213 ORDER BY account_id",
-    "tables": [
-      "cards",
-      "cards"
-    ],
-    "ir_template": "[VERB:show] the [COL:comments.account_id], [COL:comments.is_active], [COL:comments.expiry_date] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.card_number] [OP:eq] [VAL:'admin'], combined with (including duplicates) [VERB:show] the [COL:comments.account_id], [COL:comments.is_active], [COL:comments.expiry_date] [CONN:from] [TABLE:cards] [CONN:where] [COL:comments.id] [OP:gte] [VAL:213] ordered by [COL:account_id]",
-    "nl_prompt": "Run a check for the account id, is active, expiry date out of cards for which card number equals 'admin', combined with (including duplicates) Give me a look at the account id, is active, expiry date out of cards where id minimum of 213 ordered by account id"
-  },
-  {
-    "id": 121,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 27', 'Sample text 45', 'user904@example.com', 'Sample text 88', DATETIME('now'), 'Sample text 66', 866, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 27'], [COL:last_name] as [VAL:'Sample text 45'], [COL:email] as [VAL:'user904@example.com'], [COL:phone] as [VAL:'Sample text 88'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 66'], [COL:credit_score] as [VAL:866], [COL:is_active] as [VAL:1], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Add a new customer with first name as 'Sample text 27', last name as 'Sample text 45', email as 'user904@example.com', phone as 'Sample text 88', date of birth as the current time, address as 'Sample text 66', credit score as 866, is active as 1, created at as the current time."
-  },
-  {
-    "id": 122,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, description, transaction_date, status) VALUES (191, 60, 149, 'Sample text 85', 'Sample text 85', DATETIME('now'), 'Sample text 87')",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:transactions] with [COL:from_account_id] as [VAL:191], [COL:to_account_id] as [VAL:60], [COL:amount] as [VAL:149], [COL:transaction_type] as [VAL:'Sample text 85'], [COL:description] as [VAL:'Sample text 85'], [COL:transaction_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 87'].",
-    "nl_prompt": "Create a new money transfer with from account id as 191, to account id as 60, amount as 149, transaction type as 'Sample text 85', description as 'Sample text 85', transaction date as the current time, status as 'Sample text 87'."
-  },
-  {
-    "id": 123,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (first_name, last_name, branch_id, position, hire_date, salary, is_active) VALUES ('Sample text 26', 'Sample text 71', 212, 'Sample text 33', DATETIME('now'), 179, 1)",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:employees] with [COL:first_name] as [VAL:'Sample text 26'], [COL:last_name] as [VAL:'Sample text 71'], [COL:branch_id] as [VAL:212], [COL:position] as [VAL:'Sample text 33'], [COL:hire_date] as [VAL:the current time], [COL:salary] as [VAL:179], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Add a new staff with first name as 'Sample text 26', last name as 'Sample text 71', branch id as 212, position as 'Sample text 33', hire date as the current time, salary as 179, is active as 1."
-  },
-  {
-    "id": 124,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 38', 'Sample text 59', 'user429@example.com', 'Sample text 27', DATETIME('now'), 'Sample text 55', 879, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 38'], [COL:last_name] as [VAL:'Sample text 59'], [COL:email] as [VAL:'user429@example.com'], [COL:phone] as [VAL:'Sample text 27'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 55'], [COL:credit_score] as [VAL:879], [COL:is_active] as [VAL:1], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Add a new customers with first name as 'Sample text 38', last name as 'Sample text 59', email as 'user429@example.com', phone as 'Sample text 27', date of birth as the current time, address as 'Sample text 55', credit score as 879, is active as 1, created at as the current time."
-  },
-  {
-    "id": 125,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, description, transaction_date, status) VALUES (103, 659, 258, 'Sample text 7', 'Sample text 57', DATETIME('now'), 'Sample text 21')",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:transactions] with [COL:from_account_id] as [VAL:103], [COL:to_account_id] as [VAL:659], [COL:amount] as [VAL:258], [COL:transaction_type] as [VAL:'Sample text 7'], [COL:description] as [VAL:'Sample text 57'], [COL:transaction_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 21'].",
-    "nl_prompt": "Insert a new money transfer with from account id as 103, to account id as 659, amount as 258, transaction type as 'Sample text 7', description as 'Sample text 57', transaction date as the current time, status as 'Sample text 21'."
-  },
-  {
-    "id": 126,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, description, transaction_date, status) VALUES (321, 822, 459, 'Sample text 80', 'Sample text 70', DATETIME('now'), 'Sample text 80')",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:transactions] with [COL:from_account_id] as [VAL:321], [COL:to_account_id] as [VAL:822], [COL:amount] as [VAL:459], [COL:transaction_type] as [VAL:'Sample text 80'], [COL:description] as [VAL:'Sample text 70'], [COL:transaction_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 80'].",
-    "nl_prompt": "Insert a new transactions with from account id as 321, to account id as 822, amount as 459, transaction type as 'Sample text 80', description as 'Sample text 70', transaction date as the current time, status as 'Sample text 80'."
-  },
-  {
-    "id": 127,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (first_name, last_name, branch_id, position, hire_date, salary, is_active) VALUES ('Sample text 5', 'Sample text 72', 624, 'Sample text 30', DATETIME('now'), 685, 0)",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:employees] with [COL:first_name] as [VAL:'Sample text 5'], [COL:last_name] as [VAL:'Sample text 72'], [COL:branch_id] as [VAL:624], [COL:position] as [VAL:'Sample text 30'], [COL:hire_date] as [VAL:the current time], [COL:salary] as [VAL:685], [COL:is_active] as [VAL:0].",
-    "nl_prompt": "Add a new staff with first name as 'Sample text 5', last name as 'Sample text 72', branch id as 624, position as 'Sample text 30', hire date as the current time, salary as 685, is active as 0."
-  },
-  {
-    "id": 128,
-    "complexity": "insert",
-    "sql": "INSERT INTO cards (account_id, card_type, card_number, expiry_date, credit_limit, is_active, issued_on) VALUES (493, 'Sample text 4', 'Sample text 5', DATETIME('now'), 775, 1, DATETIME('now'))",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:cards] with [COL:account_id] as [VAL:493], [COL:card_type] as [VAL:'Sample text 4'], [COL:card_number] as [VAL:'Sample text 5'], [COL:expiry_date] as [VAL:the current time], [COL:credit_limit] as [VAL:775], [COL:is_active] as [VAL:1], [COL:issued_on] as [VAL:the current time].",
-    "nl_prompt": "Put a new debit card with account id as 493, card type as 'Sample text 4', card number as 'Sample text 5', expiry date as the current time, credit limit as 775, is active as 1, issued on as the current time."
-  },
-  {
-    "id": 129,
-    "complexity": "insert",
-    "sql": "INSERT INTO accounts (customer_id, account_type, balance, currency, opened_on, is_active, interest_rate) VALUES (795, 'Sample text 49', 18, 'Sample text 29', DATETIME('now'), 0, 949)",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:accounts] with [COL:customer_id] as [VAL:795], [COL:account_type] as [VAL:'Sample text 49'], [COL:balance] as [VAL:18], [COL:currency] as [VAL:'Sample text 29'], [COL:opened_on] as [VAL:the current time], [COL:is_active] as [VAL:0], [COL:interest_rate] as [VAL:949].",
-    "nl_prompt": "Put a new bank account with customer id as 795, account type as 'Sample text 49', balance as 18, currency as 'Sample text 29', opened on as the current time, is active as 0, interest rate as 949."
-  },
-  {
-    "id": 130,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 17', 'Sample text 42', 'user646@example.com', 'Sample text 9', DATETIME('now'), 'Sample text 28', 486, 0, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 17'], [COL:last_name] as [VAL:'Sample text 42'], [COL:email] as [VAL:'user646@example.com'], [COL:phone] as [VAL:'Sample text 9'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 28'], [COL:credit_score] as [VAL:486], [COL:is_active] as [VAL:0], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Create a new account holder with first name as 'Sample text 17', last name as 'Sample text 42', email as 'user646@example.com', phone as 'Sample text 9', date of birth as the current time, address as 'Sample text 28', credit score as 486, is active as 0, created at as the current time."
-  },
-  {
-    "id": 131,
-    "complexity": "insert",
-    "sql": "INSERT INTO accounts (customer_id, account_type, balance, currency, opened_on, is_active, interest_rate) VALUES (210, 'Sample text 72', 541, 'Sample text 65', DATETIME('now'), 0, 118)",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:accounts] with [COL:customer_id] as [VAL:210], [COL:account_type] as [VAL:'Sample text 72'], [COL:balance] as [VAL:541], [COL:currency] as [VAL:'Sample text 65'], [COL:opened_on] as [VAL:the current time], [COL:is_active] as [VAL:0], [COL:interest_rate] as [VAL:118].",
-    "nl_prompt": "Put a new accounts with customer id as 210, account type as 'Sample text 72', balance as 541, currency as 'Sample text 65', opened on as the current time, is active as 0, interest rate as 118."
-  },
-  {
-    "id": 132,
-    "complexity": "insert",
-    "sql": "INSERT INTO branches (name, city, state, manager_id, employee_count, is_active) VALUES ('Sample text 55', 'Sample text 13', 'Sample text 35', 16, 927, 0)",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:branches] with [COL:name] as [VAL:'Sample text 55'], [COL:city] as [VAL:'Sample text 13'], [COL:state] as [VAL:'Sample text 35'], [COL:manager_id] as [VAL:16], [COL:employee_count] as [VAL:927], [COL:is_active] as [VAL:0].",
-    "nl_prompt": "Put a new branch with name as 'Sample text 55', city as 'Sample text 13', state as 'Sample text 35', manager id as 16, employee count as 927, is active as 0."
-  },
-  {
-    "id": 133,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 83', 'Sample text 71', 'user225@example.com', 'Sample text 82', DATETIME('now'), 'Sample text 98', 137, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 83'], [COL:last_name] as [VAL:'Sample text 71'], [COL:email] as [VAL:'user225@example.com'], [COL:phone] as [VAL:'Sample text 82'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 98'], [COL:credit_score] as [VAL:137], [COL:is_active] as [VAL:1], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Add a new account holder with first name as 'Sample text 83', last name as 'Sample text 71', email as 'user225@example.com', phone as 'Sample text 82', date of birth as the current time, address as 'Sample text 98', credit score as 137, is active as 1, created at as the current time."
-  },
-  {
-    "id": 134,
-    "complexity": "insert",
-    "sql": "INSERT INTO branches (name, city, state, manager_id, employee_count, is_active) VALUES ('Sample text 42', 'Sample text 92', 'Sample text 57', 244, 812, 1)",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:branches] with [COL:name] as [VAL:'Sample text 42'], [COL:city] as [VAL:'Sample text 92'], [COL:state] as [VAL:'Sample text 57'], [COL:manager_id] as [VAL:244], [COL:employee_count] as [VAL:812], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Include a new branches with name as 'Sample text 42', city as 'Sample text 92', state as 'Sample text 57', manager id as 244, employee count as 812, is active as 1."
-  },
-  {
-    "id": 135,
-    "complexity": "insert",
-    "sql": "INSERT INTO branches (name, city, state, manager_id, employee_count, is_active) VALUES ('Sample text 59', 'Sample text 35', 'Sample text 92', 909, 641, 0)",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:branches] with [COL:name] as [VAL:'Sample text 59'], [COL:city] as [VAL:'Sample text 35'], [COL:state] as [VAL:'Sample text 92'], [COL:manager_id] as [VAL:909], [COL:employee_count] as [VAL:641], [COL:is_active] as [VAL:0].",
-    "nl_prompt": "Add a new branches with name as 'Sample text 59', city as 'Sample text 35', state as 'Sample text 92', manager id as 909, employee count as 641, is active as 0."
-  },
-  {
-    "id": 136,
-    "complexity": "insert",
-    "sql": "INSERT INTO loans (customer_id, loan_type, principal_amount, interest_rate, term_months, monthly_payment, start_date, end_date, status, is_active) VALUES (947, 'Sample text 23', 998, 105, 599, 892, DATETIME('now'), DATETIME('now'), 'Sample text 37', 1)",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:loans] with [COL:customer_id] as [VAL:947], [COL:loan_type] as [VAL:'Sample text 23'], [COL:principal_amount] as [VAL:998], [COL:interest_rate] as [VAL:105], [COL:term_months] as [VAL:599], [COL:monthly_payment] as [VAL:892], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 37'], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Insert a new loan with customer id as 947, loan type as 'Sample text 23', principal amount as 998, interest rate as 105, term months as 599, monthly payment as 892, start date as the current time, end date as the current time, status as 'Sample text 37', is active as 1."
-  },
-  {
-    "id": 137,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (first_name, last_name, branch_id, position, hire_date, salary, is_active) VALUES ('Sample text 11', 'Sample text 81', 988, 'Sample text 74', DATETIME('now'), 679, 1)",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:employees] with [COL:first_name] as [VAL:'Sample text 11'], [COL:last_name] as [VAL:'Sample text 81'], [COL:branch_id] as [VAL:988], [COL:position] as [VAL:'Sample text 74'], [COL:hire_date] as [VAL:the current time], [COL:salary] as [VAL:679], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Add a new personnel with first name as 'Sample text 11', last name as 'Sample text 81', branch id as 988, position as 'Sample text 74', hire date as the current time, salary as 679, is active as 1."
-  },
-  {
-    "id": 138,
-    "complexity": "insert",
-    "sql": "INSERT INTO accounts (customer_id, account_type, balance, currency, opened_on, is_active, interest_rate) VALUES (5, 'Sample text 69', 533, 'Sample text 4', DATETIME('now'), 0, 624)",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:accounts] with [COL:customer_id] as [VAL:5], [COL:account_type] as [VAL:'Sample text 69'], [COL:balance] as [VAL:533], [COL:currency] as [VAL:'Sample text 4'], [COL:opened_on] as [VAL:the current time], [COL:is_active] as [VAL:0], [COL:interest_rate] as [VAL:624].",
-    "nl_prompt": "Insert a new accounts with customer id as 5, account type as 'Sample text 69', balance as 533, currency as 'Sample text 4', opened on as the current time, is active as 0, interest rate as 624."
-  },
-  {
-    "id": 139,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 30', 'Sample text 18', 'user617@example.com', 'Sample text 13', DATETIME('now'), 'Sample text 88', 717, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 30'], [COL:last_name] as [VAL:'Sample text 18'], [COL:email] as [VAL:'user617@example.com'], [COL:phone] as [VAL:'Sample text 13'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 88'], [COL:credit_score] as [VAL:717], [COL:is_active] as [VAL:1], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Insert a new customers with first name as 'Sample text 30', last name as 'Sample text 18', email as 'user617@example.com', phone as 'Sample text 13', date of birth as the current time, address as 'Sample text 88', credit score as 717, is active as 1, created at as the current time."
-  },
-  {
-    "id": 140,
-    "complexity": "insert",
-    "sql": "INSERT INTO loans (customer_id, loan_type, principal_amount, interest_rate, term_months, monthly_payment, start_date, end_date, status, is_active) VALUES (98, 'Sample text 40', 608, 71, 144, 832, DATETIME('now'), DATETIME('now'), 'Sample text 82', 0)",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:loans] with [COL:customer_id] as [VAL:98], [COL:loan_type] as [VAL:'Sample text 40'], [COL:principal_amount] as [VAL:608], [COL:interest_rate] as [VAL:71], [COL:term_months] as [VAL:144], [COL:monthly_payment] as [VAL:832], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 82'], [COL:is_active] as [VAL:0].",
-    "nl_prompt": "Create a new credit with customer id as 98, loan type as 'Sample text 40', principal amount as 608, interest rate as 71, term months as 144, monthly payment as 832, start date as the current time, end date as the current time, status as 'Sample text 82', is active as 0."
-  },
-  {
-    "id": 141,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 11', 'Sample text 1', 'user498@example.com', 'Sample text 59', DATETIME('now'), 'Sample text 43', 686, 0, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 11'], [COL:last_name] as [VAL:'Sample text 1'], [COL:email] as [VAL:'user498@example.com'], [COL:phone] as [VAL:'Sample text 59'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 43'], [COL:credit_score] as [VAL:686], [COL:is_active] as [VAL:0], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Include a new client with first name as 'Sample text 11', last name as 'Sample text 1', email as 'user498@example.com', phone as 'Sample text 59', date of birth as the current time, address as 'Sample text 43', credit score as 686, is active as 0, created at as the current time."
-  },
-  {
-    "id": 142,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (first_name, last_name, branch_id, position, hire_date, salary, is_active) VALUES ('Sample text 64', 'Sample text 14', 49, 'Sample text 42', DATETIME('now'), 846, 1)",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:employees] with [COL:first_name] as [VAL:'Sample text 64'], [COL:last_name] as [VAL:'Sample text 14'], [COL:branch_id] as [VAL:49], [COL:position] as [VAL:'Sample text 42'], [COL:hire_date] as [VAL:the current time], [COL:salary] as [VAL:846], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Add a new employees with first name as 'Sample text 64', last name as 'Sample text 14', branch id as 49, position as 'Sample text 42', hire date as the current time, salary as 846, is active as 1."
-  },
-  {
-    "id": 143,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, description, transaction_date, status) VALUES (803, 51, 929, 'Sample text 97', 'Sample text 13', DATETIME('now'), 'Sample text 7')",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:transactions] with [COL:from_account_id] as [VAL:803], [COL:to_account_id] as [VAL:51], [COL:amount] as [VAL:929], [COL:transaction_type] as [VAL:'Sample text 97'], [COL:description] as [VAL:'Sample text 13'], [COL:transaction_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 7'].",
-    "nl_prompt": "Put a new transactions with from account id as 803, to account id as 51, amount as 929, transaction type as 'Sample text 97', description as 'Sample text 13', transaction date as the current time, status as 'Sample text 7'."
-  },
-  {
-    "id": 144,
-    "complexity": "insert",
-    "sql": "INSERT INTO branches (name, city, state, manager_id, employee_count, is_active) VALUES ('Sample text 13', 'Sample text 53', 'Sample text 92', 601, 585, 1)",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:branches] with [COL:name] as [VAL:'Sample text 13'], [COL:city] as [VAL:'Sample text 53'], [COL:state] as [VAL:'Sample text 92'], [COL:manager_id] as [VAL:601], [COL:employee_count] as [VAL:585], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Add a new branches with name as 'Sample text 13', city as 'Sample text 53', state as 'Sample text 92', manager id as 601, employee count as 585, is active as 1."
-  },
-  {
-    "id": 145,
-    "complexity": "insert",
-    "sql": "INSERT INTO loans (customer_id, loan_type, principal_amount, interest_rate, term_months, monthly_payment, start_date, end_date, status, is_active) VALUES (871, 'Sample text 98', 651, 81, 542, 463, DATETIME('now'), DATETIME('now'), 'Sample text 93', 1)",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:loans] with [COL:customer_id] as [VAL:871], [COL:loan_type] as [VAL:'Sample text 98'], [COL:principal_amount] as [VAL:651], [COL:interest_rate] as [VAL:81], [COL:term_months] as [VAL:542], [COL:monthly_payment] as [VAL:463], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 93'], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Put a new credit with customer id as 871, loan type as 'Sample text 98', principal amount as 651, interest rate as 81, term months as 542, monthly payment as 463, start date as the current time, end date as the current time, status as 'Sample text 93', is active as 1."
-  },
-  {
-    "id": 146,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, address, credit_score, is_active, created_at) VALUES ('Sample text 42', 'Sample text 60', 'user257@example.com', 'Sample text 48', DATETIME('now'), 'Sample text 7', 743, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:customers] with [COL:first_name] as [VAL:'Sample text 42'], [COL:last_name] as [VAL:'Sample text 60'], [COL:email] as [VAL:'user257@example.com'], [COL:phone] as [VAL:'Sample text 48'], [COL:date_of_birth] as [VAL:the current time], [COL:address] as [VAL:'Sample text 7'], [COL:credit_score] as [VAL:743], [COL:is_active] as [VAL:1], [COL:created_at] as [VAL:the current time].",
-    "nl_prompt": "Put a new account holder with first name as 'Sample text 42', last name as 'Sample text 60', email as 'user257@example.com', phone as 'Sample text 48', date of birth as the current time, address as 'Sample text 7', credit score as 743, is active as 1, created at as the current time."
-  },
-  {
-    "id": 147,
-    "complexity": "insert",
-    "sql": "INSERT INTO loans (customer_id, loan_type, principal_amount, interest_rate, term_months, monthly_payment, start_date, end_date, status, is_active) VALUES (936, 'Sample text 53', 656, 405, 17, 631, DATETIME('now'), DATETIME('now'), 'Sample text 9', 0)",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:loans] with [COL:customer_id] as [VAL:936], [COL:loan_type] as [VAL:'Sample text 53'], [COL:principal_amount] as [VAL:656], [COL:interest_rate] as [VAL:405], [COL:term_months] as [VAL:17], [COL:monthly_payment] as [VAL:631], [COL:start_date] as [VAL:the current time], [COL:end_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 9'], [COL:is_active] as [VAL:0].",
-    "nl_prompt": "Insert a new loan with customer id as 936, loan type as 'Sample text 53', principal amount as 656, interest rate as 405, term months as 17, monthly payment as 631, start date as the current time, end date as the current time, status as 'Sample text 9', is active as 0."
-  },
-  {
-    "id": 148,
-    "complexity": "insert",
-    "sql": "INSERT INTO cards (account_id, card_type, card_number, expiry_date, credit_limit, is_active, issued_on) VALUES (661, 'Sample text 100', 'Sample text 85', DATETIME('now'), 184, 0, DATETIME('now'))",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:cards] with [COL:account_id] as [VAL:661], [COL:card_type] as [VAL:'Sample text 100'], [COL:card_number] as [VAL:'Sample text 85'], [COL:expiry_date] as [VAL:the current time], [COL:credit_limit] as [VAL:184], [COL:is_active] as [VAL:0], [COL:issued_on] as [VAL:the current time].",
-    "nl_prompt": "Include a new bank card with account id as 661, card type as 'Sample text 100', card number as 'Sample text 85', expiry date as the current time, credit limit as 184, is active as 0, issued on as the current time."
-  },
-  {
-    "id": 149,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (from_account_id, to_account_id, amount, transaction_type, description, transaction_date, status) VALUES (464, 117, 373, 'Sample text 28', 'Sample text 57', DATETIME('now'), 'Sample text 58')",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:transactions] with [COL:from_account_id] as [VAL:464], [COL:to_account_id] as [VAL:117], [COL:amount] as [VAL:373], [COL:transaction_type] as [VAL:'Sample text 28'], [COL:description] as [VAL:'Sample text 57'], [COL:transaction_date] as [VAL:the current time], [COL:status] as [VAL:'Sample text 58'].",
-    "nl_prompt": "Add a new transaction with from account id as 464, to account id as 117, amount as 373, transaction type as 'Sample text 28', description as 'Sample text 57', transaction date as the current time, status as 'Sample text 58'."
-  },
-  {
-    "id": 150,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (first_name, last_name, branch_id, position, hire_date, salary, is_active) VALUES ('Sample text 66', 'Sample text 27', 323, 'Sample text 55', DATETIME('now'), 103, 1)",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:insert] a new [TABLE:employees] with [COL:first_name] as [VAL:'Sample text 66'], [COL:last_name] as [VAL:'Sample text 27'], [COL:branch_id] as [VAL:323], [COL:position] as [VAL:'Sample text 55'], [COL:hire_date] as [VAL:the current time], [COL:salary] as [VAL:103], [COL:is_active] as [VAL:1].",
-    "nl_prompt": "Create a new employee with first name as 'Sample text 66', last name as 'Sample text 27', branch id as 323, position as 'Sample text 55', hire date as the current time, salary as 103, is active as 1."
-  },
-  {
-    "id": 151,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 97' WHERE accounts.currency <> 'test'",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:account_type] to [VAL:'Updated text 97'] for the [TABLE:accounts] where [COL:accounts.currency] [OP:neq] [VAL:'test']",
-    "nl_prompt": "Modify account type to 'Updated text 97' for the accounts where currency code differs from 'test'"
-  },
-  {
-    "id": 152,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 57' WHERE accounts.account_type = 'test'",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:account_type] to [VAL:'Updated text 57'] for the [TABLE:accounts] where [COL:accounts.account_type] [OP:eq] [VAL:'test']",
-    "nl_prompt": "Edit account type to 'Updated text 57' for the accounts where account kind matches 'test'"
-  },
-  {
-    "id": 153,
-    "complexity": "update",
-    "sql": "UPDATE branches SET name = 'Updated text 90' WHERE branches.employee_count <= 361",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:update] [COL:name] to [VAL:'Updated text 90'] for the [TABLE:branches] where [COL:branches.employee_count] [OP:lte] [VAL:361]",
-    "nl_prompt": "Edit name to 'Updated text 90' for the bank branch where employee count no more than 361"
-  },
-  {
-    "id": 154,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 17' WHERE accounts.id <= 881",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:account_type] to [VAL:'Updated text 17'] for the [TABLE:accounts] where [COL:accounts.id] [OP:lte] [VAL:881]",
-    "nl_prompt": "Edit account type to 'Updated text 17' for the accounts where id less than or equal to 881"
-  },
-  {
-    "id": 155,
-    "complexity": "update",
-    "sql": "UPDATE loans SET start_date = DATETIME('now') WHERE loans.interest_rate <> 246",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:start_date] to [VAL:the current time] for the [TABLE:loans] where [COL:loans.interest_rate] [OP:neq] [VAL:246]",
-    "nl_prompt": "Edit start date to the current time for the loans where apr is not 246"
-  },
-  {
-    "id": 156,
-    "complexity": "update",
-    "sql": "UPDATE employees SET is_active = 1 WHERE employees.salary <= 545",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:update] [COL:is_active] to [VAL:1] for the [TABLE:employees] where [COL:employees.salary] [OP:lte] [VAL:545]",
-    "nl_prompt": "Edit is active to 1 for the employee where wage at most 545"
-  },
-  {
-    "id": 157,
-    "complexity": "update",
-    "sql": "UPDATE loans SET principal_amount = 27 WHERE loans.end_date > DATETIME('now', '-12 days')",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:principal_amount] to [VAL:27] for the [TABLE:loans] where [COL:loans.end_date] [OP:gt] [VAL:12 days ago]",
-    "nl_prompt": "Update principal amount to 27 for the loans where maturity date above 12 days ago"
-  },
-  {
-    "id": 158,
-    "complexity": "update",
-    "sql": "UPDATE employees SET hire_date = DATETIME('now') WHERE employees.last_name <> 'user'",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:update] [COL:hire_date] to [VAL:the current time] for the [TABLE:employees] where [COL:employees.last_name] [OP:neq] [VAL:'user']",
-    "nl_prompt": "Modify hire date to the current time for the staff where family name is not 'user'"
-  },
-  {
-    "id": 159,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET is_active = 0 WHERE accounts.id <= 610",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:is_active] to [VAL:0] for the [TABLE:accounts] where [COL:accounts.id] [OP:lte] [VAL:610]",
-    "nl_prompt": "Update is active to 0 for the bank account where id less than or equal to 610"
-  },
-  {
-    "id": 160,
-    "complexity": "update",
-    "sql": "UPDATE cards SET is_active = 1 WHERE cards.credit_limit <= 732",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:update] [COL:is_active] to [VAL:1] for the [TABLE:cards] where [COL:cards.credit_limit] [OP:lte] [VAL:732]",
-    "nl_prompt": "Update is active to 1 for the credit card where credit limit no more than 732"
-  },
-  {
-    "id": 161,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 33' WHERE accounts.opened_on < DATETIME('now', '-25 days')",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:account_type] to [VAL:'Updated text 33'] for the [TABLE:accounts] where [COL:accounts.opened_on] [OP:lt] [VAL:25 days ago]",
-    "nl_prompt": "Adjust account type to 'Updated text 33' for the account where opening date below 25 days ago"
-  },
-  {
-    "id": 162,
-    "complexity": "update",
-    "sql": "UPDATE employees SET hire_date = DATETIME('now') WHERE employees.last_name = 'activity'",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:update] [COL:hire_date] to [VAL:the current time] for the [TABLE:employees] where [COL:employees.last_name] [OP:eq] [VAL:'activity']",
-    "nl_prompt": "Update hire date to the current time for the personnel where family name is 'activity'"
-  },
-  {
-    "id": 163,
-    "complexity": "update",
-    "sql": "UPDATE employees SET salary = 751 WHERE employees.branch_id <> 590",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:update] [COL:salary] to [VAL:751] for the [TABLE:employees] where [COL:employees.branch_id] [OP:neq] [VAL:590]",
-    "nl_prompt": "Adjust salary to 751 for the employee where branch id differs from 590"
-  },
-  {
-    "id": 164,
-    "complexity": "update",
-    "sql": "UPDATE customers SET address = 'Updated text 10' WHERE customers.created_at < DATETIME('now', '-6 days')",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:update] [COL:address] to [VAL:'Updated text 10'] for the [TABLE:customers] where [COL:customers.created_at] [OP:lt] [VAL:6 days ago]",
-    "nl_prompt": "Adjust address to 'Updated text 10' for the customers where account creation date fewer than 6 days ago"
-  },
-  {
-    "id": 165,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 11' WHERE accounts.opened_on < DATETIME('now', '-14 days')",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:account_type] to [VAL:'Updated text 11'] for the [TABLE:accounts] where [COL:accounts.opened_on] [OP:lt] [VAL:14 days ago]",
-    "nl_prompt": "Update account type to 'Updated text 11' for the account where opening date below 14 days ago"
-  },
-  {
-    "id": 166,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET customer_id = 686 WHERE accounts.balance >= 854",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:customer_id] to [VAL:686] for the [TABLE:accounts] where [COL:accounts.balance] [OP:gte] [VAL:854]",
-    "nl_prompt": "Edit customer id to 686 for the bank account where account balance at least 854"
-  },
-  {
-    "id": 167,
-    "complexity": "update",
-    "sql": "UPDATE transactions SET amount = 473 WHERE transactions.id >= 337",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:update] [COL:amount] to [VAL:473] for the [TABLE:transactions] where [COL:transactions.id] [OP:gte] [VAL:337]",
-    "nl_prompt": "Modify amount to 473 for the transactions where transaction id no less than 337"
-  },
-  {
-    "id": 168,
-    "complexity": "update",
-    "sql": "UPDATE transactions SET to_account_id = 70 WHERE transactions.from_account_id <> 793",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:update] [COL:to_account_id] to [VAL:70] for the [TABLE:transactions] where [COL:transactions.from_account_id] [OP:neq] [VAL:793]",
-    "nl_prompt": "Edit to account id to 70 for the transaction where sender account id differs from 793"
-  },
-  {
-    "id": 169,
-    "complexity": "update",
-    "sql": "UPDATE customers SET date_of_birth = DATETIME('now') WHERE customers.first_name <> 'test'",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:update] [COL:date_of_birth] to [VAL:the current time] for the [TABLE:customers] where [COL:customers.first_name] [OP:neq] [VAL:'test']",
-    "nl_prompt": "Adjust date of birth to the current time for the account holder where first name is not 'test'"
-  },
-  {
-    "id": 170,
-    "complexity": "update",
-    "sql": "UPDATE branches SET name = 'Updated text 3' WHERE branches.id > 558",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:update] [COL:name] to [VAL:'Updated text 3'] for the [TABLE:branches] where [COL:branches.id] [OP:gt] [VAL:558]",
-    "nl_prompt": "Edit name to 'Updated text 3' for the bank branch where id greater than 558"
-  },
-  {
-    "id": 171,
-    "complexity": "update",
-    "sql": "UPDATE loans SET monthly_payment = 951 WHERE loans.loan_type <> '123'",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:monthly_payment] to [VAL:951] for the [TABLE:loans] where [COL:loans.loan_type] [OP:neq] [VAL:'123']",
-    "nl_prompt": "Adjust monthly payment to 951 for the credit where credit type is not equal to '123'"
-  },
-  {
-    "id": 172,
-    "complexity": "update",
-    "sql": "UPDATE loans SET term_months = 337 WHERE loans.monthly_payment < 44",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:term_months] to [VAL:337] for the [TABLE:loans] where [COL:loans.monthly_payment] [OP:lt] [VAL:44]",
-    "nl_prompt": "Change term months to 337 for the loans where installment amount less than 44"
-  },
-  {
-    "id": 173,
-    "complexity": "update",
-    "sql": "UPDATE employees SET last_name = 'Updated text 4' WHERE employees.last_name <> '123'",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:update] [COL:last_name] to [VAL:'Updated text 4'] for the [TABLE:employees] where [COL:employees.last_name] [OP:neq] [VAL:'123']",
-    "nl_prompt": "Edit last name to 'Updated text 4' for the personnel where surname is not '123'"
-  },
-  {
-    "id": 174,
-    "complexity": "update",
-    "sql": "UPDATE loans SET principal_amount = 690 WHERE loans.customer_id > 550",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:principal_amount] to [VAL:690] for the [TABLE:loans] where [COL:loans.customer_id] [OP:gt] [VAL:550]",
-    "nl_prompt": "Update principal amount to 690 for the loans where borrower id exceeds 550"
-  },
-  {
-    "id": 175,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET opened_on = DATETIME('now') WHERE accounts.balance >= 574",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:opened_on] to [VAL:the current time] for the [TABLE:accounts] where [COL:accounts.balance] [OP:gte] [VAL:574]",
-    "nl_prompt": "Change opened on to the current time for the bank account where available balance no less than 574"
-  },
-  {
-    "id": 176,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET interest_rate = 1 WHERE accounts.is_active = 1",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:interest_rate] to [VAL:1] for the [TABLE:accounts] where [COL:accounts.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Modify interest rate to 1 for the accounts where active is 1"
-  },
-  {
-    "id": 177,
-    "complexity": "update",
-    "sql": "UPDATE transactions SET status = 'Updated text 80' WHERE transactions.to_account_id >= 195",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:update] [COL:status] to [VAL:'Updated text 80'] for the [TABLE:transactions] where [COL:transactions.to_account_id] [OP:gte] [VAL:195]",
-    "nl_prompt": "Modify status to 'Updated text 80' for the transactions where recipient account id minimum of 195"
-  },
-  {
-    "id": 178,
-    "complexity": "update",
-    "sql": "UPDATE transactions SET from_account_id = 900 WHERE transactions.transaction_type <> 'activity'",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:update] [COL:from_account_id] to [VAL:900] for the [TABLE:transactions] where [COL:transactions.transaction_type] [OP:neq] [VAL:'activity']",
-    "nl_prompt": "Modify from account id to 900 for the payment where transaction type differs from 'activity'"
-  },
-  {
-    "id": 179,
-    "complexity": "update",
-    "sql": "UPDATE loans SET term_months = 356 WHERE loans.term_months > 864",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:update] [COL:term_months] to [VAL:356] for the [TABLE:loans] where [COL:loans.term_months] [OP:gt] [VAL:864]",
-    "nl_prompt": "Change term months to 356 for the loan where loan term above 864"
-  },
-  {
-    "id": 180,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET balance = 262 WHERE accounts.is_active = 0",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:update] [COL:balance] to [VAL:262] for the [TABLE:accounts] where [COL:accounts.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Change balance to 262 for the accounts where active matches 0"
-  },
-  {
-    "id": 181,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.interest_rate <= 463",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:accounts] where [COL:accounts.interest_rate] [OP:lte] [VAL:463]",
-    "nl_prompt": "Remove accounts where annual percentage rate no more than 463"
-  },
-  {
-    "id": 182,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.address LIKE 'b%'",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.address] like [VAL:'b%']",
-    "nl_prompt": "Drop client where residential address like 'b%'"
-  },
-  {
-    "id": 183,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.phone = 'activity'",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.phone] [OP:eq] [VAL:'activity']",
-    "nl_prompt": "Remove customer where contact number equals 'activity'"
-  },
-  {
-    "id": 184,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.id < 736",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.id] [OP:lt] [VAL:736]",
-    "nl_prompt": "Delete customer where client id lower than 736"
-  },
-  {
-    "id": 185,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.customer_id = 172",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.customer_id] [OP:eq] [VAL:172]",
-    "nl_prompt": "Strip out loans where client id equals 172"
-  },
-  {
-    "id": 186,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.id = 129",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:accounts] where [COL:accounts.id] [OP:eq] [VAL:129]",
-    "nl_prompt": "Strip out bank account where account id equals 129"
-  },
-  {
-    "id": 187,
-    "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.to_account_id = 35",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:transactions] where [COL:transactions.to_account_id] [OP:eq] [VAL:35]",
-    "nl_prompt": "Delete money transfer where to account id is 35"
-  },
-  {
-    "id": 188,
-    "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.id = 902",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:transactions] where [COL:transactions.id] [OP:eq] [VAL:902]",
-    "nl_prompt": "Wipe out transaction where id is equal to 902"
-  },
-  {
-    "id": 189,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.customer_id < 919",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.customer_id] [OP:lt] [VAL:919]",
-    "nl_prompt": "Delete loan where client id lower than 919"
-  },
-  {
-    "id": 190,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.card_number LIKE '%a%'",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:cards] where [COL:cards.card_number] like [VAL:'%a%']",
-    "nl_prompt": "Remove card where credit card number like '%a%'"
-  },
-  {
-    "id": 191,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.opened_on >= DATETIME('now', '-3 days')",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:accounts] where [COL:accounts.opened_on] [OP:gte] [VAL:3 days ago]",
-    "nl_prompt": "Drop accounts where opening date at least 3 days ago"
-  },
-  {
-    "id": 192,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.created_at <= DATETIME('now', '-28 days')",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.created_at] [OP:lte] [VAL:28 days ago]",
-    "nl_prompt": "Delete customer where account creation date less than or equal to 28 days ago"
-  },
-  {
-    "id": 193,
-    "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.position LIKE '%c'",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:employees] where [COL:employees.position] like [VAL:'%c']",
-    "nl_prompt": "Drop staff where position like '%c'"
-  },
-  {
-    "id": 194,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.customer_id = 548",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.customer_id] [OP:eq] [VAL:548]",
-    "nl_prompt": "Drop credit where client id equals 548"
-  },
-  {
-    "id": 195,
-    "complexity": "delete",
-    "sql": "DELETE FROM branches WHERE branches.state LIKE '%a%'",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:branches] where [COL:branches.state] like [VAL:'%a%']",
-    "nl_prompt": "Drop branch where region like '%a%'"
-  },
-  {
-    "id": 196,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.end_date > DATETIME('now', '-30 days')",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.end_date] [OP:gt] [VAL:30 days ago]",
-    "nl_prompt": "Wipe out loan where end date exceeds 30 days ago"
-  },
-  {
-    "id": 197,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.last_name LIKE 'b%'",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.last_name] like [VAL:'b%']",
-    "nl_prompt": "Drop customers where surname like 'b%'"
-  },
-  {
-    "id": 198,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.card_type LIKE 'b%'",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:cards] where [COL:cards.card_type] like [VAL:'b%']",
-    "nl_prompt": "Remove card where card type like 'b%'"
-  },
-  {
-    "id": 199,
-    "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.from_account_id = 919",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:transactions] where [COL:transactions.from_account_id] [OP:eq] [VAL:919]",
-    "nl_prompt": "Wipe out transactions where from account id matches 919"
-  },
-  {
-    "id": 200,
-    "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.amount <= 332",
-    "tables": [
-      "transactions"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:transactions] where [COL:transactions.amount] [OP:lte] [VAL:332]",
-    "nl_prompt": "Wipe out transactions where sum at most 332"
-  },
-  {
-    "id": 201,
-    "complexity": "delete",
-    "sql": "DELETE FROM branches WHERE branches.city <> 'admin'",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:branches] where [COL:branches.city] [OP:neq] [VAL:'admin']",
-    "nl_prompt": "Drop branches where municipality is not 'admin'"
-  },
-  {
-    "id": 202,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.is_active = 0",
-    "tables": [
-      "accounts"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:accounts] where [COL:accounts.is_active] [OP:eq] [VAL:0]",
-    "nl_prompt": "Wipe out account where active equals 0"
-  },
-  {
-    "id": 203,
-    "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.branch_id = 926",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:employees] where [COL:employees.branch_id] [OP:eq] [VAL:926]",
-    "nl_prompt": "Strip out personnel where assigned branch id equals 926"
-  },
-  {
-    "id": 204,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.is_active = 1",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.is_active] [OP:eq] [VAL:1]",
-    "nl_prompt": "Delete loan where active equals 1"
-  },
-  {
-    "id": 205,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.account_id > 702",
-    "tables": [
-      "cards"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:cards] where [COL:cards.account_id] [OP:gt] [VAL:702]",
-    "nl_prompt": "Remove debit card where linked account id more than 702"
-  },
-  {
-    "id": 206,
-    "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.id < 535",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:employees] where [COL:employees.id] [OP:lt] [VAL:535]",
-    "nl_prompt": "Strip out staff where id under 535"
-  },
-  {
-    "id": 207,
-    "complexity": "delete",
-    "sql": "DELETE FROM branches WHERE branches.name = 'admin'",
-    "tables": [
-      "branches"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:branches] where [COL:branches.name] [OP:eq] [VAL:'admin']",
-    "nl_prompt": "Strip out bank branch where branch name is 'admin'"
-  },
-  {
-    "id": 208,
-    "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.salary = 776",
-    "tables": [
-      "employees"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:employees] where [COL:employees.salary] [OP:eq] [VAL:776]",
-    "nl_prompt": "Drop staff where remuneration is equal to 776"
-  },
-  {
-    "id": 209,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.id >= 729",
-    "tables": [
-      "loans"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:loans] where [COL:loans.id] [OP:gte] [VAL:729]",
-    "nl_prompt": "Strip out loan where id at least 729"
-  },
-  {
-    "id": 210,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.address LIKE '%c'",
-    "tables": [
-      "customers"
-    ],
-    "ir_template": "[VERB:delete] [TABLE:customers] where [COL:customers.address] like [VAL:'%c']",
-    "nl_prompt": "Strip out account holder where mailing address like '%c'"
-  }
-]
+{
+  "metadata": {
+    "schema_name": "bank",
+    "dialect": "sqlite",
+    "schema_source": "schemas/bank.yaml",
+    "dictionary_source": null,
+    "rendering_mode": "direct",
+    "generated_at": "2026-03-10T22:07:00.299986+00:00",
+    "num_records": 140,
+    "pipeline_step": "02_generate_nl_prompts",
+    "upstream": null
+  },
+  "records": [
+    {
+      "id": 1,
+      "complexity": "simple",
+      "sql": "SELECT b1.city FROM branches AS b1 WHERE b1.employee_count = 926 LIMIT 23",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Show the b1.city out of branches filtered for b1.employee_count equals 926 limited to 23 results"
+    },
+    {
+      "id": 2,
+      "complexity": "simple",
+      "sql": "SELECT * FROM loans AS l1 LIMIT 2",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Find all columns out of loans limited to 2 results"
+    },
+    {
+      "id": 3,
+      "complexity": "simple",
+      "sql": "SELECT t1.transaction_date, t1.amount, t1.description, t1.transaction_type FROM transactions AS t1",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "choose the t1.transaction_date, t1.amount, t1.description, t1.transaction_type within transactions"
+    },
+    {
+      "id": 4,
+      "complexity": "simple",
+      "sql": "SELECT * FROM branches AS b1 WHERE b1.city = '123' LIMIT 94",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Single out all columns within branches where b1.city equals '123' limited to 94 results"
+    },
+    {
+      "id": 5,
+      "complexity": "simple",
+      "sql": "SELECT l1.is_active FROM loans AS l1 LIMIT 57",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Pull up the like's is_active from loans limited to 57 results"
+    },
+    {
+      "id": 6,
+      "complexity": "simple",
+      "sql": "SELECT t1.status, t1.to_account_id FROM transactions AS t1 WHERE t1.amount > 412 LIMIT 99",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Select the t1.status, t1.to_account_id within transactions looking only at t1.amount greater than 412 limited to 99 results"
+    },
+    {
+      "id": 7,
+      "complexity": "simple",
+      "sql": "SELECT * FROM employees AS e1 WHERE e1.hire_date > DATETIME('now', '-3 days')",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Bring up all columns within employees filtered for e1.hire_date within the last 3 days"
+    },
+    {
+      "id": 8,
+      "complexity": "simple",
+      "sql": "SELECT a1.customer_id, a1.interest_rate FROM accounts AS a1 WHERE a1.currency <> 'admin' LIMIT 11",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Find the a1.customer_id, a1.interest_rate within accounts where a1.currency is not equal to 'admin' limited to 11 results"
+    },
+    {
+      "id": 9,
+      "complexity": "simple",
+      "sql": "SELECT c1.date_of_birth FROM customers AS c1 ORDER BY c1.date_of_birth LIMIT 38",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Spot the comment's date_of_birth within customers ordered by the comment's date_of_birth limited to 38 results"
+    },
+    {
+      "id": 10,
+      "complexity": "simple",
+      "sql": "SELECT e1.position FROM employees AS e1 LIMIT 24",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Fetch me the e1.position out of employees limited to 24 results"
+    },
+    {
+      "id": 11,
+      "complexity": "simple",
+      "sql": "SELECT c1.card_number, c1.issued_on, c1.expiry_date, c1.credit_limit FROM cards AS c1 ORDER BY c1.credit_limit",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Select the comment's card_number, the comment's issued_on, the comment's expiry_date, the comment's credit_limit from cards ordered by the comment's credit_limit"
+    },
+    {
+      "id": 12,
+      "complexity": "simple",
+      "sql": "SELECT a1.currency, a1.is_active, a1.customer_id, a1.interest_rate FROM accounts AS a1 WHERE a1.opened_on <= DATETIME('now', '-4 days')",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Display the a1.currency, a1.is_active, a1.customer_id, a1.interest_rate from accounts that have a1.opened_on older than 4 days inclusive"
+    },
+    {
+      "id": 13,
+      "complexity": "simple",
+      "sql": "SELECT c1.card_type, c1.issued_on FROM cards AS c1 ORDER BY c1.card_type LIMIT 14",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Pull up the comment's card_type, the comment's issued_on from cards ordered by the comment's card_type limited to 14 results"
+    },
+    {
+      "id": 14,
+      "complexity": "simple",
+      "sql": "SELECT t1.transaction_type FROM transactions AS t1 WHERE t1.amount >= 784 ORDER BY t1.transaction_type",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Retrieve the t1.transaction_type within transactions for which t1.amount greater than or equal to 784 ordered by t1.transaction_type"
+    },
+    {
+      "id": 15,
+      "complexity": "simple",
+      "sql": "SELECT c1.email, c1.created_at, c1.date_of_birth FROM customers AS c1 WHERE c1.date_of_birth > DATETIME('now', '-18 days') ORDER BY c1.last_name",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Show the comment's email, the comment's created_at, the comment's date_of_birth from customers filtered for the comment's date_of_birth within the last 18 days ordered by the comment's last_name"
+    },
+    {
+      "id": 16,
+      "complexity": "simple",
+      "sql": "SELECT l1.start_date, l1.status, l1.principal_amount FROM loans AS l1 ORDER BY l1.is_active LIMIT 18",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Find the like's start_date, the like's status, the like's principal_amount in loans ordered by the like's is_active limited to 18 results"
+    },
+    {
+      "id": 17,
+      "complexity": "simple",
+      "sql": "SELECT b1.city, b1.state, b1.manager_id, b1.is_active FROM branches AS b1 WHERE b1.is_active = 0",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Display the b1.city, b1.state, b1.manager_id, b1.is_active from branches filtered for b1.is_active equals 0"
+    },
+    {
+      "id": 18,
+      "complexity": "simple",
+      "sql": "SELECT * FROM loans AS l1 ORDER BY l1.end_date LIMIT 15",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Get all columns from loans ordered by the like's end_date limited to 15 results"
+    },
+    {
+      "id": 19,
+      "complexity": "simple",
+      "sql": "SELECT * FROM transactions AS t1",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Spot all columns within transactions"
+    },
+    {
+      "id": 20,
+      "complexity": "simple",
+      "sql": "SELECT b1.is_active, b1.manager_id, b1.state, b1.name FROM branches AS b1 LIMIT 29",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Pick out the b1.is_active, b1.manager_id, b1.state, b1.name within branches limited to 29 results"
+    },
+    {
+      "id": 21,
+      "complexity": "join",
+      "sql": "SELECT a1.currency, c5.is_active, c5.card_number, a1.opened_on FROM accounts AS a1 FULL JOIN cards AS c5 ON a1.id = c5.account_id WHERE c5.credit_limit <> 571",
+      "tables": [
+        "accounts",
+        "cards"
+      ],
+      "nl_prompt": "Display the a1.currency, the comment's is_active, the comment's card_number, a1.opened_on within accounts FULL JOIN cards on a1.id equals the comment's account_id for which the comment's credit_limit is not equal to 571"
+    },
+    {
+      "id": 22,
+      "complexity": "join",
+      "sql": "SELECT * FROM accounts AS a1 FULL JOIN cards AS c7 ON a1.id = c7.account_id WHERE c7.id = 923",
+      "tables": [
+        "accounts",
+        "cards"
+      ],
+      "nl_prompt": "Single out all columns within accounts FULL JOIN cards on a1.id equals the comment's account_id filtered for the comment's id equals 923"
+    },
+    {
+      "id": 23,
+      "complexity": "join",
+      "sql": "SELECT l1.interest_rate, l1.start_date, l1.status, l1.end_date FROM loans AS l1 FULL JOIN customers AS c8 ON l1.customer_id = c8.id WHERE c8.is_active = 1",
+      "tables": [
+        "loans",
+        "customers"
+      ],
+      "nl_prompt": "Select the like's interest_rate, the like's start_date, the like's status, the like's end_date in loans FULL JOIN customers on the like's customer_id equals the comment's id where the comment's is_active equals 1"
+    },
+    {
+      "id": 24,
+      "complexity": "join",
+      "sql": "SELECT * FROM branches AS b1 INNER JOIN employees AS e5 ON b1.id = e5.branch_id WHERE e5.position LIKE '%c'",
+      "tables": [
+        "branches",
+        "employees"
+      ],
+      "nl_prompt": "Spot all columns in branches and their employees looking only at e5.position like '%c'"
+    },
+    {
+      "id": 25,
+      "complexity": "join",
+      "sql": "SELECT * FROM customers AS c1 INNER JOIN loans AS l8 ON c1.id = l8.customer_id WHERE l8.loan_type = 'user'",
+      "tables": [
+        "customers",
+        "loans"
+      ],
+      "nl_prompt": "Find all columns in customers and their loans for which the like's loan_type equals 'user'"
+    },
+    {
+      "id": 26,
+      "complexity": "join",
+      "sql": "SELECT a1.interest_rate, t6.status, t6.amount, t6.transaction_type FROM accounts AS a1 LEFT JOIN transactions AS t6 ON a1.id = t6.to_account_id",
+      "tables": [
+        "accounts",
+        "transactions"
+      ],
+      "nl_prompt": "Get the a1.interest_rate, t6.status, t6.amount, t6.transaction_type in accounts LEFT JOIN transactions on a1.id equals t6.to_account_id"
+    },
+    {
+      "id": 27,
+      "complexity": "join",
+      "sql": "SELECT a5.customer_id, a5.account_type, a5.currency, c1.expiry_date FROM cards AS c1 RIGHT JOIN accounts AS a5 ON c1.account_id = a5.id",
+      "tables": [
+        "cards",
+        "accounts"
+      ],
+      "nl_prompt": "Give me a look at the a5.customer_id, a5.account_type, a5.currency, the comment's expiry_date in cards RIGHT JOIN accounts on the comment's account_id equals a5.id"
+    },
+    {
+      "id": 28,
+      "complexity": "join",
+      "sql": "SELECT a1.customer_id, t4.from_account_id FROM accounts AS a1 INNER JOIN transactions AS t4 ON a1.id = t4.to_account_id WHERE t4.id <= 870",
+      "tables": [
+        "accounts",
+        "transactions"
+      ],
+      "nl_prompt": "Show the a1.customer_id, t4.from_account_id in accounts and their transactions filtered for t4.id less than or equal to 870"
+    },
+    {
+      "id": 29,
+      "complexity": "join",
+      "sql": "SELECT * FROM customers AS c1 RIGHT JOIN loans AS l1 ON c1.id = l1.customer_id WHERE l1.id <> 294",
+      "tables": [
+        "customers",
+        "loans"
+      ],
+      "nl_prompt": "Find all columns out of customers RIGHT JOIN loans on the comment's id equals the like's customer_id looking only at the like's id is not equal to 294"
+    },
+    {
+      "id": 30,
+      "complexity": "join",
+      "sql": "SELECT a9.interest_rate, t1.amount, t1.description, t1.from_account_id FROM transactions AS t1 LEFT JOIN accounts AS a9 ON t1.to_account_id = a9.id",
+      "tables": [
+        "transactions",
+        "accounts"
+      ],
+      "nl_prompt": "choose the a9.interest_rate, t1.amount, t1.description, t1.from_account_id within transactions LEFT JOIN accounts on t1.to_account_id equals a9.id"
+    },
+    {
+      "id": 31,
+      "complexity": "join",
+      "sql": "SELECT b1.city, e1.branch_id, e1.position, e1.first_name FROM branches AS b1 LEFT JOIN employees AS e1 ON b1.id = e1.branch_id WHERE e1.is_active = 1",
+      "tables": [
+        "branches",
+        "employees"
+      ],
+      "nl_prompt": "Fetch me the b1.city, e1.branch_id, e1.position, e1.first_name within branches LEFT JOIN employees on b1.id equals e1.branch_id where e1.is_active equals 1"
+    },
+    {
+      "id": 32,
+      "complexity": "join",
+      "sql": "SELECT c1.is_active, c1.first_name, c1.address, c1.credit_score FROM loans AS l1 FULL JOIN customers AS c1 ON l1.customer_id = c1.id",
+      "tables": [
+        "loans",
+        "customers"
+      ],
+      "nl_prompt": "Select the comment's is_active, the comment's first_name, the comment's address, the comment's credit_score out of loans FULL JOIN customers on the like's customer_id equals the comment's id"
+    },
+    {
+      "id": 33,
+      "complexity": "join",
+      "sql": "SELECT * FROM transactions AS t1 LEFT JOIN accounts AS a2 ON t1.to_account_id = a2.id",
+      "tables": [
+        "transactions",
+        "accounts"
+      ],
+      "nl_prompt": "Run a check for all columns within transactions LEFT JOIN accounts on t1.to_account_id equals a2.id"
+    },
+    {
+      "id": 34,
+      "complexity": "join",
+      "sql": "SELECT e3.hire_date, b1.employee_count, b1.city FROM branches AS b1 RIGHT JOIN employees AS e3 ON b1.id = e3.branch_id WHERE e3.branch_id > 684",
+      "tables": [
+        "branches",
+        "employees"
+      ],
+      "nl_prompt": "choose the e3.hire_date, b1.employee_count, b1.city in branches RIGHT JOIN employees on b1.id equals e3.branch_id looking only at e3.branch_id greater than 684"
+    },
+    {
+      "id": 35,
+      "complexity": "join",
+      "sql": "SELECT c1.expiry_date, a6.customer_id FROM cards AS c1 RIGHT JOIN accounts AS a6 ON c1.account_id = a6.id WHERE a6.interest_rate >= 974",
+      "tables": [
+        "cards",
+        "accounts"
+      ],
+      "nl_prompt": "Single out the comment's expiry_date, a6.customer_id in cards RIGHT JOIN accounts on the comment's account_id equals a6.id filtered for a6.interest_rate greater than or equal to 974"
+    },
+    {
+      "id": 36,
+      "complexity": "join",
+      "sql": "SELECT c1.id, a7.opened_on, c1.date_of_birth, c1.is_active FROM customers AS c1 RIGHT JOIN accounts AS a7 ON c1.id = a7.customer_id WHERE a7.customer_id = 615",
+      "tables": [
+        "customers",
+        "accounts"
+      ],
+      "nl_prompt": "Spot the comment's id, a7.opened_on, the comment's date_of_birth, the comment's is_active in customers RIGHT JOIN accounts on the comment's id equals a7.customer_id that have a7.customer_id equals 615"
+    },
+    {
+      "id": 37,
+      "complexity": "join",
+      "sql": "SELECT * FROM accounts AS a1 LEFT JOIN transactions AS t9 ON a1.id = t9.to_account_id WHERE t9.from_account_id < 749",
+      "tables": [
+        "accounts",
+        "transactions"
+      ],
+      "nl_prompt": "Get all columns within accounts LEFT JOIN transactions on a1.id equals t9.to_account_id filtered for t9.from_account_id less than 749"
+    },
+    {
+      "id": 38,
+      "complexity": "join",
+      "sql": "SELECT e1.hire_date, e1.first_name, b2.id, b2.name FROM employees AS e1 RIGHT JOIN branches AS b2 ON e1.branch_id = b2.id WHERE b2.is_active = 1",
+      "tables": [
+        "employees",
+        "branches"
+      ],
+      "nl_prompt": "Pull up the e1.hire_date, e1.first_name, b2.id, b2.name within employees RIGHT JOIN branches on e1.branch_id equals b2.id filtered for b2.is_active equals 1"
+    },
+    {
+      "id": 39,
+      "complexity": "join",
+      "sql": "SELECT * FROM accounts AS a1 LEFT JOIN transactions AS t2 ON a1.id = t2.to_account_id",
+      "tables": [
+        "accounts",
+        "transactions"
+      ],
+      "nl_prompt": "Single out all columns within accounts LEFT JOIN transactions on a1.id equals t2.to_account_id"
+    },
+    {
+      "id": 40,
+      "complexity": "join",
+      "sql": "SELECT b9.employee_count, b9.state, e1.position, e1.first_name FROM employees AS e1 FULL JOIN branches AS b9 ON e1.branch_id = b9.id",
+      "tables": [
+        "employees",
+        "branches"
+      ],
+      "nl_prompt": "Give me a look at the b9.employee_count, b9.state, e1.position, e1.first_name in employees FULL JOIN branches on e1.branch_id equals b9.id"
+    },
+    {
+      "id": 41,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.principal_amount <> 507) AS derived_table",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Fetch me all columns within loans where principal_amount is not equal to 507"
+    },
+    {
+      "id": 42,
+      "complexity": "advanced",
+      "sql": "SELECT b1.id, b1.name, b1.city FROM branches AS b1 JOIN branches AS b2 ON b1.name = b2.name AND b1.id <> b2.id LIMIT 5",
+      "tables": [
+        "branches",
+        "branches"
+      ],
+      "nl_prompt": "Single out the b1.id, b1.name, b1.city in branches JOIN branches on b1.name equals b2.name and b1.id is not equal to b2.id limited to 5 results"
+    },
+    {
+      "id": 43,
+      "complexity": "advanced",
+      "sql": "SELECT b1.state, b1.id, b1.name, b1.manager_id FROM branches AS b1 WHERE b1.id IN (SELECT sub_e.branch_id FROM employees AS sub_e WHERE sub_e.last_name LIKE '%c')",
+      "tables": [
+        "branches",
+        "employees"
+      ],
+      "nl_prompt": "Bring up the b1.state, b1.id, b1.name, b1.manager_id from branches where b1.id matches any of the sub_e.branch_ids from employees where sub_e.last_name like '%c'"
+    },
+    {
+      "id": 44,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.term_months >= 758) AS derived_table",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Go get all columns within loans where term_months greater than or equal to 758"
+    },
+    {
+      "id": 45,
+      "complexity": "advanced",
+      "sql": "SELECT l1.principal_amount, l1.status, l1.loan_type, l1.interest_rate FROM loans AS l1 WHERE EXISTS(SELECT 1 FROM customers AS sub_c WHERE sub_c.id = l1.customer_id AND sub_c.phone LIKE '%c')",
+      "tables": [
+        "loans",
+        "customers"
+      ],
+      "nl_prompt": "Dig out the like's principal_amount, the like's status, the like's loan_type, the like's interest_rate within loans filtered for where there is a corresponding customers who sub_c.id equals the like's customer_id and sub_c.phone like '%c'"
+    },
+    {
+      "id": 46,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM accounts AS a1 WHERE a1.customer_id IN (SELECT sub_c.id FROM customers AS sub_c WHERE sub_c.first_name LIKE 'b%')",
+      "tables": [
+        "accounts",
+        "customers"
+      ],
+      "nl_prompt": "Go get all columns from accounts where a1.customer_id matches any of the sub_c.ids from customers where sub_c.first_name like 'b%'"
+    },
+    {
+      "id": 47,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM cards AS inner_cards WHERE inner_cards.account_id < 385) AS derived_table",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Pick out all columns in cards where account_id less than 385"
+    },
+    {
+      "id": 48,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM customers AS inner_customers WHERE inner_customers.first_name LIKE '%c') AS derived_table",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Fetch me all columns in customers where first_name like '%c'"
+    },
+    {
+      "id": 49,
+      "complexity": "advanced",
+      "sql": "SELECT c1.first_name, c1.last_name, c1.email FROM customers AS c1 JOIN customers AS c2 ON c1.id = c2.id AND c1.id <> c2.id",
+      "tables": [
+        "customers",
+        "customers"
+      ],
+      "nl_prompt": "Go get the c1.first_name, c1.last_name, c1.email out of customers JOIN customers on c1.id equals c2.id and c1.id is not equal to c2.id"
+    },
+    {
+      "id": 50,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM transactions AS t1 WHERE t1.to_account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.interest_rate > 470)",
+      "tables": [
+        "transactions",
+        "accounts"
+      ],
+      "nl_prompt": "Dig out all columns in transactions for which t1.to_account_id matches any of the sub_a.ids from accounts where sub_a.interest_rate greater than 470"
+    },
+    {
+      "id": 51,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM accounts AS inner_accounts WHERE inner_accounts.account_type LIKE 'b%') AS derived_table",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "choose all columns from accounts where account_type like 'b%'"
+    },
+    {
+      "id": 52,
+      "complexity": "advanced",
+      "sql": "SELECT e1.first_name, e1.last_name, e1.branch_id FROM employees AS e1 JOIN employees AS e2 ON e1.branch_id = e2.branch_id AND e1.id <> e2.id",
+      "tables": [
+        "employees",
+        "employees"
+      ],
+      "nl_prompt": "choose the e1.first_name, e1.last_name, e1.branch_id out of employees JOIN employees on e1.branch_id equals e2.branch_id and e1.id is not equal to e2.id"
+    },
+    {
+      "id": 53,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.id > 324) AS derived_table WHERE derived_table.end_date > DATETIME('now', '-13 days')",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Display all columns within loans where id greater than 324 for which the result's end_date within the last 13 days"
+    },
+    {
+      "id": 54,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM employees AS inner_employees WHERE inner_employees.branch_id < 551) AS derived_table",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Run a check for all columns out of employees where branch_id less than 551"
+    },
+    {
+      "id": 55,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.name = 'test')",
+      "tables": [
+        "employees",
+        "branches"
+      ],
+      "nl_prompt": "Spot all columns in employees where e1.branch_id matches any of the sub_b.ids from branches where sub_b.name equals 'test'"
+    },
+    {
+      "id": 56,
+      "complexity": "advanced",
+      "sql": "SELECT b1.state FROM branches AS b1 WHERE b1.id IN (SELECT sub_e.branch_id FROM employees AS sub_e WHERE sub_e.id > 417)",
+      "tables": [
+        "branches",
+        "employees"
+      ],
+      "nl_prompt": "Pull up the b1.state within branches for which b1.id matches any of the sub_e.branch_ids from employees where sub_e.id greater than 417"
+    },
+    {
+      "id": 57,
+      "complexity": "advanced",
+      "sql": "SELECT l1.id, l1.customer_id, l1.loan_type FROM loans AS l1 JOIN loans AS l2 ON l1.customer_id = l2.customer_id AND l1.id <> l2.id",
+      "tables": [
+        "loans",
+        "loans"
+      ],
+      "nl_prompt": "choose the l1.id, l1.customer_id, l1.loan_type in loans JOIN loans on l1.customer_id equals l2.customer_id and l1.id is not equal to l2.id"
+    },
+    {
+      "id": 58,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM cards AS c1 WHERE c1.account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.is_active = 1)",
+      "tables": [
+        "cards",
+        "accounts"
+      ],
+      "nl_prompt": "Single out all columns in cards looking only at the comment's account_id matches any of the sub_a.ids from accounts where sub_a.is_active equals 1"
+    },
+    {
+      "id": 59,
+      "complexity": "advanced",
+      "sql": "SELECT t1.to_account_id FROM transactions AS t1 WHERE NOT EXISTS(SELECT 1 FROM accounts AS sub_a WHERE sub_a.id = t1.to_account_id AND sub_a.id >= 255)",
+      "tables": [
+        "transactions",
+        "accounts"
+      ],
+      "nl_prompt": "Pull up the t1.to_account_id from transactions looking only at where there is no corresponding accounts who sub_a.id equals t1.to_account_id and sub_a.id greater than or equal to 255"
+    },
+    {
+      "id": 60,
+      "complexity": "advanced",
+      "sql": "SELECT b1.id, b1.name, b1.city FROM branches AS b1 JOIN branches AS b2 ON b1.name = b2.name AND b1.id <> b2.id LIMIT 6",
+      "tables": [
+        "branches",
+        "branches"
+      ],
+      "nl_prompt": "Display the b1.id, b1.name, b1.city in branches JOIN branches on b1.name equals b2.name and b1.id is not equal to b2.id limited to 6 results"
+    },
+    {
+      "id": 61,
+      "complexity": "union",
+      "sql": "SELECT e1.hire_date, e1.branch_id, e1.position, e1.salary FROM employees AS e1 WHERE e1.branch_id > 7 UNION ALL SELECT e2.hire_date, e2.branch_id, e2.position, e2.salary FROM employees AS e2 WHERE e2.last_name LIKE '%a%' ORDER BY hire_date LIMIT 33",
+      "tables": [
+        "employees",
+        "employees"
+      ],
+      "nl_prompt": "Go get the e1.hire_date, e1.branch_id, e1.position, e1.salary out of employees that have e1.branch_id greater than 7, combined with (including duplicates) Go get the e2.hire_date, e2.branch_id, e2.position, e2.salary out of employees that have e2.last_name like '%a%' ordered by hire_date limited to 33 results"
+    },
+    {
+      "id": 62,
+      "complexity": "union",
+      "sql": "SELECT a1.is_active, a1.account_type, a1.balance, a1.customer_id FROM accounts AS a1 WHERE a1.is_active = 0 UNION SELECT a2.is_active, a2.account_type, a2.balance, a2.customer_id FROM accounts AS a2 WHERE a2.id <> 786",
+      "tables": [
+        "accounts",
+        "accounts"
+      ],
+      "nl_prompt": "Give me a look at the a1.is_active, a1.account_type, a1.balance, a1.customer_id within accounts looking only at a1.is_active equals 0, combined with (removing duplicates) Give me a look at the a2.is_active, a2.account_type, a2.balance, a2.customer_id within accounts looking only at a2.id is not equal to 786"
+    },
+    {
+      "id": 63,
+      "complexity": "union",
+      "sql": "SELECT a1.currency, a1.customer_id FROM accounts AS a1 WHERE a1.account_type = 'admin' UNION ALL SELECT a2.currency, a2.customer_id FROM accounts AS a2 WHERE a2.currency LIKE '%c' ORDER BY currency",
+      "tables": [
+        "accounts",
+        "accounts"
+      ],
+      "nl_prompt": "Fetch me the a1.currency, a1.customer_id from accounts looking only at a1.account_type equals 'admin', combined with (including duplicates) Fetch me the a2.currency, a2.customer_id from accounts looking only at a2.currency like '%c' ordered by currency"
+    },
+    {
+      "id": 64,
+      "complexity": "union",
+      "sql": "SELECT a1.opened_on, a1.balance, a1.currency FROM accounts AS a1 WHERE a1.currency = 'user' UNION ALL SELECT a2.opened_on, a2.balance, a2.currency FROM accounts AS a2 WHERE a2.account_type <> '123' ORDER BY opened_on LIMIT 11",
+      "tables": [
+        "accounts",
+        "accounts"
+      ],
+      "nl_prompt": "Bring up the a1.opened_on, a1.balance, a1.currency out of accounts that have a1.currency equals 'user', combined with (including duplicates) Bring up the a2.opened_on, a2.balance, a2.currency out of accounts that have a2.account_type is not equal to '123' ordered by opened_on limited to 11 results"
+    },
+    {
+      "id": 65,
+      "complexity": "union",
+      "sql": "SELECT c1.is_active, c1.address, c1.first_name FROM customers AS c1 WHERE c1.credit_score = 906 UNION SELECT c2.is_active, c2.address, c2.first_name FROM customers AS c2 WHERE c2.last_name <> '123'",
+      "tables": [
+        "customers",
+        "customers"
+      ],
+      "nl_prompt": "Give me a look at the comment's is_active, the comment's address, the comment's first_name within customers looking only at the comment's credit_score equals 906, combined with (removing duplicates) Give me a look at the comment's is_active, the comment's address, the comment's first_name within customers looking only at the comment's last_name is not equal to '123'"
+    },
+    {
+      "id": 66,
+      "complexity": "union",
+      "sql": "SELECT e1.salary, e1.first_name, e1.last_name, e1.id FROM employees AS e1 WHERE e1.is_active = 0 UNION SELECT e2.salary, e2.first_name, e2.last_name, e2.id FROM employees AS e2 WHERE e2.last_name = '123'",
+      "tables": [
+        "employees",
+        "employees"
+      ],
+      "nl_prompt": "Dig out the e1.salary, e1.first_name, e1.last_name, e1.id out of employees where e1.is_active equals 0, combined with (removing duplicates) Dig out the e2.salary, e2.first_name, e2.last_name, e2.id out of employees where e2.last_name equals '123'"
+    },
+    {
+      "id": 67,
+      "complexity": "union",
+      "sql": "SELECT l1.end_date, l1.monthly_payment FROM loans AS l1 WHERE l1.term_months > 79 UNION ALL SELECT l2.end_date, l2.monthly_payment FROM loans AS l2 WHERE l2.end_date < DATETIME('now', '-5 days') ORDER BY end_date",
+      "tables": [
+        "loans",
+        "loans"
+      ],
+      "nl_prompt": "Go get the like's end_date, the like's monthly_payment from loans that have the like's term_months greater than 79, combined with (including duplicates) Go get the like's end_date, the like's monthly_payment from loans that have the like's end_date older than 5 days ordered by end_date"
+    },
+    {
+      "id": 68,
+      "complexity": "union",
+      "sql": "SELECT b1.employee_count, b1.id FROM branches AS b1 WHERE b1.is_active = 0 UNION SELECT b2.employee_count, b2.id FROM branches AS b2 WHERE b2.name = 'user'",
+      "tables": [
+        "branches",
+        "branches"
+      ],
+      "nl_prompt": "Pick out the b1.employee_count, b1.id in branches where b1.is_active equals 0, combined with (removing duplicates) Pick out the b2.employee_count, b2.id in branches where b2.name equals 'user'"
+    },
+    {
+      "id": 69,
+      "complexity": "union",
+      "sql": "SELECT c1.card_number, c1.id, c1.expiry_date, c1.credit_limit FROM cards AS c1 WHERE c1.card_type <> 'admin' UNION ALL SELECT c2.card_number, c2.id, c2.expiry_date, c2.credit_limit FROM cards AS c2 WHERE c2.expiry_date > DATETIME('now', '-24 days')",
+      "tables": [
+        "cards",
+        "cards"
+      ],
+      "nl_prompt": "choose the comment's card_number, the comment's id, the comment's expiry_date, the comment's credit_limit within cards looking only at the comment's card_type is not equal to 'admin', combined with (including duplicates) choose the comment's card_number, the comment's id, the comment's expiry_date, the comment's credit_limit within cards looking only at the comment's expiry_date within the last 24 days"
+    },
+    {
+      "id": 70,
+      "complexity": "union",
+      "sql": "SELECT t1.transaction_type, t1.status FROM transactions AS t1 WHERE t1.amount > 77 UNION SELECT t2.transaction_type, t2.status FROM transactions AS t2 WHERE t2.id < 29 LIMIT 23",
+      "tables": [
+        "transactions",
+        "transactions"
+      ],
+      "nl_prompt": "Find the t1.transaction_type, t1.status within transactions where t1.amount greater than 77, combined with (removing duplicates) Find the t2.transaction_type, t2.status within transactions where t2.id less than 29 limited to 23 results"
+    },
+    {
+      "id": 71,
+      "complexity": "union",
+      "sql": "SELECT c1.id, c1.is_active, c1.email, c1.last_name FROM customers AS c1 WHERE c1.email <> 'user89@example.com' UNION ALL SELECT c2.id, c2.is_active, c2.email, c2.last_name FROM customers AS c2 WHERE c2.credit_score < 207 LIMIT 12",
+      "tables": [
+        "customers",
+        "customers"
+      ],
+      "nl_prompt": "choose the comment's id, the comment's is_active, the comment's email, the comment's last_name from customers where the comment's email is not equal to 'user89@example.com', combined with (including duplicates) choose the comment's id, the comment's is_active, the comment's email, the comment's last_name from customers where the comment's credit_score less than 207 limited to 12 results"
+    },
+    {
+      "id": 72,
+      "complexity": "union",
+      "sql": "SELECT e1.last_name, e1.position, e1.salary FROM employees AS e1 WHERE e1.salary > 540 UNION SELECT e2.last_name, e2.position, e2.salary FROM employees AS e2 WHERE e2.hire_date >= DATETIME('now', '-2 days') ORDER BY last_name",
+      "tables": [
+        "employees",
+        "employees"
+      ],
+      "nl_prompt": "Go get the e1.last_name, e1.position, e1.salary out of employees filtered for e1.salary greater than 540, combined with (removing duplicates) Go get the e2.last_name, e2.position, e2.salary out of employees filtered for e2.hire_date within the last 2 days inclusive ordered by last_name"
+    },
+    {
+      "id": 73,
+      "complexity": "union",
+      "sql": "SELECT c1.is_active, c1.address, c1.id, c1.first_name FROM customers AS c1 WHERE c1.created_at >= DATETIME('now', '-9 days') UNION ALL SELECT c2.is_active, c2.address, c2.id, c2.first_name FROM customers AS c2 WHERE c2.is_active = 1 LIMIT 28",
+      "tables": [
+        "customers",
+        "customers"
+      ],
+      "nl_prompt": "Dig out the comment's is_active, the comment's address, the comment's id, the comment's first_name within customers filtered for the comment's created_at within the last 9 days inclusive, combined with (including duplicates) Dig out the comment's is_active, the comment's address, the comment's id, the comment's first_name within customers filtered for the comment's is_active equals 1 limited to 28 results"
+    },
+    {
+      "id": 74,
+      "complexity": "union",
+      "sql": "SELECT l1.status, l1.monthly_payment, l1.end_date, l1.id FROM loans AS l1 WHERE l1.start_date <= DATETIME('now', '-7 days') UNION SELECT l2.status, l2.monthly_payment, l2.end_date, l2.id FROM loans AS l2 WHERE l2.customer_id < 655",
+      "tables": [
+        "loans",
+        "loans"
+      ],
+      "nl_prompt": "Pick out the like's status, the like's monthly_payment, the like's end_date, the like's id from loans looking only at the like's start_date older than 7 days inclusive, combined with (removing duplicates) Pick out the like's status, the like's monthly_payment, the like's end_date, the like's id from loans looking only at the like's customer_id less than 655"
+    },
+    {
+      "id": 75,
+      "complexity": "union",
+      "sql": "SELECT b1.city, b1.is_active, b1.id FROM branches AS b1 WHERE b1.state LIKE '%a%' UNION SELECT b2.city, b2.is_active, b2.id FROM branches AS b2 WHERE b2.state LIKE '%c' ORDER BY city",
+      "tables": [
+        "branches",
+        "branches"
+      ],
+      "nl_prompt": "Run a check for the b1.city, b1.is_active, b1.id from branches for which b1.state like '%a%', combined with (removing duplicates) Run a check for the b2.city, b2.is_active, b2.id from branches for which b2.state like '%c' ordered by city"
+    },
+    {
+      "id": 76,
+      "complexity": "union",
+      "sql": "SELECT c1.credit_limit, c1.expiry_date FROM cards AS c1 WHERE c1.credit_limit > 431 UNION SELECT c2.credit_limit, c2.expiry_date FROM cards AS c2 WHERE c2.card_type = 'user'",
+      "tables": [
+        "cards",
+        "cards"
+      ],
+      "nl_prompt": "Retrieve the comment's credit_limit, the comment's expiry_date within cards for which the comment's credit_limit greater than 431, combined with (removing duplicates) Retrieve the comment's credit_limit, the comment's expiry_date within cards for which the comment's card_type equals 'user'"
+    },
+    {
+      "id": 77,
+      "complexity": "union",
+      "sql": "SELECT a1.customer_id, a1.id FROM accounts AS a1 WHERE a1.balance < 959 UNION SELECT a2.customer_id, a2.id FROM accounts AS a2 WHERE a2.id <= 592",
+      "tables": [
+        "accounts",
+        "accounts"
+      ],
+      "nl_prompt": "Produce a listing of the a1.customer_id, a1.id from accounts looking only at a1.balance less than 959, combined with (removing duplicates) Produce a listing of the a2.customer_id, a2.id from accounts looking only at a2.id less than or equal to 592"
+    },
+    {
+      "id": 78,
+      "complexity": "union",
+      "sql": "SELECT c1.credit_score, c1.email FROM customers AS c1 WHERE c1.created_at >= DATETIME('now', '-5 days') UNION SELECT c2.credit_score, c2.email FROM customers AS c2 WHERE c2.address <> 'user'",
+      "tables": [
+        "customers",
+        "customers"
+      ],
+      "nl_prompt": "Pick out the comment's credit_score, the comment's email within customers filtered for the comment's created_at within the last 5 days inclusive, combined with (removing duplicates) Pick out the comment's credit_score, the comment's email within customers filtered for the comment's address is not equal to 'user'"
+    },
+    {
+      "id": 79,
+      "complexity": "union",
+      "sql": "SELECT b1.employee_count, b1.manager_id FROM branches AS b1 WHERE b1.name LIKE 'b%' UNION SELECT b2.employee_count, b2.manager_id FROM branches AS b2 WHERE b2.id = 373 LIMIT 46",
+      "tables": [
+        "branches",
+        "branches"
+      ],
+      "nl_prompt": "Display the b1.employee_count, b1.manager_id within branches filtered for b1.name like 'b%', combined with (removing duplicates) Display the b2.employee_count, b2.manager_id within branches filtered for b2.id equals 373 limited to 46 results"
+    },
+    {
+      "id": 80,
+      "complexity": "union",
+      "sql": "SELECT a1.account_type, a1.currency, a1.interest_rate, a1.id FROM accounts AS a1 WHERE a1.customer_id < 628 UNION SELECT a2.account_type, a2.currency, a2.interest_rate, a2.id FROM accounts AS a2 WHERE a2.currency LIKE 'b%'",
+      "tables": [
+        "accounts",
+        "accounts"
+      ],
+      "nl_prompt": "Retrieve the a1.account_type, a1.currency, a1.interest_rate, a1.id in accounts looking only at a1.customer_id less than 628, combined with (removing duplicates) Retrieve the a2.account_type, a2.currency, a2.interest_rate, a2.id in accounts looking only at a2.currency like 'b%'"
+    },
+    {
+      "id": 81,
+      "complexity": "insert",
+      "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 57', 'Sample text 4', 'user105@example.com', 'Sample text 67', DATETIME('now'), 'Sample text 52', 384, 0, DATETIME('now'))",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Insert a new customer with first_name as 'Sample text 57', last_name as 'Sample text 4', email as 'user105@example.com', phone as 'Sample text 67', date_of_birth as the current time, address as 'Sample text 52', credit_score as 384, is_active as 0, created_at as the current time."
+    },
+    {
+      "id": 82,
+      "complexity": "insert",
+      "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (268, 'Sample text 65', 412, 'Sample text 89', DATETIME('now'), 1, 530)",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Create a new account with customer_id as 268, account_type as 'Sample text 65', balance as 412, currency as 'Sample text 89', opened_on as the current time, is_active as 1, interest_rate as 530."
+    },
+    {
+      "id": 83,
+      "complexity": "insert",
+      "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 93', 'Sample text 72', 'user229@example.com', 'Sample text 39', DATETIME('now'), 'Sample text 63', 306, 1, DATETIME('now'))",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Create a new customer with first_name as 'Sample text 93', last_name as 'Sample text 72', email as 'user229@example.com', phone as 'Sample text 39', date_of_birth as the current time, address as 'Sample text 63', credit_score as 306, is_active as 1, created_at as the current time."
+    },
+    {
+      "id": 84,
+      "complexity": "insert",
+      "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (791, 'Sample text 94', 275, 737, 311, 2, DATETIME('now'), DATETIME('now'), 'Sample text 36', 0)",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Add a new loan with customer_id as 791, loan_type as 'Sample text 94', principal_amount as 275, interest_rate as 737, term_months as 311, monthly_payment as 2, start_date as the current time, end_date as the current time, status as 'Sample text 36', is_active as 0."
+    },
+    {
+      "id": 85,
+      "complexity": "insert",
+      "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (752, 'Sample text 69', 'Sample text 24', DATETIME('now'), 686, 1, DATETIME('now'))",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Add a new card with account_id as 752, card_type as 'Sample text 69', card_number as 'Sample text 24', expiry_date as the current time, credit_limit as 686, is_active as 1, issued_on as the current time."
+    },
+    {
+      "id": 86,
+      "complexity": "insert",
+      "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (433, 'Sample text 13', 'Sample text 37', DATETIME('now'), 25, 0, DATETIME('now'))",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Put a new card with account_id as 433, card_type as 'Sample text 13', card_number as 'Sample text 37', expiry_date as the current time, credit_limit as 25, is_active as 0, issued_on as the current time."
+    },
+    {
+      "id": 87,
+      "complexity": "insert",
+      "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (521, 'Sample text 67', 'Sample text 97', DATETIME('now'), 623, 1, DATETIME('now'))",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Create a new card with account_id as 521, card_type as 'Sample text 67', card_number as 'Sample text 97', expiry_date as the current time, credit_limit as 623, is_active as 1, issued_on as the current time."
+    },
+    {
+      "id": 88,
+      "complexity": "insert",
+      "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 17', 'Sample text 36', 'Sample text 50', 651, 590, 1)",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Put a new branch with name as 'Sample text 17', city as 'Sample text 36', state as 'Sample text 50', manager_id as 651, employee_count as 590, is_active as 1."
+    },
+    {
+      "id": 89,
+      "complexity": "insert",
+      "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 72', 'Sample text 82', 'user348@example.com', 'Sample text 35', DATETIME('now'), 'Sample text 62', 587, 0, DATETIME('now'))",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Put a new customer with first_name as 'Sample text 72', last_name as 'Sample text 82', email as 'user348@example.com', phone as 'Sample text 35', date_of_birth as the current time, address as 'Sample text 62', credit_score as 587, is_active as 0, created_at as the current time."
+    },
+    {
+      "id": 90,
+      "complexity": "insert",
+      "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 88', 'Sample text 21', 'Sample text 46', 950, 70, 0)",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Insert a new branch with name as 'Sample text 88', city as 'Sample text 21', state as 'Sample text 46', manager_id as 950, employee_count as 70, is_active as 0."
+    },
+    {
+      "id": 91,
+      "complexity": "insert",
+      "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (837, 'Sample text 79', 708, 606, 977, 758, DATETIME('now'), DATETIME('now'), 'Sample text 79', 0)",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Insert a new loan with customer_id as 837, loan_type as 'Sample text 79', principal_amount as 708, interest_rate as 606, term_months as 977, monthly_payment as 758, start_date as the current time, end_date as the current time, status as 'Sample text 79', is_active as 0."
+    },
+    {
+      "id": 92,
+      "complexity": "insert",
+      "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (268, 'Sample text 42', 'Sample text 83', DATETIME('now'), 49, 1, DATETIME('now'))",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Include a new card with account_id as 268, card_type as 'Sample text 42', card_number as 'Sample text 83', expiry_date as the current time, credit_limit as 49, is_active as 1, issued_on as the current time."
+    },
+    {
+      "id": 93,
+      "complexity": "insert",
+      "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 20', 'Sample text 65', 'Sample text 53', 737, 589, 1)",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Add a new branch with name as 'Sample text 20', city as 'Sample text 65', state as 'Sample text 53', manager_id as 737, employee_count as 589, is_active as 1."
+    },
+    {
+      "id": 94,
+      "complexity": "insert",
+      "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (643, 'Sample text 27', 706, 'Sample text 78', DATETIME('now'), 0, 509)",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Add a new account with customer_id as 643, account_type as 'Sample text 27', balance as 706, currency as 'Sample text 78', opened_on as the current time, is_active as 0, interest_rate as 509."
+    },
+    {
+      "id": 95,
+      "complexity": "insert",
+      "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 76', 'Sample text 42', 563, 'Sample text 52', DATETIME('now'), 453, 1)",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Add a new employee with first_name as 'Sample text 76', last_name as 'Sample text 42', branch_id as 563, position as 'Sample text 52', hire_date as the current time, salary as 453, is_active as 1."
+    },
+    {
+      "id": 96,
+      "complexity": "insert",
+      "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (213, 'Sample text 51', 'Sample text 26', DATETIME('now'), 534, 0, DATETIME('now'))",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Create a new card with account_id as 213, card_type as 'Sample text 51', card_number as 'Sample text 26', expiry_date as the current time, credit_limit as 534, is_active as 0, issued_on as the current time."
+    },
+    {
+      "id": 97,
+      "complexity": "insert",
+      "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 11', 'Sample text 24', 516, 'Sample text 47', DATETIME('now'), 567, 1)",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Create a new employee with first_name as 'Sample text 11', last_name as 'Sample text 24', branch_id as 516, position as 'Sample text 47', hire_date as the current time, salary as 567, is_active as 1."
+    },
+    {
+      "id": 98,
+      "complexity": "insert",
+      "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 73', 'Sample text 37', 586, 'Sample text 73', DATETIME('now'), 575, 1)",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Put a new employee with first_name as 'Sample text 73', last_name as 'Sample text 37', branch_id as 586, position as 'Sample text 73', hire_date as the current time, salary as 575, is_active as 1."
+    },
+    {
+      "id": 99,
+      "complexity": "insert",
+      "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (465, 'Sample text 73', 366, 544, 215, 259, DATETIME('now'), DATETIME('now'), 'Sample text 43', 0)",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Include a new loan with customer_id as 465, loan_type as 'Sample text 73', principal_amount as 366, interest_rate as 544, term_months as 215, monthly_payment as 259, start_date as the current time, end_date as the current time, status as 'Sample text 43', is_active as 0."
+    },
+    {
+      "id": 100,
+      "complexity": "insert",
+      "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (413, 'Sample text 75', 89, 134, 340, 108, DATETIME('now'), DATETIME('now'), 'Sample text 47', 1)",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Create a new loan with customer_id as 413, loan_type as 'Sample text 75', principal_amount as 89, interest_rate as 134, term_months as 340, monthly_payment as 108, start_date as the current time, end_date as the current time, status as 'Sample text 47', is_active as 1."
+    },
+    {
+      "id": 101,
+      "complexity": "update",
+      "sql": "UPDATE accounts SET customer_id = 298 WHERE accounts.interest_rate <> 435",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Update customer_id to 298 for the account where interest_rate is not equal to 435"
+    },
+    {
+      "id": 102,
+      "complexity": "update",
+      "sql": "UPDATE branches SET employee_count = 550 WHERE branches.manager_id <= 408",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Adjust employee_count to 550 for the branch where manager_id less than or equal to 408"
+    },
+    {
+      "id": 103,
+      "complexity": "update",
+      "sql": "UPDATE transactions SET amount = 775 WHERE transactions.status <> 'admin'",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Update amount to 775 for the transaction where status is not equal to 'admin'"
+    },
+    {
+      "id": 104,
+      "complexity": "update",
+      "sql": "UPDATE customers SET first_name = 'Updated text 58' WHERE customers.address <> 'user'",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Edit first_name to 'Updated text 58' for the customer where address is not equal to 'user'"
+    },
+    {
+      "id": 105,
+      "complexity": "update",
+      "sql": "UPDATE loans SET principal_amount = 812 WHERE loans.is_active = 1",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Adjust principal_amount to 812 for the loan where is_active equals 1"
+    },
+    {
+      "id": 106,
+      "complexity": "update",
+      "sql": "UPDATE loans SET term_months = 775 WHERE loans.end_date > DATETIME('now', '-12 days')",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Update term_months to 775 for the loan where end_date within the last 12 days"
+    },
+    {
+      "id": 107,
+      "complexity": "update",
+      "sql": "UPDATE loans SET status = 'Updated text 40' WHERE loans.loan_type <> 'activity'",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Edit status to 'Updated text 40' for the loan where loan_type is not equal to 'activity'"
+    },
+    {
+      "id": 108,
+      "complexity": "update",
+      "sql": "UPDATE cards SET credit_limit = 705 WHERE cards.is_active = 1",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Adjust credit_limit to 705 for the card where is_active equals 1"
+    },
+    {
+      "id": 109,
+      "complexity": "update",
+      "sql": "UPDATE cards SET account_id = 8 WHERE cards.issued_on > DATETIME('now', '-26 days')",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Modify account_id to 8 for the card where issued_on within the last 26 days"
+    },
+    {
+      "id": 110,
+      "complexity": "update",
+      "sql": "UPDATE loans SET loan_type = 'Updated text 4' WHERE loans.id < 605",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Update loan_type to 'Updated text 4' for the loan where id less than 605"
+    },
+    {
+      "id": 111,
+      "complexity": "update",
+      "sql": "UPDATE employees SET hire_date = DATETIME('now') WHERE employees.id > 584",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Modify hire_date to the current time for the employee where id greater than 584"
+    },
+    {
+      "id": 112,
+      "complexity": "update",
+      "sql": "UPDATE accounts SET currency = 'Updated text 45' WHERE accounts.is_active = 0",
+      "tables": [
+        "accounts"
+      ],
+      "nl_prompt": "Modify currency to 'Updated text 45' for the account where is_active equals 0"
+    },
+    {
+      "id": 113,
+      "complexity": "update",
+      "sql": "UPDATE loans SET end_date = DATETIME('now') WHERE loans.term_months < 581",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Modify end_date to the current time for the loan where term_months less than 581"
+    },
+    {
+      "id": 114,
+      "complexity": "update",
+      "sql": "UPDATE transactions SET transaction_date = DATETIME('now') WHERE transactions.status <> 'user'",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Update transaction_date to the current time for the transaction where status is not equal to 'user'"
+    },
+    {
+      "id": 115,
+      "complexity": "update",
+      "sql": "UPDATE cards SET card_type = 'Updated text 78' WHERE cards.card_type = 'activity'",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Modify card_type to 'Updated text 78' for the card where card_type equals 'activity'"
+    },
+    {
+      "id": 116,
+      "complexity": "update",
+      "sql": "UPDATE customers SET first_name = 'Updated text 100' WHERE customers.credit_score < 74",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Update first_name to 'Updated text 100' for the customer where credit_score less than 74"
+    },
+    {
+      "id": 117,
+      "complexity": "update",
+      "sql": "UPDATE employees SET salary = 595 WHERE employees.branch_id >= 63",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Change salary to 595 for the employee where branch_id greater than or equal to 63"
+    },
+    {
+      "id": 118,
+      "complexity": "update",
+      "sql": "UPDATE employees SET last_name = 'Updated text 37' WHERE employees.salary = 467",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Edit last_name to 'Updated text 37' for the employee where salary equals 467"
+    },
+    {
+      "id": 119,
+      "complexity": "update",
+      "sql": "UPDATE loans SET monthly_payment = 741 WHERE loans.end_date <= DATETIME('now', '-16 days')",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Modify monthly_payment to 741 for the loan where end_date older than 16 days inclusive"
+    },
+    {
+      "id": 120,
+      "complexity": "update",
+      "sql": "UPDATE branches SET manager_id = 725 WHERE branches.id <= 951",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Change manager_id to 725 for the branch where id less than or equal to 951"
+    },
+    {
+      "id": 121,
+      "complexity": "delete",
+      "sql": "DELETE FROM customers WHERE customers.phone = 'activity'",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Wipe out customers where phone equals 'activity'"
+    },
+    {
+      "id": 122,
+      "complexity": "delete",
+      "sql": "DELETE FROM branches WHERE branches.name = 'user'",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Remove branches where name equals 'user'"
+    },
+    {
+      "id": 123,
+      "complexity": "delete",
+      "sql": "DELETE FROM employees WHERE employees.id > 281",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Remove employees where id greater than 281"
+    },
+    {
+      "id": 124,
+      "complexity": "delete",
+      "sql": "DELETE FROM transactions WHERE transactions.amount < 882",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Strip out transactions where amount less than 882"
+    },
+    {
+      "id": 125,
+      "complexity": "delete",
+      "sql": "DELETE FROM employees WHERE employees.position LIKE 'b%'",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Delete employees where position like 'b%'"
+    },
+    {
+      "id": 126,
+      "complexity": "delete",
+      "sql": "DELETE FROM loans WHERE loans.term_months >= 492",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Delete loans where term_months greater than or equal to 492"
+    },
+    {
+      "id": 127,
+      "complexity": "delete",
+      "sql": "DELETE FROM cards WHERE cards.card_type LIKE '%c'",
+      "tables": [
+        "cards"
+      ],
+      "nl_prompt": "Strip out cards where card_type like '%c'"
+    },
+    {
+      "id": 128,
+      "complexity": "delete",
+      "sql": "DELETE FROM branches WHERE branches.manager_id <> 897",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Delete branches where manager_id is not equal to 897"
+    },
+    {
+      "id": 129,
+      "complexity": "delete",
+      "sql": "DELETE FROM transactions WHERE transactions.id = 270",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Wipe out transactions where id equals 270"
+    },
+    {
+      "id": 130,
+      "complexity": "delete",
+      "sql": "DELETE FROM transactions WHERE transactions.transaction_type = '123'",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Wipe out transactions where transaction_type equals '123'"
+    },
+    {
+      "id": 131,
+      "complexity": "delete",
+      "sql": "DELETE FROM transactions WHERE transactions.transaction_date > DATETIME('now', '-3 days')",
+      "tables": [
+        "transactions"
+      ],
+      "nl_prompt": "Drop transactions where transaction_date within the last 3 days"
+    },
+    {
+      "id": 132,
+      "complexity": "delete",
+      "sql": "DELETE FROM employees WHERE employees.is_active = 1",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Wipe out employees where is_active equals 1"
+    },
+    {
+      "id": 133,
+      "complexity": "delete",
+      "sql": "DELETE FROM customers WHERE customers.created_at < DATETIME('now', '-8 days')",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Wipe out customers where created_at older than 8 days"
+    },
+    {
+      "id": 134,
+      "complexity": "delete",
+      "sql": "DELETE FROM loans WHERE loans.is_active = 1",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Wipe out loans where is_active equals 1"
+    },
+    {
+      "id": 135,
+      "complexity": "delete",
+      "sql": "DELETE FROM employees WHERE employees.hire_date >= DATETIME('now', '-16 days')",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Drop employees where hire_date within the last 16 days inclusive"
+    },
+    {
+      "id": 136,
+      "complexity": "delete",
+      "sql": "DELETE FROM customers WHERE customers.email = 'user36@example.com'",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Wipe out customers where email equals 'user36@example.com'"
+    },
+    {
+      "id": 137,
+      "complexity": "delete",
+      "sql": "DELETE FROM customers WHERE customers.first_name <> 'activity'",
+      "tables": [
+        "customers"
+      ],
+      "nl_prompt": "Delete customers where first_name is not equal to 'activity'"
+    },
+    {
+      "id": 138,
+      "complexity": "delete",
+      "sql": "DELETE FROM employees WHERE employees.last_name = 'activity'",
+      "tables": [
+        "employees"
+      ],
+      "nl_prompt": "Wipe out employees where last_name equals 'activity'"
+    },
+    {
+      "id": 139,
+      "complexity": "delete",
+      "sql": "DELETE FROM branches WHERE branches.state <> 'admin'",
+      "tables": [
+        "branches"
+      ],
+      "nl_prompt": "Strip out branches where state is not equal to 'admin'"
+    },
+    {
+      "id": 140,
+      "complexity": "delete",
+      "sql": "DELETE FROM loans WHERE loans.term_months <= 641",
+      "tables": [
+        "loans"
+      ],
+      "nl_prompt": "Remove loans where term_months less than or equal to 641"
+    }
+  ]
+}

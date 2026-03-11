@@ -2,39 +2,39 @@
   {
     "id": 1,
     "complexity": "simple",
-    "sql": "SELECT l1.start_date FROM loans AS l1 WHERE l1.interest_rate >= 52 ORDER BY l1.start_date LIMIT 60",
-    "tables": [
-      "loans"
-    ]
-  },
-  {
-    "id": 2,
-    "complexity": "simple",
-    "sql": "SELECT c1.issued_on, c1.card_type FROM cards AS c1 WHERE c1.card_number LIKE '%a%'",
-    "tables": [
-      "cards"
-    ]
-  },
-  {
-    "id": 3,
-    "complexity": "simple",
-    "sql": "SELECT * FROM branches AS b1 ORDER BY b1.city",
-    "tables": [
-      "branches"
-    ]
-  },
-  {
-    "id": 4,
-    "complexity": "simple",
-    "sql": "SELECT e1.hire_date, e1.position, e1.first_name FROM employees AS e1 WHERE e1.salary <> 834",
+    "sql": "SELECT e1.hire_date, e1.first_name FROM employees AS e1",
     "tables": [
       "employees"
     ]
   },
   {
+    "id": 2,
+    "complexity": "simple",
+    "sql": "SELECT a1.customer_id, a1.opened_on FROM accounts AS a1 WHERE a1.interest_rate < 282 LIMIT 84",
+    "tables": [
+      "accounts"
+    ]
+  },
+  {
+    "id": 3,
+    "complexity": "simple",
+    "sql": "SELECT c1.credit_score, c1.date_of_birth FROM customers AS c1 ORDER BY c1.credit_score",
+    "tables": [
+      "customers"
+    ]
+  },
+  {
+    "id": 4,
+    "complexity": "simple",
+    "sql": "SELECT * FROM customers AS c1",
+    "tables": [
+      "customers"
+    ]
+  },
+  {
     "id": 5,
     "complexity": "simple",
-    "sql": "SELECT c1.address, c1.created_at, c1.credit_score FROM customers AS c1 WHERE c1.address <> '123'",
+    "sql": "SELECT c1.created_at, c1.email FROM customers AS c1 WHERE c1.email LIKE 'user%@%'",
     "tables": [
       "customers"
     ]
@@ -42,71 +42,71 @@
   {
     "id": 6,
     "complexity": "simple",
-    "sql": "SELECT l1.id, l1.interest_rate, l1.customer_id, l1.end_date FROM loans AS l1 WHERE l1.interest_rate = 337 LIMIT 67",
+    "sql": "SELECT * FROM branches AS b1 ORDER BY b1.is_active",
     "tables": [
-      "loans"
+      "branches"
     ]
   },
   {
     "id": 7,
     "complexity": "simple",
-    "sql": "SELECT b1.id, b1.state, b1.is_active FROM branches AS b1 ORDER BY b1.is_active",
+    "sql": "SELECT * FROM transactions AS t1 ORDER BY t1.amount LIMIT 63",
     "tables": [
-      "branches"
+      "transactions"
     ]
   },
   {
     "id": 8,
     "complexity": "simple",
-    "sql": "SELECT e1.salary, e1.id FROM employees AS e1 ORDER BY e1.salary",
+    "sql": "SELECT l1.customer_id, l1.is_active FROM loans AS l1 WHERE l1.principal_amount <> 835 LIMIT 62",
     "tables": [
-      "employees"
+      "loans"
     ]
   },
   {
     "id": 9,
     "complexity": "simple",
-    "sql": "SELECT b1.state, b1.name FROM branches AS b1 WHERE b1.city = 'user' LIMIT 92",
+    "sql": "SELECT c1.address, c1.last_name FROM customers AS c1 WHERE c1.first_name <> 'test' ORDER BY c1.email",
     "tables": [
-      "branches"
+      "customers"
     ]
   },
   {
     "id": 10,
     "complexity": "simple",
-    "sql": "SELECT a1.account_type FROM accounts AS a1 LIMIT 82",
+    "sql": "SELECT * FROM customers AS c1 ORDER BY c1.first_name",
     "tables": [
-      "accounts"
+      "customers"
     ]
   },
   {
     "id": 11,
     "complexity": "simple",
-    "sql": "SELECT * FROM cards AS c1 WHERE c1.id <> 893 ORDER BY c1.is_active LIMIT 39",
+    "sql": "SELECT e1.is_active, e1.branch_id, e1.salary FROM employees AS e1 WHERE e1.is_active = 0",
     "tables": [
-      "cards"
+      "employees"
     ]
   },
   {
     "id": 12,
     "complexity": "simple",
-    "sql": "SELECT b1.state, b1.manager_id, b1.is_active, b1.id FROM branches AS b1 WHERE b1.city = 'test'",
+    "sql": "SELECT c1.credit_limit, c1.card_type, c1.id FROM cards AS c1",
     "tables": [
-      "branches"
+      "cards"
     ]
   },
   {
     "id": 13,
     "complexity": "simple",
-    "sql": "SELECT a1.is_active, a1.customer_id FROM accounts AS a1 ORDER BY a1.is_active LIMIT 86",
+    "sql": "SELECT b1.city, b1.employee_count FROM branches AS b1 WHERE b1.employee_count = 558",
     "tables": [
-      "accounts"
+      "branches"
     ]
   },
   {
     "id": 14,
     "complexity": "simple",
-    "sql": "SELECT e1.first_name FROM employees AS e1 ORDER BY e1.position",
+    "sql": "SELECT * FROM employees AS e1 WHERE e1.last_name LIKE 'b%' ORDER BY e1.branch_id",
     "tables": [
       "employees"
     ]
@@ -114,31 +114,31 @@
   {
     "id": 15,
     "complexity": "simple",
-    "sql": "SELECT e1.position, e1.hire_date FROM employees AS e1 WHERE e1.is_active = 0",
+    "sql": "SELECT * FROM customers AS c1",
     "tables": [
-      "employees"
+      "customers"
     ]
   },
   {
     "id": 16,
     "complexity": "simple",
-    "sql": "SELECT l1.loan_type FROM loans AS l1 WHERE l1.term_months <= 871",
-    "tables": [
-      "loans"
-    ]
-  },
-  {
-    "id": 17,
-    "complexity": "simple",
-    "sql": "SELECT * FROM accounts AS a1 WHERE a1.account_type = '123'",
+    "sql": "SELECT * FROM accounts AS a1 WHERE a1.is_active = 0",
     "tables": [
       "accounts"
     ]
   },
   {
+    "id": 17,
+    "complexity": "simple",
+    "sql": "SELECT c1.is_active, c1.issued_on, c1.credit_limit FROM cards AS c1",
+    "tables": [
+      "cards"
+    ]
+  },
+  {
     "id": 18,
     "complexity": "simple",
-    "sql": "SELECT c1.card_number, c1.account_id FROM cards AS c1",
+    "sql": "SELECT * FROM cards AS c1 WHERE c1.expiry_date < DATETIME('now', '-7 days') ORDER BY c1.issued_on LIMIT 19",
     "tables": [
       "cards"
     ]
@@ -146,59 +146,59 @@
   {
     "id": 19,
     "complexity": "simple",
-    "sql": "SELECT b1.id, b1.employee_count, b1.manager_id, b1.is_active FROM branches AS b1",
+    "sql": "SELECT l1.term_months, l1.loan_type FROM loans AS l1 WHERE l1.term_months > 405",
     "tables": [
-      "branches"
+      "loans"
     ]
   },
   {
     "id": 20,
     "complexity": "simple",
-    "sql": "SELECT l1.principal_amount, l1.term_months, l1.customer_id FROM loans AS l1",
+    "sql": "SELECT a1.currency, a1.is_active, a1.id, a1.customer_id FROM accounts AS a1 WHERE a1.is_active = 1 LIMIT 60",
     "tables": [
-      "loans"
+      "accounts"
     ]
   },
   {
     "id": 21,
     "complexity": "join",
-    "sql": "SELECT l7.interest_rate, c1.created_at, c1.id, c1.credit_score FROM customers AS c1 LEFT JOIN loans AS l7 ON c1.id = l7.customer_id",
+    "sql": "SELECT * FROM cards AS c1 INNER JOIN accounts AS a4 ON c1.account_id = a4.id WHERE a4.currency = '123'",
     "tables": [
-      "customers",
-      "loans"
+      "cards",
+      "accounts"
     ]
   },
   {
     "id": 22,
     "complexity": "join",
-    "sql": "SELECT t1.from_account_id, t1.description, t1.to_account_id, a3.account_type FROM transactions AS t1 FULL JOIN accounts AS a3 ON t1.to_account_id = a3.id",
+    "sql": "SELECT * FROM cards AS c1 RIGHT JOIN accounts AS a4 ON c1.account_id = a4.id WHERE a4.interest_rate > 977",
     "tables": [
-      "transactions",
+      "cards",
       "accounts"
     ]
   },
   {
     "id": 23,
     "complexity": "join",
-    "sql": "SELECT t1.from_account_id, a5.currency, t1.transaction_date, a5.is_active FROM transactions AS t1 LEFT JOIN accounts AS a5 ON t1.to_account_id = a5.id WHERE a5.id = 404",
+    "sql": "SELECT l1.start_date, l1.is_active, c8.id FROM loans AS l1 INNER JOIN customers AS c8 ON l1.customer_id = c8.id WHERE c8.id >= 326",
+    "tables": [
+      "loans",
+      "customers"
+    ]
+  },
+  {
+    "id": 24,
+    "complexity": "join",
+    "sql": "SELECT t1.description, a7.opened_on, a7.account_type, a7.interest_rate FROM transactions AS t1 INNER JOIN accounts AS a7 ON t1.to_account_id = a7.id",
     "tables": [
       "transactions",
       "accounts"
     ]
   },
   {
-    "id": 24,
-    "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 LEFT JOIN loans AS l1 ON c1.id = l1.customer_id",
-    "tables": [
-      "customers",
-      "loans"
-    ]
-  },
-  {
     "id": 25,
     "complexity": "join",
-    "sql": "SELECT e4.last_name, e4.branch_id, b1.id, b1.is_active FROM branches AS b1 RIGHT JOIN employees AS e4 ON b1.id = e4.branch_id WHERE e4.salary <> 383",
+    "sql": "SELECT b1.name, b1.manager_id, b1.is_active, e7.id FROM branches AS b1 FULL JOIN employees AS e7 ON b1.id = e7.branch_id",
     "tables": [
       "branches",
       "employees"
@@ -207,70 +207,70 @@
   {
     "id": 26,
     "complexity": "join",
-    "sql": "SELECT * FROM accounts AS a1 FULL JOIN transactions AS t6 ON a1.id = t6.to_account_id WHERE t6.transaction_type = 'activity'",
-    "tables": [
-      "accounts",
-      "transactions"
-    ]
-  },
-  {
-    "id": 27,
-    "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 LEFT JOIN accounts AS a4 ON c1.id = a4.customer_id WHERE a4.customer_id <> 869",
-    "tables": [
-      "customers",
-      "accounts"
-    ]
-  },
-  {
-    "id": 28,
-    "complexity": "join",
-    "sql": "SELECT * FROM loans AS l1 LEFT JOIN customers AS c4 ON l1.customer_id = c4.id WHERE c4.phone LIKE '%a%'",
-    "tables": [
-      "loans",
-      "customers"
-    ]
-  },
-  {
-    "id": 29,
-    "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 INNER JOIN accounts AS a3 ON c1.id = a3.customer_id",
-    "tables": [
-      "customers",
-      "accounts"
-    ]
-  },
-  {
-    "id": 30,
-    "complexity": "join",
-    "sql": "SELECT * FROM cards AS c1 LEFT JOIN accounts AS a1 ON c1.account_id = a1.id",
-    "tables": [
-      "cards",
-      "accounts"
-    ]
-  },
-  {
-    "id": 31,
-    "complexity": "join",
-    "sql": "SELECT e1.id, e1.is_active, e1.last_name, b5.is_active FROM employees AS e1 INNER JOIN branches AS b5 ON e1.branch_id = b5.id WHERE b5.state = 'admin'",
+    "sql": "SELECT b5.state, e1.id, b5.is_active, b5.manager_id FROM employees AS e1 RIGHT JOIN branches AS b5 ON e1.branch_id = b5.id WHERE b5.employee_count <= 76",
     "tables": [
       "employees",
       "branches"
     ]
   },
   {
+    "id": 27,
+    "complexity": "join",
+    "sql": "SELECT c3.id, c3.email, c3.address, c3.last_name FROM loans AS l1 INNER JOIN customers AS c3 ON l1.customer_id = c3.id WHERE c3.address = '123'",
+    "tables": [
+      "loans",
+      "customers"
+    ]
+  },
+  {
+    "id": 28,
+    "complexity": "join",
+    "sql": "SELECT b5.city, b5.employee_count, e1.branch_id, b5.name FROM employees AS e1 INNER JOIN branches AS b5 ON e1.branch_id = b5.id",
+    "tables": [
+      "employees",
+      "branches"
+    ]
+  },
+  {
+    "id": 29,
+    "complexity": "join",
+    "sql": "SELECT a1.id, t5.transaction_type, t5.transaction_date FROM accounts AS a1 FULL JOIN transactions AS t5 ON a1.id = t5.to_account_id",
+    "tables": [
+      "accounts",
+      "transactions"
+    ]
+  },
+  {
+    "id": 30,
+    "complexity": "join",
+    "sql": "SELECT c8.email, c8.date_of_birth, c8.last_name, c8.first_name FROM loans AS l1 INNER JOIN customers AS c8 ON l1.customer_id = c8.id",
+    "tables": [
+      "loans",
+      "customers"
+    ]
+  },
+  {
+    "id": 31,
+    "complexity": "join",
+    "sql": "SELECT * FROM loans AS l1 INNER JOIN customers AS c4 ON l1.customer_id = c4.id WHERE c4.first_name LIKE '%c'",
+    "tables": [
+      "loans",
+      "customers"
+    ]
+  },
+  {
     "id": 32,
     "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 FULL JOIN loans AS l5 ON c1.id = l5.customer_id WHERE l5.term_months >= 98",
+    "sql": "SELECT e9.first_name, e9.id, e9.position, b1.manager_id FROM branches AS b1 FULL JOIN employees AS e9 ON b1.id = e9.branch_id WHERE e9.is_active = 1",
     "tables": [
-      "customers",
-      "loans"
+      "branches",
+      "employees"
     ]
   },
   {
     "id": 33,
     "complexity": "join",
-    "sql": "SELECT * FROM cards AS c1 INNER JOIN accounts AS a5 ON c1.account_id = a5.id WHERE a5.is_active = 1",
+    "sql": "SELECT * FROM cards AS c1 FULL JOIN accounts AS a2 ON c1.account_id = a2.id WHERE a2.opened_on > DATETIME('now', '-26 days')",
     "tables": [
       "cards",
       "accounts"
@@ -279,156 +279,159 @@
   {
     "id": 34,
     "complexity": "join",
-    "sql": "SELECT * FROM accounts AS a1 RIGHT JOIN customers AS c4 ON a1.customer_id = c4.id",
-    "tables": [
-      "accounts",
-      "customers"
-    ]
-  },
-  {
-    "id": 35,
-    "complexity": "join",
-    "sql": "SELECT a1.customer_id, c4.card_number, c4.is_active, c4.expiry_date FROM accounts AS a1 RIGHT JOIN cards AS c4 ON a1.id = c4.account_id WHERE c4.credit_limit = 878",
-    "tables": [
-      "accounts",
-      "cards"
-    ]
-  },
-  {
-    "id": 36,
-    "complexity": "join",
-    "sql": "SELECT e3.id, e3.position, e3.salary, b1.id FROM branches AS b1 INNER JOIN employees AS e3 ON b1.id = e3.branch_id WHERE e3.branch_id >= 375",
+    "sql": "SELECT b1.is_active, b1.id, e9.position, b1.name FROM branches AS b1 LEFT JOIN employees AS e9 ON b1.id = e9.branch_id WHERE e9.first_name = 'user'",
     "tables": [
       "branches",
       "employees"
     ]
   },
   {
+    "id": 35,
+    "complexity": "join",
+    "sql": "SELECT * FROM branches AS b1 RIGHT JOIN employees AS e9 ON b1.id = e9.branch_id",
+    "tables": [
+      "branches",
+      "employees"
+    ]
+  },
+  {
+    "id": 36,
+    "complexity": "join",
+    "sql": "SELECT c2.is_active, c2.address, l1.principal_amount, l1.loan_type FROM loans AS l1 INNER JOIN customers AS c2 ON l1.customer_id = c2.id",
+    "tables": [
+      "loans",
+      "customers"
+    ]
+  },
+  {
     "id": 37,
     "complexity": "join",
-    "sql": "SELECT a1.customer_id, a1.account_type, t2.description, t2.to_account_id FROM accounts AS a1 INNER JOIN transactions AS t2 ON a1.id = t2.to_account_id WHERE t2.description LIKE '%a%'",
+    "sql": "SELECT * FROM loans AS l1 RIGHT JOIN customers AS c1 ON l1.customer_id = c1.id WHERE c1.address <> 'activity'",
     "tables": [
-      "accounts",
-      "transactions"
+      "loans",
+      "customers"
     ]
   },
   {
     "id": 38,
     "complexity": "join",
-    "sql": "SELECT * FROM cards AS c1 LEFT JOIN accounts AS a7 ON c1.account_id = a7.id WHERE a7.opened_on < DATETIME('now', '-19 days')",
+    "sql": "SELECT * FROM employees AS e1 RIGHT JOIN branches AS b7 ON e1.branch_id = b7.id",
     "tables": [
-      "cards",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 39,
     "complexity": "join",
-    "sql": "SELECT * FROM customers AS c1 FULL JOIN accounts AS a1 ON c1.id = a1.customer_id",
+    "sql": "SELECT * FROM employees AS e1 INNER JOIN branches AS b6 ON e1.branch_id = b6.id WHERE b6.id = 61",
     "tables": [
-      "customers",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 40,
     "complexity": "join",
-    "sql": "SELECT c1.phone, c1.is_active, a8.balance, a8.customer_id FROM customers AS c1 LEFT JOIN accounts AS a8 ON c1.id = a8.customer_id",
+    "sql": "SELECT * FROM employees AS e1 FULL JOIN branches AS b6 ON e1.branch_id = b6.id",
     "tables": [
-      "customers",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 41,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM transactions AS inner_transactions WHERE inner_transactions.amount >= 697) AS derived_table WHERE derived_table.description <> '123'",
+    "sql": "SELECT e1.is_active FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.is_active = 0)",
     "tables": [
-      "transactions"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 42,
     "complexity": "advanced",
-    "sql": "SELECT * FROM cards AS c1 WHERE c1.account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.account_type = 'admin')",
+    "sql": "SELECT e1.first_name, e1.salary, e1.is_active FROM employees AS e1 WHERE EXISTS(SELECT 1 FROM branches AS sub_b WHERE sub_b.id = e1.branch_id AND sub_b.name LIKE 'b%')",
     "tables": [
-      "cards",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 43,
     "complexity": "advanced",
-    "sql": "SELECT e1.first_name, e1.last_name, e1.branch_id FROM employees AS e1 JOIN employees AS e2 ON e1.branch_id = e2.branch_id AND e1.id <> e2.id LIMIT 12",
+    "sql": "SELECT * FROM branches AS b1 WHERE b1.id IN (SELECT sub_e.branch_id FROM employees AS sub_e WHERE sub_e.last_name = 'activity')",
     "tables": [
-      "employees",
+      "branches",
       "employees"
     ]
   },
   {
     "id": 44,
     "complexity": "advanced",
-    "sql": "SELECT b1.state FROM branches AS b1 WHERE EXISTS(SELECT 1 FROM employees AS sub_e WHERE sub_e.branch_id = b1.id AND sub_e.is_active = 0)",
+    "sql": "SELECT * FROM loans AS l1 WHERE NOT EXISTS(SELECT 1 FROM customers AS sub_c WHERE sub_c.id = l1.customer_id AND sub_c.email = 'user30@example.com')",
     "tables": [
-      "branches",
-      "employees"
+      "loans",
+      "customers"
     ]
   },
   {
     "id": 45,
     "complexity": "advanced",
-    "sql": "SELECT a1.opened_on FROM accounts AS a1 WHERE a1.id IN (SELECT sub_c.account_id FROM cards AS sub_c WHERE sub_c.card_type LIKE 'b%')",
+    "sql": "SELECT * FROM (SELECT * FROM cards AS inner_cards WHERE inner_cards.is_active = 1) AS derived_table",
     "tables": [
-      "accounts",
       "cards"
     ]
   },
   {
     "id": 46,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM accounts AS inner_accounts WHERE inner_accounts.customer_id > 53) AS derived_table",
+    "sql": "SELECT c1.first_name, c1.last_name, c1.email FROM customers AS c1 JOIN customers AS c2 ON c1.id = c2.id AND c1.id <> c2.id",
     "tables": [
-      "accounts"
+      "customers",
+      "customers"
     ]
   },
   {
     "id": 47,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.employee_count >= 127) AS derived_table WHERE derived_table.id <= 984",
+    "sql": "SELECT c1.first_name, c1.last_name, c1.email FROM customers AS c1 JOIN customers AS c2 ON c1.id = c2.id AND c1.id <> c2.id LIMIT 11",
     "tables": [
-      "branches"
+      "customers",
+      "customers"
     ]
   },
   {
     "id": 48,
     "complexity": "advanced",
-    "sql": "SELECT e1.first_name, e1.last_name, e1.branch_id FROM employees AS e1 JOIN employees AS e2 ON e1.branch_id = e2.branch_id AND e1.id <> e2.id",
+    "sql": "SELECT b1.id, b1.name, b1.city FROM branches AS b1 JOIN branches AS b2 ON b1.name = b2.name AND b1.id <> b2.id",
     "tables": [
-      "employees",
-      "employees"
+      "branches",
+      "branches"
     ]
   },
   {
     "id": 49,
     "complexity": "advanced",
-    "sql": "SELECT c1.credit_score, c1.is_active FROM customers AS c1 WHERE c1.id IN (SELECT sub_a.customer_id FROM accounts AS sub_a WHERE sub_a.customer_id < 788)",
+    "sql": "SELECT e1.is_active, e1.position, e1.branch_id, e1.hire_date FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.state LIKE 'b%')",
     "tables": [
-      "customers",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 50,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM customers AS inner_customers WHERE inner_customers.date_of_birth <= DATETIME('now', '-11 days')) AS derived_table WHERE derived_table.phone = 'test'",
+    "sql": "SELECT c1.issued_on FROM cards AS c1 WHERE c1.account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.currency <> '123')",
     "tables": [
-      "customers"
+      "cards",
+      "accounts"
     ]
   },
   {
     "id": 51,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.is_active = 0) AS derived_table WHERE derived_table.manager_id < 523",
+    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.id = 923) AS derived_table WHERE derived_table.state LIKE '%c'",
     "tables": [
       "branches"
     ]
@@ -436,75 +439,78 @@
   {
     "id": 52,
     "complexity": "advanced",
-    "sql": "SELECT * FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.manager_id = 762)",
+    "sql": "SELECT c1.first_name, c1.last_name, c1.address FROM customers AS c1 WHERE c1.id IN (SELECT sub_l.customer_id FROM loans AS sub_l WHERE sub_l.interest_rate = 626)",
     "tables": [
-      "employees",
-      "branches"
+      "customers",
+      "loans"
     ]
   },
   {
     "id": 53,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM loans AS inner_loans WHERE inner_loans.start_date > DATETIME('now', '-22 days')) AS derived_table WHERE derived_table.customer_id <= 195",
+    "sql": "SELECT b1.id, b1.state, b1.manager_id, b1.is_active FROM branches AS b1 WHERE EXISTS(SELECT 1 FROM employees AS sub_e WHERE sub_e.branch_id = b1.id AND sub_e.first_name LIKE '%c')",
     "tables": [
-      "loans"
+      "branches",
+      "employees"
     ]
   },
   {
     "id": 54,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM accounts AS inner_accounts WHERE inner_accounts.id <= 278) AS derived_table WHERE derived_table.customer_id >= 748",
+    "sql": "SELECT l1.principal_amount, l1.is_active, l1.status, l1.monthly_payment FROM loans AS l1 WHERE l1.customer_id IN (SELECT sub_c.id FROM customers AS sub_c WHERE sub_c.is_active = 1)",
     "tables": [
-      "accounts"
+      "loans",
+      "customers"
     ]
   },
   {
     "id": 55,
     "complexity": "advanced",
-    "sql": "SELECT e1.position, e1.first_name, e1.is_active, e1.hire_date FROM employees AS e1 WHERE EXISTS(SELECT 1 FROM branches AS sub_b WHERE sub_b.id = e1.branch_id AND sub_b.employee_count <= 619)",
+    "sql": "SELECT a1.id, a1.customer_id, a1.account_type FROM accounts AS a1 JOIN accounts AS a2 ON a1.customer_id = a2.customer_id AND a1.id <> a2.id",
     "tables": [
-      "employees",
-      "branches"
+      "accounts",
+      "accounts"
     ]
   },
   {
     "id": 56,
     "complexity": "advanced",
-    "sql": "SELECT c1.credit_limit FROM cards AS c1 WHERE c1.account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.opened_on >= DATETIME('now', '-26 days'))",
+    "sql": "SELECT * FROM customers AS c1 WHERE c1.id IN (SELECT sub_l.customer_id FROM loans AS sub_l WHERE sub_l.monthly_payment > 131)",
     "tables": [
-      "cards",
-      "accounts"
+      "customers",
+      "loans"
     ]
   },
   {
     "id": 57,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM accounts AS inner_accounts WHERE inner_accounts.currency LIKE '%a%') AS derived_table WHERE derived_table.id <= 289",
+    "sql": "SELECT c1.address, c1.date_of_birth, c1.id FROM customers AS c1 WHERE c1.id IN (SELECT sub_a.customer_id FROM accounts AS sub_a WHERE sub_a.id <> 914)",
     "tables": [
+      "customers",
       "accounts"
     ]
   },
   {
     "id": 58,
     "complexity": "advanced",
-    "sql": "SELECT * FROM (SELECT * FROM accounts AS inner_accounts WHERE inner_accounts.id < 190) AS derived_table",
+    "sql": "SELECT * FROM (SELECT * FROM branches AS inner_branches WHERE inner_branches.is_active = 0) AS derived_table",
     "tables": [
-      "accounts"
+      "branches"
     ]
   },
   {
     "id": 59,
     "complexity": "advanced",
-    "sql": "SELECT * FROM transactions AS t1 WHERE t1.to_account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.interest_rate <> 585)",
+    "sql": "SELECT e1.last_name, e1.hire_date, e1.id, e1.branch_id FROM employees AS e1 WHERE e1.branch_id IN (SELECT sub_b.id FROM branches AS sub_b WHERE sub_b.manager_id = 367)",
     "tables": [
-      "transactions",
-      "accounts"
+      "employees",
+      "branches"
     ]
   },
   {
     "id": 60,
     "complexity": "advanced",
-    "sql": "SELECT * FROM transactions AS t1 WHERE t1.to_account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.interest_rate > 976)",
+    "sql": "SELECT t1.to_account_id, t1.transaction_date, t1.status FROM transactions AS t1 WHERE t1.to_account_id IN (SELECT sub_a.id FROM accounts AS sub_a WHERE sub_a.interest_rate <= 297)",
     "tables": [
       "transactions",
       "accounts"
@@ -513,34 +519,34 @@
   {
     "id": 61,
     "complexity": "union",
-    "sql": "SELECT a1.opened_on, a1.customer_id FROM accounts AS a1 WHERE a1.interest_rate <= 45 UNION SELECT a2.opened_on, a2.customer_id FROM accounts AS a2 WHERE a2.opened_on > DATETIME('now', '-4 days')",
+    "sql": "SELECT c1.credit_limit, c1.account_id, c1.id, c1.expiry_date FROM cards AS c1 WHERE c1.id > 838 UNION SELECT c2.credit_limit, c2.account_id, c2.id, c2.expiry_date FROM cards AS c2 WHERE c2.id < 942 ORDER BY credit_limit LIMIT 38",
+    "tables": [
+      "cards",
+      "cards"
+    ]
+  },
+  {
+    "id": 62,
+    "complexity": "union",
+    "sql": "SELECT a1.customer_id, a1.interest_rate, a1.opened_on, a1.balance FROM accounts AS a1 WHERE a1.currency = 'user' UNION SELECT a2.customer_id, a2.interest_rate, a2.opened_on, a2.balance FROM accounts AS a2 WHERE a2.is_active = 1",
     "tables": [
       "accounts",
       "accounts"
     ]
   },
   {
-    "id": 62,
+    "id": 63,
     "complexity": "union",
-    "sql": "SELECT c1.id, c1.first_name, c1.credit_score, c1.last_name FROM customers AS c1 WHERE c1.phone <> 'test' UNION ALL SELECT c2.id, c2.first_name, c2.credit_score, c2.last_name FROM customers AS c2 WHERE c2.date_of_birth >= DATETIME('now', '-29 days')",
+    "sql": "SELECT c1.id, c1.is_active, c1.address FROM customers AS c1 WHERE c1.address LIKE '%c' UNION SELECT c2.id, c2.is_active, c2.address FROM customers AS c2 WHERE c2.date_of_birth < DATETIME('now', '-29 days')",
     "tables": [
       "customers",
       "customers"
     ]
   },
   {
-    "id": 63,
-    "complexity": "union",
-    "sql": "SELECT b1.employee_count, b1.city, b1.is_active FROM branches AS b1 WHERE b1.is_active = 0 UNION ALL SELECT b2.employee_count, b2.city, b2.is_active FROM branches AS b2 WHERE b2.is_active = 1 ORDER BY employee_count LIMIT 48",
-    "tables": [
-      "branches",
-      "branches"
-    ]
-  },
-  {
     "id": 64,
     "complexity": "union",
-    "sql": "SELECT b1.is_active, b1.employee_count, b1.city, b1.id FROM branches AS b1 WHERE b1.city <> 'user' UNION ALL SELECT b2.is_active, b2.employee_count, b2.city, b2.id FROM branches AS b2 WHERE b2.id < 203",
+    "sql": "SELECT b1.employee_count, b1.manager_id, b1.city FROM branches AS b1 WHERE b1.state <> '123' UNION SELECT b2.employee_count, b2.manager_id, b2.city FROM branches AS b2 WHERE b2.is_active = 1 ORDER BY employee_count",
     "tables": [
       "branches",
       "branches"
@@ -549,115 +555,115 @@
   {
     "id": 65,
     "complexity": "union",
-    "sql": "SELECT l1.interest_rate, l1.customer_id, l1.id, l1.principal_amount FROM loans AS l1 WHERE l1.customer_id <= 747 UNION ALL SELECT l2.interest_rate, l2.customer_id, l2.id, l2.principal_amount FROM loans AS l2 WHERE l2.status = 'test'",
-    "tables": [
-      "loans",
-      "loans"
-    ]
-  },
-  {
-    "id": 66,
-    "complexity": "union",
-    "sql": "SELECT l1.monthly_payment, l1.term_months FROM loans AS l1 WHERE l1.principal_amount <> 348 UNION SELECT l2.monthly_payment, l2.term_months FROM loans AS l2 WHERE l2.status <> 'user'",
-    "tables": [
-      "loans",
-      "loans"
-    ]
-  },
-  {
-    "id": 67,
-    "complexity": "union",
-    "sql": "SELECT t1.id, t1.to_account_id, t1.description FROM transactions AS t1 WHERE t1.transaction_type LIKE 'b%' UNION ALL SELECT t2.id, t2.to_account_id, t2.description FROM transactions AS t2 WHERE t2.description LIKE '%a%' ORDER BY id",
-    "tables": [
-      "transactions",
-      "transactions"
-    ]
-  },
-  {
-    "id": 68,
-    "complexity": "union",
-    "sql": "SELECT t1.description, t1.status, t1.amount, t1.to_account_id FROM transactions AS t1 WHERE t1.from_account_id <= 338 UNION SELECT t2.description, t2.status, t2.amount, t2.to_account_id FROM transactions AS t2 WHERE t2.transaction_date < DATETIME('now', '-7 days') ORDER BY description",
-    "tables": [
-      "transactions",
-      "transactions"
-    ]
-  },
-  {
-    "id": 69,
-    "complexity": "union",
-    "sql": "SELECT t1.status, t1.id FROM transactions AS t1 WHERE t1.id >= 411 UNION SELECT t2.status, t2.id FROM transactions AS t2 WHERE t2.to_account_id < 592",
-    "tables": [
-      "transactions",
-      "transactions"
-    ]
-  },
-  {
-    "id": 70,
-    "complexity": "union",
-    "sql": "SELECT l1.status, l1.end_date FROM loans AS l1 WHERE l1.term_months <= 247 UNION ALL SELECT l2.status, l2.end_date FROM loans AS l2 WHERE l2.monthly_payment <= 835 LIMIT 41",
-    "tables": [
-      "loans",
-      "loans"
-    ]
-  },
-  {
-    "id": 71,
-    "complexity": "union",
-    "sql": "SELECT t1.transaction_type, t1.id FROM transactions AS t1 WHERE t1.to_account_id < 937 UNION SELECT t2.transaction_type, t2.id FROM transactions AS t2 WHERE t2.amount <= 330",
-    "tables": [
-      "transactions",
-      "transactions"
-    ]
-  },
-  {
-    "id": 72,
-    "complexity": "union",
-    "sql": "SELECT t1.status, t1.amount, t1.description FROM transactions AS t1 WHERE t1.transaction_type = '123' UNION ALL SELECT t2.status, t2.amount, t2.description FROM transactions AS t2 WHERE t2.amount <> 450 LIMIT 49",
-    "tables": [
-      "transactions",
-      "transactions"
-    ]
-  },
-  {
-    "id": 73,
-    "complexity": "union",
-    "sql": "SELECT c1.id, c1.credit_score, c1.first_name FROM customers AS c1 WHERE c1.credit_score <> 871 UNION SELECT c2.id, c2.credit_score, c2.first_name FROM customers AS c2 WHERE c2.address LIKE '%a%' LIMIT 36",
-    "tables": [
-      "customers",
-      "customers"
-    ]
-  },
-  {
-    "id": 74,
-    "complexity": "union",
-    "sql": "SELECT a1.opened_on, a1.account_type, a1.is_active FROM accounts AS a1 WHERE a1.account_type = 'test' UNION SELECT a2.opened_on, a2.account_type, a2.is_active FROM accounts AS a2 WHERE a2.interest_rate <> 931 LIMIT 37",
+    "sql": "SELECT a1.interest_rate, a1.opened_on FROM accounts AS a1 WHERE a1.opened_on < DATETIME('now', '-17 days') UNION ALL SELECT a2.interest_rate, a2.opened_on FROM accounts AS a2 WHERE a2.id = 402 LIMIT 29",
     "tables": [
       "accounts",
       "accounts"
     ]
   },
   {
+    "id": 66,
+    "complexity": "union",
+    "sql": "SELECT b1.id, b1.manager_id FROM branches AS b1 WHERE b1.id = 508 UNION ALL SELECT b2.id, b2.manager_id FROM branches AS b2 WHERE b2.employee_count > 687 LIMIT 11",
+    "tables": [
+      "branches",
+      "branches"
+    ]
+  },
+  {
+    "id": 67,
+    "complexity": "union",
+    "sql": "SELECT c1.credit_score, c1.date_of_birth, c1.last_name, c1.id FROM customers AS c1 WHERE c1.address LIKE '%a%' UNION SELECT c2.credit_score, c2.date_of_birth, c2.last_name, c2.id FROM customers AS c2 WHERE c2.credit_score = 791",
+    "tables": [
+      "customers",
+      "customers"
+    ]
+  },
+  {
+    "id": 68,
+    "complexity": "union",
+    "sql": "SELECT c1.date_of_birth, c1.is_active FROM customers AS c1 WHERE c1.last_name LIKE 'b%' UNION SELECT c2.date_of_birth, c2.is_active FROM customers AS c2 WHERE c2.address = 'activity'",
+    "tables": [
+      "customers",
+      "customers"
+    ]
+  },
+  {
+    "id": 69,
+    "complexity": "union",
+    "sql": "SELECT a1.is_active, a1.currency, a1.interest_rate, a1.customer_id FROM accounts AS a1 WHERE a1.id <> 120 UNION SELECT a2.is_active, a2.currency, a2.interest_rate, a2.customer_id FROM accounts AS a2 WHERE a2.balance > 568 ORDER BY is_active LIMIT 50",
+    "tables": [
+      "accounts",
+      "accounts"
+    ]
+  },
+  {
+    "id": 70,
+    "complexity": "union",
+    "sql": "SELECT c1.card_type, c1.is_active, c1.account_id FROM cards AS c1 WHERE c1.is_active = 1 UNION ALL SELECT c2.card_type, c2.is_active, c2.account_id FROM cards AS c2 WHERE c2.credit_limit <= 571",
+    "tables": [
+      "cards",
+      "cards"
+    ]
+  },
+  {
+    "id": 71,
+    "complexity": "union",
+    "sql": "SELECT e1.position, e1.salary FROM employees AS e1 WHERE e1.branch_id >= 415 UNION SELECT e2.position, e2.salary FROM employees AS e2 WHERE e2.branch_id >= 103",
+    "tables": [
+      "employees",
+      "employees"
+    ]
+  },
+  {
+    "id": 72,
+    "complexity": "union",
+    "sql": "SELECT b1.city, b1.id, b1.employee_count, b1.state FROM branches AS b1 WHERE b1.city <> 'test' UNION SELECT b2.city, b2.id, b2.employee_count, b2.state FROM branches AS b2 WHERE b2.employee_count >= 802 LIMIT 34",
+    "tables": [
+      "branches",
+      "branches"
+    ]
+  },
+  {
+    "id": 73,
+    "complexity": "union",
+    "sql": "SELECT e1.is_active, e1.position, e1.last_name FROM employees AS e1 WHERE e1.id > 26 UNION ALL SELECT e2.is_active, e2.position, e2.last_name FROM employees AS e2 WHERE e2.salary > 144 ORDER BY is_active LIMIT 35",
+    "tables": [
+      "employees",
+      "employees"
+    ]
+  },
+  {
+    "id": 74,
+    "complexity": "union",
+    "sql": "SELECT c1.email, c1.first_name FROM customers AS c1 WHERE c1.address <> 'activity' UNION SELECT c2.email, c2.first_name FROM customers AS c2 WHERE c2.created_at <= DATETIME('now', '-27 days') ORDER BY email",
+    "tables": [
+      "customers",
+      "customers"
+    ]
+  },
+  {
     "id": 75,
     "complexity": "union",
-    "sql": "SELECT t1.description, t1.transaction_type FROM transactions AS t1 WHERE t1.amount > 846 UNION ALL SELECT t2.description, t2.transaction_type FROM transactions AS t2 WHERE t2.transaction_type = '123'",
+    "sql": "SELECT a1.balance, a1.id, a1.customer_id, a1.account_type FROM accounts AS a1 WHERE a1.is_active = 1 UNION SELECT a2.balance, a2.id, a2.customer_id, a2.account_type FROM accounts AS a2 WHERE a2.account_type LIKE '%a%' LIMIT 40",
     "tables": [
-      "transactions",
-      "transactions"
+      "accounts",
+      "accounts"
     ]
   },
   {
     "id": 76,
     "complexity": "union",
-    "sql": "SELECT l1.end_date, l1.loan_type FROM loans AS l1 WHERE l1.interest_rate < 278 UNION SELECT l2.end_date, l2.loan_type FROM loans AS l2 WHERE l2.status = 'activity' ORDER BY end_date",
+    "sql": "SELECT b1.name, b1.id, b1.is_active, b1.manager_id FROM branches AS b1 WHERE b1.employee_count <= 14 UNION ALL SELECT b2.name, b2.id, b2.is_active, b2.manager_id FROM branches AS b2 WHERE b2.manager_id <> 353",
     "tables": [
-      "loans",
-      "loans"
+      "branches",
+      "branches"
     ]
   },
   {
     "id": 77,
     "complexity": "union",
-    "sql": "SELECT b1.state, b1.manager_id FROM branches AS b1 WHERE b1.employee_count <= 771 UNION SELECT b2.state, b2.manager_id FROM branches AS b2 WHERE b2.name <> 'admin'",
+    "sql": "SELECT b1.id, b1.employee_count, b1.city FROM branches AS b1 WHERE b1.city LIKE 'b%' UNION ALL SELECT b2.id, b2.employee_count, b2.city FROM branches AS b2 WHERE b2.is_active = 0 LIMIT 37",
     "tables": [
       "branches",
       "branches"
@@ -666,42 +672,42 @@
   {
     "id": 78,
     "complexity": "union",
-    "sql": "SELECT b1.employee_count, b1.manager_id, b1.id FROM branches AS b1 WHERE b1.employee_count <> 7 UNION SELECT b2.employee_count, b2.manager_id, b2.id FROM branches AS b2 WHERE b2.id < 452 ORDER BY employee_count LIMIT 30",
+    "sql": "SELECT l1.end_date, l1.interest_rate, l1.status FROM loans AS l1 WHERE l1.term_months = 51 UNION SELECT l2.end_date, l2.interest_rate, l2.status FROM loans AS l2 WHERE l2.term_months <> 70",
     "tables": [
-      "branches",
-      "branches"
+      "loans",
+      "loans"
     ]
   },
   {
     "id": 79,
     "complexity": "union",
-    "sql": "SELECT l1.end_date, l1.interest_rate, l1.loan_type, l1.start_date FROM loans AS l1 WHERE l1.status = 'admin' UNION SELECT l2.end_date, l2.interest_rate, l2.loan_type, l2.start_date FROM loans AS l2 WHERE l2.start_date <= DATETIME('now', '-12 days')",
+    "sql": "SELECT c1.phone, c1.credit_score FROM customers AS c1 WHERE c1.created_at < DATETIME('now', '-30 days') UNION SELECT c2.phone, c2.credit_score FROM customers AS c2 WHERE c2.created_at <= DATETIME('now', '-17 days')",
     "tables": [
-      "loans",
-      "loans"
+      "customers",
+      "customers"
     ]
   },
   {
     "id": 80,
     "complexity": "union",
-    "sql": "SELECT l1.principal_amount, l1.loan_type, l1.customer_id FROM loans AS l1 WHERE l1.monthly_payment > 126 UNION SELECT l2.principal_amount, l2.loan_type, l2.customer_id FROM loans AS l2 WHERE l2.interest_rate <= 201 ORDER BY principal_amount LIMIT 38",
+    "sql": "SELECT c1.account_id, c1.id FROM cards AS c1 WHERE c1.card_type = 'admin' UNION ALL SELECT c2.account_id, c2.id FROM cards AS c2 WHERE c2.expiry_date > DATETIME('now', '-23 days')",
     "tables": [
-      "loans",
-      "loans"
+      "cards",
+      "cards"
     ]
   },
   {
     "id": 81,
     "complexity": "insert",
-    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 10', 'Sample text 17', 'user854@example.com', 'Sample text 97', DATETIME('now'), 'Sample text 33', 52, 1, DATETIME('now'))",
+    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (591, 'Sample text 36', 32, 316, 50, 343, DATETIME('now'), DATETIME('now'), 'Sample text 1', 0)",
     "tables": [
-      "customers"
+      "loans"
     ]
   },
   {
     "id": 82,
     "complexity": "insert",
-    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (69, 'Sample text 52', 921, 730, 620, 802, DATETIME('now'), DATETIME('now'), 'Sample text 52', 0)",
+    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (769, 'Sample text 94', 898, 274, 320, 122, DATETIME('now'), DATETIME('now'), 'Sample text 97', 1)",
     "tables": [
       "loans"
     ]
@@ -709,55 +715,55 @@
   {
     "id": 83,
     "complexity": "insert",
-    "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 73', 'Sample text 98', 'Sample text 8', 807, 889, 1)",
-    "tables": [
-      "branches"
-    ]
-  },
-  {
-    "id": 84,
-    "complexity": "insert",
-    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (406, 408, 307, 'Sample text 59', 'Sample text 80', DATETIME('now'), 'Sample text 9')",
-    "tables": [
-      "transactions"
-    ]
-  },
-  {
-    "id": 85,
-    "complexity": "insert",
-    "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (83, 'Sample text 76', 365, 'Sample text 83', DATETIME('now'), 0, 668)",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 86,
-    "complexity": "insert",
-    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 78', 'Sample text 7', 'user985@example.com', 'Sample text 61', DATETIME('now'), 'Sample text 22', 225, 1, DATETIME('now'))",
-    "tables": [
-      "customers"
-    ]
-  },
-  {
-    "id": 87,
-    "complexity": "insert",
-    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (761, 'Sample text 32', 'Sample text 6', DATETIME('now'), 203, 1, DATETIME('now'))",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (160, 'Sample text 45', 'Sample text 90', DATETIME('now'), 634, 1, DATETIME('now'))",
     "tables": [
       "cards"
     ]
   },
   {
+    "id": 84,
+    "complexity": "insert",
+    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (717, 'Sample text 51', 390, 149, 567, 649, DATETIME('now'), DATETIME('now'), 'Sample text 25', 0)",
+    "tables": [
+      "loans"
+    ]
+  },
+  {
+    "id": 85,
+    "complexity": "insert",
+    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (745, 332, 28, 'Sample text 13', 'Sample text 61', DATETIME('now'), 'Sample text 15')",
+    "tables": [
+      "transactions"
+    ]
+  },
+  {
+    "id": 86,
+    "complexity": "insert",
+    "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 46', 'Sample text 66', 766, 'Sample text 36', DATETIME('now'), 443, 0)",
+    "tables": [
+      "employees"
+    ]
+  },
+  {
+    "id": 87,
+    "complexity": "insert",
+    "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 94', 'Sample text 79', 500, 'Sample text 78', DATETIME('now'), 152, 0)",
+    "tables": [
+      "employees"
+    ]
+  },
+  {
     "id": 88,
     "complexity": "insert",
-    "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 82', 'Sample text 35', 'Sample text 88', 309, 89, 1)",
+    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (335, 'Sample text 97', 671, 47, 644, 592, DATETIME('now'), DATETIME('now'), 'Sample text 74', 0)",
     "tables": [
-      "branches"
+      "loans"
     ]
   },
   {
     "id": 89,
     "complexity": "insert",
-    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (483, 'Sample text 83', 'Sample text 67', DATETIME('now'), 988, 1, DATETIME('now'))",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (162, 'Sample text 84', 'Sample text 6', DATETIME('now'), 669, 1, DATETIME('now'))",
     "tables": [
       "cards"
     ]
@@ -765,47 +771,47 @@
   {
     "id": 90,
     "complexity": "insert",
-    "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 32', 'Sample text 19', 'Sample text 79', 193, 507, 0)",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (477, 'Sample text 75', 'Sample text 100', DATETIME('now'), 375, 0, DATETIME('now'))",
     "tables": [
-      "branches"
+      "cards"
     ]
   },
   {
     "id": 91,
     "complexity": "insert",
-    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (864, 840, 852, 'Sample text 70', 'Sample text 57', DATETIME('now'), 'Sample text 98')",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (977, 'Sample text 7', 'Sample text 42', DATETIME('now'), 341, 0, DATETIME('now'))",
     "tables": [
-      "transactions"
+      "cards"
     ]
   },
   {
     "id": 92,
     "complexity": "insert",
-    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 70', 'Sample text 78', 'user528@example.com', 'Sample text 35', DATETIME('now'), 'Sample text 7', 717, 0, DATETIME('now'))",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (888, 'Sample text 27', 'Sample text 41', DATETIME('now'), 93, 1, DATETIME('now'))",
     "tables": [
-      "customers"
+      "cards"
     ]
   },
   {
     "id": 93,
     "complexity": "insert",
-    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 42', 'Sample text 89', 'user929@example.com', 'Sample text 81', DATETIME('now'), 'Sample text 53', 221, 1, DATETIME('now'))",
+    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (589, 'Sample text 84', 75, 593, 463, 976, DATETIME('now'), DATETIME('now'), 'Sample text 72', 0)",
     "tables": [
-      "customers"
+      "loans"
     ]
   },
   {
     "id": 94,
     "complexity": "insert",
-    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (232, 234, 698, 'Sample text 92', 'Sample text 69', DATETIME('now'), 'Sample text 95')",
+    "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (651, 'Sample text 11', 487, 'Sample text 22', DATETIME('now'), 1, 128)",
     "tables": [
-      "transactions"
+      "accounts"
     ]
   },
   {
     "id": 95,
     "complexity": "insert",
-    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (552, 'Sample text 5', 'Sample text 77', DATETIME('now'), 615, 0, DATETIME('now'))",
+    "sql": "INSERT INTO cards (\"account_id\", \"card_type\", \"card_number\", \"expiry_date\", \"credit_limit\", \"is_active\", \"issued_on\") VALUES (296, 'Sample text 95', 'Sample text 49', DATETIME('now'), 729, 1, DATETIME('now'))",
     "tables": [
       "cards"
     ]
@@ -813,23 +819,23 @@
   {
     "id": 96,
     "complexity": "insert",
-    "sql": "INSERT INTO loans (\"customer_id\", \"loan_type\", \"principal_amount\", \"interest_rate\", \"term_months\", \"monthly_payment\", \"start_date\", \"end_date\", \"status\", \"is_active\") VALUES (139, 'Sample text 48', 14, 915, 799, 324, DATETIME('now'), DATETIME('now'), 'Sample text 73', 0)",
+    "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 87', 'Sample text 59', 236, 'Sample text 46', DATETIME('now'), 429, 0)",
     "tables": [
-      "loans"
+      "employees"
     ]
   },
   {
     "id": 97,
     "complexity": "insert",
-    "sql": "INSERT INTO branches (\"name\", \"city\", \"state\", \"manager_id\", \"employee_count\", \"is_active\") VALUES ('Sample text 84', 'Sample text 11', 'Sample text 72', 983, 869, 1)",
+    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (196, 804, 966, 'Sample text 79', 'Sample text 45', DATETIME('now'), 'Sample text 63')",
     "tables": [
-      "branches"
+      "transactions"
     ]
   },
   {
     "id": 98,
     "complexity": "insert",
-    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 57', 'Sample text 5', 'user929@example.com', 'Sample text 46', DATETIME('now'), 'Sample text 28', 81, 0, DATETIME('now'))",
+    "sql": "INSERT INTO customers (\"first_name\", \"last_name\", \"email\", \"phone\", \"date_of_birth\", \"address\", \"credit_score\", \"is_active\", \"created_at\") VALUES ('Sample text 35', 'Sample text 37', 'user24@example.com', 'Sample text 95', DATETIME('now'), 'Sample text 97', 226, 1, DATETIME('now'))",
     "tables": [
       "customers"
     ]
@@ -837,63 +843,63 @@
   {
     "id": 99,
     "complexity": "insert",
-    "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (552, 'Sample text 83', 625, 'Sample text 91', DATETIME('now'), 0, 391)",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 100,
-    "complexity": "insert",
-    "sql": "INSERT INTO employees (\"first_name\", \"last_name\", \"branch_id\", \"position\", \"hire_date\", \"salary\", \"is_active\") VALUES ('Sample text 19', 'Sample text 37', 398, 'Sample text 60', DATETIME('now'), 494, 0)",
-    "tables": [
-      "employees"
-    ]
-  },
-  {
-    "id": 101,
-    "complexity": "update",
-    "sql": "UPDATE customers SET created_at = DATETIME('now') WHERE customers.address LIKE 'b%'",
-    "tables": [
-      "customers"
-    ]
-  },
-  {
-    "id": 102,
-    "complexity": "update",
-    "sql": "UPDATE employees SET salary = 409 WHERE employees.is_active = 0",
-    "tables": [
-      "employees"
-    ]
-  },
-  {
-    "id": 103,
-    "complexity": "update",
-    "sql": "UPDATE transactions SET to_account_id = 735 WHERE transactions.transaction_type = 'activity'",
+    "sql": "INSERT INTO transactions (\"from_account_id\", \"to_account_id\", \"amount\", \"transaction_type\", \"description\", \"transaction_date\", \"status\") VALUES (743, 6, 199, 'Sample text 88', 'Sample text 3', DATETIME('now'), 'Sample text 21')",
     "tables": [
       "transactions"
     ]
   },
   {
-    "id": 104,
-    "complexity": "update",
-    "sql": "UPDATE accounts SET currency = 'Updated text 37' WHERE accounts.id > 527",
+    "id": 100,
+    "complexity": "insert",
+    "sql": "INSERT INTO accounts (\"customer_id\", \"account_type\", \"balance\", \"currency\", \"opened_on\", \"is_active\", \"interest_rate\") VALUES (91, 'Sample text 23', 221, 'Sample text 50', DATETIME('now'), 1, 845)",
     "tables": [
       "accounts"
     ]
   },
   {
-    "id": 105,
+    "id": 101,
     "complexity": "update",
-    "sql": "UPDATE cards SET account_id = 891 WHERE cards.credit_limit <= 648",
+    "sql": "UPDATE accounts SET is_active = 1 WHERE accounts.account_type = 'user'",
+    "tables": [
+      "accounts"
+    ]
+  },
+  {
+    "id": 102,
+    "complexity": "update",
+    "sql": "UPDATE cards SET expiry_date = DATETIME('now') WHERE cards.issued_on < DATETIME('now', '-30 days')",
     "tables": [
       "cards"
     ]
   },
   {
+    "id": 103,
+    "complexity": "update",
+    "sql": "UPDATE branches SET manager_id = 624 WHERE branches.state LIKE '%a%'",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
+    "id": 104,
+    "complexity": "update",
+    "sql": "UPDATE transactions SET amount = 567 WHERE transactions.from_account_id >= 991",
+    "tables": [
+      "transactions"
+    ]
+  },
+  {
+    "id": 105,
+    "complexity": "update",
+    "sql": "UPDATE branches SET city = 'Updated text 4' WHERE branches.state = 'user'",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
     "id": 106,
     "complexity": "update",
-    "sql": "UPDATE employees SET is_active = 0 WHERE employees.salary = 445",
+    "sql": "UPDATE employees SET first_name = 'Updated text 25' WHERE employees.position = 'admin'",
     "tables": [
       "employees"
     ]
@@ -901,15 +907,15 @@
   {
     "id": 107,
     "complexity": "update",
-    "sql": "UPDATE accounts SET account_type = 'Updated text 94' WHERE accounts.interest_rate < 51",
+    "sql": "UPDATE customers SET last_name = 'Updated text 27' WHERE customers.address = 'test'",
     "tables": [
-      "accounts"
+      "customers"
     ]
   },
   {
     "id": 108,
     "complexity": "update",
-    "sql": "UPDATE cards SET expiry_date = DATETIME('now') WHERE cards.issued_on <= DATETIME('now', '-26 days')",
+    "sql": "UPDATE cards SET issued_on = DATETIME('now') WHERE cards.account_id >= 443",
     "tables": [
       "cards"
     ]
@@ -917,23 +923,23 @@
   {
     "id": 109,
     "complexity": "update",
-    "sql": "UPDATE cards SET expiry_date = DATETIME('now') WHERE cards.card_type <> '123'",
+    "sql": "UPDATE customers SET credit_score = 194 WHERE customers.email <> 'user85@example.com'",
     "tables": [
-      "cards"
+      "customers"
     ]
   },
   {
     "id": 110,
     "complexity": "update",
-    "sql": "UPDATE loans SET interest_rate = 890 WHERE loans.loan_type LIKE '%c'",
+    "sql": "UPDATE accounts SET account_type = 'Updated text 95' WHERE accounts.currency LIKE 'b%'",
     "tables": [
-      "loans"
+      "accounts"
     ]
   },
   {
     "id": 111,
     "complexity": "update",
-    "sql": "UPDATE transactions SET to_account_id = 514 WHERE transactions.to_account_id = 614",
+    "sql": "UPDATE transactions SET to_account_id = 180 WHERE transactions.status <> '123'",
     "tables": [
       "transactions"
     ]
@@ -941,7 +947,7 @@
   {
     "id": 112,
     "complexity": "update",
-    "sql": "UPDATE accounts SET is_active = 0 WHERE accounts.interest_rate <> 212",
+    "sql": "UPDATE accounts SET balance = 914 WHERE accounts.interest_rate = 309",
     "tables": [
       "accounts"
     ]
@@ -949,31 +955,31 @@
   {
     "id": 113,
     "complexity": "update",
-    "sql": "UPDATE employees SET hire_date = DATETIME('now') WHERE employees.hire_date >= DATETIME('now', '-22 days')",
+    "sql": "UPDATE transactions SET description = 'Updated text 59' WHERE transactions.transaction_type LIKE '%a%'",
     "tables": [
-      "employees"
+      "transactions"
     ]
   },
   {
     "id": 114,
     "complexity": "update",
-    "sql": "UPDATE cards SET card_number = 'Updated text 25' WHERE cards.card_number = '123'",
+    "sql": "UPDATE branches SET name = 'Updated text 43' WHERE branches.state LIKE '%c'",
     "tables": [
-      "cards"
+      "branches"
     ]
   },
   {
     "id": 115,
     "complexity": "update",
-    "sql": "UPDATE customers SET date_of_birth = DATETIME('now') WHERE customers.address = 'admin'",
+    "sql": "UPDATE transactions SET from_account_id = 21 WHERE transactions.id > 304",
     "tables": [
-      "customers"
+      "transactions"
     ]
   },
   {
     "id": 116,
     "complexity": "update",
-    "sql": "UPDATE loans SET loan_type = 'Updated text 6' WHERE loans.status <> 'user'",
+    "sql": "UPDATE loans SET loan_type = 'Updated text 6' WHERE loans.interest_rate < 959",
     "tables": [
       "loans"
     ]
@@ -981,87 +987,87 @@
   {
     "id": 117,
     "complexity": "update",
-    "sql": "UPDATE loans SET is_active = 1 WHERE loans.end_date > DATETIME('now', '-18 days')",
+    "sql": "UPDATE accounts SET customer_id = 651 WHERE accounts.balance > 633",
     "tables": [
-      "loans"
+      "accounts"
     ]
   },
   {
     "id": 118,
     "complexity": "update",
-    "sql": "UPDATE accounts SET is_active = 1 WHERE accounts.id > 773",
+    "sql": "UPDATE transactions SET transaction_type = 'Updated text 6' WHERE transactions.to_account_id = 736",
     "tables": [
-      "accounts"
+      "transactions"
     ]
   },
   {
     "id": 119,
     "complexity": "update",
-    "sql": "UPDATE employees SET position = 'Updated text 53' WHERE employees.is_active = 1",
-    "tables": [
-      "employees"
-    ]
-  },
-  {
-    "id": 120,
-    "complexity": "update",
-    "sql": "UPDATE customers SET email = 'updated_user62@example.com' WHERE customers.phone = 'user'",
+    "sql": "UPDATE customers SET address = 'Updated text 51' WHERE customers.email <> 'user11@example.com'",
     "tables": [
       "customers"
     ]
   },
   {
-    "id": 121,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.is_active = 0",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 122,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.currency <> 'admin'",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 123,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.term_months <> 756",
-    "tables": [
-      "loans"
-    ]
-  },
-  {
-    "id": 124,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.card_type = 'admin'",
-    "tables": [
-      "cards"
-    ]
-  },
-  {
-    "id": 125,
-    "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.term_months <= 304",
-    "tables": [
-      "loans"
-    ]
-  },
-  {
-    "id": 126,
-    "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.salary < 376",
+    "id": 120,
+    "complexity": "update",
+    "sql": "UPDATE employees SET hire_date = DATETIME('now') WHERE employees.position = '123'",
     "tables": [
       "employees"
     ]
   },
   {
+    "id": 121,
+    "complexity": "delete",
+    "sql": "DELETE FROM loans WHERE loans.status = 'test'",
+    "tables": [
+      "loans"
+    ]
+  },
+  {
+    "id": 122,
+    "complexity": "delete",
+    "sql": "DELETE FROM cards WHERE cards.expiry_date <= DATETIME('now', '-1 days')",
+    "tables": [
+      "cards"
+    ]
+  },
+  {
+    "id": 123,
+    "complexity": "delete",
+    "sql": "DELETE FROM branches WHERE branches.is_active = 0",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
+    "id": 124,
+    "complexity": "delete",
+    "sql": "DELETE FROM loans WHERE loans.end_date <= DATETIME('now', '-17 days')",
+    "tables": [
+      "loans"
+    ]
+  },
+  {
+    "id": 125,
+    "complexity": "delete",
+    "sql": "DELETE FROM cards WHERE cards.credit_limit <> 785",
+    "tables": [
+      "cards"
+    ]
+  },
+  {
+    "id": 126,
+    "complexity": "delete",
+    "sql": "DELETE FROM cards WHERE cards.is_active = 1",
+    "tables": [
+      "cards"
+    ]
+  },
+  {
     "id": 127,
     "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.description LIKE '%c'",
+    "sql": "DELETE FROM transactions WHERE transactions.status <> 'activity'",
     "tables": [
       "transactions"
     ]
@@ -1069,87 +1075,87 @@
   {
     "id": 128,
     "complexity": "delete",
-    "sql": "DELETE FROM loans WHERE loans.id < 74",
-    "tables": [
-      "loans"
-    ]
-  },
-  {
-    "id": 129,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.credit_score > 782",
-    "tables": [
-      "customers"
-    ]
-  },
-  {
-    "id": 130,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.id > 215",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 131,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.expiry_date >= DATETIME('now', '-17 days')",
-    "tables": [
-      "cards"
-    ]
-  },
-  {
-    "id": 132,
-    "complexity": "delete",
-    "sql": "DELETE FROM accounts WHERE accounts.interest_rate = 772",
-    "tables": [
-      "accounts"
-    ]
-  },
-  {
-    "id": 133,
-    "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.phone LIKE '%c'",
-    "tables": [
-      "customers"
-    ]
-  },
-  {
-    "id": 134,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.expiry_date > DATETIME('now', '-7 days')",
-    "tables": [
-      "cards"
-    ]
-  },
-  {
-    "id": 135,
-    "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.card_type = 'user'",
-    "tables": [
-      "cards"
-    ]
-  },
-  {
-    "id": 136,
-    "complexity": "delete",
-    "sql": "DELETE FROM transactions WHERE transactions.id < 895",
+    "sql": "DELETE FROM transactions WHERE transactions.id > 996",
     "tables": [
       "transactions"
     ]
   },
   {
-    "id": 137,
+    "id": 129,
     "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.first_name <> 'user'",
+    "sql": "DELETE FROM branches WHERE branches.city <> 'activity'",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
+    "id": 130,
+    "complexity": "delete",
+    "sql": "DELETE FROM employees WHERE employees.id < 867",
+    "tables": [
+      "employees"
+    ]
+  },
+  {
+    "id": 131,
+    "complexity": "delete",
+    "sql": "DELETE FROM accounts WHERE accounts.currency = 'test'",
+    "tables": [
+      "accounts"
+    ]
+  },
+  {
+    "id": 132,
+    "complexity": "delete",
+    "sql": "DELETE FROM transactions WHERE transactions.transaction_type = 'test'",
+    "tables": [
+      "transactions"
+    ]
+  },
+  {
+    "id": 133,
+    "complexity": "delete",
+    "sql": "DELETE FROM cards WHERE cards.card_number = 'test'",
+    "tables": [
+      "cards"
+    ]
+  },
+  {
+    "id": 134,
+    "complexity": "delete",
+    "sql": "DELETE FROM branches WHERE branches.manager_id >= 51",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
+    "id": 135,
+    "complexity": "delete",
+    "sql": "DELETE FROM transactions WHERE transactions.amount <> 587",
+    "tables": [
+      "transactions"
+    ]
+  },
+  {
+    "id": 136,
+    "complexity": "delete",
+    "sql": "DELETE FROM customers WHERE customers.created_at >= DATETIME('now', '-1 days')",
     "tables": [
       "customers"
     ]
   },
   {
+    "id": 137,
+    "complexity": "delete",
+    "sql": "DELETE FROM branches WHERE branches.is_active = 0",
+    "tables": [
+      "branches"
+    ]
+  },
+  {
     "id": 138,
     "complexity": "delete",
-    "sql": "DELETE FROM cards WHERE cards.account_id < 432",
+    "sql": "DELETE FROM cards WHERE cards.credit_limit < 359",
     "tables": [
       "cards"
     ]
@@ -1157,17 +1163,17 @@
   {
     "id": 139,
     "complexity": "delete",
-    "sql": "DELETE FROM customers WHERE customers.email LIKE '%@example.com'",
+    "sql": "DELETE FROM accounts WHERE accounts.account_type LIKE 'b%'",
     "tables": [
-      "customers"
+      "accounts"
     ]
   },
   {
     "id": 140,
     "complexity": "delete",
-    "sql": "DELETE FROM employees WHERE employees.branch_id = 619",
+    "sql": "DELETE FROM branches WHERE branches.employee_count <> 321",
     "tables": [
-      "employees"
+      "branches"
     ]
   }
 ]
