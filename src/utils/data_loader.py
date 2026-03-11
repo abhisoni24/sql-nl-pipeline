@@ -2,10 +2,18 @@ import json
 import random
 from typing import List, Dict, Any
 
+
+def _unwrap_records(data):
+    """Unwrap {metadata, records} envelope if present."""
+    if isinstance(data, dict) and 'records' in data:
+        return data['records']
+    return data
+
+
 def load_baseline_queries(path: str) -> List[Dict[str, Any]]:
     """Load baseline queries (original NL prompts)."""
     with open(path, 'r') as f:
-        queries = json.load(f)
+        queries = _unwrap_records(json.load(f))
     
     tasks = []
     for q in queries:
@@ -24,7 +32,7 @@ def load_baseline_queries(path: str) -> List[Dict[str, Any]]:
 def load_systematic_perturbations(path: str) -> List[Dict[str, Any]]:
     """Load systematic perturbations."""
     with open(path, 'r') as f:
-        queries = json.load(f)
+        queries = _unwrap_records(json.load(f))
     
     tasks = []
     for q in queries:
@@ -66,7 +74,7 @@ def load_systematic_perturbations(path: str) -> List[Dict[str, Any]]:
 def load_llm_perturbations(path: str) -> List[Dict[str, Any]]:
     """Load LLM-generated perturbations."""
     with open(path, 'r') as f:
-        queries = json.load(f)
+        queries = _unwrap_records(json.load(f))
     
     tasks = []
     for q in queries:

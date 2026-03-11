@@ -1,0 +1,300 @@
+column_synonyms:
+  accounts.account_type:
+  - account type
+  - history type
+  - chronicle type
+  - report type
+  - news report type
+  accounts.balance:
+  - balance
+  - proportion
+  - proportionality
+  accounts.currency:
+  - currency
+  - currentness
+  - up-to-dateness
+  accounts.customer_id:
+  - customer id
+  - client id
+  accounts.id:
+  - id
+  accounts.interest_rate:
+  - interest rate
+  - involvement rate
+  - sake rate
+  - interestingness rate
+  accounts.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  accounts.opened_on:
+  - opened on
+  - open on
+  - open up on
+  branches.city:
+  - city
+  - metropolis
+  - urban center
+  branches.employee_count:
+  - employee count
+  branches.id:
+  - id
+  branches.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  branches.manager_id:
+  - manager id
+  - director id
+  - managing director id
+  - coach id
+  - handler id
+  branches.name:
+  - name
+  - gens
+  branches.state:
+  - state
+  - province
+  cards.account_id:
+  - account id
+  - history id
+  - chronicle id
+  - report id
+  - news report id
+  cards.card_number:
+  - card number
+  - identity card number
+  cards.card_type:
+  - card type
+  - identity card type
+  cards.credit_limit:
+  - credit limit
+  - recognition limit
+  - credit entry limit
+  cards.expiry_date:
+  - expiry date
+  - termination date
+  - expiration date
+  - death date
+  - decease date
+  cards.id:
+  - id
+  cards.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  cards.issued_on:
+  - issued on
+  - publish on
+  - bring out on
+  - put out on
+  - issue on
+  customers.address:
+  - address
+  - computer address
+  - reference
+  - speech
+  customers.created_at:
+  - created at
+  - make at
+  - create at
+  customers.credit_score:
+  - credit score
+  - recognition score
+  - credit entry score
+  customers.date_of_birth:
+  - date of birth
+  - day of the month of birth
+  - escort of birth
+  - appointment of birth
+  - engagement of birth
+  customers.email:
+  - email
+  - electronic mail
+  - e-mail
+  - netmail
+  customers.first_name:
+  - first name
+  - number one name
+  - number 1 name
+  - beginning name
+  - commencement name
+  customers.id:
+  - id
+  customers.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  customers.last_name:
+  - last name
+  - stopping point name
+  - finale name
+  - finis name
+  customers.phone:
+  - phone
+  - telephone
+  - telephone set
+  - speech sound
+  - sound
+  employees.branch_id:
+  - branch id
+  - subdivision id
+  - arm id
+  - leg id
+  - ramification id
+  employees.first_name:
+  - first name
+  - number one name
+  - number 1 name
+  - beginning name
+  - commencement name
+  employees.hire_date:
+  - hire date
+  - engage date
+  - employ date
+  employees.id:
+  - id
+  employees.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  employees.last_name:
+  - last name
+  - stopping point name
+  - finale name
+  - finis name
+  employees.position:
+  - position
+  - place
+  - military position
+  - view
+  - perspective
+  employees.salary:
+  - salary
+  - wage
+  - pay
+  - earnings
+  - remuneration
+  loans.customer_id:
+  - customer id
+  - client id
+  loans.end_date:
+  - end date
+  - terminal date
+  - ending date
+  - last date
+  - final stage date
+  loans.id:
+  - id
+  loans.interest_rate:
+  - interest rate
+  - involvement rate
+  - sake rate
+  - interestingness rate
+  loans.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  loans.loan_type:
+  - loan type
+  - loanword type
+  - lend type
+  loans.monthly_payment:
+  - monthly payment
+  loans.principal_amount:
+  - principal amount
+  - school principal amount
+  - head teacher amount
+  - star amount
+  - lead amount
+  loans.start_date:
+  - start date
+  - beginning date
+  - commencement date
+  - first date
+  - starting date
+  loans.status:
+  - status
+  - position
+  - condition
+  loans.term_months:
+  - term months
+  - condition months
+  transactions.amount:
+  - amount
+  - sum
+  - sum of money
+  - amount of money
+  - measure
+  transactions.description:
+  - description
+  - verbal description
+  transactions.from_account_id:
+  - from account id
+  transactions.id:
+  - id
+  transactions.status:
+  - status
+  - position
+  - condition
+  transactions.to_account_id:
+  - to account id
+  - to history id
+  - to chronicle id
+  - to report id
+  - to news report id
+  transactions.transaction_date:
+  - transaction date
+  - dealing date
+  - dealings date
+  transactions.transaction_type:
+  - transaction type
+  - dealing type
+  - dealings type
+table_categories:
+  accounts: object
+  branches: object
+  cards: event
+  customers: person
+  employees: person
+  loans: object
+  transactions: event
+table_synonyms:
+  accounts:
+  - accounts
+  - history
+  - account
+  - chronicle
+  - story
+  - report
+  branches:
+  - branches
+  - branch
+  - subdivision
+  - arm
+  - leg
+  - ramification
+  cards:
+  - cards
+  - card game
+  - card
+  - identity card
+  customers:
+  - customers
+  - customer
+  - client
+  employees:
+  - employees
+  - employee
+  loans:
+  - loans
+  - loan
+  - loanword
+  - lend
+  transactions:
+  - transactions
+  - minutes
+  - proceedings
+  - transaction
+  - dealing
+  - dealings

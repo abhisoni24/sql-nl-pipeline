@@ -80,7 +80,7 @@ def main():
 
         # Auto-load dictionary if a matching _dictionary.yaml exists
         dict_path = args.schema.replace('.yaml', '_dictionary.yaml')
-        if os.path.exists(dict_path):
+        if dict_path != args.schema and os.path.exists(dict_path):
             from src.core.dictionary_builder import load_dictionary
             dictionary = load_dictionary(dict_path)
             syn_count = len(dictionary.table_synonyms) + len(dictionary.column_synonyms)

@@ -75,3 +75,13 @@ models:
     tp_size: 1
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
+
+  - name: qwen3.5-27b
+    adapter_type: vllm
+    model_identifier: Qwen/Qwen3.5-27B
+    decoding_overrides:
+      max_model_len: 8192
+      enforce_eager: true
+      trust_remote_code: true
+    hardware_notes: "A100 40GB"
+    # No rate_limit = no delays for local models

@@ -1,0 +1,277 @@
+column_synonyms:
+  assets.asset_name:
+  - asset name
+  - plus name
+  assets.asset_type:
+  - asset type
+  - plus type
+  assets.department_id:
+  - department id
+  - section id
+  assets.id:
+  - id
+  assets.installation_date:
+  - installation date
+  - installing date
+  - installment date
+  - facility date
+  - initiation date
+  assets.location_latitude:
+  - location latitude
+  - placement latitude
+  - locating latitude
+  - localization latitude
+  - localisation latitude
+  assets.location_longitude:
+  - location longitude
+  - placement longitude
+  - locating longitude
+  - localization longitude
+  - localisation longitude
+  assets.status:
+  - status
+  - position
+  - condition
+  departments.contact_email:
+  - contact email
+  - physical contact email
+  departments.id:
+  - id
+  departments.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  departments.name:
+  - name
+  - gens
+  departments.operating_budget:
+  - operating budget
+  - operate budget
+  - run budget
+  - function budget
+  - work budget
+  incidents.asset_id:
+  - asset id
+  - plus id
+  incidents.detected_at:
+  - detected at
+  - detect at
+  - observe at
+  - find at
+  incidents.id:
+  - id
+  incidents.incident_type:
+  - incident type
+  incidents.is_resolved:
+  - is resolved
+  - is decide
+  - is settle
+  - is resolve
+  - is conclude
+  incidents.severity:
+  - severity
+  - badness
+  - severeness
+  - asperity
+  - grimness
+  maintenance_requests.asset_id:
+  - asset id
+  - plus id
+  maintenance_requests.description:
+  - description
+  - verbal description
+  maintenance_requests.id:
+  - id
+  maintenance_requests.issue_type:
+  - issue type
+  - number type
+  - topic type
+  - subject type
+  maintenance_requests.priority_level:
+  - priority level
+  - precedence level
+  - precedency level
+  - antecedence level
+  - antecedency level
+  maintenance_requests.reported_at:
+  - reported at
+  - report at
+  - describe at
+  - account at
+  maintenance_requests.resolved_at:
+  - resolved at
+  - decide at
+  - settle at
+  - resolve at
+  - conclude at
+  maintenance_requests.status:
+  - status
+  - position
+  - condition
+  sensor_readings.id:
+  - id
+  sensor_readings.quality_flag:
+  - quality flag
+  - caliber flag
+  - calibre flag
+  - character flag
+  - lineament flag
+  sensor_readings.reading_value:
+  - reading value
+  - meter reading value
+  - indication value
+  sensor_readings.recorded_at:
+  - recorded at
+  - record at
+  - enter at
+  - put down at
+  - tape at
+  sensor_readings.sensor_id:
+  - sensor id
+  - detector id
+  - sensing element id
+  sensors.asset_id:
+  - asset id
+  - plus id
+  sensors.id:
+  - id
+  sensors.installed_on:
+  - installed on
+  - install on
+  - instal on
+  - put in on
+  - set up on
+  sensors.is_active:
+  - is active
+  - is active agent
+  - is active voice
+  sensors.sensor_type:
+  - sensor type
+  - detector type
+  - sensing element type
+  sensors.unit:
+  - unit
+  - unit of measurement
+  - social unit
+  technicians.certification_level:
+  - certification level
+  - enfranchisement level
+  - documentation level
+  - corroboration level
+  - certificate level
+  technicians.first_name:
+  - first name
+  - number one name
+  - number 1 name
+  - beginning name
+  - commencement name
+  technicians.hire_date:
+  - hire date
+  - engage date
+  - employ date
+  technicians.id:
+  - id
+  technicians.is_available:
+  - is available
+  - is uncommitted
+  - is usable
+  - is useable
+  technicians.last_name:
+  - last name
+  - stopping point name
+  - finale name
+  - finis name
+  technicians.phone_number:
+  - phone number
+  - telephone number
+  - telephone set number
+  - speech sound number
+  - sound number
+  work_orders.assigned_at:
+  - assigned at
+  - delegate at
+  - designate at
+  - depute at
+  - assign at
+  work_orders.completed_at:
+  - completed at
+  - complete at
+  - finish at
+  - dispatch at
+  - discharge at
+  work_orders.completion_notes:
+  - completion notes
+  - pass completion notes
+  - culmination notes
+  - closing notes
+  work_orders.id:
+  - id
+  work_orders.labor_hours:
+  - labor hours
+  - labour hours
+  - working class hours
+  - toil hours
+  - parturiency hours
+  work_orders.request_id:
+  - request id
+  - petition id
+  - postulation id
+  - asking id
+  - bespeak id
+  work_orders.started_at:
+  - started at
+  - get down at
+  - begin at
+  - get at
+  - lead off at
+  work_orders.technician_id:
+  - technician id
+table_categories:
+  assets: object
+  departments: object
+  incidents: event
+  maintenance_requests: event
+  sensor_readings: object
+  sensors: object
+  technicians: person
+  work_orders: event
+table_synonyms:
+  assets:
+  - assets
+  - asset
+  - plus
+  departments:
+  - departments
+  - department
+  - section
+  incidents:
+  - incidents
+  - incident
+  maintenance_requests:
+  - maintenance requests
+  - care
+  - upkeep
+  - alimony
+  - request
+  - petition
+  sensor_readings:
+  - sensor readings
+  - detector
+  - sensing element
+  - reading
+  - meter reading
+  - indication
+  sensors:
+  - sensors
+  - detector
+  - sensor
+  - sensing element
+  technicians:
+  - technicians
+  - technician
+  work_orders:
+  - work orders
+  - piece of work
+  - employment
+  - order
+  - order of magnitude

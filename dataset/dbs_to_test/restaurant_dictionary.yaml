@@ -1,0 +1,63 @@
+column_synonyms:
+  generalinfo.city:
+  - city
+  - metropolis
+  - urban center
+  generalinfo.food_type:
+  - food type
+  - nutrient type
+  - solid food type
+  - food for thought type
+  - intellectual nourishment type
+  generalinfo.id_restaurant:
+  - id restaurant
+  - id eating house
+  - id eating place
+  generalinfo.label:
+  - label
+  - recording label
+  generalinfo.review:
+  - review
+  - reappraisal
+  - revaluation
+  - reassessment
+  - critique
+  geographic.city:
+  - city
+  - metropolis
+  - urban center
+  geographic.county:
+  - county
+  geographic.region:
+  - region
+  - part
+  - area
+  location.city:
+  - city
+  - metropolis
+  - urban center
+  location.id_restaurant:
+  - id restaurant
+  - id eating house
+  - id eating place
+  location.street_name:
+  - street name
+  location.street_num:
+  - street num
+table_categories:
+  generalinfo: object
+  geographic: object
+  location: event
+table_synonyms:
+  generalinfo:
+  - generalinfo
+  geographic:
+  - geographic
+  - geographical
+  location:
+  - location
+  - placement
+  - locating
+  - position
+  - localization
+  - localisation

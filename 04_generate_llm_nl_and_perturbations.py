@@ -6,7 +6,7 @@ Unified replacement for the old 04 / 04b scripts.  Takes raw SQL queries
 and perturbation-type definitions, and asks the model in **one shot** to:
 
   1. Write a natural-language prompt for the SQL.
-  2. Generate 14 single-perturbation versions of that NL prompt.
+  2. Generate 13 single-perturbation versions of that NL prompt.
   3. Generate 1 compound perturbation (2-5 combined perturbations).
 
 Works with any model backend supported by the harness adapters
@@ -15,12 +15,16 @@ Works with any model backend supported by the harness adapters
 
 Usage
 -----
-  # Schema-driven, model from experiments.yaml
+  # Default: uses local Qwen3.5-27B via vLLM (no API calls)
   python 04_generate_llm_nl_and_perturbations.py \\
-      --schema schemas/bank.yaml \\
-      --model gemini-2.5-flash-lite
+      --schema schemas/bank.yaml
 
-  # Ad-hoc model selection
+  # Explicit model from experiments.yaml
+  python 04_generate_llm_nl_and_perturbations.py \\
+      --schema schemas/hospital.yaml \\
+      --model qwen3.5-27b
+
+  # Ad-hoc model selection (API-based)
   python 04_generate_llm_nl_and_perturbations.py \\
       --schema schemas/hospital.yaml \\
       --adapter-type openai --model-id gpt-4o
@@ -30,7 +34,7 @@ Usage
       --schema schemas/social_media.yaml \\
       -i dataset/social_media/raw_queries.json \\
       -o dataset/social_media/llm_perturbations.json \\
-      --model gemini-2.5-flash-lite --max-tokens 8192
+      --max-tokens 8192
 
   # Mock mode (no API calls — useful for testing the pipeline)
   python 04_generate_llm_nl_and_perturbations.py \\
@@ -111,10 +115,10 @@ def _load_perturbation_text() -> str:
 
 
 def _build_schema_context(schema_path: str) -> str:
-    """Render a human-readable schema description from a YAML schema file."""
-    from src.core.schema_loader import load_from_yaml
+    """Render a human-readable schema description from a schema file."""
+    from src.core.schema_loader import load_schema
 
-    cfg = load_from_yaml(schema_path)
+    cfg = load_schema(schema_path)
     lines: list[str] = [f"Database: {cfg.schema_name}  (dialect: {cfg.dialect})"]
     lines.append("")
 
@@ -175,8 +179,9 @@ translation.
 
 ## Step 2 — Generate perturbations
 Following the perturbation type definitions provided in the system context, \
-generate 14 single-perturbation versions and 1 compound-perturbation version \
-(2-5 perturbations combined) of the NL prompt you created in Step 1.
+generate 13 single-perturbation versions (one per perturbation type) and 1 \
+compound-perturbation version (2-5 perturbations combined) of the NL prompt \
+you created in Step 1.
 
 ## Output — return ONLY a JSON object with this structure
 {{
@@ -251,8 +256,8 @@ def _save_output(
     """Persist records wrapped in a metadata envelope."""
     schema_name = upstream_meta.get("schema_name", "unknown")
     if schema_path:
-        from src.core.schema_loader import load_from_yaml
-        schema_name = load_from_yaml(schema_path).schema_name
+        from src.core.schema_loader import load_schema
+        schema_name = load_schema(schema_path).schema_name
 
     envelope = {
         "metadata": {
@@ -538,7 +543,8 @@ def _parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""\
 Examples:
-  %(prog)s --schema schemas/bank.yaml --model gemini-2.5-flash-lite
+  %(prog)s --schema schemas/bank.yaml
+  %(prog)s --schema schemas/hospital.yaml --model qwen3.5-27b
   %(prog)s --schema schemas/hospital.yaml --adapter-type openai --model-id gpt-4o
   %(prog)s --schema schemas/social_media.yaml --mock
 """,
@@ -560,8 +566,8 @@ Examples:
     # -- Model selection (mutually exclusive groups) --
     model_group = p.add_argument_group("Model selection")
     model_group.add_argument(
-        "--model", "-m", default=None,
-        help="Model name from experiments.yaml (e.g. 'gemini-2.5-flash-lite').",
+        "--model", "-m", default="qwen3.5-27b",
+        help="Model name from experiments.yaml (default: 'qwen3.5-27b').",
     )
     model_group.add_argument(
         "--adapter-type", default=None,
@@ -611,9 +617,9 @@ def main() -> None:
     args = _parse_args()
 
     # ── Resolve schema ──────────────────────────────────────────────
-    from src.core.schema_loader import load_from_yaml
+    from src.core.schema_loader import load_schema
 
-    schema_cfg = load_from_yaml(args.schema)
+    schema_cfg = load_schema(args.schema)
     schema_name = schema_cfg.schema_name
 
     input_file = args.input or f"dataset/{schema_name}/raw_queries.json"
@@ -632,7 +638,7 @@ def main() -> None:
     if args.mock:
         adapter = None
         model_id = "mock"
-    elif args.model:
+    elif args.model and not (args.adapter_type and args.model_id):
         adapter, model_cfg = _create_adapter_from_config(
             args.model,
             args.experiments_config,
