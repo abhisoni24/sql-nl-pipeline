@@ -1,0 +1,90 @@
+name: smart_city
+dialect: sqlite
+
+tables:
+
+  assets:
+    columns:
+      id: { type: int, is_pk: true }
+      asset_name: varchar
+      asset_type: varchar
+      installation_date: datetime
+      location_latitude: real
+      location_longitude: real
+      status: varchar
+      department_id: int
+
+  sensors:
+    columns:
+      id: { type: int, is_pk: true }
+      asset_id: int
+      sensor_type: varchar
+      unit: varchar
+      installed_on: datetime
+      is_active: boolean
+
+  sensor_readings:
+    columns:
+      id: { type: int, is_pk: true }
+      sensor_id: int
+      recorded_at: datetime
+      reading_value: real
+      quality_flag: varchar
+
+  maintenance_requests:
+    columns:
+      id: { type: int, is_pk: true }
+      asset_id: int
+      reported_at: datetime
+      issue_type: varchar
+      priority_level: varchar
+      description: text
+      status: varchar
+      resolved_at: datetime
+
+  technicians:
+    columns:
+      id: { type: int, is_pk: true }
+      first_name: varchar
+      last_name: varchar
+      phone_number: varchar
+      certification_level: varchar
+      hire_date: datetime
+      is_available: boolean
+
+  work_orders:
+    columns:
+      id: { type: int, is_pk: true }
+      request_id: int
+      technician_id: int
+      assigned_at: datetime
+      started_at: datetime
+      completed_at: datetime
+      labor_hours: real
+      completion_notes: text
+
+  departments:
+    columns:
+      id: { type: int, is_pk: true }
+      name: varchar
+      operating_budget: real
+      contact_email: varchar
+      is_active: boolean
+
+  incidents:
+    columns:
+      id: { type: int, is_pk: true }
+      asset_id: int
+      detected_at: datetime
+      severity: varchar
+      incident_type: varchar
+      is_resolved: boolean
+
+foreign_keys:
+  - [departments, assets, id, department_id]
+  - [assets, sensors, id, asset_id]
+  - [sensors, sensor_readings, id, sensor_id]
+  - [assets, maintenance_requests, id, asset_id]
+  - [maintenance_requests, work_orders, id, request_id]
+  - [technicians, work_orders, id, technician_id]
+  - [assets, incidents, id, asset_id]

@@ -1,0 +1,2945 @@
+{
+  "metadata": {
+    "schema_name": "smart_city",
+    "dialect": "sqlite",
+    "schema_source": "schemas/smart_city.yaml",
+    "generated_at": "2026-02-26T07:01:58.840692+00:00",
+    "num_records": 350,
+    "num_per_complexity": 50,
+    "pipeline_step": "01_generate_sql_dataset"
+  },
+  "records": [
+    {
+      "id": 1,
+      "complexity": "simple",
+      "sql": "SELECT * FROM sensors AS s1 LIMIT 9",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 2,
+      "complexity": "simple",
+      "sql": "SELECT s1.unit, s1.is_active, s1.sensor_type, s1.id FROM sensors AS s1 ORDER BY s1.unit LIMIT 8",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 3,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 4,
+      "complexity": "simple",
+      "sql": "SELECT i1.is_resolved, i1.incident_type, i1.id FROM incidents AS i1 ORDER BY i1.detected_at",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 5,
+      "complexity": "simple",
+      "sql": "SELECT i1.detected_at, i1.incident_type FROM incidents AS i1 WHERE i1.incident_type <> 'admin' LIMIT 94",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 6,
+      "complexity": "simple",
+      "sql": "SELECT * FROM incidents AS i1 WHERE i1.incident_type LIKE 'b%' ORDER BY i1.detected_at LIMIT 50",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 7,
+      "complexity": "simple",
+      "sql": "SELECT s1.sensor_id, s1.quality_flag FROM sensor_readings AS s1 WHERE s1.quality_flag = 'activity' ORDER BY s1.recorded_at",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 8,
+      "complexity": "simple",
+      "sql": "SELECT s1.id FROM sensor_readings AS s1 LIMIT 46",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 9,
+      "complexity": "simple",
+      "sql": "SELECT t1.phone_number, t1.hire_date, t1.first_name FROM technicians AS t1 ORDER BY t1.is_available",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 10,
+      "complexity": "simple",
+      "sql": "SELECT s1.sensor_id FROM sensor_readings AS s1",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 11,
+      "complexity": "simple",
+      "sql": "SELECT * FROM sensors AS s1 WHERE s1.is_active = 0",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 12,
+      "complexity": "simple",
+      "sql": "SELECT d1.operating_budget, d1.is_active, d1.id FROM departments AS d1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 13,
+      "complexity": "simple",
+      "sql": "SELECT * FROM assets AS a1 WHERE a1.department_id < 717 LIMIT 16",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 14,
+      "complexity": "simple",
+      "sql": "SELECT * FROM sensors AS s1 WHERE s1.id < 535",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 15,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 16,
+      "complexity": "simple",
+      "sql": "SELECT i1.incident_type, i1.asset_id FROM incidents AS i1 WHERE i1.asset_id <= 513 LIMIT 46",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 17,
+      "complexity": "simple",
+      "sql": "SELECT s1.quality_flag FROM sensor_readings AS s1",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 18,
+      "complexity": "simple",
+      "sql": "SELECT a1.department_id, a1.location_latitude FROM assets AS a1 WHERE a1.status <> 'admin'",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 19,
+      "complexity": "simple",
+      "sql": "SELECT i1.id, i1.asset_id, i1.severity FROM incidents AS i1 WHERE i1.asset_id <> 477",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 20,
+      "complexity": "simple",
+      "sql": "SELECT d1.operating_budget FROM departments AS d1 WHERE d1.name <> 'admin'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 21,
+      "complexity": "simple",
+      "sql": "SELECT t1.is_available, t1.hire_date, t1.certification_level, t1.phone_number FROM technicians AS t1",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 22,
+      "complexity": "simple",
+      "sql": "SELECT s1.id FROM sensor_readings AS s1",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 23,
+      "complexity": "simple",
+      "sql": "SELECT s1.is_active FROM sensors AS s1 WHERE s1.installed_on < DATETIME('now', '-20 days')",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 24,
+      "complexity": "simple",
+      "sql": "SELECT d1.operating_budget, d1.is_active, d1.contact_email FROM departments AS d1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 25,
+      "complexity": "simple",
+      "sql": "SELECT a1.asset_name, a1.installation_date, a1.location_longitude, a1.location_latitude FROM assets AS a1 LIMIT 72",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 26,
+      "complexity": "simple",
+      "sql": "SELECT w1.started_at FROM work_orders AS w1 WHERE w1.id <> 776",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 27,
+      "complexity": "simple",
+      "sql": "SELECT s1.sensor_id, s1.id FROM sensor_readings AS s1 ORDER BY s1.recorded_at LIMIT 9",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 28,
+      "complexity": "simple",
+      "sql": "SELECT * FROM incidents AS i1 ORDER BY i1.severity",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 29,
+      "complexity": "simple",
+      "sql": "SELECT a1.installation_date, a1.asset_type, a1.location_latitude, a1.status FROM assets AS a1 ORDER BY a1.id",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 30,
+      "complexity": "simple",
+      "sql": "SELECT * FROM sensors AS s1",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 31,
+      "complexity": "simple",
+      "sql": "SELECT t1.first_name, t1.phone_number, t1.last_name FROM technicians AS t1 ORDER BY t1.phone_number",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 32,
+      "complexity": "simple",
+      "sql": "SELECT s1.reading_value, s1.sensor_id, s1.id, s1.quality_flag FROM sensor_readings AS s1 WHERE s1.reading_value <> 123",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 33,
+      "complexity": "simple",
+      "sql": "SELECT * FROM departments AS d1",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 34,
+      "complexity": "simple",
+      "sql": "SELECT * FROM work_orders AS w1 WHERE w1.completed_at > DATETIME('now', '-27 days') ORDER BY w1.labor_hours",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 35,
+      "complexity": "simple",
+      "sql": "SELECT a1.asset_type FROM assets AS a1 WHERE a1.id >= 69",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 36,
+      "complexity": "simple",
+      "sql": "SELECT i1.incident_type, i1.is_resolved, i1.asset_id, i1.severity FROM incidents AS i1",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 37,
+      "complexity": "simple",
+      "sql": "SELECT i1.incident_type, i1.asset_id FROM incidents AS i1 ORDER BY i1.id",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 38,
+      "complexity": "simple",
+      "sql": "SELECT a1.id, a1.asset_name, a1.location_longitude FROM assets AS a1 WHERE a1.location_longitude < 800 ORDER BY a1.asset_type",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 39,
+      "complexity": "simple",
+      "sql": "SELECT d1.id, d1.is_active, d1.contact_email, d1.operating_budget FROM departments AS d1 ORDER BY d1.is_active",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 40,
+      "complexity": "simple",
+      "sql": "SELECT * FROM maintenance_requests AS m1 WHERE m1.asset_id <> 990",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 41,
+      "complexity": "simple",
+      "sql": "SELECT m1.reported_at, m1.status FROM maintenance_requests AS m1 WHERE m1.issue_type = 'test'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 42,
+      "complexity": "simple",
+      "sql": "SELECT i1.asset_id, i1.severity FROM incidents AS i1 ORDER BY i1.asset_id",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 43,
+      "complexity": "simple",
+      "sql": "SELECT w1.started_at, w1.completed_at FROM work_orders AS w1 ORDER BY w1.request_id",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 44,
+      "complexity": "simple",
+      "sql": "SELECT i1.is_resolved, i1.asset_id FROM incidents AS i1 LIMIT 53",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 45,
+      "complexity": "simple",
+      "sql": "SELECT a1.location_longitude FROM assets AS a1",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 46,
+      "complexity": "simple",
+      "sql": "SELECT t1.certification_level, t1.first_name FROM technicians AS t1",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 47,
+      "complexity": "simple",
+      "sql": "SELECT s1.sensor_id, s1.id FROM sensor_readings AS s1 WHERE s1.id > 55",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 48,
+      "complexity": "simple",
+      "sql": "SELECT * FROM assets AS a1 WHERE a1.id >= 562 ORDER BY a1.installation_date",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 49,
+      "complexity": "simple",
+      "sql": "SELECT i1.severity FROM incidents AS i1 WHERE i1.asset_id <> 324 ORDER BY i1.asset_id",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 50,
+      "complexity": "simple",
+      "sql": "SELECT s1.installed_on, s1.is_active, s1.asset_id FROM sensors AS s1",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 51,
+      "complexity": "join",
+      "sql": "SELECT m6.description, w1.completion_notes, w1.completed_at FROM work_orders AS w1 LEFT JOIN maintenance_requests AS m6 ON w1.request_id = m6.id WHERE m6.status <> '123'",
+      "tables": [
+        "work_orders",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 52,
+      "complexity": "join",
+      "sql": "SELECT * FROM technicians AS t1 LEFT JOIN work_orders AS w2 ON t1.id = w2.technician_id WHERE w2.labor_hours < 121",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 53,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 RIGHT JOIN assets AS a5 ON i1.asset_id = a5.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 54,
+      "complexity": "join",
+      "sql": "SELECT * FROM departments AS d1 LEFT JOIN assets AS a4 ON d1.id = a4.department_id WHERE a4.asset_name <> 'activity'",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 55,
+      "complexity": "join",
+      "sql": "SELECT * FROM work_orders AS w1 RIGHT JOIN maintenance_requests AS m5 ON w1.request_id = m5.id",
+      "tables": [
+        "work_orders",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 56,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensor_readings AS s1 INNER JOIN sensors AS s9 ON s1.sensor_id = s9.id",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 57,
+      "complexity": "join",
+      "sql": "SELECT m1.reported_at, w4.labor_hours, w4.assigned_at, w4.technician_id FROM maintenance_requests AS m1 INNER JOIN work_orders AS w4 ON m1.id = w4.request_id WHERE w4.request_id >= 747",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 58,
+      "complexity": "join",
+      "sql": "SELECT i1.is_resolved, i1.asset_id, i1.detected_at, a7.status FROM incidents AS i1 INNER JOIN assets AS a7 ON i1.asset_id = a7.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 59,
+      "complexity": "join",
+      "sql": "SELECT * FROM technicians AS t1 RIGHT JOIN work_orders AS w5 ON t1.id = w5.technician_id",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 60,
+      "complexity": "join",
+      "sql": "SELECT a7.status, a7.asset_type, a7.id, a7.asset_name FROM departments AS d1 RIGHT JOIN assets AS a7 ON d1.id = a7.department_id",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 61,
+      "complexity": "join",
+      "sql": "SELECT * FROM assets AS a1 RIGHT JOIN maintenance_requests AS m7 ON a1.id = m7.asset_id",
+      "tables": [
+        "assets",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 62,
+      "complexity": "join",
+      "sql": "SELECT * FROM technicians AS t1 FULL JOIN work_orders AS w6 ON t1.id = w6.technician_id WHERE w6.technician_id <= 200",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 63,
+      "complexity": "join",
+      "sql": "SELECT * FROM departments AS d1 RIGHT JOIN assets AS a5 ON d1.id = a5.department_id WHERE a5.department_id >= 161",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 64,
+      "complexity": "join",
+      "sql": "SELECT * FROM maintenance_requests AS m1 RIGHT JOIN work_orders AS w3 ON m1.id = w3.request_id",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 65,
+      "complexity": "join",
+      "sql": "SELECT a4.location_longitude, a4.asset_type, a4.id, i1.asset_id FROM incidents AS i1 FULL JOIN assets AS a4 ON i1.asset_id = a4.id WHERE a4.id > 449",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 66,
+      "complexity": "join",
+      "sql": "SELECT s1.sensor_type, s1.id, s1.sensor_id, s1.recorded_at FROM sensor_readings AS s1 LEFT JOIN sensors AS s1 ON s1.sensor_id = s1.id WHERE s1.asset_id >= 839",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 67,
+      "complexity": "join",
+      "sql": "SELECT i1.id, i1.detected_at, a4.location_latitude, i1.incident_type FROM incidents AS i1 RIGHT JOIN assets AS a4 ON i1.asset_id = a4.id WHERE a4.asset_type = 'admin'",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 68,
+      "complexity": "join",
+      "sql": "SELECT s6.asset_id, s1.sensor_id, s6.is_active FROM sensor_readings AS s1 INNER JOIN sensors AS s6 ON s1.sensor_id = s6.id WHERE s6.id <= 221",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 69,
+      "complexity": "join",
+      "sql": "SELECT a1.asset_name, s1.is_active, a1.id, a1.location_longitude FROM sensors AS s1 LEFT JOIN assets AS a1 ON s1.asset_id = a1.id",
+      "tables": [
+        "sensors",
+        "assets"
+      ]
+    },
+    {
+      "id": 70,
+      "complexity": "join",
+      "sql": "SELECT m1.resolved_at, m1.priority_level, a6.id, m1.status FROM maintenance_requests AS m1 INNER JOIN assets AS a6 ON m1.asset_id = a6.id",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 71,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensor_readings AS s1 RIGHT JOIN sensors AS s5 ON s1.sensor_id = s5.id WHERE s5.id = 390",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 72,
+      "complexity": "join",
+      "sql": "SELECT d1.operating_budget, d1.contact_email, a6.id FROM departments AS d1 INNER JOIN assets AS a6 ON d1.id = a6.department_id WHERE a6.department_id >= 193",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 73,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 FULL JOIN assets AS a6 ON i1.asset_id = a6.id WHERE a6.id <= 624",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 74,
+      "complexity": "join",
+      "sql": "SELECT * FROM assets AS a1 LEFT JOIN incidents AS i6 ON a1.id = i6.asset_id WHERE i6.asset_id < 82",
+      "tables": [
+        "assets",
+        "incidents"
+      ]
+    },
+    {
+      "id": 75,
+      "complexity": "join",
+      "sql": "SELECT w1.completed_at, w1.technician_id, t9.id, t9.hire_date FROM work_orders AS w1 LEFT JOIN technicians AS t9 ON w1.technician_id = t9.id WHERE t9.phone_number = 'admin'",
+      "tables": [
+        "work_orders",
+        "technicians"
+      ]
+    },
+    {
+      "id": 76,
+      "complexity": "join",
+      "sql": "SELECT w8.technician_id, t1.is_available, w8.started_at, t1.hire_date FROM technicians AS t1 FULL JOIN work_orders AS w8 ON t1.id = w8.technician_id",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 77,
+      "complexity": "join",
+      "sql": "SELECT s3.recorded_at, s1.installed_on FROM sensors AS s1 LEFT JOIN sensor_readings AS s3 ON s1.id = s3.sensor_id",
+      "tables": [
+        "sensors",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 78,
+      "complexity": "join",
+      "sql": "SELECT i1.detected_at, i1.asset_id, i1.is_resolved, i1.id FROM incidents AS i1 INNER JOIN assets AS a6 ON i1.asset_id = a6.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 79,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensor_readings AS s1 RIGHT JOIN sensors AS s8 ON s1.sensor_id = s8.id WHERE s8.unit LIKE '%c'",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 80,
+      "complexity": "join",
+      "sql": "SELECT d1.name, d1.is_active, a9.asset_name, a9.asset_type FROM departments AS d1 RIGHT JOIN assets AS a9 ON d1.id = a9.department_id",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 81,
+      "complexity": "join",
+      "sql": "SELECT s7.unit, s1.recorded_at, s7.installed_on, s7.is_active FROM sensor_readings AS s1 INNER JOIN sensors AS s7 ON s1.sensor_id = s7.id WHERE s7.asset_id >= 356",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 82,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensors AS s1 RIGHT JOIN assets AS a9 ON s1.asset_id = a9.id WHERE a9.department_id <= 815",
+      "tables": [
+        "sensors",
+        "assets"
+      ]
+    },
+    {
+      "id": 83,
+      "complexity": "join",
+      "sql": "SELECT * FROM assets AS a1 FULL JOIN incidents AS i7 ON a1.id = i7.asset_id WHERE i7.is_resolved = 1",
+      "tables": [
+        "assets",
+        "incidents"
+      ]
+    },
+    {
+      "id": 84,
+      "complexity": "join",
+      "sql": "SELECT * FROM work_orders AS w1 RIGHT JOIN technicians AS t2 ON w1.technician_id = t2.id",
+      "tables": [
+        "work_orders",
+        "technicians"
+      ]
+    },
+    {
+      "id": 85,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 INNER JOIN assets AS a2 ON i1.asset_id = a2.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 86,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 INNER JOIN assets AS a6 ON i1.asset_id = a6.id WHERE a6.status <> 'admin'",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 87,
+      "complexity": "join",
+      "sql": "SELECT * FROM work_orders AS w1 FULL JOIN technicians AS t7 ON w1.technician_id = t7.id WHERE t7.first_name = 'admin'",
+      "tables": [
+        "work_orders",
+        "technicians"
+      ]
+    },
+    {
+      "id": 88,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 FULL JOIN assets AS a2 ON i1.asset_id = a2.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 89,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensors AS s1 LEFT JOIN assets AS a8 ON s1.asset_id = a8.id",
+      "tables": [
+        "sensors",
+        "assets"
+      ]
+    },
+    {
+      "id": 90,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 FULL JOIN assets AS a6 ON i1.asset_id = a6.id WHERE a6.location_latitude <> 661",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 91,
+      "complexity": "join",
+      "sql": "SELECT * FROM assets AS a1 INNER JOIN sensors AS s2 ON a1.id = s2.asset_id",
+      "tables": [
+        "assets",
+        "sensors"
+      ]
+    },
+    {
+      "id": 92,
+      "complexity": "join",
+      "sql": "SELECT t1.is_available, w4.started_at, t1.certification_level, w4.request_id FROM technicians AS t1 INNER JOIN work_orders AS w4 ON t1.id = w4.technician_id",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 93,
+      "complexity": "join",
+      "sql": "SELECT * FROM maintenance_requests AS m1 INNER JOIN assets AS a4 ON m1.asset_id = a4.id",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 94,
+      "complexity": "join",
+      "sql": "SELECT * FROM incidents AS i1 INNER JOIN assets AS a5 ON i1.asset_id = a5.id",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 95,
+      "complexity": "join",
+      "sql": "SELECT w3.labor_hours, m1.description, m1.status FROM maintenance_requests AS m1 FULL JOIN work_orders AS w3 ON m1.id = w3.request_id WHERE w3.request_id = 658",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 96,
+      "complexity": "join",
+      "sql": "SELECT * FROM sensors AS s1 LEFT JOIN assets AS a8 ON s1.asset_id = a8.id WHERE a8.department_id > 42",
+      "tables": [
+        "sensors",
+        "assets"
+      ]
+    },
+    {
+      "id": 97,
+      "complexity": "join",
+      "sql": "SELECT * FROM work_orders AS w1 INNER JOIN technicians AS t8 ON w1.technician_id = t8.id",
+      "tables": [
+        "work_orders",
+        "technicians"
+      ]
+    },
+    {
+      "id": 98,
+      "complexity": "join",
+      "sql": "SELECT m1.description, a8.location_longitude, m1.status, a8.installation_date FROM maintenance_requests AS m1 LEFT JOIN assets AS a8 ON m1.asset_id = a8.id WHERE a8.installation_date > DATETIME('now', '-9 days')",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 99,
+      "complexity": "join",
+      "sql": "SELECT t1.is_available, w9.assigned_at, w9.completed_at, w9.request_id FROM technicians AS t1 LEFT JOIN work_orders AS w9 ON t1.id = w9.technician_id WHERE w9.id >= 662",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 100,
+      "complexity": "join",
+      "sql": "SELECT * FROM maintenance_requests AS m1 INNER JOIN work_orders AS w6 ON m1.id = w6.request_id WHERE w6.completion_notes LIKE '%c'",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 101,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assets AS inner_assets WHERE inner_assets.status <> 'admin') AS derived_table WHERE derived_table.asset_type LIKE 'b%'",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 102,
+      "complexity": "advanced",
+      "sql": "SELECT i1.severity, i1.incident_type FROM incidents AS i1 WHERE i1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.location_longitude > 568)",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 103,
+      "complexity": "advanced",
+      "sql": "SELECT a1.id, a1.asset_name, a1.asset_type FROM assets AS a1 JOIN assets AS a2 ON a1.asset_name = a2.asset_name AND a1.id <> a2.id LIMIT 12",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 104,
+      "complexity": "advanced",
+      "sql": "SELECT i1.asset_id, i1.detected_at FROM incidents AS i1 WHERE EXISTS(SELECT 1 FROM assets AS sub_a WHERE sub_a.id = i1.asset_id AND sub_a.location_longitude = 185)",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 105,
+      "complexity": "advanced",
+      "sql": "SELECT s1.sensor_id, s1.quality_flag, s1.reading_value FROM sensor_readings AS s1 WHERE EXISTS(SELECT 1 FROM sensors AS sub_s WHERE sub_s.id = s1.sensor_id AND sub_s.sensor_type = '123')",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 106,
+      "complexity": "advanced",
+      "sql": "SELECT i1.id, i1.asset_id, i1.detected_at FROM incidents AS i1 JOIN incidents AS i2 ON i1.asset_id = i2.asset_id AND i1.id <> i2.id",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 107,
+      "complexity": "advanced",
+      "sql": "SELECT t1.is_available, t1.last_name, t1.id, t1.certification_level FROM technicians AS t1 WHERE t1.id IN (SELECT sub_w.technician_id FROM work_orders AS sub_w WHERE sub_w.request_id <= 108)",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 108,
+      "complexity": "advanced",
+      "sql": "SELECT s1.id, s1.recorded_at, s1.reading_value, s1.quality_flag FROM sensor_readings AS s1 WHERE s1.sensor_id IN (SELECT sub_s.id FROM sensors AS sub_s WHERE sub_s.installed_on >= DATETIME('now', '-16 days'))",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 109,
+      "complexity": "advanced",
+      "sql": "SELECT s1.is_active FROM sensors AS s1 WHERE EXISTS(SELECT 1 FROM sensor_readings AS sub_s WHERE sub_s.sensor_id = s1.id AND sub_s.reading_value = 334)",
+      "tables": [
+        "sensors",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 110,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM maintenance_requests AS m1 WHERE EXISTS(SELECT 1 FROM assets AS sub_a WHERE sub_a.id = m1.asset_id AND sub_a.id <= 883)",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 111,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sensor_readings AS inner_sensor_readings WHERE inner_sensor_readings.id = 340) AS derived_table WHERE derived_table.quality_flag = 'user'",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 112,
+      "complexity": "advanced",
+      "sql": "SELECT t1.hire_date, t1.id, t1.phone_number, t1.last_name FROM technicians AS t1 WHERE NOT EXISTS(SELECT 1 FROM work_orders AS sub_w WHERE sub_w.technician_id = t1.id AND sub_w.id = 701)",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 113,
+      "complexity": "advanced",
+      "sql": "SELECT i1.is_resolved, i1.asset_id, i1.id FROM incidents AS i1 WHERE i1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.location_latitude <> 132)",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 114,
+      "complexity": "advanced",
+      "sql": "SELECT m1.issue_type FROM maintenance_requests AS m1 WHERE m1.id IN (SELECT sub_w.request_id FROM work_orders AS sub_w WHERE sub_w.labor_hours <= 747)",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 115,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sensors AS inner_sensors WHERE inner_sensors.sensor_type = 'admin') AS derived_table",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 116,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM departments AS inner_departments WHERE inner_departments.name <> 'test') AS derived_table",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 117,
+      "complexity": "advanced",
+      "sql": "SELECT t1.last_name, t1.is_available, t1.phone_number FROM technicians AS t1 WHERE t1.id IN (SELECT sub_w.technician_id FROM work_orders AS sub_w WHERE sub_w.technician_id < 708)",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 118,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sensors AS inner_sensors WHERE inner_sensors.installed_on >= DATETIME('now', '-19 days')) AS derived_table",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 119,
+      "complexity": "advanced",
+      "sql": "SELECT d1.contact_email, d1.is_active FROM departments AS d1 WHERE d1.id IN (SELECT sub_a.department_id FROM assets AS sub_a WHERE sub_a.location_longitude > 154)",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 120,
+      "complexity": "advanced",
+      "sql": "SELECT a1.asset_type, a1.asset_name FROM assets AS a1 WHERE a1.department_id IN (SELECT sub_d.id FROM departments AS sub_d WHERE sub_d.operating_budget < 943)",
+      "tables": [
+        "assets",
+        "departments"
+      ]
+    },
+    {
+      "id": 121,
+      "complexity": "advanced",
+      "sql": "SELECT s1.id, s1.asset_id, s1.sensor_type FROM sensors AS s1 JOIN sensors AS s2 ON s1.asset_id = s2.asset_id AND s1.id <> s2.id LIMIT 16",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 122,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM incidents AS inner_incidents WHERE inner_incidents.asset_id < 348) AS derived_table",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 123,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM maintenance_requests AS m1 WHERE NOT EXISTS(SELECT 1 FROM work_orders AS sub_w WHERE sub_w.request_id = m1.id AND sub_w.request_id >= 893)",
+      "tables": [
+        "maintenance_requests",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 124,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM technicians AS inner_technicians WHERE inner_technicians.first_name <> '123') AS derived_table WHERE derived_table.last_name <> '123'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 125,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM technicians AS inner_technicians WHERE inner_technicians.phone_number = 'admin') AS derived_table",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 126,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM assets AS a1 WHERE NOT EXISTS(SELECT 1 FROM maintenance_requests AS sub_m WHERE sub_m.asset_id = a1.id AND sub_m.asset_id >= 576)",
+      "tables": [
+        "assets",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 127,
+      "complexity": "advanced",
+      "sql": "SELECT d1.name, d1.id FROM departments AS d1 WHERE d1.id IN (SELECT sub_a.department_id FROM assets AS sub_a WHERE sub_a.id < 348)",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 128,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM work_orders AS inner_work_orders WHERE inner_work_orders.id >= 580) AS derived_table",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 129,
+      "complexity": "advanced",
+      "sql": "SELECT a1.id, a1.asset_name, a1.asset_type FROM assets AS a1 JOIN assets AS a2 ON a1.asset_name = a2.asset_name AND a1.id <> a2.id",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 130,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assets AS inner_assets WHERE inner_assets.location_longitude > 94) AS derived_table",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 131,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM maintenance_requests AS m1 WHERE m1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.location_latitude <> 94)",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 132,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sensor_readings AS inner_sensor_readings WHERE inner_sensor_readings.quality_flag = '123') AS derived_table WHERE derived_table.quality_flag LIKE 'b%'",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 133,
+      "complexity": "advanced",
+      "sql": "SELECT a1.department_id, a1.asset_name, a1.id, a1.location_latitude FROM assets AS a1 WHERE a1.id IN (SELECT sub_i.asset_id FROM incidents AS sub_i WHERE sub_i.severity = 'admin')",
+      "tables": [
+        "assets",
+        "incidents"
+      ]
+    },
+    {
+      "id": 134,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM technicians AS inner_technicians WHERE inner_technicians.is_available = 0) AS derived_table",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 135,
+      "complexity": "advanced",
+      "sql": "SELECT d1.id, d1.operating_budget, d1.is_active FROM departments AS d1 WHERE d1.id IN (SELECT sub_a.department_id FROM assets AS sub_a WHERE sub_a.status = 'user')",
+      "tables": [
+        "departments",
+        "assets"
+      ]
+    },
+    {
+      "id": 136,
+      "complexity": "advanced",
+      "sql": "SELECT m1.resolved_at, m1.issue_type, m1.reported_at FROM maintenance_requests AS m1 WHERE m1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.installation_date < DATETIME('now', '-30 days'))",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 137,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM incidents AS inner_incidents WHERE inner_incidents.id >= 315) AS derived_table",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 138,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM technicians AS t1 WHERE EXISTS(SELECT 1 FROM work_orders AS sub_w WHERE sub_w.technician_id = t1.id AND sub_w.completion_notes <> 'user')",
+      "tables": [
+        "technicians",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 139,
+      "complexity": "advanced",
+      "sql": "SELECT m1.description, m1.asset_id, m1.priority_level, m1.issue_type FROM maintenance_requests AS m1 WHERE m1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.id < 435)",
+      "tables": [
+        "maintenance_requests",
+        "assets"
+      ]
+    },
+    {
+      "id": 140,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM maintenance_requests AS inner_maintenance_requests WHERE inner_maintenance_requests.priority_level = 'test') AS derived_table",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 141,
+      "complexity": "advanced",
+      "sql": "SELECT s1.recorded_at, s1.quality_flag, s1.id FROM sensor_readings AS s1 WHERE s1.sensor_id IN (SELECT sub_s.id FROM sensors AS sub_s WHERE sub_s.is_active = 0)",
+      "tables": [
+        "sensor_readings",
+        "sensors"
+      ]
+    },
+    {
+      "id": 142,
+      "complexity": "advanced",
+      "sql": "SELECT d1.name, d1.operating_budget, d1.contact_email FROM departments AS d1 JOIN departments AS d2 ON d1.id = d2.id AND d1.id <> d2.id LIMIT 11",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 143,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM sensor_readings AS inner_sensor_readings WHERE inner_sensor_readings.id <> 699) AS derived_table",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 144,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM work_orders AS inner_work_orders WHERE inner_work_orders.request_id = 749) AS derived_table",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 145,
+      "complexity": "advanced",
+      "sql": "SELECT s1.asset_id, s1.installed_on, s1.unit, s1.id FROM sensors AS s1 WHERE s1.id IN (SELECT sub_s.sensor_id FROM sensor_readings AS sub_s WHERE sub_s.quality_flag = 'user')",
+      "tables": [
+        "sensors",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 146,
+      "complexity": "advanced",
+      "sql": "SELECT w1.id, w1.request_id, w1.technician_id FROM work_orders AS w1 JOIN work_orders AS w2 ON w1.request_id = w2.request_id AND w1.id <> w2.id",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 147,
+      "complexity": "advanced",
+      "sql": "SELECT d1.name, d1.operating_budget, d1.contact_email FROM departments AS d1 JOIN departments AS d2 ON d1.id = d2.id AND d1.id <> d2.id",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 148,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM assets AS inner_assets WHERE inner_assets.installation_date < DATETIME('now', '-20 days')) AS derived_table WHERE derived_table.installation_date >= DATETIME('now', '-12 days')",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 149,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM (SELECT * FROM incidents AS inner_incidents WHERE inner_incidents.incident_type <> 'activity') AS derived_table WHERE derived_table.severity = 'activity'",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 150,
+      "complexity": "advanced",
+      "sql": "SELECT * FROM incidents AS i1 WHERE i1.asset_id IN (SELECT sub_a.id FROM assets AS sub_a WHERE sub_a.asset_type <> 'user')",
+      "tables": [
+        "incidents",
+        "assets"
+      ]
+    },
+    {
+      "id": 151,
+      "complexity": "union",
+      "sql": "SELECT t1.last_name, t1.certification_level, t1.id FROM technicians AS t1 WHERE t1.certification_level <> 'user' UNION SELECT t2.last_name, t2.certification_level, t2.id FROM technicians AS t2 WHERE t2.is_available = 0",
+      "tables": [
+        "technicians",
+        "technicians"
+      ]
+    },
+    {
+      "id": 152,
+      "complexity": "union",
+      "sql": "SELECT d1.operating_budget, d1.contact_email, d1.id FROM departments AS d1 WHERE d1.is_active = 0 UNION ALL SELECT d2.operating_budget, d2.contact_email, d2.id FROM departments AS d2 WHERE d2.contact_email = 'user74@example.com'",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 153,
+      "complexity": "union",
+      "sql": "SELECT a1.installation_date, a1.department_id, a1.asset_type, a1.status FROM assets AS a1 WHERE a1.department_id < 204 UNION SELECT a2.installation_date, a2.department_id, a2.asset_type, a2.status FROM assets AS a2 WHERE a2.location_longitude <= 686",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 154,
+      "complexity": "union",
+      "sql": "SELECT w1.labor_hours, w1.id, w1.completion_notes, w1.technician_id FROM work_orders AS w1 WHERE w1.request_id = 527 UNION ALL SELECT w2.labor_hours, w2.id, w2.completion_notes, w2.technician_id FROM work_orders AS w2 WHERE w2.technician_id <= 506 ORDER BY labor_hours LIMIT 26",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 155,
+      "complexity": "union",
+      "sql": "SELECT a1.installation_date, a1.location_longitude, a1.asset_name, a1.id FROM assets AS a1 WHERE a1.location_latitude < 316 UNION SELECT a2.installation_date, a2.location_longitude, a2.asset_name, a2.id FROM assets AS a2 WHERE a2.id = 494",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 156,
+      "complexity": "union",
+      "sql": "SELECT i1.asset_id, i1.detected_at, i1.incident_type FROM incidents AS i1 WHERE i1.is_resolved = 0 UNION SELECT i2.asset_id, i2.detected_at, i2.incident_type FROM incidents AS i2 WHERE i2.severity LIKE '%c'",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 157,
+      "complexity": "union",
+      "sql": "SELECT m1.description, m1.status, m1.id, m1.asset_id FROM maintenance_requests AS m1 WHERE m1.resolved_at <= DATETIME('now', '-7 days') UNION SELECT m2.description, m2.status, m2.id, m2.asset_id FROM maintenance_requests AS m2 WHERE m2.issue_type LIKE '%c'",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 158,
+      "complexity": "union",
+      "sql": "SELECT s1.quality_flag, s1.sensor_id FROM sensor_readings AS s1 WHERE s1.id <> 335 UNION ALL SELECT s2.quality_flag, s2.sensor_id FROM sensor_readings AS s2 WHERE s2.reading_value < 951 ORDER BY quality_flag",
+      "tables": [
+        "sensor_readings",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 159,
+      "complexity": "union",
+      "sql": "SELECT m1.reported_at, m1.description, m1.priority_level FROM maintenance_requests AS m1 WHERE m1.status <> 'admin' UNION SELECT m2.reported_at, m2.description, m2.priority_level FROM maintenance_requests AS m2 WHERE m2.issue_type = 'user'",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 160,
+      "complexity": "union",
+      "sql": "SELECT s1.installed_on, s1.unit FROM sensors AS s1 WHERE s1.id < 285 UNION ALL SELECT s2.installed_on, s2.unit FROM sensors AS s2 WHERE s2.unit <> '123' ORDER BY installed_on LIMIT 16",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 161,
+      "complexity": "union",
+      "sql": "SELECT s1.installed_on, s1.is_active, s1.sensor_type FROM sensors AS s1 WHERE s1.asset_id > 493 UNION ALL SELECT s2.installed_on, s2.is_active, s2.sensor_type FROM sensors AS s2 WHERE s2.id >= 74",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 162,
+      "complexity": "union",
+      "sql": "SELECT s1.recorded_at, s1.reading_value, s1.quality_flag FROM sensor_readings AS s1 WHERE s1.sensor_id = 165 UNION SELECT s2.recorded_at, s2.reading_value, s2.quality_flag FROM sensor_readings AS s2 WHERE s2.reading_value <> 388",
+      "tables": [
+        "sensor_readings",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 163,
+      "complexity": "union",
+      "sql": "SELECT w1.assigned_at, w1.request_id, w1.technician_id, w1.completed_at FROM work_orders AS w1 WHERE w1.labor_hours < 789 UNION SELECT w2.assigned_at, w2.request_id, w2.technician_id, w2.completed_at FROM work_orders AS w2 WHERE w2.id = 427",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 164,
+      "complexity": "union",
+      "sql": "SELECT w1.request_id, w1.completed_at FROM work_orders AS w1 WHERE w1.technician_id <> 113 UNION ALL SELECT w2.request_id, w2.completed_at FROM work_orders AS w2 WHERE w2.completed_at <= DATETIME('now', '-14 days')",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 165,
+      "complexity": "union",
+      "sql": "SELECT a1.status, a1.department_id FROM assets AS a1 WHERE a1.location_longitude >= 652 UNION ALL SELECT a2.status, a2.department_id FROM assets AS a2 WHERE a2.status <> 'activity' LIMIT 36",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 166,
+      "complexity": "union",
+      "sql": "SELECT s1.is_active, s1.unit FROM sensors AS s1 WHERE s1.id <> 750 UNION SELECT s2.is_active, s2.unit FROM sensors AS s2 WHERE s2.asset_id > 764",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 167,
+      "complexity": "union",
+      "sql": "SELECT s1.installed_on, s1.asset_id, s1.is_active FROM sensors AS s1 WHERE s1.installed_on >= DATETIME('now', '-29 days') UNION SELECT s2.installed_on, s2.asset_id, s2.is_active FROM sensors AS s2 WHERE s2.sensor_type <> 'activity'",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 168,
+      "complexity": "union",
+      "sql": "SELECT s1.id, s1.reading_value, s1.quality_flag, s1.sensor_id FROM sensor_readings AS s1 WHERE s1.sensor_id <= 124 UNION ALL SELECT s2.id, s2.reading_value, s2.quality_flag, s2.sensor_id FROM sensor_readings AS s2 WHERE s2.id < 993",
+      "tables": [
+        "sensor_readings",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 169,
+      "complexity": "union",
+      "sql": "SELECT w1.completed_at, w1.assigned_at FROM work_orders AS w1 WHERE w1.completed_at > DATETIME('now', '-26 days') UNION ALL SELECT w2.completed_at, w2.assigned_at FROM work_orders AS w2 WHERE w2.labor_hours <= 891 LIMIT 44",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 170,
+      "complexity": "union",
+      "sql": "SELECT s1.quality_flag, s1.recorded_at, s1.id, s1.reading_value FROM sensor_readings AS s1 WHERE s1.reading_value <> 447 UNION SELECT s2.quality_flag, s2.recorded_at, s2.id, s2.reading_value FROM sensor_readings AS s2 WHERE s2.sensor_id <> 299",
+      "tables": [
+        "sensor_readings",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 171,
+      "complexity": "union",
+      "sql": "SELECT m1.description, m1.id, m1.priority_level FROM maintenance_requests AS m1 WHERE m1.status LIKE '%c' UNION SELECT m2.description, m2.id, m2.priority_level FROM maintenance_requests AS m2 WHERE m2.asset_id <= 530 LIMIT 12",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 172,
+      "complexity": "union",
+      "sql": "SELECT a1.id, a1.installation_date, a1.asset_type FROM assets AS a1 WHERE a1.department_id > 546 UNION SELECT a2.id, a2.installation_date, a2.asset_type FROM assets AS a2 WHERE a2.asset_name LIKE '%c' LIMIT 28",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 173,
+      "complexity": "union",
+      "sql": "SELECT i1.id, i1.severity, i1.incident_type, i1.detected_at FROM incidents AS i1 WHERE i1.asset_id = 208 UNION SELECT i2.id, i2.severity, i2.incident_type, i2.detected_at FROM incidents AS i2 WHERE i2.severity <> 'admin' ORDER BY id",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 174,
+      "complexity": "union",
+      "sql": "SELECT s1.installed_on, s1.sensor_type FROM sensors AS s1 WHERE s1.unit <> 'test' UNION SELECT s2.installed_on, s2.sensor_type FROM sensors AS s2 WHERE s2.installed_on <= DATETIME('now', '-12 days') ORDER BY installed_on LIMIT 21",
+      "tables": [
+        "sensors",
+        "sensors"
+      ]
+    },
+    {
+      "id": 175,
+      "complexity": "union",
+      "sql": "SELECT w1.request_id, w1.started_at, w1.technician_id, w1.completion_notes FROM work_orders AS w1 WHERE w1.id >= 584 UNION SELECT w2.request_id, w2.started_at, w2.technician_id, w2.completion_notes FROM work_orders AS w2 WHERE w2.labor_hours = 794 LIMIT 33",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 176,
+      "complexity": "union",
+      "sql": "SELECT d1.name, d1.is_active, d1.contact_email FROM departments AS d1 WHERE d1.operating_budget <> 839 UNION SELECT d2.name, d2.is_active, d2.contact_email FROM departments AS d2 WHERE d2.operating_budget <= 513 ORDER BY name",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 177,
+      "complexity": "union",
+      "sql": "SELECT a1.installation_date, a1.department_id, a1.location_longitude, a1.asset_name FROM assets AS a1 WHERE a1.id >= 849 UNION ALL SELECT a2.installation_date, a2.department_id, a2.location_longitude, a2.asset_name FROM assets AS a2 WHERE a2.asset_type = 'activity' LIMIT 42",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 178,
+      "complexity": "union",
+      "sql": "SELECT a1.department_id, a1.installation_date, a1.location_latitude FROM assets AS a1 WHERE a1.id >= 530 UNION ALL SELECT a2.department_id, a2.installation_date, a2.location_latitude FROM assets AS a2 WHERE a2.status = 'activity'",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 179,
+      "complexity": "union",
+      "sql": "SELECT t1.is_available, t1.hire_date FROM technicians AS t1 WHERE t1.phone_number = '123' UNION ALL SELECT t2.is_available, t2.hire_date FROM technicians AS t2 WHERE t2.first_name LIKE '%c' ORDER BY is_available",
+      "tables": [
+        "technicians",
+        "technicians"
+      ]
+    },
+    {
+      "id": 180,
+      "complexity": "union",
+      "sql": "SELECT m1.issue_type, m1.priority_level, m1.id, m1.asset_id FROM maintenance_requests AS m1 WHERE m1.reported_at > DATETIME('now', '-3 days') UNION SELECT m2.issue_type, m2.priority_level, m2.id, m2.asset_id FROM maintenance_requests AS m2 WHERE m2.status <> 'admin'",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 181,
+      "complexity": "union",
+      "sql": "SELECT w1.labor_hours, w1.technician_id, w1.completion_notes, w1.request_id FROM work_orders AS w1 WHERE w1.labor_hours >= 295 UNION SELECT w2.labor_hours, w2.technician_id, w2.completion_notes, w2.request_id FROM work_orders AS w2 WHERE w2.completion_notes = 'admin'",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 182,
+      "complexity": "union",
+      "sql": "SELECT m1.reported_at, m1.issue_type FROM maintenance_requests AS m1 WHERE m1.reported_at >= DATETIME('now', '-22 days') UNION SELECT m2.reported_at, m2.issue_type FROM maintenance_requests AS m2 WHERE m2.reported_at < DATETIME('now', '-19 days') ORDER BY reported_at",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 183,
+      "complexity": "union",
+      "sql": "SELECT a1.asset_name, a1.location_latitude, a1.id FROM assets AS a1 WHERE a1.location_latitude >= 603 UNION ALL SELECT a2.asset_name, a2.location_latitude, a2.id FROM assets AS a2 WHERE a2.status <> 'user' LIMIT 22",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 184,
+      "complexity": "union",
+      "sql": "SELECT w1.completed_at, w1.started_at, w1.request_id FROM work_orders AS w1 WHERE w1.completed_at <= DATETIME('now', '-17 days') UNION SELECT w2.completed_at, w2.started_at, w2.request_id FROM work_orders AS w2 WHERE w2.started_at <= DATETIME('now', '-14 days')",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 185,
+      "complexity": "union",
+      "sql": "SELECT m1.asset_id, m1.priority_level, m1.status FROM maintenance_requests AS m1 WHERE m1.resolved_at >= DATETIME('now', '-12 days') UNION SELECT m2.asset_id, m2.priority_level, m2.status FROM maintenance_requests AS m2 WHERE m2.issue_type = 'admin'",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 186,
+      "complexity": "union",
+      "sql": "SELECT w1.started_at, w1.request_id, w1.completed_at, w1.assigned_at FROM work_orders AS w1 WHERE w1.technician_id = 415 UNION SELECT w2.started_at, w2.request_id, w2.completed_at, w2.assigned_at FROM work_orders AS w2 WHERE w2.labor_hours < 530",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 187,
+      "complexity": "union",
+      "sql": "SELECT w1.started_at, w1.assigned_at, w1.technician_id, w1.labor_hours FROM work_orders AS w1 WHERE w1.technician_id < 908 UNION SELECT w2.started_at, w2.assigned_at, w2.technician_id, w2.labor_hours FROM work_orders AS w2 WHERE w2.id > 239 ORDER BY started_at",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 188,
+      "complexity": "union",
+      "sql": "SELECT d1.id, d1.name, d1.contact_email FROM departments AS d1 WHERE d1.is_active = 1 UNION SELECT d2.id, d2.name, d2.contact_email FROM departments AS d2 WHERE d2.is_active = 1",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 189,
+      "complexity": "union",
+      "sql": "SELECT i1.id, i1.detected_at, i1.asset_id, i1.incident_type FROM incidents AS i1 WHERE i1.id > 337 UNION SELECT i2.id, i2.detected_at, i2.asset_id, i2.incident_type FROM incidents AS i2 WHERE i2.asset_id = 510 LIMIT 25",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 190,
+      "complexity": "union",
+      "sql": "SELECT d1.id, d1.contact_email FROM departments AS d1 WHERE d1.contact_email = 'user19@example.com' UNION ALL SELECT d2.id, d2.contact_email FROM departments AS d2 WHERE d2.contact_email = 'user17@example.com' ORDER BY id",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 191,
+      "complexity": "union",
+      "sql": "SELECT i1.asset_id, i1.severity, i1.is_resolved FROM incidents AS i1 WHERE i1.detected_at <= DATETIME('now', '-18 days') UNION SELECT i2.asset_id, i2.severity, i2.is_resolved FROM incidents AS i2 WHERE i2.incident_type LIKE '%a%' ORDER BY asset_id",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 192,
+      "complexity": "union",
+      "sql": "SELECT w1.id, w1.completion_notes, w1.technician_id, w1.started_at FROM work_orders AS w1 WHERE w1.started_at <= DATETIME('now', '-19 days') UNION SELECT w2.id, w2.completion_notes, w2.technician_id, w2.started_at FROM work_orders AS w2 WHERE w2.completed_at < DATETIME('now', '-29 days')",
+      "tables": [
+        "work_orders",
+        "work_orders"
+      ]
+    },
+    {
+      "id": 193,
+      "complexity": "union",
+      "sql": "SELECT m1.status, m1.reported_at, m1.priority_level FROM maintenance_requests AS m1 WHERE m1.id <= 482 UNION ALL SELECT m2.status, m2.reported_at, m2.priority_level FROM maintenance_requests AS m2 WHERE m2.reported_at >= DATETIME('now', '-13 days') ORDER BY status LIMIT 19",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 194,
+      "complexity": "union",
+      "sql": "SELECT m1.id, m1.resolved_at FROM maintenance_requests AS m1 WHERE m1.resolved_at >= DATETIME('now', '-13 days') UNION SELECT m2.id, m2.resolved_at FROM maintenance_requests AS m2 WHERE m2.description = 'test'",
+      "tables": [
+        "maintenance_requests",
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 195,
+      "complexity": "union",
+      "sql": "SELECT a1.location_latitude, a1.installation_date, a1.department_id FROM assets AS a1 WHERE a1.location_latitude >= 101 UNION SELECT a2.location_latitude, a2.installation_date, a2.department_id FROM assets AS a2 WHERE a2.location_latitude <= 487",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 196,
+      "complexity": "union",
+      "sql": "SELECT d1.is_active, d1.name FROM departments AS d1 WHERE d1.name = 'activity' UNION SELECT d2.is_active, d2.name FROM departments AS d2 WHERE d2.id > 77 ORDER BY is_active",
+      "tables": [
+        "departments",
+        "departments"
+      ]
+    },
+    {
+      "id": 197,
+      "complexity": "union",
+      "sql": "SELECT a1.installation_date, a1.location_longitude, a1.location_latitude, a1.id FROM assets AS a1 WHERE a1.installation_date <= DATETIME('now', '-14 days') UNION ALL SELECT a2.installation_date, a2.location_longitude, a2.location_latitude, a2.id FROM assets AS a2 WHERE a2.installation_date > DATETIME('now', '-4 days')",
+      "tables": [
+        "assets",
+        "assets"
+      ]
+    },
+    {
+      "id": 198,
+      "complexity": "union",
+      "sql": "SELECT s1.sensor_id, s1.id FROM sensor_readings AS s1 WHERE s1.recorded_at > DATETIME('now', '-24 days') UNION SELECT s2.sensor_id, s2.id FROM sensor_readings AS s2 WHERE s2.id <> 983 ORDER BY sensor_id LIMIT 27",
+      "tables": [
+        "sensor_readings",
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 199,
+      "complexity": "union",
+      "sql": "SELECT t1.is_available, t1.first_name FROM technicians AS t1 WHERE t1.last_name = 'activity' UNION ALL SELECT t2.is_available, t2.first_name FROM technicians AS t2 WHERE t2.last_name = 'activity'",
+      "tables": [
+        "technicians",
+        "technicians"
+      ]
+    },
+    {
+      "id": 200,
+      "complexity": "union",
+      "sql": "SELECT i1.detected_at, i1.incident_type, i1.id FROM incidents AS i1 WHERE i1.detected_at <= DATETIME('now', '-5 days') UNION ALL SELECT i2.detected_at, i2.incident_type, i2.id FROM incidents AS i2 WHERE i2.is_resolved = 1",
+      "tables": [
+        "incidents",
+        "incidents"
+      ]
+    },
+    {
+      "id": 201,
+      "complexity": "insert",
+      "sql": "INSERT INTO incidents (asset_id, detected_at, severity, incident_type, is_resolved) VALUES (89, DATETIME('now'), 'Sample text 4', 'Sample text 92', 0)",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 202,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 18', 'Sample text 3', DATETIME('now'), 346, 494, 'Sample text 36', 106)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 203,
+      "complexity": "insert",
+      "sql": "INSERT INTO maintenance_requests (asset_id, reported_at, issue_type, priority_level, description, status, resolved_at) VALUES (832, DATETIME('now'), 'Sample text 92', 'Sample text 73', 'Sample text 44', 'Sample text 73', DATETIME('now'))",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 204,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 21', 728, 'user339@example.com', 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 205,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 17', 'Sample text 83', DATETIME('now'), 154, 428, 'Sample text 85', 12)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 206,
+      "complexity": "insert",
+      "sql": "INSERT INTO maintenance_requests (asset_id, reported_at, issue_type, priority_level, description, status, resolved_at) VALUES (282, DATETIME('now'), 'Sample text 8', 'Sample text 91', 'Sample text 47', 'Sample text 71', DATETIME('now'))",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 207,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (282, 'Sample text 99', 'Sample text 13', DATETIME('now'), 1)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 208,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 37', 680, 'user824@example.com', 1)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 209,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 51', 'Sample text 93', DATETIME('now'), 732, 320, 'Sample text 27', 978)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 210,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (940, 'Sample text 58', 'Sample text 82', DATETIME('now'), 1)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 211,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 73', 785, 'user612@example.com', 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 212,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (906, 'Sample text 4', 'Sample text 82', DATETIME('now'), 0)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 213,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (647, DATETIME('now'), 864, 'Sample text 92')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 214,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 47', 'Sample text 93', 'Sample text 37', 'Sample text 95', DATETIME('now'), 1)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 215,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 3', 'Sample text 83', 'Sample text 82', 'Sample text 66', DATETIME('now'), 0)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 216,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 18', 'Sample text 25', 'Sample text 100', 'Sample text 39', DATETIME('now'), 0)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 217,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 40', 'Sample text 95', 'Sample text 100', 'Sample text 98', DATETIME('now'), 0)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 218,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (565, 50, DATETIME('now'), DATETIME('now'), DATETIME('now'), 162, 'Sample text 53')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 219,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (127, 163, DATETIME('now'), DATETIME('now'), DATETIME('now'), 984, 'Sample text 82')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 220,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (856, DATETIME('now'), 906, 'Sample text 43')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 221,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (518, 727, DATETIME('now'), DATETIME('now'), DATETIME('now'), 277, 'Sample text 96')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 222,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 55', 669, 'user191@example.com', 1)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 223,
+      "complexity": "insert",
+      "sql": "INSERT INTO maintenance_requests (asset_id, reported_at, issue_type, priority_level, description, status, resolved_at) VALUES (337, DATETIME('now'), 'Sample text 39', 'Sample text 96', 'Sample text 51', 'Sample text 84', DATETIME('now'))",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 224,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (807, 'Sample text 18', 'Sample text 68', DATETIME('now'), 0)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 225,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 52', 'Sample text 96', 'Sample text 68', 'Sample text 3', DATETIME('now'), 0)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 226,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (981, DATETIME('now'), 911, 'Sample text 96')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 227,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (408, 'Sample text 35', 'Sample text 82', DATETIME('now'), 0)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 228,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (383, DATETIME('now'), 463, 'Sample text 61')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 229,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (230, 'Sample text 70', 'Sample text 35', DATETIME('now'), 1)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 230,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (620, 'Sample text 92', 'Sample text 74', DATETIME('now'), 0)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 231,
+      "complexity": "insert",
+      "sql": "INSERT INTO maintenance_requests (asset_id, reported_at, issue_type, priority_level, description, status, resolved_at) VALUES (562, DATETIME('now'), 'Sample text 38', 'Sample text 10', 'Sample text 73', 'Sample text 70', DATETIME('now'))",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 232,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (521, 657, DATETIME('now'), DATETIME('now'), DATETIME('now'), 23, 'Sample text 88')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 233,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 42', 70, 'user156@example.com', 1)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 234,
+      "complexity": "insert",
+      "sql": "INSERT INTO technicians (first_name, last_name, phone_number, certification_level, hire_date, is_available) VALUES ('Sample text 96', 'Sample text 39', 'Sample text 6', 'Sample text 76', DATETIME('now'), 1)",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 235,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (647, 155, DATETIME('now'), DATETIME('now'), DATETIME('now'), 278, 'Sample text 48')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 236,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (24, 733, DATETIME('now'), DATETIME('now'), DATETIME('now'), 246, 'Sample text 6')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 237,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 81', 'Sample text 23', DATETIME('now'), 931, 48, 'Sample text 92', 399)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 238,
+      "complexity": "insert",
+      "sql": "INSERT INTO maintenance_requests (asset_id, reported_at, issue_type, priority_level, description, status, resolved_at) VALUES (202, DATETIME('now'), 'Sample text 39', 'Sample text 44', 'Sample text 65', 'Sample text 17', DATETIME('now'))",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 239,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (76, 329, DATETIME('now'), DATETIME('now'), DATETIME('now'), 956, 'Sample text 28')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 240,
+      "complexity": "insert",
+      "sql": "INSERT INTO incidents (asset_id, detected_at, severity, incident_type, is_resolved) VALUES (344, DATETIME('now'), 'Sample text 40', 'Sample text 41', 0)",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 241,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (99, DATETIME('now'), 359, 'Sample text 50')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 242,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 95', 975, 'user359@example.com', 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 243,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 50', 630, 'user211@example.com', 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 244,
+      "complexity": "insert",
+      "sql": "INSERT INTO work_orders (request_id, technician_id, assigned_at, started_at, completed_at, labor_hours, completion_notes) VALUES (663, 835, DATETIME('now'), DATETIME('now'), DATETIME('now'), 179, 'Sample text 14')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 245,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (316, DATETIME('now'), 303, 'Sample text 14')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 246,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 12', 'Sample text 88', DATETIME('now'), 393, 292, 'Sample text 2', 806)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 247,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensor_readings (sensor_id, recorded_at, reading_value, quality_flag) VALUES (197, DATETIME('now'), 486, 'Sample text 27')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 248,
+      "complexity": "insert",
+      "sql": "INSERT INTO assets (asset_name, asset_type, installation_date, location_latitude, location_longitude, status, department_id) VALUES ('Sample text 97', 'Sample text 37', DATETIME('now'), 331, 300, 'Sample text 20', 969)",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 249,
+      "complexity": "insert",
+      "sql": "INSERT INTO sensors (asset_id, sensor_type, unit, installed_on, is_active) VALUES (424, 'Sample text 81', 'Sample text 25', DATETIME('now'), 0)",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 250,
+      "complexity": "insert",
+      "sql": "INSERT INTO departments (name, operating_budget, contact_email, is_active) VALUES ('Sample text 16', 921, 'user309@example.com', 0)",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 251,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET is_resolved = 0 WHERE incidents.asset_id <> 897",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 252,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET asset_id = 291 WHERE incidents.asset_id <= 368",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 253,
+      "complexity": "update",
+      "sql": "UPDATE departments SET name = 'Updated text 3' WHERE departments.contact_email LIKE 'user%@%'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 254,
+      "complexity": "update",
+      "sql": "UPDATE assets SET location_longitude = 667 WHERE assets.location_longitude > 993",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 255,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET hire_date = DATETIME('now') WHERE technicians.phone_number <> 'activity'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 256,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET status = 'Updated text 31' WHERE maintenance_requests.asset_id <> 979",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 257,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET detected_at = DATETIME('now') WHERE incidents.asset_id <= 952",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 258,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET started_at = DATETIME('now') WHERE work_orders.id > 950",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 259,
+      "complexity": "update",
+      "sql": "UPDATE assets SET asset_name = 'Updated text 13' WHERE assets.installation_date <= DATETIME('now', '-8 days')",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 260,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET unit = 'Updated text 1' WHERE sensors.asset_id <= 657",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 261,
+      "complexity": "update",
+      "sql": "UPDATE sensor_readings SET quality_flag = 'Updated text 3' WHERE sensor_readings.quality_flag <> 'user'",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 262,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET detected_at = DATETIME('now') WHERE incidents.is_resolved = 1",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 263,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET request_id = 493 WHERE work_orders.assigned_at > DATETIME('now', '-20 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 264,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET detected_at = DATETIME('now') WHERE incidents.id >= 146",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 265,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET started_at = DATETIME('now') WHERE work_orders.completed_at >= DATETIME('now', '-14 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 266,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET asset_id = 419 WHERE maintenance_requests.priority_level = 'activity'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 267,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET status = 'Updated text 87' WHERE maintenance_requests.resolved_at <= DATETIME('now', '-12 days')",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 268,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET description = 'Updated text 73' WHERE maintenance_requests.reported_at <= DATETIME('now', '-15 days')",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 269,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET certification_level = 'Updated text 65' WHERE technicians.last_name <> 'admin'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 270,
+      "complexity": "update",
+      "sql": "UPDATE assets SET asset_type = 'Updated text 32' WHERE assets.department_id < 769",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 271,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET technician_id = 558 WHERE work_orders.id <= 491",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 272,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET asset_id = 538 WHERE sensors.id >= 435",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 273,
+      "complexity": "update",
+      "sql": "UPDATE departments SET is_active = 0 WHERE departments.name <> '123'",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 274,
+      "complexity": "update",
+      "sql": "UPDATE sensor_readings SET sensor_id = 576 WHERE sensor_readings.sensor_id < 902",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 275,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET status = 'Updated text 37' WHERE maintenance_requests.status = 'admin'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 276,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET incident_type = 'Updated text 72' WHERE incidents.is_resolved = 0",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 277,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET started_at = DATETIME('now') WHERE work_orders.completed_at >= DATETIME('now', '-12 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 278,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET severity = 'Updated text 54' WHERE incidents.id > 558",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 279,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET is_available = 1 WHERE technicians.first_name <> 'activity'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 280,
+      "complexity": "update",
+      "sql": "UPDATE sensor_readings SET sensor_id = 49 WHERE sensor_readings.reading_value <> 57",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 281,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET issue_type = 'Updated text 86' WHERE maintenance_requests.reported_at > DATETIME('now', '-7 days')",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 282,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET completed_at = DATETIME('now') WHERE work_orders.technician_id >= 922",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 283,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET sensor_type = 'Updated text 80' WHERE sensors.sensor_type = 'user'",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 284,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET severity = 'Updated text 32' WHERE incidents.is_resolved = 0",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 285,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET asset_id = 74 WHERE sensors.sensor_type LIKE '%a%'",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 286,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET assigned_at = DATETIME('now') WHERE work_orders.started_at < DATETIME('now', '-27 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 287,
+      "complexity": "update",
+      "sql": "UPDATE maintenance_requests SET issue_type = 'Updated text 83' WHERE maintenance_requests.id >= 636",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 288,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET request_id = 166 WHERE work_orders.technician_id <= 830",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 289,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET severity = 'Updated text 83' WHERE incidents.severity LIKE 'b%'",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 290,
+      "complexity": "update",
+      "sql": "UPDATE sensor_readings SET quality_flag = 'Updated text 51' WHERE sensor_readings.quality_flag LIKE 'b%'",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 291,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET completed_at = DATETIME('now') WHERE work_orders.assigned_at <= DATETIME('now', '-21 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 292,
+      "complexity": "update",
+      "sql": "UPDATE sensor_readings SET sensor_id = 742 WHERE sensor_readings.reading_value <> 981",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 293,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET unit = 'Updated text 45' WHERE sensors.installed_on < DATETIME('now', '-18 days')",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 294,
+      "complexity": "update",
+      "sql": "UPDATE work_orders SET completed_at = DATETIME('now') WHERE work_orders.completed_at > DATETIME('now', '-30 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 295,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET certification_level = 'Updated text 72' WHERE technicians.id < 43",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 296,
+      "complexity": "update",
+      "sql": "UPDATE sensors SET sensor_type = 'Updated text 54' WHERE sensors.is_active = 0",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 297,
+      "complexity": "update",
+      "sql": "UPDATE assets SET department_id = 866 WHERE assets.installation_date <= DATETIME('now', '-3 days')",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 298,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET certification_level = 'Updated text 55' WHERE technicians.last_name = 'admin'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 299,
+      "complexity": "update",
+      "sql": "UPDATE incidents SET detected_at = DATETIME('now') WHERE incidents.incident_type <> 'admin'",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 300,
+      "complexity": "update",
+      "sql": "UPDATE technicians SET phone_number = 'Updated text 69' WHERE technicians.certification_level <> 'test'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 301,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completion_notes = 'activity'",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 302,
+      "complexity": "delete",
+      "sql": "DELETE FROM technicians WHERE technicians.id <> 451",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 303,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.started_at >= DATETIME('now', '-24 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 304,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.asset_type <> '123'",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 305,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.started_at <= DATETIME('now', '-20 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 306,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.request_id > 711",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 307,
+      "complexity": "delete",
+      "sql": "DELETE FROM maintenance_requests WHERE maintenance_requests.description LIKE 'b%'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 308,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.department_id <> 836",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 309,
+      "complexity": "delete",
+      "sql": "DELETE FROM technicians WHERE technicians.id < 753",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 310,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.request_id > 458",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 311,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.assigned_at > DATETIME('now', '-6 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 312,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.id >= 307",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 313,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completed_at >= DATETIME('now', '-20 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 314,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.assigned_at >= DATETIME('now', '-27 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 315,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.id > 693",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 316,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.id <= 479",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 317,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.department_id >= 992",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 318,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.recorded_at > DATETIME('now', '-20 days')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 319,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completion_notes <> 'test'",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 320,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.asset_id > 972",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 321,
+      "complexity": "delete",
+      "sql": "DELETE FROM technicians WHERE technicians.last_name LIKE '%c'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 322,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.id = 538",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 323,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.location_longitude <> 5",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 324,
+      "complexity": "delete",
+      "sql": "DELETE FROM maintenance_requests WHERE maintenance_requests.issue_type <> 'user'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 325,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.id = 615",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 326,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.id <= 511",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 327,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.sensor_id >= 751",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 328,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.operating_budget <> 728",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 329,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.asset_id <= 891",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 330,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.started_at <= DATETIME('now', '-13 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 331,
+      "complexity": "delete",
+      "sql": "DELETE FROM technicians WHERE technicians.certification_level LIKE 'b%'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 332,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completed_at < DATETIME('now', '-5 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 333,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.sensor_id > 353",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 334,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.installed_on <= DATETIME('now', '-30 days')",
+      "tables": [
+        "sensors"
+      ]
+    },
+    {
+      "id": 335,
+      "complexity": "delete",
+      "sql": "DELETE FROM technicians WHERE technicians.last_name = 'admin'",
+      "tables": [
+        "technicians"
+      ]
+    },
+    {
+      "id": 336,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completed_at <= DATETIME('now', '-14 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 337,
+      "complexity": "delete",
+      "sql": "DELETE FROM maintenance_requests WHERE maintenance_requests.description = '123'",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 338,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.completed_at > DATETIME('now', '-7 days')",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 339,
+      "complexity": "delete",
+      "sql": "DELETE FROM incidents WHERE incidents.detected_at >= DATETIME('now', '-26 days')",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 340,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.id < 13",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 341,
+      "complexity": "delete",
+      "sql": "DELETE FROM departments WHERE departments.id < 945",
+      "tables": [
+        "departments"
+      ]
+    },
+    {
+      "id": 342,
+      "complexity": "delete",
+      "sql": "DELETE FROM maintenance_requests WHERE maintenance_requests.asset_id <> 877",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 343,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.recorded_at < DATETIME('now', '-9 days')",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 344,
+      "complexity": "delete",
+      "sql": "DELETE FROM assets WHERE assets.location_latitude = 774",
+      "tables": [
+        "assets"
+      ]
+    },
+    {
+      "id": 345,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.labor_hours < 719",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 346,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensor_readings WHERE sensor_readings.quality_flag LIKE '%c'",
+      "tables": [
+        "sensor_readings"
+      ]
+    },
+    {
+      "id": 347,
+      "complexity": "delete",
+      "sql": "DELETE FROM maintenance_requests WHERE maintenance_requests.asset_id <> 528",
+      "tables": [
+        "maintenance_requests"
+      ]
+    },
+    {
+      "id": 348,
+      "complexity": "delete",
+      "sql": "DELETE FROM work_orders WHERE work_orders.request_id < 158",
+      "tables": [
+        "work_orders"
+      ]
+    },
+    {
+      "id": 349,
+      "complexity": "delete",
+      "sql": "DELETE FROM incidents WHERE incidents.asset_id < 471",
+      "tables": [
+        "incidents"
+      ]
+    },
+    {
+      "id": 350,
+      "complexity": "delete",
+      "sql": "DELETE FROM sensors WHERE sensors.id > 499",
+      "tables": [
+        "sensors"
+      ]
+    }
+  ]
+}

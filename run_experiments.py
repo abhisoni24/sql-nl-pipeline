@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 from src.harness.llm_worker import LLMWorker
 from src.harness.experiment_runner import ExperimentRunner
+from src.core.schema_loader import load_from_yaml
 from src.utils.data_loader import (
     load_baseline_queries,
     load_systematic_perturbations,
@@ -35,7 +36,7 @@ LOCAL_BASE = os.getenv('LOCAL_BASE', DEFAULT_LOCAL_BASE)
 REPO_PATH = os.getenv('REPO_PATH', DEFAULT_REPO_PATH)
 DRIVE_BASE = os.getenv('DRIVE_BASE', DEFAULT_DRIVE_BASE)
 CONFIG_PATH = os.path.join(REPO_PATH, 'experiments.yaml')
-DATASET_DIR = os.path.join(REPO_PATH, 'dataset/current')
+DATASET_DIR = os.path.join(REPO_PATH, 'dataset')
 
 def setup_directories(run_timestamp: str):
     """Create local and drive directories for this run."""
@@ -50,12 +51,12 @@ def setup_directories(run_timestamp: str):
         
     return local_run_dir, inputs_dir, outputs_dir
 
-def load_all_tasks(dataset_dir: str):
+def load_all_tasks(dataset_dir: str, schema_name: str = "social_media"):
     """Load and merge all task types."""
     print("⏳ Loading datasets...")
-    baseline = load_baseline_queries(f'{dataset_dir}/nl_social_media_queries_20.json')
-    systematic = load_systematic_perturbations(f'{dataset_dir}/nl_social_media_queries_systematic_20.json')
-    llm = load_llm_perturbations(f'{dataset_dir}/nl_social_media_queries_llm_perturbed_20.json')
+    baseline = load_baseline_queries(f'{dataset_dir}/{schema_name}/nl_prompts.json')
+    systematic = load_systematic_perturbations(f'{dataset_dir}/{schema_name}/systematic_perturbations.json')
+    llm = load_llm_perturbations(f'{dataset_dir}/{schema_name}/llm_perturbations.json')
     
     all_tasks = baseline + systematic + llm
     random.shuffle(all_tasks)
@@ -64,6 +65,19 @@ def load_all_tasks(dataset_dir: str):
     return all_tasks
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Run SQL generation experiments.")
+    parser.add_argument('--schema', default='schemas/social_media.yaml',
+                        help='Path to schema YAML (default: schemas/social_media.yaml)')
+    cli_args = parser.parse_args()
+
+    # Load schema config
+    schema_cfg = load_from_yaml(cli_args.schema)
+    schema = schema_cfg.get_legacy_schema()
+    foreign_keys = schema_cfg.get_fk_pairs()
+    dialect = schema_cfg.dialect
+    schema_name = schema_cfg.schema_name
+
     # 1. Setup
     run_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     local_run_dir, inputs_dir, outputs_dir = setup_directories(run_timestamp)
@@ -71,7 +85,7 @@ def main():
     # Initialize Storage Manager
     storage_mgr = StorageManager()
     
-    print(f"🚀 Starting Experiment Run: {run_timestamp}")
+    print(f"🚀 Starting Experiment Run: {run_timestamp} (schema: {schema_name})")
     print(f"   📂 Output Dir: {outputs_dir}")
     print(f"   💾 Free Disk Space: {storage_mgr.get_free_space_gb():.1f}GB")
     
@@ -80,7 +94,7 @@ def main():
         config = yaml.safe_load(f)
         
     # 3. Load Data
-    tasks = load_all_tasks(DATASET_DIR)
+    tasks = load_all_tasks(DATASET_DIR, schema_name)
     
     # Save flat tasks for reference
     with open(f'{inputs_dir}/flat_tasks.jsonl', 'w') as f:
@@ -139,6 +153,9 @@ def main():
                 adapter_type=worker_args.pop('adapter_type'),
                 model_identifier=worker_args.pop('model_identifier'),
                 rate_limit=worker_args.pop('rate_limit', None),
+                schema=schema,
+                foreign_keys=foreign_keys,
+                dialect=dialect,
                 **worker_args # Pass remaining config (max_model_len, quantization, etc.)
             )
             

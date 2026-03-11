@@ -11,7 +11,7 @@ Usage
 
   # Against any specific file:
   python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py \\
-      --input dataset/current/nl_social_media_queries_20.json
+      --input dataset/social_media/nl_prompts.json
 
   # Verbose — print every failure as it occurs:
   python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py -v
@@ -137,12 +137,29 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
 from sqlglot import exp, parse_one, errors as sqlglot_errors
-from src.core.schema import SCHEMA, FOREIGN_KEYS, USED_SQL_DIALECT
 
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_20.json"
+# ── Schema loading (configurable via --schema CLI arg) ────────────────────
+_SCHEMA_STATE = {
+    "SCHEMA": {},
+    "FOREIGN_KEYS": {},
+    "KNOWN_TABLES": set(),
+    "DIALECT": "sqlite",
+}
 
-KNOWN_TABLES = set(SCHEMA.keys())
 
+def _load_schema(schema_path=None):
+    """Load schema from YAML/SQLite or fall back to legacy schema.py."""
+    if schema_path:
+        from src.core.schema_loader import load_schema
+        cfg = load_schema(schema_path)
+        _SCHEMA_STATE["SCHEMA"] = cfg.get_legacy_schema()
+        _SCHEMA_STATE["FOREIGN_KEYS"] = cfg.get_fk_pairs()
+        _SCHEMA_STATE["DIALECT"] = cfg.dialect
+    else:
+        raise ValueError("--schema is required. Provide a YAML or SQLite schema file.")
+    _SCHEMA_STATE["KNOWN_TABLES"] = set(_SCHEMA_STATE["SCHEMA"].keys())
+
+DEFAULT_INPUT_FILE = "dataset/social_media/nl_prompts.json"
 # ── NL vocabulary maps ─────────────────────────────────────────────────────
 
 # Intent verbs used by the renderer at the start of SELECT prompts
@@ -173,7 +190,7 @@ UPDATE_INTENT_VERBS = {
 
 DELETE_INTENT_VERBS = {
     "delete", "remove", "erase", "drop", "purge", "eliminate",
-    "clear", "discard",
+    "clear", "discard", "strip", "wipe",
 }
 
 # Words that confirm a WHERE/filter is present in the NL
@@ -184,10 +201,8 @@ FILTER_INDICATORS = {
     "is in [", "is not", "not equal",
 }
 
-# Table synonyms used by the renderer (from schema_synonyms in nl_renderer.py).
-# IMPORTANT: only multi-character / unambiguous synonyms here — single-word synonyms
-# that overlap with column name fragments (e.g. "user" matches "user_id") must be
-# matched with word-boundary checks in _table_in_nl.
+# Table synonyms used by the renderer.
+# Base set (social_media) — extended at runtime when a dictionary YAML is loaded.
 TABLE_SYNONYMS = {
     "users": {"users", "user", "members", "member", "accounts", "account", "people"},
     "posts": {"posts", "post", "articles", "article", "entries", "entry"},
@@ -196,11 +211,40 @@ TABLE_SYNONYMS = {
     "follows": {"follows", "follow", "connections", "connection", "subscriptions"},
 }
 
+# Column synonyms — populated by _load_dictionary()
+# Key: qualified "table.column", Value: set of synonym strings
+COLUMN_SYNONYMS: dict[str, set[str]] = {}
+
 # Reverse: any synonym → canonical table name
 SYNONYM_TO_TABLE = {}
-for canonical, syns in TABLE_SYNONYMS.items():
-    for s in syns:
-        SYNONYM_TO_TABLE[s] = canonical
+
+
+def _rebuild_synonym_to_table():
+    """Rebuild the reverse index after TABLE_SYNONYMS is modified."""
+    SYNONYM_TO_TABLE.clear()
+    for canonical, syns in TABLE_SYNONYMS.items():
+        for s in syns:
+            SYNONYM_TO_TABLE[s] = canonical
+
+
+_rebuild_synonym_to_table()
+
+
+def _load_dictionary(dict_path: str):
+    """Merge table & column synonyms from a dictionary YAML into the test lookups."""
+    import yaml
+    with open(dict_path) as f:
+        data = yaml.safe_load(f)
+
+    # Merge table synonyms
+    for tname, syns in data.get("table_synonyms", {}).items():
+        existing = TABLE_SYNONYMS.get(tname, {tname})
+        TABLE_SYNONYMS[tname] = existing | set(syns)
+    _rebuild_synonym_to_table()
+
+    # Load column synonyms
+    for qualified_col, syns in data.get("column_synonyms", {}).items():
+        COLUMN_SYNONYMS[qualified_col] = set(syns)
 
 # Words that indicate successful rendering of union connector
 UNION_DISTINCT_INDICATOR = "removing duplicates"
@@ -231,6 +275,50 @@ def _has_filter(nl: str) -> bool:
     return any(ind in nl_lower for ind in FILTER_INDICATORS)
 
 
+def _col_in_nl(col: str, nl_lower: str, table: str = None) -> bool:
+    """Return True if a column name (or any of its dictionary synonyms) appears in the NL.
+
+    Checks:
+      1. The raw column name (with underscores) as it may appear verbatim
+      2. The column name with underscores replaced by spaces (e.g. 'user_id' → 'user id')
+      3. All synonyms from the COLUMN_SYNONYMS dictionary
+    """
+    col_raw = col.lower()
+    col_spaced = col_raw.replace("_", " ")
+    if col_raw in nl_lower or col_spaced in nl_lower:
+        return True
+
+    # Check dictionary synonyms for this column
+    qualified_keys = []
+    if table:
+        qualified_keys.append(f"{table}.{col}")
+    # Also try all tables that have this column
+    for qk in COLUMN_SYNONYMS:
+        if qk.endswith(f".{col}"):
+            qualified_keys.append(qk)
+    for qk in qualified_keys:
+        for syn in COLUMN_SYNONYMS.get(qk, set()):
+            if syn.lower() in nl_lower:
+                return True
+    return False
+
+
+def _singularize_for_test(word: str) -> str:
+    """Best-effort singular form — mirrors SQLToNLRenderer._singularize."""
+    if not word or len(word) <= 2:
+        return word
+    low = word.lower()
+    if low.endswith(('ss', 'us', 'is')):
+        return word
+    if low.endswith('ies'):
+        return word[:-3] + 'y'
+    if low.endswith(('ses', 'zes', 'xes', 'ches', 'shes')):
+        return word[:-2]
+    if low.endswith('s') and not low.endswith('ss'):
+        return word[:-1]
+    return word
+
+
 def _table_in_nl(table: str, nl_lower: str) -> bool:
     """Return True if the table name or any of its synonyms appear in the NL as a
     genuine table reference (not as part of a column name compound or string literal).
@@ -240,9 +328,31 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
       - 'user' inside "'user'"           (string literal value, not table reference)
       - 'like' followed by a quote/percent (SQL LIKE operator pattern)
       - 'follow' inside 'followed_at'   (column fragment)
+      - 'account' inside 'account followed id' (column synonym containing a table synonym)
     """
     candidates = TABLE_SYNONYMS.get(table, {table})
+    # Auto-expand: add underscore variants and simple singulars.
+    # The NL renderer may emit "research_project" (singular + underscore) while
+    # the schema table is "research_projects" and the dictionary only has
+    # "research projects" (space-separated, plural).
+    expanded = set()
     for c in candidates:
+        expanded.add(c.lower())
+        # Underscore ↔ space variants
+        c_l = c.lower()
+        if "_" in c_l:
+            expanded.add(c_l.replace("_", " "))
+        elif " " in c_l:
+            expanded.add(c_l.replace(" ", "_"))
+        # Proper singularisation (matches renderer's _singularize logic)
+        singular = _singularize_for_test(c_l)
+        if singular != c_l:
+            expanded.add(singular)
+            if "_" in singular:
+                expanded.add(singular.replace("_", " "))
+            elif " " in singular:
+                expanded.add(singular.replace(" ", "_"))
+    for c in expanded:
         for m in re.finditer(rf"\b{re.escape(c)}\b", nl_lower):
             start, end = m.start(), m.end()
             rest  = nl_lower[end:]
@@ -250,6 +360,10 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
 
             # Reject: synonym is a column name prefix (followed by underscore: user_id)
             if rest.startswith("_"):
+                continue
+
+            # Reject: alias-qualified column reference (e.g. S1.Region, a1.name)
+            if start > 0 and nl_lower[start - 1] == '.':
                 continue
 
             # Reject: LIKE operator (synonym 'like' followed by quote/percent pattern)
@@ -260,8 +374,53 @@ def _table_in_nl(table: str, nl_lower: str) -> bool:
             if before.endswith("'") or rest.startswith("'"):
                 continue
 
+            # Reject: match is embedded in a column synonym phrase
+            if _match_inside_column_synonym(c, nl_lower, start, end):
+                continue
+
+            # Reject: match is inside a longer table synonym for a *different* table
+            if _match_inside_other_table_synonym(table, c, nl_lower, start, end):
+                continue
+
             # This match is a genuine table reference
             return True
+    return False
+
+
+def _match_inside_other_table_synonym(table: str, word: str, nl_lower: str,
+                                       start: int, end: int) -> bool:
+    """Check if a word match is part of a longer multi-word table synonym for a different table."""
+    for other_table, syns in TABLE_SYNONYMS.items():
+        if other_table == table:
+            continue
+        for syn in syns:
+            syn_l = syn.lower()
+            # Only check multi-word synonyms that contain the matched word
+            if " " not in syn_l or word not in syn_l:
+                continue
+            idx = nl_lower.find(syn_l)
+            while idx != -1:
+                if idx <= start and idx + len(syn_l) >= end:
+                    return True
+                idx = nl_lower.find(syn_l, idx + 1)
+    return False
+
+
+def _match_inside_column_synonym(word: str, nl_lower: str, start: int, end: int) -> bool:
+    """Check if a word match at [start:end] is part of a longer column synonym phrase."""
+    if not COLUMN_SYNONYMS:
+        return False
+    for syns in COLUMN_SYNONYMS.values():
+        for syn in syns:
+            syn_l = syn.lower()
+            if word not in syn_l or syn_l == word:
+                continue
+            # See if this column synonym phrase is present in the NL around the match
+            idx = nl_lower.find(syn_l)
+            while idx != -1:
+                if idx <= start and idx + len(syn_l) >= end:
+                    return True
+                idx = nl_lower.find(syn_l, idx + 1)
     return False
 
 
@@ -275,7 +434,7 @@ def _detect_advanced_subtype(sql: str) -> str:
         return "subquery_from"
     # self_join: same table appears more than once in table list
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         tables = [t.name for t in ast.find_all(exp.Table)]
         if len(tables) >= 2 and len(set(tables)) == 1:
             return "self_join"
@@ -304,7 +463,7 @@ def _sql_has_star(sql: str) -> bool:
 def _selected_columns(sql: str) -> list[str]:
     """Extract bare column names referenced in SELECT list (not *)."""
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         sel = ast if isinstance(ast, exp.Select) else None
         if sel is None:
             return []
@@ -322,7 +481,7 @@ def _selected_columns(sql: str) -> list[str]:
 def _join_info(sql: str):
     """Return (left_table, right_table, join_kind, join_side) or None."""
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         if not isinstance(ast, exp.Select):
             return None
         joins = ast.args.get("joins", [])
@@ -429,7 +588,7 @@ def check_structural(r: dict, result: TestResult):
     # and SELECT-type prompts may begin with "select" as a natural language intent word.
     # Flag only if the first word is a structural-only SQL keyword that has no NL meaning.
     first_word_upper = nl.split()[0].upper() if nl.split() else ""
-    structural_only_sql_kws = {"FROM", "WHERE", "JOIN", "GROUP", "HAVING", "DROP"}
+    structural_only_sql_kws = {"FROM", "WHERE", "JOIN", "GROUP", "HAVING"}
     if first_word_upper in structural_only_sql_kws:
         result.fail(rid, comp, "no_raw_sql_start",
                     f"NL starts with structural SQL keyword '{first_word_upper}'")
@@ -443,7 +602,7 @@ def check_structural(r: dict, result: TestResult):
         result.ok("no_none_token")
 
     # 7. Prompt references at least one schema table (name or synonym)
-    mentions_table = any(_table_in_nl(t, nl_l) for t in KNOWN_TABLES)
+    mentions_table = any(_table_in_nl(t, nl_l) for t in _SCHEMA_STATE["KNOWN_TABLES"])
     if not mentions_table:
         result.fail(rid, comp, "mentions_a_table",
                     f"No schema table mentioned in: {nl[:100]}")
@@ -478,9 +637,12 @@ def check_select_fidelity(r: dict, result: TestResult):
     # 10. Specific columns present in NL
     else:
         cols = _selected_columns(sql)
+        # Try to determine the source table for better synonym lookup
+        table_match = re.search(r"FROM\s+(\w+)", sql, re.IGNORECASE)
+        source_table = table_match.group(1) if table_match else None
         for col in cols:
             # Column names can appear as "the user's email", "email", "the like's liked_at"
-            if col.lower() not in nl_l:
+            if not _col_in_nl(col, nl_l, source_table):
                 result.fail(rid, comp, "column_name_in_nl",
                             f"Column '{col}' not found in NL: {nl[:120]}")
             else:
@@ -530,7 +692,7 @@ def check_simple(r: dict, result: TestResult):
 
     # Determine single table
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         tables = list({t.name for t in ast.find_all(exp.Table)})
     except Exception:
         return
@@ -554,8 +716,24 @@ def check_simple(r: dict, result: TestResult):
             result.ok("simple_no_sql_kw_leakage")
 
     # 17. No second schema table mentioned (simple should only reference one table)
-    other_tables = KNOWN_TABLES - {tables[0]} if tables else KNOWN_TABLES
+    other_tables = _SCHEMA_STATE["KNOWN_TABLES"] - {tables[0]} if tables else _SCHEMA_STATE["KNOWN_TABLES"]
+    # Get column names of the query's primary table to avoid false positives
+    # when a column name coincides with another table name (e.g. column 'words'
+    # in table 'langs' vs table 'words').
+    primary_cols = set()
+    if tables:
+        primary_cols = {c.lower() for c in _SCHEMA_STATE["SCHEMA"].get(tables[0], {}).keys()}
     for other in other_tables:
+        # Skip if the other table name (or its singular) is also a column of the primary table
+        other_l = other.lower()
+        other_singular = _singularize_for_test(other_l)
+        if other_l in primary_cols or other_singular in primary_cols:
+            continue
+        # Skip if any synonym of the other table is also a column of the primary table
+        other_syns = TABLE_SYNONYMS.get(other, set())
+        if any(s.lower() in primary_cols or s.lower().replace(" ", "_") in primary_cols
+               for s in other_syns):
+            continue
         if _table_in_nl(other, nl_l):
             result.fail(rid, comp, "simple_only_one_table",
                         f"Second table '{other}' (or synonym) appears in simple NL: {nl[:120]}")
@@ -585,7 +763,7 @@ def check_join(r: dict, result: TestResult):
     is_inner = (join_kind == "INNER" and not join_side) or (not join_kind and not join_side)
     fk_pair = (left_table, right_table)
     rev_pair = (right_table, left_table)
-    is_standard_fk = fk_pair in FOREIGN_KEYS or rev_pair in FOREIGN_KEYS
+    is_standard_fk = fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"] or rev_pair in _SCHEMA_STATE["FOREIGN_KEYS"]
 
     if is_inner and is_standard_fk:
         coupling_words = ["and their", "with their", "along with", "joined with", "join"]
@@ -616,7 +794,7 @@ def check_join(r: dict, result: TestResult):
 
     # 22. Right-hand table NOT omitted entirely
     right_syns = TABLE_SYNONYMS.get(right_table, {right_table})
-    if not any(s in nl_l for s in right_syns):
+    if not any(s.lower() in nl_l for s in right_syns):
         result.fail(rid, comp, "join_right_table_present",
                     f"Right-hand table '{right_table}' entirely absent from NL: {nl[:120]}")
     else:
@@ -626,12 +804,12 @@ def check_join(r: dict, result: TestResult):
     # Standard FK template "and their X" encodes FK implicitly — skip column check for those
     if not (is_inner and is_standard_fk and "and their" in nl_l):
         left_key, right_key = "", ""
-        if fk_pair in FOREIGN_KEYS:
-            left_key, right_key = FOREIGN_KEYS[fk_pair]
-        elif rev_pair in FOREIGN_KEYS:
-            left_key, right_key = FOREIGN_KEYS[rev_pair]
+        if fk_pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
+            left_key, right_key = _SCHEMA_STATE["FOREIGN_KEYS"][fk_pair]
+        elif rev_pair in _SCHEMA_STATE["FOREIGN_KEYS"]:
+            left_key, right_key = _SCHEMA_STATE["FOREIGN_KEYS"][rev_pair]
         if left_key and right_key:
-            if left_key not in nl_l and right_key not in nl_l:
+            if left_key.lower() not in nl_l and right_key.lower() not in nl_l:
                 result.fail(rid, comp, "join_fk_col_in_nl",
                             f"Neither FK col ('{left_key}','{right_key}') in NL: {nl[:120]}")
             else:
@@ -670,7 +848,7 @@ def check_advanced(r: dict, result: TestResult):
 
         # 26. Outer table mentioned
         try:
-            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
             from_node = ast.args.get("from_")
             outer_table = from_node.this.this.name if from_node else ""
         except Exception:
@@ -689,7 +867,7 @@ def check_advanced(r: dict, result: TestResult):
             inner_table = inner_table_match.group(1).rstrip(")")
             # strip alias suffix (e.g. "likes AS sub_l" → "likes")
             inner_table = inner_table.split()[0]
-            if inner_table in KNOWN_TABLES and not _table_in_nl(inner_table, nl_l):
+            if inner_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(inner_table, nl_l):
                 result.fail(rid, comp, "subq_where_inner_table",
                             f"Inner table '{inner_table}' missing from NL: {nl[:120]}")
             else:
@@ -731,7 +909,7 @@ def check_advanced(r: dict, result: TestResult):
         )
         if inner_table_match:
             inner_table = inner_table_match.group(1)
-            if inner_table in KNOWN_TABLES and not _table_in_nl(inner_table, nl_l):
+            if inner_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(inner_table, nl_l):
                 result.fail(rid, comp, "subq_from_source_table",
                             f"Source table '{inner_table}' missing from NL: {nl[:120]}")
             else:
@@ -752,7 +930,7 @@ def check_advanced(r: dict, result: TestResult):
             result.ok("subq_from_no_inner_prefix")
 
         # 34. NL does not say ONLY "a derived query" without naming the table
-        if "a derived query" in nl_l and not any(_table_in_nl(t, nl_l) for t in KNOWN_TABLES):
+        if "a derived query" in nl_l and not any(_table_in_nl(t, nl_l) for t in _SCHEMA_STATE["KNOWN_TABLES"]):
             result.fail(rid, comp, "subq_from_no_bare_derived_query",
                         f"NL says 'a derived query' with no table name: {nl[:120]}")
         else:
@@ -771,7 +949,7 @@ def check_advanced(r: dict, result: TestResult):
     elif subtype == "self_join":
         # 36. Joined table mentioned
         try:
-            ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+            ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
             tables = [t.name for t in ast.find_all(exp.Table)]
             base_table = tables[0] if tables else ""
         except Exception:
@@ -828,7 +1006,7 @@ def check_advanced(r: dict, result: TestResult):
         )
         if exists_table_match:
             exists_table = exists_table_match.group(1)
-            if exists_table in KNOWN_TABLES and not _table_in_nl(exists_table, nl_l):
+            if exists_table in _SCHEMA_STATE["KNOWN_TABLES"] and not _table_in_nl(exists_table, nl_l):
                 result.fail(rid, comp, "exists_subquery_table_in_nl",
                             f"EXISTS table '{exists_table}' not in NL: {nl[:120]}")
             else:
@@ -887,7 +1065,7 @@ def check_union(r: dict, result: TestResult):
 
     # 47. Both legs' table names in NL
     try:
-        ast = parse_one(sql, dialect=USED_SQL_DIALECT)
+        ast = parse_one(sql, dialect=_SCHEMA_STATE["DIALECT"])
         if isinstance(ast, exp.Union):
             left_tables = {t.name for t in ast.left.find_all(exp.Table)} if ast.left else set()
             right_tables = {t.name for t in ast.right.find_all(exp.Table)} if ast.right else set()
@@ -943,9 +1121,11 @@ def check_insert(r: dict, result: TestResult):
     # 52. Inserted column names present in NL
     cols_match = re.search(r"INSERT\s+INTO\s+\w+\s*\(([^)]+)\)", sql, re.IGNORECASE)
     if cols_match:
-        col_names = [c.strip() for c in cols_match.group(1).split(",")]
+        insert_table_match = re.search(r"INSERT\s+INTO\s+(\w+)", sql, re.IGNORECASE)
+        insert_table = insert_table_match.group(1) if insert_table_match else None
+        col_names = [c.strip().strip('"').strip("'").strip('`') for c in cols_match.group(1).split(",")]
         for col in col_names:
-            if col.lower() not in nl_l:
+            if not _col_in_nl(col, nl_l, insert_table):
                 result.fail(rid, comp, "insert_column_in_nl",
                             f"Insert column '{col}' not in NL: {nl[:120]}")
             else:
@@ -973,10 +1153,12 @@ def check_update(r: dict, result: TestResult):
         result.ok("update_verb")
 
     # 55. SET column mentioned
-    set_match = re.search(r"SET\s+(\w+)\s*=", sql, re.IGNORECASE)
+    set_match = re.search(r'SET\s+"?([^"=]+)"?\s*=', sql, re.IGNORECASE)
     if set_match:
-        col = set_match.group(1)
-        if col.lower() not in nl_l:
+        col = set_match.group(1).strip()
+        update_table_match = re.search(r"UPDATE\s+(\w+)", sql, re.IGNORECASE)
+        update_table = update_table_match.group(1) if update_table_match else None
+        if not _col_in_nl(col, nl_l, update_table):
             result.fail(rid, comp, "update_set_col_in_nl",
                         f"SET column '{col}' not in NL: {nl[:100]}")
         else:
@@ -1074,12 +1256,18 @@ def run_tests(input_file: str, verbose: bool = False) -> TestResult:
     with open(input_file) as f:
         dataset = json.load(f)
 
-    print(f"Loaded {len(dataset)} records from {input_file}")
+    # Support both bare-list and metadata-wrapped formats
+    if isinstance(dataset, dict) and "records" in dataset:
+        records = dataset["records"]
+    else:
+        records = dataset
+
+    print(f"Loaded {len(records)} records from {input_file}")
     print(f"Running NL prompt tests{'  (verbose)' if verbose else ''}...\n")
 
     by_complexity: dict[str, int] = defaultdict(int)
 
-    for r in dataset:
+    for r in records:
         comp = r.get("complexity", "unknown")
         by_complexity[comp] += 1
 
@@ -1114,11 +1302,29 @@ def main():
         help=f"Path to the NL prompt JSON dataset file (default: {DEFAULT_INPUT_FILE})"
     )
     parser.add_argument(
+        "--schema", "-s",
+        default=None,
+        help="Path to a YAML schema file (default: use legacy src/core/schema.py)"
+    )
+    parser.add_argument(
+        "--dictionary", "-d",
+        default=None,
+        help="Path to a dictionary YAML to load table/column synonyms from"
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Print each failure as it occurs"
     )
     args = parser.parse_args()
+
+    # Load schema before running tests
+    _load_schema(args.schema)
+
+    # Load dictionary synonyms if provided
+    if args.dictionary:
+        _load_dictionary(args.dictionary)
+        print(f"Loaded dictionary synonyms from {args.dictionary}")
 
     result = run_tests(args.input, verbose=args.verbose)
     print(result.summary())

@@ -1,0 +1,309 @@
+# hospital_dictionary.yaml
+
+column_synonyms:
+
+  appointments.created_at:
+    - created at
+    - creation date
+    - booking date
+    - record created date
+
+  appointments.doctor_id:
+    - doctor id
+    - physician id
+    - attending doctor id
+
+  appointments.duration_minutes:
+    - duration minutes
+    - appointment duration
+    - length in minutes
+    - visit length
+
+  appointments.id:
+    - id
+    - appointment id
+
+  appointments.notes:
+    - notes
+    - appointment notes
+    - visit notes
+    - clinical notes
+
+  appointments.patient_id:
+    - patient id
+    - patient identifier
+
+  appointments.scheduled_at:
+    - scheduled at
+    - appointment time
+    - scheduled time
+    - appointment date and time
+
+  appointments.status:
+    - status
+    - appointment status
+    - visit status
+
+  departments.budget:
+    - budget
+    - department budget
+    - allocated budget
+
+  departments.floor_number:
+    - floor number
+    - floor
+    - level
+    - storey
+
+  departments.head_doctor_id:
+    - head doctor id
+    - department head id
+    - chief doctor id
+
+  departments.id:
+    - id
+    - department id
+
+  departments.is_active:
+    - is active
+    - active
+    - department operational status
+
+  departments.name:
+    - name
+    - department name
+
+  doctors.department:
+    - department
+    - medical department
+    - clinical department
+
+  doctors.email:
+    - email
+    - email address
+    - electronic mail
+    - e-mail
+
+  doctors.first_name:
+    - first name
+    - given name
+    - forename
+
+  doctors.hire_date:
+    - hire date
+    - employment start date
+    - date hired
+
+  doctors.id:
+    - id
+    - doctor id
+    - physician id
+
+  doctors.is_active:
+    - is active
+    - active
+    - employment status active
+
+  doctors.last_name:
+    - last name
+    - surname
+    - family name
+
+  doctors.specialization:
+    - specialization
+    - specialisation
+    - specialty
+    - speciality
+    - medical specialty
+
+  lab_results.doctor_id:
+    - doctor id
+    - physician id
+    - ordering doctor id
+
+  lab_results.id:
+    - id
+    - lab result id
+
+  lab_results.is_abnormal:
+    - is abnormal
+    - abnormal
+    - abnormal result
+    - outside normal range
+
+  lab_results.notes:
+    - notes
+    - lab notes
+    - result notes
+    - clinical notes
+
+  lab_results.patient_id:
+    - patient id
+    - patient identifier
+
+  lab_results.result_unit:
+    - result unit
+    - measurement unit
+    - unit of measure
+
+  lab_results.result_value:
+    - result value
+    - test value
+    - measurement value
+
+  lab_results.test_date:
+    - test date
+    - lab test date
+    - date of test
+
+  lab_results.test_name:
+    - test name
+    - lab test name
+    - laboratory test
+
+  patients.admitted_on:
+    - admitted on
+    - admission date
+    - date admitted
+
+  patients.date_of_birth:
+    - date of birth
+    - birth date
+    - dob
+
+  patients.email:
+    - email
+    - email address
+    - electronic mail
+    - e-mail
+
+  patients.first_name:
+    - first name
+    - given name
+    - forename
+
+  patients.gender:
+    - gender
+    - sex
+
+  patients.id:
+    - id
+    - patient id
+    - patient identifier
+
+  patients.insurance_id:
+    - insurance id
+    - policy id
+    - insurance policy number
+
+  patients.insurance_provider:
+    - insurance provider
+    - insurance company
+    - insurer
+
+  patients.is_active:
+    - is active
+    - active
+    - patient status active
+
+  patients.last_name:
+    - last name
+    - surname
+    - family name
+
+  patients.phone_number:
+    - phone number
+    - telephone number
+    - contact number
+
+  prescriptions.doctor_id:
+    - doctor id
+    - physician id
+    - prescribing doctor id
+
+  prescriptions.dosage:
+    - dosage
+    - dose
+    - prescribed dose
+
+  prescriptions.end_date:
+    - end date
+    - prescription end date
+    - stop date
+
+  prescriptions.frequency:
+    - frequency
+    - dosing frequency
+    - administration frequency
+
+  prescriptions.id:
+    - id
+    - prescription id
+
+  prescriptions.is_active:
+    - is active
+    - active
+    - prescription active status
+
+  prescriptions.medication_name:
+    - medication name
+    - medicine name
+    - drug name
+
+  prescriptions.patient_id:
+    - patient id
+    - patient identifier
+
+  prescriptions.start_date:
+    - start date
+    - prescription start date
+    - date started
+
+
+table_categories:
+  appointments: event
+  departments: object
+  doctors: person
+  lab_results: object
+  patients: person
+  prescriptions: object
+
+
+table_synonyms:
+
+  appointments:
+    - appointments
+    - appointment
+    - medical appointment
+    - clinic visit
+    - visit
+
+  departments:
+    - departments
+    - department
+    - medical department
+    - hospital department
+
+  doctors:
+    - doctors
+    - doctor
+    - physician
+    - medical doctor
+
+  lab_results:
+    - lab results
+    - laboratory results
+    - test results
+    - lab report
+    - laboratory report
+    - lab_result
+
+  patients:
+    - patients
+    - patient
+
+  prescriptions:
+    - prescriptions
+    - prescription
+    - medication order
+    - drug prescription

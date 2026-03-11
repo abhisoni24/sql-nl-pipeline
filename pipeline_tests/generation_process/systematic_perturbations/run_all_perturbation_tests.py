@@ -16,10 +16,14 @@ import sys
 import time
 from pathlib import Path
 
-def run_script(script_path, input_file):
+def run_script(script_path, input_file, schema_file=None, dictionary_file=None):
     """Runs a single test script and returns (total, passed, failed, duration)."""
     start_time = time.time()
     cmd = [sys.executable, str(script_path), "--input", input_file]
+    if schema_file:
+        cmd += ["--schema", schema_file]
+    if dictionary_file:
+        cmd += ["--dictionary", dictionary_file]
     
     try:
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
@@ -43,6 +47,8 @@ def run_script(script_path, input_file):
 def main():
     parser = argparse.ArgumentParser(description="Run all systematic perturbation tests.")
     parser.add_argument("--input", "-i", required=True, help="Path to the JSON dataset file to test.")
+    parser.add_argument("--schema", "-s", required=True, help="Path to the schema YAML file.")
+    parser.add_argument("--dictionary", "-d", required=True, help="Path to the dictionary YAML file.")
     parser.add_argument("--verbose", "-v", action="store_true", help="Show full output for each script.")
     args = parser.parse_args()
 
@@ -76,7 +82,7 @@ def main():
 
     for script in test_scripts:
         pname = script.stem.replace("test_", "")
-        total, passed, failed, duration, output = run_script(script, str(input_path))
+        total, passed, failed, duration, output = run_script(script, str(input_path), args.schema, args.dictionary)
         
         results.append((pname, total, passed, failed, duration, output))
         

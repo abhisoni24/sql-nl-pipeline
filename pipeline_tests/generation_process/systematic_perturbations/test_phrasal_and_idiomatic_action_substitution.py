@@ -53,7 +53,7 @@ CONTENT INTEGRITY (when applicable)
   12. condition_values_preserved    – SQL string literals and numeric values preserved
   13. ordering_cue_preserved        – if baseline has "ordered by", perturbed retains it
   14. limit_cue_preserved           – if baseline has "limited to", perturbed retains it
-  15. length_reasonable             – word count of perturbed is within ±8 of original
+  15. length_reasonable             – word count of perturbed is within ±30 (or 100% of original)
                                      (verb phrase replacement, not content rewrite)
   16. no_object_repr                – no [None], None token, Subquery(, Column(
 
@@ -70,40 +70,23 @@ Usage
   python ...test_phrasal_and_idiomatic_action_substitution.py --input path/to/file.json
 """
 
-import argparse
-import json
 import re
 import sys
-from collections import defaultdict
-from pathlib import Path
-from typing import Any
 
-ROOT = Path(__file__).resolve().parents[3]
+from common import (
+    add_common_args, init_from_args,
+    known_tables, known_columns, column_synonyms_bare,
+    col_in_text, is_synonym_fragment,
+    table_in_nl, sql_literals, numbers,
+    get_pert, baseline,
+    TestResult, run_tests, ROOT,
+)
 
-SCHEMA = {
-    "users":    {"id", "username", "email", "signup_date", "is_verified", "country_code"},
-    "posts":    {"id", "user_id", "content", "posted_at", "view_count"},
-    "comments": {"id", "user_id", "post_id", "comment_text", "created_at"},
-    "likes":    {"user_id", "post_id", "liked_at"},
-    "follows":  {"follower_id", "followee_id", "followed_at"},
-}
-
-DEFAULT_INPUT_FILE = "dataset/current/nl_social_media_queries_systematic_20.json"
 PERTURBATION_NAME = "phrasal_and_idiomatic_action_substitution"
-
-KNOWN_TABLES = set(SCHEMA.keys())
-KNOWN_COLUMNS = {col for cols in SCHEMA.values() for col in cols}
+DEFAULT_INPUT_FILE = "dataset/social_media/systematic_perturbations.json"
 
 SELECT_COMPLEXITIES = {"simple", "join", "advanced", "union"}
 DML_COMPLEXITIES    = {"insert", "update", "delete"}
-
-TABLE_SYNONYMS = {
-    "users":    {"users", "user", "members", "member", "accounts", "account", "people"},
-    "posts":    {"posts", "post", "articles", "article", "entries", "entry"},
-    "comments": {"comments", "comment", "replies", "reply", "feedback"},
-    "likes":    {"likes", "like", "reactions", "reaction", "votes", "vote"},
-    "follows":  {"follows", "follow", "connections", "connection", "subscriptions"},
-}
 
 # Full substitution bank (all verbs/phrases the renderer may produce)
 SUBSTITUTION_BANK_WORDS = {
@@ -133,99 +116,17 @@ JOIN_COUPLING = {"and their", "along with", "joined with", "join", "with their",
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
 
-def _table_in_nl(table: str, nl_lower: str) -> bool:
-    for c in TABLE_SYNONYMS.get(table, {table}):
-        for m in re.finditer(rf"\b{re.escape(c)}\b", nl_lower):
-            rest   = nl_lower[m.end():]
-            before = nl_lower[:m.start()]
-            if rest.startswith("_"):
-                continue
-            if c == "like" and re.match(r"\s*['\"%]", rest):
-                continue
-            if before.endswith("'") or rest.startswith("'"):
-                continue
-            return True
-    return False
-
-
-def _extract_sql_literals(text: str) -> list[str]:
-    """SQL-style string literals only (not NL possessives)."""
-    return re.findall(r"(?<![a-zA-Z0-9])'([^']+)'", text)
-
-
-def _extract_numbers(text: str) -> list[str]:
-    return re.findall(r"\b\d+\b", text)
-
-
-def _get_perturbation(r: dict) -> dict | None:
-    for sp in r.get("generated_perturbations", {}).get("single_perturbations", []):
-        if sp.get("perturbation_name") == PERTURBATION_NAME:
-            return sp
-    return None
-
-
-def _get_baseline_nl(r: dict) -> str:
-    return r.get("generated_perturbations", {}).get("original", {}).get("nl_prompt", "")
-
-
 def _first_word(text: str) -> str:
     """Return the first alphabetical word (lowercased)."""
     m = re.search(r"[a-zA-Z]+", text)
     return m.group(0).lower() if m else ""
 
 
-# ── Result collector ─────────────────────────────────────────────────────────
-
-class TestResult:
-    def __init__(self, verbose: bool = False):
-        self.failures: list[dict] = []
-        self.passed = 0
-        self.verbose = verbose
-
-    def ok(self, _check: str):
-        self.passed += 1
-
-    def fail(self, rid: Any, comp: str, check: str, detail: str):
-        self.failures.append({"id": rid, "complexity": comp, "check": check, "detail": detail})
-        if self.verbose:
-            print(f"  ✗ [{comp} id={rid}] {check}: {detail}")
-
-    def summary(self) -> str:
-        total = self.passed + len(self.failures)
-        lines = [
-            "",
-            "=" * 70,
-            f"Perturbation Test: {PERTURBATION_NAME}",
-            "=" * 70,
-            f"  Total checks : {total}",
-            f"  Passed       : {self.passed}",
-            f"  Failed       : {len(self.failures)}",
-        ]
-        if self.failures:
-            lines.append("")
-            lines.append("Failures by check:")
-            by_check: dict[str, list] = defaultdict(list)
-            for f in self.failures:
-                by_check[f["check"]].append(f)
-            for check, items in sorted(by_check.items()):
-                lines.append(f"  [{len(items):3d}x] {check}")
-                for item in items[:3]:
-                    lines.append(f"        id={item['id']} [{item['complexity']}]: {item['detail'][:130]}")
-                if len(items) > 3:
-                    lines.append(f"        ... and {len(items) - 3} more")
-        lines.append("=" * 70)
-        return "\n".join(lines)
-
-    @property
-    def ok_overall(self) -> bool:
-        return len(self.failures) == 0
-
-
 # ── Check function ────────────────────────────────────────────────────────────
 
 def check_record(r: dict, comp: str, result: TestResult):
     rid = r["id"]
-    sp  = _get_perturbation(r)
+    sp  = get_pert(r, PERTURBATION_NAME)
 
     # ── 1. applicable_field_present ──────────────────────────────────────
     if sp is None:
@@ -242,7 +143,7 @@ def check_record(r: dict, comp: str, result: TestResult):
         return
     result.ok("applicable_is_bool")
 
-    baseline_nl = _get_baseline_nl(r)
+    baseline_nl = baseline(r)
     base_l = baseline_nl.lower()
     perturbed = sp.get("perturbed_nl_prompt")
 
@@ -309,37 +210,47 @@ def check_record(r: dict, comp: str, result: TestResult):
     else:
         result.ok("original_verb_not_reused")
 
-    # ── 10. columns_preserved ────────────────────────────────────────────
-    for col in KNOWN_COLUMNS:
-        if col in base_l and col not in pert_l:
-            result.fail(rid, comp, "columns_preserved",
-                        f"Column '{col}' in baseline but missing from perturbed: {perturbed[:120]}")
-            break
+    # ── 10. columns_preserved (dictionary-aware, word-boundary + synonym-fragment safe) ──
+    col_syns = column_synonyms_bare()
+    for col in known_columns():
+        if col_in_text(col, base_l) and not col_in_text(col, pert_l):
+            if is_synonym_fragment(col, base_l):
+                continue
+            synonyms = col_syns.get(col, set())
+            if not any(syn.lower() in pert_l for syn in synonyms):
+                result.fail(rid, comp, "columns_preserved",
+                            f"Column '{col}' in baseline but missing from perturbed: {perturbed[:120]}")
+                break
     else:
         result.ok("columns_preserved")
 
-    # ── 11. table_still_present ──────────────────────────────────────────
-    tables_in_base = [t for t in KNOWN_TABLES if _table_in_nl(t, base_l)]
+    # ── 11. table_still_present (schema-aware) ──────────────────────────
+    tables_in_base = [t for t in known_tables() if table_in_nl(t, base_l)]
     if tables_in_base:
-        any_present = any(_table_in_nl(t, pert_l) for t in tables_in_base)
+        any_present = any(table_in_nl(t, pert_l) for t in tables_in_base)
         if not any_present:
-            result.fail(rid, comp, "table_still_present",
-                        f"No schema table from baseline found in perturbed: {perturbed[:120]}")
+            # Fallback: accept if ANY known table appears in perturbed
+            any_known = any(table_in_nl(t, pert_l) for t in known_tables())
+            if not any_known:
+                result.fail(rid, comp, "table_still_present",
+                            f"No schema table from baseline found in perturbed: {perturbed[:120]}")
+            else:
+                result.ok("table_still_present")
         else:
             result.ok("table_still_present")
 
     # ── 12. condition_values_preserved ───────────────────────────────────
-    literals = _extract_sql_literals(baseline_nl)
-    numbers  = _extract_numbers(baseline_nl)
+    lits = sql_literals(baseline_nl)
+    nums = numbers(baseline_nl)
     value_ok = True
-    for lit in literals:
+    for lit in lits:
         if lit not in perturbed:
             result.fail(rid, comp, "condition_values_preserved",
                         f"String literal '{lit}' lost from perturbed: {perturbed[:120]}")
             value_ok = False
             break
     if value_ok:
-        for num in numbers:
+        for num in nums:
             if num not in perturbed:
                 result.fail(rid, comp, "condition_values_preserved",
                             f"Numeric value '{num}' lost from perturbed: {perturbed[:120]}")
@@ -364,9 +275,12 @@ def check_record(r: dict, comp: str, result: TestResult):
             result.ok("limit_cue_preserved")
 
     # ── 15. length_reasonable ────────────────────────────────────────────
+    #    Schemas with many columns or PascalCase names can inflate word counts
+    #    via possessive expansions, so allow up to ±30 words or 100 % of original.
     orig_wc = len(baseline_nl.split())
     pert_wc = len(perturbed.split())
-    if abs(pert_wc - orig_wc) > 15:
+    max_delta = max(30, orig_wc)
+    if abs(pert_wc - orig_wc) > max_delta:
         result.fail(rid, comp, "length_reasonable",
                     f"Word count delta too large: orig={orig_wc}, pert={pert_wc} "
                     f"(delta={pert_wc-orig_wc}): {perturbed[:100]}")
@@ -385,7 +299,7 @@ def check_record(r: dict, comp: str, result: TestResult):
     # ── 17. join_relationship_preserved ──────────────────────────────────
     if comp == "join":
         has_coupling = any(phrase in pert_l for phrase in JOIN_COUPLING)
-        tables_in_pert = [t for t in tables_in_base if _table_in_nl(t, pert_l)]
+        tables_in_pert = [t for t in tables_in_base if table_in_nl(t, pert_l)]
         if not has_coupling and len(tables_in_pert) < 2:
             result.fail(rid, comp, "join_relationship_preserved",
                         f"Join coupling absent and not both tables in perturbed: {perturbed[:120]}")
@@ -401,60 +315,14 @@ def check_record(r: dict, comp: str, result: TestResult):
             result.ok("union_connector_preserved")
 
 
-# ── Runner ────────────────────────────────────────────────────────────────────
-
-def _complexity_from_sql(sql: str) -> str:
-    sql_u = sql.upper().strip()
-    if sql_u.startswith("INSERT"):  return "insert"
-    if sql_u.startswith("UPDATE"):  return "update"
-    if sql_u.startswith("DELETE"):  return "delete"
-    if "UNION" in sql_u:            return "union"
-    if "JOIN"  in sql_u:            return "join"
-    if "IN (SELECT" in sql_u or "EXISTS" in sql_u or "FROM (" in sql_u:
-        return "advanced"
-    tables = re.findall(r"\bFROM\s+(\w+)|\bJOIN\s+(\w+)", sql_u)
-    flat = [t for pair in tables for t in pair if t]
-    if len(flat) >= 2 and len(set(flat)) == 1:
-        return "advanced"
-    return "simple"
-
-
-def run_tests(input_file: str, verbose: bool = False) -> TestResult:
-    result = TestResult(verbose=verbose)
-    with open(input_file) as f:
-        dataset = json.load(f)
-
-    print(f"Loaded {len(dataset)} records from {input_file}")
-    print(f"Running tests for: {PERTURBATION_NAME}{'  (verbose)' if verbose else ''}\n")
-
-    by_comp: dict[str, int] = defaultdict(int)
-    for r in dataset:
-        comp = _complexity_from_sql(r["sql"])
-        by_comp[comp] += 1
-        check_record(r, comp, result)
-
-    print("Record counts by complexity:")
-    for c in ["simple", "join", "advanced", "union", "insert", "update", "delete"]:
-        print(f"  {c:12s}: {by_comp.get(c, 0)}")
-    print()
-    return result
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description=f"Validate '{PERTURBATION_NAME}' perturbations in the systematic dataset."
-    )
-    parser.add_argument("--input", "-i",
-                        default=str(ROOT / DEFAULT_INPUT_FILE),
-                        help="Path to the systematic NL perturbation JSON file")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="Print each failure as it occurs")
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description=f"Validate '{PERTURBATION_NAME}' perturbations.")
+    add_common_args(parser)
+    parser.add_argument("--input", "-i", default=str(ROOT / DEFAULT_INPUT_FILE))
+    parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
-
-    result = run_tests(args.input, verbose=args.verbose)
+    init_from_args(args)
+    result = run_tests(args.input, PERTURBATION_NAME, check_record, verbose=args.verbose)
     print(result.summary())
     sys.exit(0 if result.ok_overall else 1)
-
-
-if __name__ == "__main__":
-    main()

@@ -10,7 +10,7 @@ Usage:
         python run_equivalence_test.py --gold "SELECT * FROM users" --candidate "SELECT * FROM users WHERE 1=1"
     
     Batch mode:
-        python run_equivalence_test.py --input dataset/current/sql_equivalence_pairs.json --output results.json
+        python run_equivalence_test.py --input dataset/social_media/sql_equivalence_pairs.json --output results.json
     
     With custom database:
         python run_equivalence_test.py --db-path ./my_db.sqlite --input pairs.json
@@ -28,7 +28,7 @@ from dataclasses import asdict
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from src.core.schema import SCHEMA, FOREIGN_KEYS
+from src.core.schema_loader import load_from_yaml
 from src.equivalence import SQLEquivalenceEngine, EquivalenceConfig
 from src.equivalence.schema_adapter import create_database_from_schema
 from src.equivalence.seed_database import seed_database
@@ -36,7 +36,12 @@ from src.equivalence.seed_database import seed_database
 
 def create_engine(args) -> SQLEquivalenceEngine:
     """Create and configure the equivalence engine."""
-    db_path = args.db_path or "./test_dbs/social_media.sqlite"
+    schema_path = getattr(args, 'schema', 'schemas/social_media.yaml')
+    schema_cfg = load_from_yaml(schema_path)
+    schema = schema_cfg.get_legacy_schema()
+    foreign_keys = schema_cfg.get_fk_pairs()
+
+    db_path = args.db_path or f"./test_dbs/{schema_cfg.schema_name}.sqlite"
     test_suite_dir = args.test_suite_dir or "./test_dbs"
     
     # Ensure directories exist
@@ -46,10 +51,10 @@ def create_engine(args) -> SQLEquivalenceEngine:
     # Create database if it doesn't exist
     if not os.path.exists(db_path):
         print(f"Creating database at: {db_path}")
-        create_database_from_schema(db_path, SCHEMA, FOREIGN_KEYS, overwrite=True)
+        create_database_from_schema(db_path, schema, foreign_keys, overwrite=True)
         
         print("Seeding database with sample data...")
-        row_counts = seed_database(db_path, SCHEMA, FOREIGN_KEYS)
+        row_counts = seed_database(db_path, schema, foreign_keys)
         for table, count in row_counts.items():
             print(f"  {table}: {count} rows")
     
@@ -60,7 +65,9 @@ def create_engine(args) -> SQLEquivalenceEngine:
         max_fuzz_iterations=args.max_fuzz_iterations,
         max_distilled_dbs=args.max_distilled_dbs,
         order_matters=args.order_matters,
-        cleanup_temp_dbs=not args.keep_temp_dbs
+        cleanup_temp_dbs=not args.keep_temp_dbs,
+        schema=schema,
+        foreign_keys=foreign_keys,
     )
     
     return SQLEquivalenceEngine(config)
@@ -176,6 +183,12 @@ def main():
     )
     
     # Database configuration
+    parser.add_argument(
+        "--schema",
+        type=str,
+        default='schemas/social_media.yaml',
+        help="Path to schema YAML file (default: schemas/social_media.yaml)"
+    )
     parser.add_argument(
         "--db-path",
         type=str,

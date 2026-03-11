@@ -72,5 +72,3 @@ python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py --input pat
 python pipeline_tests/generation_process/nl_prompt/test_nl_prompt.py -v
 
 ```
-
-Would you like me to help you integrate these checks into a CI/CD pipeline configuration (like GitHub Actions)?

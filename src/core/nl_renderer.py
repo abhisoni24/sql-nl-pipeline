@@ -3,45 +3,45 @@ Syntax-Directed Translation (SDT) Framework for SQL to Natural Language
 This module provides deterministic, template-based rendering of SQL ASTs to NL prompts.
 """
 
-from enum import Enum
-from dataclasses import dataclass, field
 import random
 import re
-from typing import List, Dict, Optional, Set, Any
+from typing import Dict, Optional, Any
 from sqlglot import exp
-from src.core.schema import FOREIGN_KEYS
+from src.core.schema_config import SchemaConfig
+from src.core.linguistic_dictionary import LinguisticDictionary
+from src.perturbations.base import PerturbationStrategy
 
-class PerturbationType(Enum):
-    """Enumeration of the 13 active perturbation categories."""
-    OMIT_OBVIOUS_CLAUSES = "omit_obvious_operation_markers"              # ID 1
-    SYNONYM_SUBSTITUTION = "phrasal_and_idiomatic_action_substitution"              # ID 2
-    VERBOSITY_VARIATION = "verbosity_variation"                # ID 4
-    OPERATOR_AGGREGATE_VARIATION = "operator_aggregate_variation" # ID 5
-    TYPOS = "typos"                                            # ID 6
-    COMMENT_ANNOTATIONS = "comment_annotations"                # ID 7
-    TEMPORAL_EXPRESSION_VARIATION = "temporal_expression_variation" # ID 8
-    PUNCTUATION_VARIATION = "punctuation_variation"            # ID 9
-    URGENCY_QUALIFIERS = "urgency_qualifiers"                  # ID 10
-    MIXED_SQL_NL = "mixed_sql_nl"                              # ID 11
-    TABLE_COLUMN_SYNONYMS = "table_column_synonyms"            # ID 12
-    INCOMPLETE_JOIN_SPEC = "incomplete_join_spec"              # ID 13
-    AMBIGUOUS_PRONOUNS = "anchored_pronoun_references"                  # ID 14
 
-@dataclass
-class PerturbationConfig:
-    """Configuration for perturbations controlling active types and determinism."""
-    active_perturbations: Set[PerturbationType] = field(default_factory=set)
-    seed: int = 42
+class _NullStrategy(PerturbationStrategy):
+    """Default no-op strategy — all hooks return the default value."""
+    name = "_null"
+    display_name = "No Perturbation"
+    description = "No perturbation applied."
+    layer = "template"
 
-    def is_active(self, p_type: PerturbationType) -> bool:
-        return p_type in self.active_perturbations
+    def is_applicable(self, ast, nl_text, context):
+        return False
+
+    def apply(self, nl_text, ast, rng, context):
+        return nl_text
+
+    def was_applied(self, baseline_nl, perturbed_nl, context):
+        return False, ""
+
 
 class SQLToNLRenderer:
     """Renders SQL AST nodes to natural language using deterministic templates."""
     
-    def __init__(self, config: Optional[PerturbationConfig] = None):
-        self.config = config or PerturbationConfig()
-        self._ambig_pronoun_count = 0 
+    def __init__(self, seed: int = 42, *,
+                 schema_config: Optional[SchemaConfig] = None,
+                 strategy: Optional[PerturbationStrategy] = None,
+                 dictionary: Optional[LinguisticDictionary] = None):
+        self._seed = seed
+        self._strategy = strategy or _NullStrategy()
+        self._ambig_pronoun_count = 0
+        self._emit_mode = 'text'  # 'text' for final NL, 'template' for IR tokens
+        # Derive FK lookup from SchemaConfig (if provided)
+        self.foreign_keys = schema_config.get_fk_pairs() if schema_config else {}
         
         # Data Banks: The first element MUST be the canonical word from the original dataset
         self.synonyms = {
@@ -52,7 +52,10 @@ class SQLToNLRenderer:
             'from': ['from', 'in', 'within', 'out of'],
             'equals': ["equals", "is", "matches", "is equal to", "="],
             'and': ["and", "where also", "as well as", "along with"],
-            'joined with': ['joined with', 'linked to', 'connected to', 'join']
+            'joined with': ['joined with', 'linked to', 'connected to', 'join'],
+            'insert': ["Add", "Insert", "Put", "Include", "Create"],
+            'update': ["Update", "Change", "Modify", "Adjust", "Edit"],
+            'delete': ["Remove", "Delete", "Drop", "Strip out", "Wipe out"],
         }
         
         self.canonical_ops = {
@@ -78,40 +81,11 @@ class SQLToNLRenderer:
             'lte': 'less than or equal to'
         }
 
-        self.fillers = ["Um", "Uh", "Well", "Okay", "So", "Alright"]
-        self.hedges = ["I think", "probably", "basically", "mostly", "sort of", "kind of"]
-        self.informal = ["you know", "like", "or something", "or whatever", "wanna", "gotta", "a bunch of"]
-
-        self.annotations = [
-            "-- for the audit",
-            "-- note for later",
-            "-- urgent request",
-            "(note: for analysis)",
-            "-- needed for the report",
-            "(specifically for this check)",
-            "(referencing recent data)"
-        ]
-
-        self.urgency = {
-            'high': ["URGENT:", "ASAP:", "Immediately:", "Critical:", "High priority:"],
-            'low': ["When you can,", "No rush,", "At your convenience,", "Low priority:"]
-        }
-
-        self.schema_synonyms = {
-            'users': ["accounts", "members", "profiles", "users", "clients"],
-            'posts': ["articles", "entries", "content", "posts", "updates"],
-            'comments': ["feedback", "responses", "remarks", "comments", "messages"],
-            'likes': ["reactions", "approvals", "favorites", "likes", "interests"],
-            'follows': ["subscriptions", "connections", "follows", "followers", "following"],
-            'id': ["unique id", "identifier", "record id"],
-            'insert': ["Add", "Insert", "Put", "Include", "Create"],
-            'update': ["Update", "Change", "Modify", "Adjust", "Edit"],
-            'delete': ["Remove", "Delete", "Drop", "Strip out", "Wipe out"],
-            'email': ["contact", "email_address", "electronic mail"],
-            'signup_date': ["registration date", "join date", "member since"],
-            'post_id': ["article id", "content id"],
-            'user_id': ["member id", "account id"]
-        }
+        # Schema-specific table/column synonyms.
+        # Populated from a LinguisticDictionary when provided.
+        self.schema_synonyms = {}
+        if dictionary:
+            self._load_synonyms_from_dictionary(dictionary)
 
         self.op_variations = {
             "gt": ["exceeds", "more than", "above", "higher than"],
@@ -120,7 +94,7 @@ class SQLToNLRenderer:
             "lte": ["at most", "maximum of", "no more than"]
         }
 
-        # Bug 2 Fix: Temporal-safe operator variants (semantically correct for date comparisons)
+        # Temporal-safe operator variants (semantically correct for date comparisons)
         self.temporal_op_variations = {
             "gt":  ["more recent than", "after", "since"],           # > date = newer
             "lt":  ["earlier than", "before", "prior to"],           # < date = older
@@ -160,11 +134,6 @@ class SQLToNLRenderer:
         Used for deciding if 'u1' can be safely mapped to "the user's" (count=1) or must be preserved (count>1).
         """
         counts = {}
-        # Find all table aliases in the scope
-        # We need to look at FROM and JOINs
-        # Simple heuristic: scan for aliases u1, p1, etc.
-        # This is a bit tricky because we only have the AST node.
-        # Let's iterate over tables in the node.
         for table in node.find_all(exp.Table):
             alias = table.alias
             if alias:
@@ -174,18 +143,10 @@ class SQLToNLRenderer:
         return counts
 
     def _is_single_table_context(self, node) -> bool:
-        """Helper to determine if the query involves only one table (Phase 4 Bug D)."""
+        """Check if the query involves only one table."""
         tables = list(node.find_all(exp.Table))
         if len(tables) != 1:
             return False
-        
-        # Also check if there's a self-join alias logic active?
-        # If there's only 1 table node, it can't be a join.
-        # But wait, find_all(exp.Table) finds all tables in the tree.
-        # If I have SELECT ... FROM users, len is 1.
-        # If I have SELECT ... FROM users JOIN posts, len is 2.
-        # If I have SELECT ... FROM users JOIN users, len is 2.
-        # So len(tables) == 1 is a good proxy for "single table context".
         return True
 
     def _get_base_type_from_alias(self, alias: str) -> Optional[str]:
@@ -199,8 +160,25 @@ class SQLToNLRenderer:
         if a.startswith('f') and a[1:].isdigit(): return 'follows'
         return None
 
+    def _load_synonyms_from_dictionary(self, dictionary: LinguisticDictionary):
+        """Populate schema_synonyms from a LinguisticDictionary."""
+        for tname, syns in dictionary.table_synonyms.items():
+            self.schema_synonyms[tname.lower()] = syns
+        for qualified_key, syns in dictionary.column_synonyms.items():
+            # "table.column" -> column (renderer looks up by column name)
+            col_name = qualified_key.split(".", 1)[-1]
+            key = col_name.lower()
+            if key not in self.schema_synonyms:
+                self.schema_synonyms[key] = syns
+            else:
+                # Merge, keeping unique entries in order
+                existing = set(s.lower() for s in self.schema_synonyms[key])
+                for s in syns:
+                    if s.lower() not in existing:
+                        self.schema_synonyms[key].append(s)
+                        existing.add(s.lower())
+
     def _get_rng(self, context: str = "") -> random.Random:
-        # For backward compatibility with existing calls, but we use the stateful self._rng
         return self._rng
 
     def _choose_word(self, key, context):
@@ -210,38 +188,39 @@ class SQLToNLRenderer:
         # ALWAYS consume exactly one choice from the main RNG to keep sequence in sync
         baseline_choice = self._rng.choice(options)
         
-        # If SYNONYM_SUBSTITUTION is the ONLY thing we are doing, we MUST pick something else
-        # to ensure the perturbation is visible.
-        if self.config.is_active(PerturbationType.SYNONYM_SUBSTITUTION) and len(options) > 1:
-            # Use a secondary deterministic RNG to pick the alternative so we don't 
-            # pollute the main RNG sequence and de-sync subsequent calls.
-            alt_rng = random.Random(f"{self.config.seed}_{key}_{context}_alt")
-            remaining = [o for o in options if o != baseline_choice]
-            return alt_rng.choice(remaining)
+        # Template mode: emit IR token instead of resolved text
+        if self._emit_mode == 'template':
+            _verb_keys = {'get', 'select', 'show', 'insert', 'update', 'delete'}
+            if key.lower() in _verb_keys:
+                return f'[VERB:{key}]'
+            return f'[CONN:{key}]'
+        
+        # Hook: let strategy pick verb synonyms
+        _verb_keys = {'get', 'select', 'show', 'insert', 'update', 'delete'}
+        if key.lower() in _verb_keys:
+            return self._strategy.on_verb(
+                key, baseline_choice,
+                random.Random(f"{self._seed}_{key}_{context}_alt"))
             
         return baseline_choice
 
     def render(self, ast) -> str:
-        self._rng = random.Random(self.config.seed)
+        self._rng = random.Random(self._seed)
         self._ambig_pronoun_count = 0 
         self._mentions = set()
         self._recent_mentions = [] 
-        self._use_pronouns = self.config.is_active(PerturbationType.AMBIGUOUS_PRONOUNS)
 
-        # Bug 4 Fix: Detect self-joins (same table name appears 2+ times)
-        # In self-joins, pronouns are impossible to resolve
+        # Detect self-joins — pronouns are unresolvable when the same table appears twice
         self._is_self_join = False
-        if self._use_pronouns:
-            table_names = []
-            for t in ast.find_all(exp.Table):
-                tname = t.name.lower() if hasattr(t, 'name') else ''
-                if tname and not tname.startswith('inner_') and tname != 'derived_table':
-                    table_names.append(tname)
-            self._is_self_join = len(table_names) != len(set(table_names))
+        table_names = []
+        for t in ast.find_all(exp.Table):
+            tname = t.name.lower() if hasattr(t, 'name') else ''
+            if tname and not tname.startswith('inner_') and tname != 'derived_table':
+                table_names.append(tname)
+        self._is_self_join = len(table_names) != len(set(table_names))
         
         if isinstance(ast, exp.Select):
             base_nl = self.render_select(ast)
-        # Bug 7 Fix: Handle UNION queries
         elif isinstance(ast, exp.Union):
             base_nl = self.render_union(ast)
         elif isinstance(ast, exp.Insert):
@@ -253,94 +232,86 @@ class SQLToNLRenderer:
         else:
             base_nl = str(ast)
 
-        # Apply global-style perturbations - ALWAYS roll to keep sequence in sync
-        # ID 4: Verbosity (Fillers)
-        choice_filler = self._rng.choice(self.fillers)
-        choice_informal = self._rng.choice(self.informal)
-        if self.config.is_active(PerturbationType.VERBOSITY_VARIATION):
-            base_nl = f"{choice_filler} {base_nl} {choice_informal}." if not base_nl.endswith('.') else f"{choice_filler} {base_nl.rstrip('.')} {choice_informal}."
-
-        # ID 9: Punctuation
-        roll_punct = self._rng.random()
-        if self.config.is_active(PerturbationType.PUNCTUATION_VARIATION):
-            if ',' in base_nl and roll_punct > 0.5:
-                base_nl = base_nl.replace(',', ';', 1)
-            elif roll_punct > 0.7:
-                base_nl = base_nl.rstrip('.') + "..."
-
-        # ID 6: Typos
-        if self.config.is_active(PerturbationType.TYPOS):
-            words = base_nl.split()
-            if words:
-                # Target ~30% of words for typos
-                num_typos = max(1, int(len(words) * 0.3))
-                
-                # Get indices of words amenable to typos (len >= 2)
-                candidates = [i for i, w in enumerate(words) if len(w) >= 2]
-                
-                if candidates:
-                    # Sample up to num_typos indices
-                    targets = self._rng.sample(candidates, min(len(candidates), num_typos))
-                    
-                    for idx in targets:
-                        word = words[idx]
-                        if len(word) >= 2:
-                            char_idx = self._rng.randint(0, len(word) - 2)
-                            word_list = list(word)
-                            word_list[char_idx], word_list[char_idx+1] = word_list[char_idx+1], word_list[char_idx]
-                            words[idx] = "".join(word_list)
-                    
-                    base_nl = " ".join(words)
-
-        # ID 7: Comments (Meta-comments only, no semantic drift)
-        choice_comment = self._rng.choice(self.annotations)
-        if self.config.is_active(PerturbationType.COMMENT_ANNOTATIONS):
-            if not base_nl.endswith('.'):
-                 base_nl += "."
-            base_nl = f"{base_nl} {choice_comment}"
-
-        # ID 10: Urgency
-        urgency_level = self._rng.choice(['high', 'low'])
-        urgency_prefix = self._rng.choice(self.urgency[urgency_level])
-        if self.config.is_active(PerturbationType.URGENCY_QUALIFIERS):
-            base_nl = f"{urgency_prefix} {base_nl}"
-
         return base_nl
 
+    def render_template(self, ast) -> str:
+        """Pass 1 of two-pass rendering: produce IR template with [TYPE:value] tokens.
+
+        Token format:
+            [TABLE:users]   - Table reference
+            [COL:email]     - Column reference (unqualified)
+            [COL:users.email] - Column reference (table-qualified)
+            [OP:gt]         - Comparison operator
+            [AGG:COUNT]     - Aggregate function
+            [VAL:42]        - Literal value
+            [VERB:get]      - Action verb key
+            [CONN:where]    - Structural connector
+
+        The template preserves all structural decisions (join type, clause
+        ordering, qualification) but defers word-choice to the resolver
+        (Pass 2).
+        """
+        # Save state
+        saved_strategy = self._strategy
+        saved_emit = self._emit_mode
+
+        # Set template mode with clean strategy (no perturbations)
+        self._strategy = _NullStrategy()
+        self._emit_mode = 'template'
+        self._rng = random.Random(self._seed)
+        self._ambig_pronoun_count = 0
+        self._mentions = set()
+        self._recent_mentions = []
+        self._is_self_join = False
+
+        try:
+            if isinstance(ast, exp.Select):
+                result = self.render_select(ast)
+            elif isinstance(ast, exp.Union):
+                result = self.render_union(ast)
+            elif isinstance(ast, exp.Insert):
+                result = self.render_insert(ast)
+            elif isinstance(ast, exp.Update):
+                result = self.render_update(ast)
+            elif isinstance(ast, exp.Delete):
+                result = self.render_delete(ast)
+            else:
+                result = str(ast)
+            return result
+        finally:
+            # Restore state
+            self._strategy = saved_strategy
+            self._emit_mode = saved_emit
 
 
     def render_select(self, node):
-        # Phase 2 Bug 1 Fix: Analyze alias ambiguity scope
         self._alias_counts = self._analyze_aliases(node)
-        # Phase 4 Bug D Fix: Check for single table context to omit redundant qualifiers
         self._is_single_table = self._is_single_table_context(node)
         
         parts = []
-        # SELECT keyword - ALWAYS keep a verb even if omitting clauses
-        # We must ALWAYS roll the dice to keep the sequence in sync
+        # ALWAYS roll a verb to keep the RNG sequence in sync
         intent_key = self._rng.choice(['get', 'select', 'show'])
         intent_verb = self._choose_word(intent_key, 'verb')
         
-        if self.config.is_active(PerturbationType.MIXED_SQL_NL):
-             parts.append("SELECT")
-        else:
-             parts.append(intent_verb)
+        # Hook: strategy chooses between raw SQL keyword or NL verb
+        parts.append(self._strategy.on_keyword("SELECT", intent_verb))
         
         # Columns
         col_list = ", ".join([self._render_expression(e, f"col_{i}") for i, e in enumerate(node.expressions)])
         if "all columns" in col_list:
              parts.append(col_list)
         else:
-             # Bug E Fix: Prevent "the the user's"
-             # If col_list starts with "the ", don't add another "the"
+             # Avoid doubled article ("the the user's")
              if col_list.lower().startswith("the "):
                  parts.append(col_list)
              else:
                  parts.append(f"the {col_list}")
         
         # FROM keyword
-        if not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-            parts.append("FROM" if self.config.is_active(PerturbationType.MIXED_SQL_NL) else self._choose_word('from', 'from_kw'))
+        from_word = self._choose_word('from', 'from_kw')
+        from_kw = self._strategy.on_keyword("FROM", from_word)
+        if from_kw:
+            parts.append(from_kw)
         
         # Table reference with alias handling
         from_node = node.args.get('from_')
@@ -349,7 +320,8 @@ class SQLToNLRenderer:
             table_name = self._render_table(from_node.this, "main_table")
             raw_table_name = from_node.this.this.name if hasattr(from_node.this, 'this') and hasattr(from_node.this.this, 'name') else str(from_node.this.this)
             alias = from_node.this.alias if hasattr(from_node.this, 'alias') else ""
-            if alias and not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES) and not self._is_technical_alias(alias):
+            show_alias = self._strategy.on_keyword("ALIAS", "show") != ""
+            if alias and show_alias and not self._is_technical_alias(alias):
                 parts.append(f"{table_name} (as {alias})")
             else:
                 parts.append(table_name)
@@ -364,23 +336,22 @@ class SQLToNLRenderer:
         # WHERE
         where_node = node.args.get('where')
         if where_node:
-            if not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-                parts.append("WHERE" if self.config.is_active(PerturbationType.MIXED_SQL_NL) else self._choose_word('where', 'where_kw'))
+            where_word = self._choose_word('where', 'where_kw')
+            where_kw = self._strategy.on_keyword("WHERE", where_word)
+            if where_kw:
+                parts.append(where_kw)
             parts.append(self._render_expression(where_node.this, "where_cond"))
         
-        # Bug 4 Fix: ORDER BY clause
         order_parts = self._render_order_clause(node, "select_ord")
         if order_parts:
             parts.append(order_parts)
         
-        # Bug 4 Fix: LIMIT clause
         limit_parts = self._render_limit_clause(node)
         if limit_parts:
             parts.append(limit_parts)
             
         return " ".join(parts)
 
-    # Bug 7 Fix: Handle UNION queries
     def render_union(self, node) -> str:
         """Render UNION/UNION ALL queries by combining left and right sides."""
         left = self.render(node.left) if node.left else ""
@@ -390,9 +361,7 @@ class SQLToNLRenderer:
         left = left.rstrip('.')
         right = right.rstrip('.')
         
-        # V4 Bug 2 Fix: Clearly distinguish UNION ALL from UNION
-        # distinct=False means UNION ALL (keep duplicates)
-        # distinct=True or None means UNION (remove duplicates)
+        # Distinguish UNION ALL (keep duplicates) from UNION (remove duplicates)
         if node.args.get('distinct') is False:
             connector = "combined with (including duplicates)"
         else:
@@ -411,10 +380,8 @@ class SQLToNLRenderer:
             
         return result
 
-    # Bug 8 Fix: Handle INSERT statements
     def render_insert(self, node) -> str:
         """Render INSERT statement to natural language."""
-        # Phase 4 Bug D: Check for single table context
         self._is_single_table = self._is_single_table_context(node)
 
         # Get table name from Schema node
@@ -443,17 +410,15 @@ class SQLToNLRenderer:
         if len(values) == 1:
              val_list = values[0].strip('()').split(',')
              assignments = [f"{c} as {v.strip()}" for c, v in zip(columns, val_list)]
-             return f"{verb} a new {table_nl.rstrip('s')} with {', '.join(assignments)}."
+             return f"{verb} a new {self._singularize(table_nl)} with {', '.join(assignments)}."
         
         col_str = f"({', '.join(columns)})"
         val_str = ", ".join(values)
         
         return f"{verb} into {table_nl} {col_str} values {val_str}"
 
-    # Bug 8 Fix: Handle UPDATE statements
     def render_update(self, node) -> str:
         """Render UPDATE statement to natural language."""
-        # Phase 4 Bug D: Check for single table context
         self._is_single_table = self._is_single_table_context(node)
 
         # Get table name
@@ -472,21 +437,20 @@ class SQLToNLRenderer:
         where_node = node.args.get('where')
         where_str = ""
         if where_node:
-            kw = "WHERE" if self.config.is_active(PerturbationType.MIXED_SQL_NL) else "where"
-            if self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-                where_str = f" for the {table_nl.rstrip('s')} {self._render_expression(where_node.this, 'upd_where')}"
+            kw = self._strategy.on_keyword("WHERE", "where")
+            singular = self._singularize(table_nl)
+            if kw:
+                where_str = f" for the {singular} {kw} {self._render_expression(where_node.this, 'upd_where')}"
             else:
-                where_str = f" for the {table_nl.rstrip('s')} {kw} {self._render_expression(where_node.this, 'upd_where')}"
+                where_str = f" for the {singular} {self._render_expression(where_node.this, 'upd_where')}"
         else:
             where_str = f" for all {table_nl}"
         
         verb = self._choose_word('update', 'upd_verb')
         return f"{verb} {set_str}{where_str}"
 
-    # Bug 8 Fix: Handle DELETE statements
     def render_delete(self, node) -> str:
         """Render DELETE statement to natural language."""
-        # Phase 4 Bug D: Check for single table context
         self._is_single_table = self._is_single_table_context(node)
 
         # Get table name
@@ -496,11 +460,11 @@ class SQLToNLRenderer:
         where_node = node.args.get('where')
         where_str = ""
         if where_node:
-            kw = "WHERE" if self.config.is_active(PerturbationType.MIXED_SQL_NL) else "where"
-            if self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-                 where_str = f" {self._render_expression(where_node.this, 'del_where')}"
-            else:
+            kw = self._strategy.on_keyword("WHERE", "where")
+            if kw:
                  where_str = f" {kw} {self._render_expression(where_node.this, 'del_where')}"
+            else:
+                 where_str = f" {self._render_expression(where_node.this, 'del_where')}"
         
         verb = self._choose_word('delete', 'del_verb')
         return f"{verb} {table_nl}{where_str}"
@@ -513,87 +477,104 @@ class SQLToNLRenderer:
         # ALWAYS roll for incomplete join spec to keep sequence in sync
         choice_incomplete = self._rng.choice(['with', 'along with'])
         
-        if self.config.is_active(PerturbationType.INCOMPLETE_JOIN_SPEC):
-             # For incomplete join spec, we almost always want "and their" or "along with"
-             if left_table_name and right_table_name:
-                 if (left_table_name, right_table_name) in FOREIGN_KEYS or (right_table_name, left_table_name) in FOREIGN_KEYS:
-                      return f"and their {table}", right_table_name
-             return f"{choice_incomplete} {table}", right_table_name
-        
+        # Compute full join rendering (default path)
         on = join_node.args.get('on')
-        # V5: Make ON rendering more natural if it's just id matching
         on_str = ""
         is_standard_join = False
         if on:
              on_str = f" on {self._render_expression(on, context + '_on')}"
              # Check if this is a standard FK join
              if left_table_name and right_table_name:
-                 fk = FOREIGN_KEYS.get((left_table_name, right_table_name))
+                 fk = self.foreign_keys.get((left_table_name, right_table_name))
                  if fk:
-                      # Check if ON clause matches the FK (simplistic check)
                       on_text = str(on).lower()
                       if fk[0].lower() in on_text and fk[1].lower() in on_text:
                            is_standard_join = True
                  else:
-                      fk = FOREIGN_KEYS.get((right_table_name, left_table_name))
-                      if fk and fk[0].lower() in on_text and fk[1].lower() in on_text:
+                      fk = self.foreign_keys.get((right_table_name, left_table_name))
+                      if fk and fk[0].lower() in str(on).lower() and fk[1].lower() in str(on).lower():
                            is_standard_join = True
 
-        # Bug 5 Fix: Preserve join type (LEFT, RIGHT, INNER, etc.)
+        # Preserve join type (LEFT, RIGHT, INNER, etc.)
         join_side = join_node.side.upper() if join_node.side else ""
         join_kind = join_node.kind.upper() if join_node.kind else ""
         
         # Natural rendering for common joins
         if not join_side and join_kind == "INNER":
              if is_standard_join:
-                  return f"and their {table}", right_table_name
-             return f"joined with {table}{on_str}", right_table_name
+                  default_phrase = f"and their {table}"
+             else:
+                  default_phrase = f"joined with {table}{on_str}"
         elif join_side == "LEFT" and join_kind == "OUTER":
              if is_standard_join:
-                  return f"along with their {table} if any", right_table_name
-             return f"left-joined with {table}{on_str}", right_table_name
+                  default_phrase = f"along with their {table} if any"
+             else:
+                  default_phrase = f"left-joined with {table}{on_str}"
+        else:
+            # Combine side and kind, defaulting to just "JOIN" if neither exists
+            join_type = f"{join_side} {join_kind}".strip()
+            if not join_type:
+                join_type = "JOIN"
+            elif "JOIN" not in join_type:
+                join_type = f"{join_type} JOIN"
+            default_phrase = f"{join_type} {table}{on_str}"
         
-        # Combine side and kind, defaulting to just "JOIN" if neither exists
-        join_type = f"{join_side} {join_kind}".strip()
-        if not join_type:
-            join_type = "JOIN"
-        elif "JOIN" not in join_type:
-            join_type = f"{join_type} JOIN"
-        
-        return f"{join_type} {table}{on_str}", right_table_name
+        # Hook: let strategy override join phrasing
+        has_fk = ((left_table_name, right_table_name) in self.foreign_keys or 
+                   (right_table_name, left_table_name) in self.foreign_keys) if left_table_name and right_table_name else False
+        final = self._strategy.on_join(
+            table_nl=table,
+            on_str=on_str,
+            default_phrase=default_phrase,
+            context={
+                "left_table": left_table_name,
+                "right_table": right_table_name,
+                "has_fk": has_fk,
+                "join_side": join_side,
+                "join_kind": join_kind,
+                "choice_incomplete": choice_incomplete,
+                "is_standard_join": is_standard_join,
+            },
+        )
+        return final, right_table_name
 
     def _render_expression(self, expr, context):
         rng = self._get_rng(context)
         
-        # ID 5: Aggregates - ALWAYS roll
+        # Aggregates — ALWAYS roll to keep RNG in sync
         agg_key = expr.key.upper() if getattr(expr, 'key', None) else ""
         agg_options = self.agg_variations.get(agg_key, ["value of"])
         agg_template = self._rng.choice(agg_options)
         
-        if isinstance(expr, exp.AggFunc) and self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
-            return f"{agg_template} {self._render_expression(expr.this, context)}"
+        if isinstance(expr, exp.AggFunc):
+            if self._emit_mode == 'template':
+                inner = self._render_expression(expr.this, context)
+                return f"[AGG:{agg_key}] {inner}"
+            inner_text = self._render_expression(expr.this, context)
+            # Hook: default is just the inner text (baseline behavior)
+            return self._strategy.on_aggregate(agg_key, inner_text, inner_text, agg_template)
 
-        # Bug 1 Fix: Handle SELECT * wildcard
         if isinstance(expr, exp.Star):
             return "all columns"
         
-        # Bug 2 Fix: Handle DATE_SUB temporal expressions
         if isinstance(expr, exp.DateSub):
-            return self._render_date_sub(expr, context)
+            rendered = self._render_date_sub(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
         # Handle SQLite datetime() function: datetime('now') or datetime('now', '-X days')
         if isinstance(expr, exp.Anonymous) and str(expr.this).lower() == 'datetime':
-            return self._render_sqlite_datetime(expr, context)
+            rendered = self._render_sqlite_datetime(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
-        # Bug 2 Fix: Handle sqlglot.expressions.Datetime nodes
         if isinstance(expr, exp.Datetime):
-            return self._render_datetime_node(expr, context)
+            rendered = self._render_datetime_node(expr, context)
+            return f"[VAL:{rendered}]" if self._emit_mode == 'template' else rendered
         
         # Handle standalone NOW() function calls
         if isinstance(expr, exp.CurrentTimestamp):
-            return "the current time"
+            return "[VAL:the current time]" if self._emit_mode == 'template' else "the current time"
 
-        # ID 5: Operators - ALWAYS roll
+        # Operators — ALWAYS roll to keep RNG in sync
         op_options = self.op_variations.get(expr.key, ["matches"])
         op_template = self._rng.choice(op_options)
         
@@ -601,72 +582,68 @@ class SQLToNLRenderer:
             left = self._render_expression(expr.left, context+'_l')
             right = self._render_expression(expr.right, context+'_r')
 
+            # Template mode: emit clean operator token
+            if self._emit_mode == 'template':
+                return f"{left} [OP:{expr.key}] {right}"
+
             # Detect if right-hand side is a temporal phrase
-            # Self-contained temporal phrases already encode the comparison direction
             self_contained_temporal = ["within the last", "in the past", "older than", "over the last"]
             is_self_contained = any(t in right for t in self_contained_temporal)
-            # "ago" and "from now" need an operator to be meaningful
             has_temporal_anchor = "ago" in right or "from now" in right
 
-            if self.config.is_active(PerturbationType.OPERATOR_AGGREGATE_VARIATION):
-                if is_self_contained:
-                    # Right side already encodes direction (e.g., "within the last 22 days")
-                    # Drop the operator entirely — it would create Grammar Salad
-                    return f"{left} {right}"
-                elif has_temporal_anchor:
-                    # Right side is "22 days ago" — use temporal-safe operators WITH the anchor
-                    temporal_ops = self.temporal_op_variations.get(expr.key)
-                    if temporal_ops:
-                        temporal_op = self._rng.choice(temporal_ops)
-                        # Bug 5 Fix: Append directional suffix if needed (e.g., "from" -> "from ... onwards")
-                        suffix = self.temporal_op_suffixes.get(temporal_op, "")
-                        suffix_str = f" {suffix}" if suffix else ""
-                        return f"{left} {temporal_op} {right}{suffix_str}"
-                    op_str = self.operators.get(expr.key, expr.key)
-                    return f"{left} {op_str} {right}"
+            # Compute baseline default (no perturbation)
+            if is_self_contained:
+                default_str = f"{left} {right}"
+            elif expr.key in ('gt', 'gte') and "ago" in right and "within" not in right:
+                parts = right.split(" ")
+                if len(parts) >= 2:
+                    duration = " ".join(parts[:-1])
+                    suffix = " inclusive" if expr.key == 'gte' else ""
+                    default_str = f"{left} within the last {duration}{suffix}"
                 else:
-                    # Non-temporal context — safe to use generic operator variation
-                    return f"{left} {op_template} {right}"
+                    op_str = self.operators.get(expr.key, expr.key)
+                    default_str = f"{left} {op_str} {right}"
+            elif expr.key in ('lt', 'lte') and "ago" in right:
+                parts = right.split(" ")
+                if len(parts) >= 2:
+                    duration = " ".join(parts[:-1])
+                    suffix = " inclusive" if expr.key == 'lte' else ""
+                    default_str = f"{left} older than {duration}{suffix}"
+                else:
+                    op_str = self.operators.get(expr.key, expr.key)
+                    default_str = f"{left} {op_str} {right}"
             else:
-                # No operator variation active
-                if is_self_contained:
-                    # Temporal phrase already encodes direction — drop the operator
-                    return f"{left} {right}"
-
-                # Legacy date-logic rendering for "X ago" format
-                if expr.key in ('gt', 'gte'):
-                    if "ago" in right and "within" not in right: 
-                         parts = right.split(" ")
-                         if len(parts) >= 2:
-                             duration = " ".join(parts[:-1]) # drop "ago"
-                             suffix = " inclusive" if expr.key == 'gte' else ""
-                             return f"{left} within the last {duration}{suffix}"
-                
-                if expr.key in ('lt', 'lte'):
-                    if "ago" in right:
-                         parts = right.split(" ")
-                         if len(parts) >= 2:
-                             duration = " ".join(parts[:-1])
-                             suffix = " inclusive" if expr.key == 'lte' else ""
-                             return f"{left} older than {duration}{suffix}"
-
                 op_str = self.operators.get(expr.key, expr.key) 
-                return f"{left} {op_str} {right}"
+                default_str = f"{left} {op_str} {right}"
 
-        # ID 8: Temporal - ALWAYS roll
+            # Hook: let strategy vary operator phrasing
+            return self._strategy.on_operator(
+                expr.key, left, right, default_str,
+                context={
+                    "is_temporal": has_temporal_anchor or is_self_contained,
+                    "has_temporal_anchor": has_temporal_anchor,
+                    "is_self_contained": is_self_contained,
+                    "op_template": op_template,
+                    "temporal_op_variations": self.temporal_op_variations,
+                    "temporal_op_suffixes": self.temporal_op_suffixes,
+                    "rng": self._rng,
+                })
+
+        # Temporal — ALWAYS roll to keep RNG in sync
         temp_options = ["recently", "since last year", "this month"]
         temp_choice = self._rng.choice(temp_options)
         
-        if isinstance(expr, exp.Literal) and self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-            if re.search(r'\d{4}-\d{2}-\d{2}', str(expr.this)):
-                return temp_choice
+        if isinstance(expr, exp.Literal):
+            val = str(expr.this)
+            if re.search(r'\d{4}-\d{2}-\d{2}', val):
+                # Hook: let strategy replace ISO dates with temporal expressions
+                default_literal = f"'{val}'" if expr.is_string else val
+                return self._strategy.on_temporal(val, default_literal, self._rng)
 
-        # Bug 3 Fix: Handle IN expressions with subqueries
         if isinstance(expr, exp.In):
             left = self._render_expression(expr.this, context + '_l')
 
-            # Locate the subquery — sqlglot stores it differently depending on
-            # whether the AST was built programmatically or parsed from SQL text:
+            # sqlglot stores IN subqueries differently depending on origin:
             #   - parsed from SQL:       expr.args['query'] = exp.Subquery(this=Select(...))
             #   - built programmatically: expr.expressions = [Select(...)] or [Subquery(...)]
             raw_subquery = expr.args.get('query')
@@ -708,11 +685,9 @@ class SQLToNLRenderer:
                 return f"{left} is in [{values}]"
             return f"{left} is in (unknown)"
 
-        # Bug 7 Fix: Handle EXISTS and NOT EXISTS expressions
         if isinstance(expr, exp.Exists):
             subquery = expr.this
-            # Phase 2 Bug 2 Fix: Narratize EXISTS
-            # Try to describe the subquery naturally: "where there is a corresponding [table] who [where]"
+            # Narratize EXISTS: "where there is a corresponding [table] who [where]"
             if isinstance(subquery, exp.Select):
                 from_node = subquery.args.get('from_')
                 if from_node:
@@ -728,7 +703,7 @@ class SQLToNLRenderer:
             return f"exists ({subquery_nl})"
         
         if isinstance(expr, exp.Not):
-            # Phase 2 Bug 2 Fix: Handle NOT EXISTS naturally
+            # Handle NOT EXISTS naturally
             if isinstance(expr.this, exp.Exists):
                  inner = self._render_expression(expr.this, context + '_not_exists')
                  return inner.replace("where there is a corresponding", "where there is no corresponding")
@@ -740,20 +715,56 @@ class SQLToNLRenderer:
         if isinstance(expr, exp.Column): return self._render_column(expr, context)
         if isinstance(expr, exp.Table): return self._render_table(expr, context)
         
-        # Bug 6 Fix: Handle literals with proper formatting
         if isinstance(expr, exp.Literal):
+            if self._emit_mode == 'template':
+                if expr.is_string:
+                    return f"[VAL:'{expr.this}']"
+                return f"[VAL:{expr.this}]"
             if expr.is_string:
                 return f"'{expr.this}'"  # Quote string literals
             return str(expr.this)
         
-        # Bug 6 Fix: Handle Boolean values (TRUE/FALSE)
         if isinstance(expr, exp.Boolean):
+            if self._emit_mode == 'template':
+                return f"[VAL:{'TRUE' if expr.this else 'FALSE'}]"
             return "TRUE" if expr.this else "FALSE"
         
         if isinstance(expr, exp.Binary):
             return f"{self._render_expression(expr.left, context+'_l')} {expr.key} {self._render_expression(expr.right, context+'_r')}"
         
         return str(expr.this) if hasattr(expr, 'this') else str(expr)
+
+    # ── singularisation helper ──────────────────────────────────────
+    @staticmethod
+    def _singularize(word: str) -> str:
+        """Best-effort singular form of an English table name.
+
+        Handles the common patterns that appear in SQL table names while
+        being conservative enough not to mangle non-plural words.
+        """
+        if not word or len(word) <= 2:
+            return word
+
+        low = word.lower()
+
+        # Don't touch words that aren't really plural
+        # (ending in 'ss', 'us', 'is' — e.g. Address, Status, Analysis)
+        if low.endswith(('ss', 'us', 'is')):
+            return word
+
+        # -ies  →  -y   (breweries → brewery, cities → city)
+        if low.endswith('ies'):
+            return word[:-3] + ('Y' if word[-4].isupper() else 'y')
+
+        # -ses / -zes / -xes / -ches / -shes  →  drop 'es'
+        if low.endswith(('ses', 'zes', 'xes', 'ches', 'shes')):
+            return word[:-2]
+
+        # regular -s  (users → user)
+        if low.endswith('s') and not low.endswith('ss'):
+            return word[:-1]
+
+        return word
 
     def _render_table(self, table_node, context) -> str:
         rng = self._get_rng(context)
@@ -773,6 +784,14 @@ class SQLToNLRenderer:
             if hasattr(inner_query, 'args') and inner_query.args.get('where'):
                 inner_where = self._render_expression(inner_query.args['where'].this, context + "_inner_where")
             
+            if self._emit_mode == 'template':
+                table_ref = f"[TABLE:{source_table}]" if source_table else ""
+                if source_table and inner_where:
+                    return f"{table_ref} where {inner_where}"
+                elif source_table:
+                    return f"{table_ref} results"
+                return "a derived query"
+
             if source_table and inner_where:
                 return f"{source_table} where {inner_where}"
             elif source_table:
@@ -781,7 +800,6 @@ class SQLToNLRenderer:
         
         table_name = table_node.name if isinstance(table_node, exp.Table) else str(table_node)
         
-        # Phase 2 Bug 3 Fix: Internal Artifacts
         # Strip 'inner_' prefix (e.g., inner_users -> users)
         if table_name.startswith('inner_'):
              table_name = table_name.replace('inner_', '')
@@ -789,12 +807,16 @@ class SQLToNLRenderer:
         # Rename derived_table
         if table_name == 'derived_table':
              return "the results"
+
+        # Template mode: emit token and skip synonym/pronoun logic
+        if self._emit_mode == 'template':
+            return f"[TABLE:{table_name}]"
         
-        # ID 14 Pronoun Logic: ALWAYS roll to keep sequence in sync
+        # Pronoun logic — ALWAYS roll to keep RNG in sync
         roll = self._rng.random()
         use_pron = roll < 0.6
         
-        # Diversity logic for former/latter
+        # Former/latter diversity
         same_type_mentions = [m for m in self._recent_mentions if m[0] == 'table']
         is_former = len(same_type_mentions) == 2 and same_type_mentions[0][1] == table_name.lower()
         is_latter = len(same_type_mentions) == 2 and same_type_mentions[1][1] == table_name.lower()
@@ -805,33 +827,71 @@ class SQLToNLRenderer:
         pronoun = self._rng.choice(pronoun_options)
         
         entity_key = ('table', table_name.lower())
-        if self._use_pronouns and not self._is_self_join and entity_key in self._mentions and not self._is_technical_alias(table_name):
-             if self._ambig_pronoun_count == 0 and use_pron:
-                 self._ambig_pronoun_count += 1
-                 return pronoun
-        
-        self._mentions.add(entity_key)
-        if entity_key not in self._recent_mentions:
-            self._recent_mentions.append(entity_key)
+        is_repeated = entity_key in self._mentions
+        can_pronoun = (is_repeated
+                       and self._ambig_pronoun_count == 0
+                       and not self._is_self_join
+                       and not self._is_technical_alias(table_name))
         
         # SYNONYM LOGIC: ALWAYS roll to keep sequence in sync
         syns = self.schema_synonyms.get(table_name.lower(), [table_name])
         synonym = self._rng.choice(syns)
         
-        if self.config.is_active(PerturbationType.TABLE_COLUMN_SYNONYMS) and not self._is_technical_alias(table_name):
-            return synonym
-        return table_name
+        # Hook: let strategy decide (pronoun, synonym, or raw table name)
+        result = self._strategy.on_table_reference(
+            table_name=table_name,
+            default=table_name,
+            is_repeated=is_repeated,
+            pronoun=pronoun,
+            use_pronoun=use_pron,
+            can_pronoun=can_pronoun,
+            synonym=synonym,
+        )
+        
+        if result != table_name and can_pronoun and use_pron:
+            # A pronoun was used
+            self._ambig_pronoun_count += 1
+            return result
+        
+        # Track first mention
+        self._mentions.add(entity_key)
+        if entity_key not in self._recent_mentions:
+            self._recent_mentions.append(entity_key)
+        
+        return result
 
     def _render_column(self, col_node, context) -> str:
         rng = self._get_rng(context)
-        col_name = col_node.name if isinstance(col_node, exp.Column) else str(col_node)
+        # Extract column name: handle Column, Identifier, and fallback
+        if isinstance(col_node, exp.Column):
+            col_name = col_node.name
+        elif isinstance(col_node, exp.Identifier):
+            col_name = col_node.name  # .name strips quotes automatically
+        else:
+            col_name = str(col_node)
         table = col_node.table if hasattr(col_node, 'table') else ""
+
+        # Template mode: emit IR token with optional table qualifier
+        if self._emit_mode == 'template':
+            actual_table = table
+            if table:
+                if table.startswith('inner_'):
+                    actual_table = table.replace('inner_', '')
+                elif self._is_technical_alias(table):
+                    base = self._get_base_type_from_alias(table)
+                    if base:
+                        actual_table = base
+                if actual_table == 'derived_table':
+                    actual_table = ""
+            if actual_table:
+                return f"[COL:{actual_table}.{col_name}]"
+            return f"[COL:{col_name}]"
         
-        # ID 14 Pronoun Logic: ALWAYS roll
+        # Pronoun logic — ALWAYS roll to keep RNG in sync
         roll = self._rng.random()
         use_pron = roll < 0.6
         
-        # Diversity logic for former/latter
+        # Former/latter diversity
         same_type_mentions = [m for m in self._recent_mentions if m[0] == 'column']
         is_former = len(same_type_mentions) == 2 and same_type_mentions[0][1] == col_name.lower()
         is_latter = len(same_type_mentions) == 2 and same_type_mentions[1][1] == col_name.lower()
@@ -842,60 +902,61 @@ class SQLToNLRenderer:
         pronoun = self._rng.choice(pronoun_options)
         
         entity_key = ('column', col_name.lower())
-        if self._use_pronouns and not self._is_self_join and entity_key in self._mentions and not self._is_technical_alias(col_name):
-             # Bug 3 Fix: Only substitute if there is exactly ONE prior column mention (unambiguous antecedent)
-             prior_columns = [m for m in self._mentions if m[0] == 'column']
-             if len(prior_columns) == 1 and self._ambig_pronoun_count == 0 and use_pron:
-                 self._ambig_pronoun_count += 1
-                 return pronoun
-        
-        self._mentions.add(entity_key)
-        if entity_key not in self._recent_mentions:
-            self._recent_mentions.append(entity_key)
+        is_repeated = entity_key in self._mentions
+        prior_columns = [m for m in self._mentions if m[0] == 'column']
+        can_pronoun = (is_repeated
+                       and len(prior_columns) == 1
+                       and self._ambig_pronoun_count == 0
+                       and not self._is_self_join
+                       and not self._is_technical_alias(col_name))
 
         # SYNONYM LOGIC: ALWAYS roll
         syns = self.schema_synonyms.get(col_name.lower(), [col_name])
         synonym = self._rng.choice(syns)
         
-        if self.config.is_active(PerturbationType.TABLE_COLUMN_SYNONYMS) and not self._is_technical_alias(col_name):
-            col_name = synonym
+        # Hook: let strategy decide (pronoun, synonym, or raw col name)
+        result = self._strategy.on_column_reference(
+            col_name=col_name,
+            table=table,
+            default=col_name,
+            is_repeated=is_repeated,
+            pronoun=pronoun,
+            use_pronoun=use_pron,
+            can_pronoun=can_pronoun,
+            synonym=synonym,
+        )
+        
+        if result != col_name and can_pronoun and use_pron:
+            # A pronoun was used
+            self._ambig_pronoun_count += 1
+            return result
+        
+        # Track mention
+        self._mentions.add(entity_key)
+        if entity_key not in self._recent_mentions:
+            self._recent_mentions.append(entity_key)
+
+        # If hook returned a different name (synonym), use that
+        col_name = result
             
-        # Bug 1 (Twins) Fix: Disambiguate columns by keeping table name if alias is stripped
-        # If we have a table qualifier
+        # Disambiguate columns by keeping table qualifier when needed
         if table:
-            # Phase 2 Bug 3 Fix: Internal Artifacts (Column Qualifiers)
             # Strip 'inner_' prefix for internal tables
             if table.startswith('inner_'):
                 table = table.replace('inner_', '')
             
-            # Phase 4 Bug C Fix: Derived Table Leakage
             # Map 'derived_table' to "the result's"
             if table == 'derived_table':
                 return f"the result's {col_name}"
             
-            # Phase 4 Bug D Fix: Redundant Qualification
-            # If single table context, omit the table prefix
-            # UNLESS it's a technical alias we prefer to keep? 
-            # If it's single table, there's no other table, so "u1.email" -> "email" is fine.
-            # But earlier logic maps u1 -> "the user's email".
-            # If we have single table "SELECT * FROM users u1", 
-            # _alias_counts = {'users': 1}, _is_single_table = True.
-            # We want "ordered by email", NOT "ordered by the user's email".
-            # So this check should come BEFORE the technical alias mapping.
-            
-            # Check if we should skip qualification
-            # We access _is_single_table safely (default False if not set, e.g. fragment rendering)
+            # In single-table context, omit redundant table prefix
             is_single = getattr(self, '_is_single_table', False)
-            # Only skip if it's single table AND NOT a technical alias we might want to expand
             if is_single and not self._is_technical_alias(table):
                  return col_name
         
-            # If the config says omit obvious clauses, checking if we should really omit it
-            # For "technical" aliases (e.g. p1, u5), we should replace them with real table names
-            # to avoid "id equals id" ambiguity
+            # For technical aliases (e.g. p1, u5), map to real table names
+            # to avoid ambiguous output like "id equals id"
             if self._is_technical_alias(table):
-                # We need to guess the table name from the alias (p1 -> posts, u1 -> users)
-                # Heuristic based on standard project aliasing
                 base_table = None
                 if table.lower().startswith('u'): base_table = 'users'
                 elif table.lower().startswith('p'): base_table = 'posts'
@@ -903,48 +964,32 @@ class SQLToNLRenderer:
                 elif table.lower().startswith('l'): base_table = 'likes'
                 elif table.lower().startswith('f'): base_table = 'follows'
                 
-                # Phase 2 Bug 1 Fix: Alias Leakage
-                # Only map alias to natural language if it is UNAMBIGUOUS (count == 1)
-                # If ambiguous (self-join), keep the alias or use "user u1's"
+                # Only map alias to NL if it is unambiguous (count == 1);
+                # if ambiguous (e.g. self-join), preserve the raw alias
                 if base_table:
-                    # Check ambiguity scope (default to 1 if not analyzed yet, e.g. snippet rendering)
                     count = getattr(self, '_alias_counts', {}).get(base_table, 1)
                     
                     if count == 1:
-                        # Unambiguous: u1 -> "the user's"
-                        # Make it possessive "the user's" if it's a field
-                        # Or just "user's"
-                        noun = base_table.rstrip('s') # user
+                        noun = self._singularize(base_table)
                         return f"the {noun}'s {col_name}"
                     else:
-                        # Ambiguous: Keep alias or strictly "u1.id"
-                        # We keep "u1.id" as "users.id" is also ambiguous here.
-                        # But wait, earlier fix mapped it to "base_table.col_name" which caused "id, id" error?
-                        # No, "id, id" was caused by stripping.
-                        # Should we return "u1.id"?
-                        # The implementation plan says: "Preserve u1, u2"
                         return f"{table}.{col_name}"
-
-                # return f"{table}.{col_name}" # Fallback to keeping alias if unknown
         
-            if not self.config.is_active(PerturbationType.OMIT_OBVIOUS_CLAUSES):
-                return f"{table}.{col_name}"
-            
-            # Phase 2: Removed duplicated technical alias check block because logic is now above
-            return f"{table}.{col_name}" if self._is_technical_alias(table) else col_name
+            # Hook: strategy can decide whether to keep or drop the table qualifier
+            qualified = f"{table}.{col_name}"
+            unqualified = col_name if not self._is_technical_alias(table) else qualified
+            qual_decision = self._strategy.on_keyword("COL_QUALIFIER", qualified)
+            if qual_decision == "":
+                return unqualified
+            return qualified
 
         return col_name
 
 
     def _render_order_key(self, order_expr, context: str) -> str:
-        """
-        Render an ORDER BY key expression (e.g., 'name ASC').
-        
-        Handles the Ordered node which wraps column + direction info.
-        """
-        # order_expr is an Ordered node with .this (column) and args['desc'] (direction)
+        """Render an ORDER BY key expression (e.g., 'name ASC')."""
         col = self._render_expression(order_expr.this, context)
-        # Note: use args.get('desc') because .desc is a method in sqlglot
+        # Use args.get('desc') because .desc is a method in sqlglot
         if order_expr.args.get('desc'):
             return f"{col} descending"
         return col  # Default is ascending, no need to specify
@@ -969,7 +1014,6 @@ class SQLToNLRenderer:
             if where_node:
                 where_str = f" where {self._render_expression(where_node.this, context + '_w')}"
             
-            # V3 Bug 3 Fix: Capitalize 'Select' for casing consistency
             return f"Select {cols} from {table}{where_str}"
         
         # Handle Union within subqueries (nesting)
@@ -1052,10 +1096,8 @@ class SQLToNLRenderer:
             # If there's a modifier (second argument like '-30 days')
             if len(expressions) >= 2:
                 modifier = str(expressions[1].this) if hasattr(expressions[1], 'this') else str(expressions[1])
-                # Parse modifier like '-30 days'
+                # Parse modifier (e.g. '-30 days')
                 import re
-                # Fix: Make the modifier parsing more robust for spaces and signs
-                # Remove quotes if present
                 modifier = modifier.strip("'")
                 match = re.search(r'([+-]?)\s*(\d+)\s*(\w+)', modifier)
                 if match:
@@ -1065,14 +1107,12 @@ class SQLToNLRenderer:
                     
                     unit_str = unit if value == '1' else f"{unit}s"
                     if sign == '-':
-                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"over the last {value} {unit_str}"])
-                        return f"{value} {unit_str} ago"
+                        default_rendering = f"{value} {unit_str} ago"
+                        return self._strategy.on_temporal(modifier, default_rendering, self._rng)
                     else: 
-                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"in {value} {unit_str}", f"{value} {unit_str} out"])
-                        return f"{value} {unit_str} from now"
-                return f"{base} with modifier" # This line was outside the if/else for sign, keeping it that way
+                        default_rendering = f"{value} {unit_str} from now"
+                        return self._strategy.on_temporal(modifier, default_rendering, self._rng)
+                return f"{base} with modifier"
             
             if base.lower() == 'now':
                 return "the current time"
@@ -1105,13 +1145,11 @@ class SQLToNLRenderer:
                     
                     unit_str = unit if value == '1' else f"{unit}s"
                     if sign == '-':
-                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"within the last {value} {unit_str}", f"in the past {value} {unit_str}", f"over the last {value} {unit_str}"])
-                        return f"{value} {unit_str} ago"
+                        default_rendering = f"{value} {unit_str} ago"
+                        return self._strategy.on_temporal(modifier, default_rendering, self._rng)
                     else: 
-                        if self.config.is_active(PerturbationType.TEMPORAL_EXPRESSION_VARIATION):
-                             return self._rng.choice([f"in {value} {unit_str}", f"{value} {unit_str} out"])
-                        return f"{value} {unit_str} from now"
+                        default_rendering = f"{value} {unit_str} from now"
+                        return self._strategy.on_temporal(modifier, default_rendering, self._rng)
                 return f"{base} with modifier" 
             
             if base.lower() == 'now':
@@ -1119,47 +1157,3 @@ class SQLToNLRenderer:
             return base
         except Exception:
             return "a date"
-
-    def is_applicable(self, ast: exp.Expression, p_type: PerturbationType) -> bool:
-        if p_type in {PerturbationType.TYPOS, PerturbationType.URGENCY_QUALIFIERS, PerturbationType.VERBOSITY_VARIATION, PerturbationType.PUNCTUATION_VARIATION, PerturbationType.COMMENT_ANNOTATIONS, PerturbationType.SYNONYM_SUBSTITUTION, PerturbationType.MIXED_SQL_NL, PerturbationType.OMIT_OBVIOUS_CLAUSES}: 
-            return True
-        
-        if p_type == PerturbationType.INCOMPLETE_JOIN_SPEC: 
-            return bool(ast.find(exp.Join))
-        
-        if p_type == PerturbationType.TEMPORAL_EXPRESSION_VARIATION: 
-            # Detect ISO dates in literals
-            has_iso = any(re.search(r'\d{4}-\d{2}-\d{2}', str(l.this)) for l in ast.find_all(exp.Literal))
-            # Detect DATETIME/NOW functions
-            has_func = any(str(a.this).lower() == 'datetime' for a in ast.find_all(exp.Anonymous)) or bool(ast.find(exp.DateSub))
-            return has_iso or has_func
-
-        if p_type == PerturbationType.TABLE_COLUMN_SYNONYMS:
-            # Check if any table or column in the query is in our synonym bank
-            tables = [t.this.this.lower() if hasattr(t.this, 'this') else str(t.this).lower() for t in ast.find_all(exp.Table)]
-            columns = [c.this.this.lower() if hasattr(c.this, 'this') else str(c.this).lower() for c in ast.find_all(exp.Column)]
-            # Exclude technical aliases
-            tables = [t for t in tables if not self._is_technical_alias(t)]
-            return any(t in self.schema_synonyms for t in tables) or any(c in self.schema_synonyms for c in columns)
-
-        if p_type == PerturbationType.OPERATOR_AGGREGATE_VARIATION:
-            # Check for operators or aggregates with variations
-            has_op = any(expr.key in self.op_variations for expr in ast.find_all((exp.GT, exp.LT, exp.GTE, exp.LTE)))
-            has_agg = any(expr.key.upper() in self.agg_variations for expr in ast.find_all(exp.AggFunc))
-            return has_op or has_agg
-
-        if p_type == PerturbationType.AMBIGUOUS_PRONOUNS:
-            # Anchored Substitutions: Needs at least one repeated entity (type-aware)
-            freq = {}
-            for t in ast.find_all(exp.Table):
-                 val = t.this.this.lower() if hasattr(t.this, 'this') else str(t.this).lower()
-                 key = ('table', val)
-                 freq[key] = freq.get(key, 0) + 1
-            for c in ast.find_all(exp.Column):
-                 val = c.this.this.lower() if hasattr(c.this, 'this') else str(c.this).lower()
-                 key = ('column', val)
-                 freq[key] = freq.get(key, 0) + 1
-            
-            return any(count > 1 for count in freq.values())
-
-        return True

@@ -3,12 +3,20 @@ Abstract Base Class for Model Adapters.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any
+from typing import Any, Dict, List, Optional
+
 
 class BaseModelAdapter(ABC):
     """
     Abstract interface for all LLM model adapters.
     Enforces a unified interaction pattern for both API and local models.
+
+    Constructor keyword arguments supported by all concrete adapters
+    (with backward-compatible defaults):
+
+    * ``max_tokens``     (int, default 512)  – maximum generation tokens.
+    * ``temperature``    (float, default 0.0) – sampling temperature.
+    * ``system_prompt``  (str | None)         – optional system-level instruction.
     """
 
     @abstractmethod

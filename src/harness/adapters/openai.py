@@ -16,18 +16,28 @@ load_dotenv()
 class OpenAIAdapter(BaseModelAdapter):
     """Adapter for OpenAI models."""
 
-    def __init__(self, model_name: str = "gpt-4o"):
+    def __init__(
+        self,
+        model_name: str = "gpt-4o",
+        max_tokens: int = 512,
+        temperature: float = 0.0,
+        system_prompt: str = None,
+        **_kwargs,
+    ):
         if OpenAI is None:
             raise ImportError("openai package is required for OpenAIAdapter")
-        
+
         self._model_name = model_name
+        self._max_completed_tokens = max_tokens
+        self._temperature = temperature
+        self._system_prompt = system_prompt or "You are a helpful assistant."
+
         self.api_key = os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY not found in environment.")
-        
-        # Sanitize key: handle cases where user might have pasted multiple lines or whitespace
+        # Sanitize key
         self.api_key = self.api_key.strip().splitlines()[0]
-            
+
         self.client = OpenAI(api_key=self.api_key)
 
     def generate(self, prompts: List[str]) -> List[str]:
@@ -38,11 +48,11 @@ class OpenAIAdapter(BaseModelAdapter):
             response = self.client.chat.completions.create(
                 model=self._model_name,
                 messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": formatted_prompt}
+                    {"role": "system", "content": self._system_prompt},
+                    {"role": "user", "content": formatted_prompt},
                 ],
-                temperature=0.0,
-                max_tokens=512
+                temperature=self._temperature,
+                max_completion_tokens=self._max_completed_tokens,
             )
             results.append(response.choices[0].message.content)
         return results
@@ -55,6 +65,6 @@ class OpenAIAdapter(BaseModelAdapter):
 
     def decoding_config(self) -> Dict[str, Any]:
         return {
-            "temperature": 0.0,
-            "max_tokens": 512
+            "temperature": self._temperature,
+            "max_tokens": self._max_completed_tokens,
         }
