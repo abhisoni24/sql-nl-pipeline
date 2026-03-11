@@ -5,164 +5,80 @@ column_synonyms:
   - community area no
   Community_Area.population:
   - population
-  - universe
   Community_Area.side:
   - side
   Crime.arrest:
   - arrest
-  - apprehension
-  - catch
-  - collar
-  - check
   Crime.beat:
   - beat
-  - round
-  - pulse
-  - pulsation
-  - heartbeat
   Crime.block:
   - block
-  - city block
-  - cube
   Crime.case_number:
   - case number
-  - instance number
-  - example number
-  - event number
-  - lawsuit number
   Crime.community_area_no:
   - community area no
   Crime.date:
   - date
-  - day of the month
-  - escort
-  - appointment
-  - engagement
   Crime.district_no:
   - district no
-  - territory no
-  - territorial dominion no
-  - zone no
   Crime.domestic:
   - domestic
-  - domestic help
-  - house servant
   Crime.fbi_code_no:
   - fbi code no
-  - federal bureau of investigation code no
   Crime.iucr_no:
   - iucr no
   Crime.latitude:
   - latitude
-  - line of latitude
-  - parallel of latitude
-  - parallel
   Crime.location_description:
   - location description
-  - placement description
-  - locating description
-  - localization description
-  - localisation description
   Crime.longitude:
   - longitude
   Crime.report_no:
   - report no
-  - study no
-  - written report no
-  - account no
-  - news report no
   Crime.ward_no:
   - ward no
-  - hospital ward no
   District.address:
   - address
-  - computer address
-  - reference
-  - speech
   District.commander:
   - commander
-  - commanding officer
-  - commandant
   District.district_name:
   - district name
-  - territory name
-  - territorial dominion name
-  - zone name
   District.district_no:
   - district no
-  - territory no
-  - territorial dominion no
-  - zone no
   District.email:
   - email
-  - electronic mail
-  - e-mail
-  - netmail
   District.fax:
   - fax
-  - facsimile
-  - facsimile machine
-  - telefax
   District.phone:
   - phone
-  - telephone
-  - telephone set
-  - speech sound
-  - sound
   District.tty:
   - tty
   District.twitter:
   - twitter
-  - chirrup
-  - chitter
   District.zip_code:
   - zip code
-  - nothing code
-  - nil code
-  - nix code
-  - zip code code
   FBI_Code.crime_against:
   - crime against
-  - offense against
-  - criminal offense against
   FBI_Code.description:
   - description
-  - verbal description
   FBI_Code.fbi_code_no:
   - fbi code no
-  - federal bureau of investigation code no
   FBI_Code.title:
   - title
-  - statute title
-  - rubric
   IUCR.index_code:
   - index code
-  - index number code
-  - indicant code
-  - exponent code
-  - power code
   IUCR.iucr_no:
   - iucr no
   IUCR.primary_description:
   - primary description
-  - primary election description
-  - primary feather description
-  - primary quill description
   IUCR.secondary_description:
   - secondary description
-  - secondary coil description
-  - secondary winding description
   Neighborhood.community_area_no:
   - community area no
   Neighborhood.neighborhood_name:
   - neighborhood name
-  - vicinity name
-  - locality name
-  - neighbourhood name
-  - region name
   Ward.Population:
   - Population
-  - universe
   Ward.alderman_first_name:
   - alderman first name
   Ward.alderman_last_name:
@@ -171,71 +87,42 @@ column_synonyms:
   - alderman name suffix
   Ward.city_hall_office_fax:
   - city hall office fax
-  - metropolis hall office fax
-  - urban center hall office fax
   Ward.city_hall_office_phone:
   - city hall office phone
-  - metropolis hall office phone
-  - urban center hall office phone
   Ward.city_hall_office_room:
   - city hall office room
-  - metropolis hall office room
-  - urban center hall office room
   Ward.ward_email:
   - ward email
-  - hospital ward email
   Ward.ward_no:
   - ward no
-  - hospital ward no
   Ward.ward_office_address:
   - ward office address
-  - hospital ward office address
   Ward.ward_office_fax:
   - ward office fax
-  - hospital ward office fax
   Ward.ward_office_phone:
   - ward office phone
-  - hospital ward office phone
   Ward.ward_office_zip:
   - ward office zip
-  - hospital ward office zip
 table_categories:
   Community_Area: object
-  Crime: event
+  Crime: object
   District: object
   FBI_Code: object
   IUCR: object
   Neighborhood: object
-  Ward: person
+  Ward: object
 table_synonyms:
   Community_Area:
   - Community Area
-  - country
-  - region
   Crime:
   - Crime
-  - offense
-  - criminal offense
-  - criminal offence
   District:
   - District
-  - territory
-  - territorial dominion
-  - dominion
-  - zone
   FBI_Code:
   - FBI Code
-  - federal bureau of investigation
-  - codification
-  - computer code
   IUCR:
   - IUCR
   Neighborhood:
   - Neighborhood
-  - vicinity
-  - locality
-  - neighbourhood
-  - region
   Ward:
   - Ward
-  - hospital ward

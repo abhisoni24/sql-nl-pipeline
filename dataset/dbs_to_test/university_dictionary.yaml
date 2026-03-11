@@ -1,75 +1,44 @@
 column_synonyms:
   country.country_name:
   - country name
-  - state name
-  - nation name
-  - land name
   country.id:
   - id
   ranking_criteria.criteria_name:
   - criteria name
-  - standard name
-  - criterion name
-  - measure name
   ranking_criteria.id:
   - id
   ranking_criteria.ranking_system_id:
   - ranking system id
-  - rank system id
-  - rate system id
-  - range system id
   ranking_system.id:
   - id
   ranking_system.system_name:
   - system name
-  - scheme name
   university.country_id:
   - country id
-  - state id
-  - nation id
-  - land id
   university.id:
   - id
   university.university_name:
   - university name
   university_ranking_year.ranking_criteria_id:
   - ranking criteria id
-  - rank criteria id
-  - rate criteria id
-  - range criteria id
   university_ranking_year.score:
   - score
-  - mark
-  - grade
-  - musical score
   university_ranking_year.university_id:
   - university id
   university_ranking_year.year:
   - year
-  - twelvemonth
   university_year.num_students:
   - num students
   university_year.pct_female_students:
   - pct female students
-  - percentage female students
-  - percent female students
-  - per centum female students
   university_year.pct_international_students:
   - pct international students
-  - percentage international students
-  - percent international students
-  - per centum international students
   university_year.student_staff_ratio:
   - student staff ratio
-  - pupil staff ratio
-  - educatee staff ratio
-  - scholar staff ratio
-  - scholarly person staff ratio
   university_year.university_id:
   - university id
   university_year.year:
   - year
-  - twelvemonth
 table_categories:
   country: object
   ranking_criteria: object
@@ -80,32 +49,13 @@ table_categories:
 table_synonyms:
   country:
   - country
-  - state
-  - nation
-  - land
   ranking_criteria:
   - ranking criteria
-  - rank
-  - rate
-  - range
-  - order
-  - standard
   ranking_system:
   - ranking system
-  - rank
-  - rate
-  - range
-  - order
-  - scheme
   university:
   - university
   university_ranking_year:
   - university ranking year
-  - rank
-  - rate
-  - range
-  - order
-  - twelvemonth
   university_year:
   - university year
-  - twelvemonth

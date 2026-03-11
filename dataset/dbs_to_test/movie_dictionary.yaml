@@ -1,15 +1,8 @@
 column_synonyms:
   actor.ActorID:
   - ActorID
-  - histrion id
-  - player id
-  - doer id
-  - worker id
   actor.Biography:
   - Biography
-  - life
-  - life story
-  - life history
   actor.Birth City:
   - Birth City
   actor.Birth Country:
@@ -20,67 +13,36 @@ column_synonyms:
   - Ethnicity
   actor.Gender:
   - Gender
-  - grammatical gender
-  - sex
-  - sexuality
   actor.Height (Inches):
   - Height (Inches)
   actor.Name:
   - Name
-  - gens
   actor.NetWorth:
   - NetWorth
-  - internet worth
-  - cyberspace worth
-  - net income worth
-  - net profit worth
   characters.ActorID:
   - ActorID
-  - histrion id
-  - player id
-  - doer id
-  - worker id
   characters.Character Name:
   - Character Name
   characters.MovieID:
   - MovieID
-  - film id
-  - picture id
   characters.creditOrder:
   - creditOrder
-  - recognition order
-  - credit entry order
   characters.pay:
   - pay
-  - wage
-  - earnings
-  - remuneration
-  - give
   characters.screentime:
   - screentime
   movie.Budget:
   - Budget
   movie.Genre:
   - Genre
-  - writing style
-  - literary genre
-  - music genre
-  - musical genre
   movie.Gross:
   - Gross
-  - '144'
-  - revenue
-  - receipts
   movie.MPAA Rating:
   - MPAA Rating
   movie.MovieID:
   - MovieID
-  - film id
-  - picture id
   movie.Rating:
   - Rating
-  - evaluation
-  - valuation
   movie.Rating Count:
   - Rating Count
   movie.Release Date:
@@ -89,35 +51,16 @@ column_synonyms:
   - Runtime
   movie.Summary:
   - Summary
-  - sum-up
-  - drumhead
-  - compendious
-  - compact
   movie.Title:
   - Title
-  - statute title
-  - rubric
 table_categories:
-  actor: person
+  actor: object
   characters: object
-  movie: event
+  movie: object
 table_synonyms:
   actor:
   - actor
-  - histrion
-  - player
-  - thespian
-  - doer
-  - worker
   characters:
   - characters
-  - fictional character
-  - fictitious character
-  - character
-  - quality
-  - lineament
   movie:
   - movie
-  - film
-  - picture
-  - moving picture

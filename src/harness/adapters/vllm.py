@@ -59,7 +59,7 @@ class VLLMAdapter(BaseModelAdapter):
         )
 
     def generate(self, prompts: List[str]) -> List[str]:
-        # Apply model-specific formatting to all prompts
+        # Apply chat template formatting for instruction-tuned models
         formatted_prompts = [self.format_prompt(p) for p in prompts]
         
         # vLLM handles batching internally efficiently
@@ -73,7 +73,17 @@ class VLLMAdapter(BaseModelAdapter):
         return results
 
     def format_prompt(self, prompt: str) -> str:
-        """Prepend system prompt for vLLM models when provided."""
+        """Format prompt using the model's chat template when available."""
+        tokenizer = self.llm.get_tokenizer()
+        if hasattr(tokenizer, 'apply_chat_template') and tokenizer.chat_template:
+            messages = []
+            if self._system_prompt:
+                messages.append({"role": "system", "content": self._system_prompt})
+            messages.append({"role": "user", "content": prompt})
+            return tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            )
+        # Fallback for models without chat template
         if self._system_prompt:
             return f"{self._system_prompt}\n\n{prompt}"
         return prompt

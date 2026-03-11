@@ -1,0 +1,6 @@
+Model	Pass	Total	Rate
+Qwen3-Coder-30B-A3B	37,248	37,248	100.0%
+DeepSeek-Coder-V2-Lite	37,248	37,248	100.0%
+llama-3-sqlcoder-8b	37,248	37,248	100.0%
+sqlcoder-34b-alpha	37,248	37,248	100.0%
+gpt-oss-20b	36,337	37,248	97.6% (Truncation max_token: 512)

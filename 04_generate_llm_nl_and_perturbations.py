@@ -67,8 +67,9 @@ sys.path.insert(0, BASE_DIR)
 # ---------------------------------------------------------------------------
 DEFAULT_MAX_RPM = 60
 DEFAULT_MAX_WORKERS = 4
-DEFAULT_MAX_TOKENS = 4096
+DEFAULT_MAX_TOKENS = 8192
 DEFAULT_TEMPERATURE = 0.0
+DEFAULT_BATCH_SIZE = 500
 SAVE_EVERY_N = 10
 DEFAULT_EXPERIMENTS_CONFIG = os.path.join(BASE_DIR, "experiments.yaml")
 
@@ -277,8 +278,14 @@ def _save_output(
 
 
 def _clean_json_response(text: str) -> str:
-    """Strip markdown fences from an LLM response."""
+    """Strip thinking blocks and markdown fences from an LLM response."""
     text = text.strip()
+    # Strip Qwen3-style <think>...</think> reasoning blocks
+    text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
+    # Strip incomplete/unterminated <think> blocks (model ran out of tokens
+    # mid-thought, so there's no closing tag)
+    text = re.sub(r'<think>.*', '', text, flags=re.DOTALL).strip()
+    # Strip markdown fences
     if text.startswith("```json"):
         text = text[7:]
     elif text.startswith("```"):
@@ -447,6 +454,66 @@ def _process_one(
 # Main processing loop
 # ============================================================================
 
+def _is_local_adapter(adapter) -> bool:
+    """Return True if the adapter is a local vLLM model (no rate limiting needed)."""
+    try:
+        from src.harness.adapters.vllm import VLLMAdapter
+        return isinstance(adapter, VLLMAdapter)
+    except ImportError:
+        return False
+
+
+def _process_batch_local(
+    queries: List[Dict[str, Any]],
+    adapter,
+    processed_data: List[Dict[str, Any]],
+    output_path: str,
+    schema_path: Optional[str],
+    upstream_meta: Dict[str, Any],
+    model_id: str,
+    batch_size: int = DEFAULT_BATCH_SIZE,
+) -> tuple:
+    """Process queries in batches using vLLM's native batch inference.
+
+    vLLM handles internal parallelism — no threading or rate limiting needed.
+    Checkpoints after each batch.
+    """
+    user_prompts = [_build_user_prompt(q) for q in queries]
+    success_count = 0
+    fail_count = 0
+
+    for i in tqdm(range(0, len(user_prompts), batch_size), desc="Batches", unit="batch"):
+        batch_prompts = user_prompts[i:i + batch_size]
+        batch_queries = queries[i:i + batch_size]
+
+        responses = adapter.generate(batch_prompts)
+
+        for query, response_text in zip(batch_queries, responses):
+            try:
+                cleaned = _clean_json_response(response_text)
+                perturbation_data = json.loads(cleaned)
+                enriched = query.copy()
+                enriched["nl_prompt"] = perturbation_data.get("generated_nl_prompt", "")
+                enriched["generated_perturbations"] = perturbation_data
+                processed_data.append(enriched)
+                success_count += 1
+            except (json.JSONDecodeError, Exception) as exc:
+                fail_count += 1
+                # Log first few failures with raw response sample for debugging
+                if fail_count <= 3:
+                    sample = response_text[:500] if response_text else "<empty>"
+                    tqdm.write(f"FAIL query {query.get('id', '?')}: {exc}")
+                    tqdm.write(f"  Raw response (first 500 chars): {sample}")
+                elif fail_count == 4:
+                    tqdm.write("  (suppressing further FAIL details...)")
+                    tqdm.write(f"FAIL query {query.get('id', '?')}: {exc}")
+
+        # Checkpoint after each batch
+        _save_output(output_path, processed_data, schema_path, upstream_meta, model_id)
+
+    return success_count, fail_count
+
+
 def process_queries(
     input_file: str,
     output_file: str,
@@ -457,6 +524,7 @@ def process_queries(
     max_rpm: int = DEFAULT_MAX_RPM,
     max_workers: int = DEFAULT_MAX_WORKERS,
     limit: Optional[int] = None,
+    batch_size: int = DEFAULT_BATCH_SIZE,
 ) -> None:
     input_path = os.path.abspath(input_file)
     output_path = os.path.abspath(output_file)
@@ -485,49 +553,66 @@ def process_queries(
     print(f"Total queries:     {len(queries)}")
     print(f"Already processed: {len(processed_ids)}")
     print(f"Remaining:         {len(queries_to_process)}")
-    print(f"Concurrency:       {max_workers} workers  |  Rate limit: {max_rpm} RPM")
 
     if not queries_to_process:
         print("All queries processed!")
         return
 
-    # ---- Concurrent processing ----
-    limiter = _RateLimiter(max_rpm)
-    success_count = 0
-    fail_count = 0
-    data_lock = threading.Lock()
-    unsaved_count = 0
+    # ---- Choose processing strategy based on adapter type ----
+    use_local_batch = (not mock) and _is_local_adapter(adapter)
 
-    def _checkpoint():
-        nonlocal unsaved_count
-        _save_output(output_path, processed_data, schema_path, upstream_meta, model_id)
+    if use_local_batch:
+        print(f"Mode:              vLLM batch (batch_size={batch_size}, no rate limit)")
+        success_count, fail_count = _process_batch_local(
+            queries_to_process,
+            adapter,
+            processed_data,
+            output_path,
+            schema_path,
+            upstream_meta,
+            model_id,
+            batch_size=batch_size,
+        )
+    else:
+        # Threaded processing for API-based models and mock mode
+        print(f"Mode:              threaded ({max_workers} workers, {max_rpm} RPM)")
+        limiter = _RateLimiter(max_rpm)
+        success_count = 0
+        fail_count = 0
+        data_lock = threading.Lock()
         unsaved_count = 0
 
-    pbar = tqdm(total=len(queries_to_process), desc="Processing", unit="query")
+        def _checkpoint():
+            nonlocal unsaved_count
+            _save_output(output_path, processed_data, schema_path, upstream_meta, model_id)
+            unsaved_count = 0
 
-    with ThreadPoolExecutor(max_workers=max_workers) as pool:
-        future_to_query = {
-            pool.submit(_process_one, q, adapter, limiter, mock): q
-            for q in queries_to_process
-        }
-        for future in as_completed(future_to_query):
-            query = future_to_query[future]
-            try:
-                result = future.result()
-                with data_lock:
-                    processed_data.append(result)
-                    success_count += 1
-                    unsaved_count += 1
-                    if unsaved_count >= SAVE_EVERY_N:
-                        _checkpoint()
-            except Exception as exc:
-                with data_lock:
-                    fail_count += 1
-                tqdm.write(f"FAIL query {query.get('id', '?')}: {exc}")
-            pbar.update(1)
-            pbar.set_postfix(ok=success_count, fail=fail_count)
+        pbar = tqdm(total=len(queries_to_process), desc="Processing", unit="query")
 
-    pbar.close()
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            future_to_query = {
+                pool.submit(_process_one, q, adapter, limiter, mock): q
+                for q in queries_to_process
+            }
+            for future in as_completed(future_to_query):
+                query = future_to_query[future]
+                try:
+                    result = future.result()
+                    with data_lock:
+                        processed_data.append(result)
+                        success_count += 1
+                        unsaved_count += 1
+                        if unsaved_count >= SAVE_EVERY_N:
+                            _checkpoint()
+                except Exception as exc:
+                    with data_lock:
+                        fail_count += 1
+                    tqdm.write(f"FAIL query {query.get('id', '?')}: {exc}")
+                pbar.update(1)
+                pbar.set_postfix(ok=success_count, fail=fail_count)
+
+        pbar.close()
+
     _save_output(output_path, processed_data, schema_path, upstream_meta, model_id)
     print(f"\nDone.  Success: {success_count}  Fail: {fail_count}")
     print(f"Results → {output_path}")
@@ -597,11 +682,15 @@ Examples:
     rt = p.add_argument_group("Runtime parameters")
     rt.add_argument(
         "--max-rpm", type=int, default=None,
-        help="Max requests/min — overrides experiments.yaml rate_limit.",
+        help="Max requests/min — overrides experiments.yaml rate_limit (API models only).",
     )
     rt.add_argument(
         "--max-workers", type=int, default=None,
-        help="Concurrent worker threads — overrides experiments.yaml.",
+        help="Concurrent worker threads — overrides experiments.yaml (API models only).",
+    )
+    rt.add_argument(
+        "--batch-size", type=int, default=DEFAULT_BATCH_SIZE,
+        help=f"Batch size for vLLM inference (default: {DEFAULT_BATCH_SIZE}).",
     )
     rt.add_argument(
         "--limit", type=int, default=None,
@@ -683,6 +772,7 @@ def main() -> None:
         max_rpm=max_rpm,
         max_workers=max_workers,
         limit=args.limit,
+        batch_size=args.batch_size,
     )
 
 

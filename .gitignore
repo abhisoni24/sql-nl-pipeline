@@ -13,3 +13,6 @@ test_dbs/spider/*
 schemas
 brainstorm
 llm_quirks_tests/*
+dataset
+experiment_workspace/*
+pipeline_tests/evaluation_process/*.jsonl

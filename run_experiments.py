@@ -2,13 +2,14 @@
 End-to-end SQL generation experiment pipeline.
 
   1. Discover databases (.yaml / .sqlite) in the input directory.
-  2. For each database, generate a dictionary and run steps 01-04:
+  2. For each database, generate a dictionary and run steps 01-03:
        - 01: Raw SQL queries
        - 02: Natural-language prompts (two-pass with dictionary)
        - 02b: Validate raw SQL + NL prompts via pipeline_tests/
        - 03: Systematic perturbations
        - 03b: Validate systematic perturbations via pipeline_tests/
-       - 04: LLM-generated perturbations (optional)
+  2b. Run step 04 (LLM perturbations) once across all databases
+      so the model is loaded only once (optional).
   3. Flatten all tasks across databases into a single list with
      full provenance (schema_name, query_id, perturbation_source,
      perturbation_type) so every result can be traced to its gold SQL.
@@ -89,7 +90,7 @@ def discover_databases(db_dir: str) -> list:
 
 
 # ╔════════════════════════════════════════════════════════════════════════╗
-# ║  Phase 2 — Dataset Generation (steps 00–04)                          ║
+# ║  Phase 2 — Dataset Generation (steps 00–03)                          ║
 # ╚════════════════════════════════════════════════════════════════════════╝
 
 def _run_step(cmd: list, step_label: str, verbose: bool = False) -> bool:
@@ -150,16 +151,15 @@ def generate_datasets(
     db_paths: list,
     num_per_complexity: int,
     *,
-    llm_model: str | None = None,
     two_pass: bool = True,
     skip_existing: bool = False,
     verbose: bool = False,
     test_log_dir: str | None = None,
 ) -> list:
-    """Run the generation pipeline (dictionary + steps 01-04) for each database.
+    """Run the generation pipeline (dictionary + steps 01-03) for each database.
 
     Returns a list of *schema_name* strings for databases that completed
-    successfully (at least through step 03).
+    successfully (through step 03).
     """
     py = sys.executable
     successful_schemas = []
@@ -292,24 +292,106 @@ def generate_datasets(
                 verbose=verbose,
             )
 
-        # Step 4 — LLM perturbations (optional, non-fatal)
-        if llm_model:
-            llm_path = f"{out_dir}/llm_perturbations.json"
-            if not _run_step(
-                [py, "04_generate_llm_nl_and_perturbations.py",
-                 "--schema", schema_arg,
-                 "--model", llm_model,
-                 "-i", raw_path,
-                 "-o", llm_path],
-                f"Step 04: LLM perturbations (model: {llm_model})",
-                verbose=verbose,
-            ):
-                print("  ⚠ LLM perturbation generation failed (non-fatal)")
-
         print(f"  ✓ {schema_name} complete")
         successful_schemas.append(schema_name)
 
     return successful_schemas
+
+
+def generate_llm_perturbations(
+    db_paths: list,
+    schema_names: list,
+    llm_model: str,
+    *,
+    verbose: bool = False,
+) -> None:
+    """Run step 04 (LLM perturbation generation) for all databases.
+
+    The vLLM model is loaded **once** and reused across all schemas.
+    Only the system prompt (which embeds the schema context) is swapped
+    between databases.  Failures are non-fatal.
+    """
+    import importlib
+
+    # Import step-04 helpers (filename starts with a digit)
+    step04 = importlib.import_module("04_generate_llm_nl_and_perturbations")
+
+    schema_name_set = set(schema_names)
+
+    print(f"\n{'━' * 60}")
+    print(f"Step 04 — LLM perturbations (model: {llm_model})")
+    print(f"{'━' * 60}")
+
+    # Collect databases to process
+    to_process = []
+    for db_path in db_paths:
+        schema_cfg = load_schema(str(db_path))
+        schema_name = schema_cfg.schema_name
+        if schema_name not in schema_name_set:
+            continue
+
+        out_dir = os.path.join(DATASET_DIR, schema_name)
+        raw_path = f"{out_dir}/raw_queries.json"
+        llm_path = f"{out_dir}/llm_perturbations.json"
+
+        if not os.path.exists(raw_path):
+            print(f"  ⚠ {schema_name}: raw_queries.json not found — skipping")
+            continue
+        to_process.append((db_path, schema_name, raw_path, llm_path))
+
+    if not to_process:
+        print("  Nothing to process.")
+        print(f"{'━' * 60}")
+        return
+
+    # Build perturbation definitions once (shared across schemas)
+    perturbation_text = step04._load_perturbation_text()
+
+    # Create adapter ONCE using the first schema's context
+    first_db_path = to_process[0][0]
+    schema_ctx = step04._build_schema_context(str(first_db_path))
+    system_prompt = step04._build_system_prompt(schema_ctx, perturbation_text)
+
+    adapter, model_cfg = step04._create_adapter_from_config(
+        llm_model,
+        CONFIG_PATH,
+        max_tokens=step04.DEFAULT_MAX_TOKENS,
+        temperature=step04.DEFAULT_TEMPERATURE,
+        system_prompt=system_prompt,
+    )
+    model_id = model_cfg.model_identifier
+    print(f"  Model loaded: {model_id}")
+
+    # Process each database — only swap the system prompt, not the model
+    for db_path, schema_name, raw_path, llm_path in to_process:
+        schema_ctx = step04._build_schema_context(str(db_path))
+        system_prompt = step04._build_system_prompt(schema_ctx, perturbation_text)
+        adapter._system_prompt = system_prompt
+
+        print(f"  ▸ {schema_name}")
+        try:
+            step04.process_queries(
+                input_file=raw_path,
+                output_file=llm_path,
+                adapter=adapter,
+                model_id=model_id,
+                schema_path=str(db_path),
+            )
+        except Exception as exc:
+            print(f"    ⚠ {schema_name}: LLM perturbation generation failed: {exc}")
+
+    # Free GPU memory
+    del adapter
+    gc.collect()
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            print("  🧹 GPU memory cleared")
+    except ImportError:
+        pass
+
+    print(f"{'━' * 60}")
 
 
 # ╔════════════════════════════════════════════════════════════════════════╗
@@ -422,8 +504,8 @@ Examples:
         help='Skip step 04 (LLM perturbation generation)',
     )
     gen.add_argument(
-        '--perturbation-model', default='qwen3.5-27b',
-        help='Model (from experiments.yaml) for step 04 (default: qwen3.5-27b)',
+        '--perturbation-model', default='qwen3-14b',
+        help='Model (from experiments.yaml) for step 04 (default: qwen3-14b)',
     )
     gen.add_argument(
         '--no-two-pass', action='store_true',
@@ -475,17 +557,23 @@ Examples:
                 print(f"  ⚠ No dataset directory for '{cfg.schema_name}' — skipping")
         print(f"\nUsing existing datasets for: {schema_names}")
     else:
-        llm_model = None if cli_args.no_llm_perturbations else cli_args.perturbation_model
         schema_names = generate_datasets(
             db_paths,
             num_per_complexity=cli_args.num_per_complexity,
-            llm_model=llm_model,
             two_pass=not cli_args.no_two_pass,
             skip_existing=cli_args.skip_existing,
             verbose=cli_args.verbose,
             test_log_dir=logs_dir,
         )
         print(f"\n✓ Dataset generation complete for {len(schema_names)} schema(s)")
+
+        # Step 04 — LLM perturbations (separate pass to avoid repeated model loading)
+        if not cli_args.no_llm_perturbations and schema_names:
+            generate_llm_perturbations(
+                db_paths, schema_names,
+                llm_model=cli_args.perturbation_model,
+                verbose=cli_args.verbose,
+            )
 
     if not schema_names:
         print("No schemas available. Exiting.")
