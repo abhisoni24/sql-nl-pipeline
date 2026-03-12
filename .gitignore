@@ -16,3 +16,4 @@ llm_quirks_tests/*
 dataset
 experiment_workspace/*
 pipeline_tests/evaluation_process/*.jsonl
+live_eval_worker*

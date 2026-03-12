@@ -294,15 +294,15 @@ class DatabaseFuzzer:
         for table in tables:
             # Strategy 1: Randomly delete some rows
             if random.random() < 0.3:
-                cursor.execute(f"DELETE FROM {table} WHERE RANDOM() % 3 = 0")
+                cursor.execute(f'DELETE FROM "{table}" WHERE RANDOM() % 3 = 0')
             
             # Strategy 2: Duplicate some rows with modifications
             if random.random() < 0.3:
                 try:
-                    cursor.execute(f"SELECT * FROM {table} LIMIT 5")
+                    cursor.execute(f'SELECT * FROM "{table}" LIMIT 5')
                     rows = cursor.fetchall()
                     
-                    cursor.execute(f"PRAGMA table_info({table})")
+                    cursor.execute(f'PRAGMA table_info("{table}")')
                     columns = [col[1] for col in cursor.fetchall()]
                     pk_col = columns[0] if columns else None
                     
@@ -311,7 +311,7 @@ class DatabaseFuzzer:
                         new_row = list(row)
                         if pk_col:
                             # Generate new primary key
-                            cursor.execute(f"SELECT MAX({pk_col}) FROM {table}")
+                            cursor.execute(f'SELECT MAX("{pk_col}") FROM "{table}"')
                             max_id = cursor.fetchone()[0] or 0
                             new_row[0] = max_id + random.randint(1, 100)
                         
@@ -325,7 +325,7 @@ class DatabaseFuzzer:
                         placeholders = ", ".join(["?" for _ in new_row])
                         try:
                             cursor.execute(
-                                f"INSERT INTO {table} VALUES ({placeholders})",
+                                f'INSERT INTO "{table}" VALUES ({placeholders})',
                                 new_row
                             )
                         except sqlite3.IntegrityError:
@@ -340,14 +340,14 @@ class DatabaseFuzzer:
                         # Add boundary values
                         for v in [val - 1, val, val + 1]:
                             try:
-                                cursor.execute(f"PRAGMA table_info({table})")
+                                cursor.execute(f'PRAGMA table_info("{table}")')
                                 int_cols = [
                                     col[1] for col in cursor.fetchall() 
                                     if 'INT' in col[2].upper()
                                 ]
                                 for col in int_cols[:1]:  # Update first int column
                                     cursor.execute(
-                                        f"UPDATE {table} SET {col} = ? WHERE RANDOM() % 10 = 0",
+                                        f'UPDATE "{table}" SET "{col}" = ? WHERE RANDOM() % 10 = 0',
                                         (v,)
                                     )
                             except:

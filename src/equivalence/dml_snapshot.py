@@ -79,16 +79,16 @@ class DatabaseSnapshot:
         cursor = conn.cursor()
         
         # Get column names for consistent ordering
-        cursor.execute(f"PRAGMA table_info({table_name})")
+        cursor.execute(f'PRAGMA table_info("{table_name}")')
         columns = [row[1] for row in cursor.fetchall()]
         
         if order_by:
-            order_clause = ", ".join(order_by)
+            order_clause = ", ".join(f'"{c}"' for c in order_by)
         else:
             # Order by all columns for deterministic results
-            order_clause = ", ".join(columns)
+            order_clause = ", ".join(f'"{c}"' for c in columns)
         
-        cursor.execute(f"SELECT * FROM {table_name} ORDER BY {order_clause}")
+        cursor.execute(f'SELECT * FROM "{table_name}" ORDER BY {order_clause}')
         rows = cursor.fetchall()
         conn.close()
         
@@ -124,7 +124,7 @@ class DatabaseSnapshot:
         """Get the number of rows in a table."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+        cursor.execute(f'SELECT COUNT(*) FROM "{table_name}"')
         count = cursor.fetchone()[0]
         conn.close()
         return count

@@ -127,11 +127,12 @@ def seed_database(
             # Insert rows
             col_names = list(columns.keys())
             placeholders = ", ".join(["?" for _ in col_names])
-            col_str = ", ".join(col_names)
+            col_str = ", ".join(f'"{ c}"' for c in col_names)
+            q_table = f'"{table_name}"'
             
             try:
                 cursor.executemany(
-                    f"INSERT INTO {table_name} ({col_str}) VALUES ({placeholders})",
+                    f"INSERT INTO {q_table} ({col_str}) VALUES ({placeholders})",
                     rows
                 )
                 row_counts[table_name] = len(rows)
@@ -146,7 +147,7 @@ def seed_database(
                 for row in rows:
                     try:
                         cursor.execute(
-                            f"INSERT INTO {table_name} ({col_str}) VALUES ({placeholders})",
+                            f"INSERT INTO {q_table} ({col_str}) VALUES ({placeholders})",
                             row
                         )
                         successful += 1
@@ -155,7 +156,7 @@ def seed_database(
                 row_counts[table_name] = successful
                 
                 if "id" in columns:
-                    cursor.execute(f"SELECT id FROM {table_name}")
+                    cursor.execute(f'SELECT "id" FROM {q_table}')
                     generated_ids[table_name] = [r[0] for r in cursor.fetchall()]
     
     conn.commit()
@@ -279,10 +280,10 @@ def verify_seeding(db_path: str) -> Dict[str, Any]:
     tables = [row[0] for row in cursor.fetchall()]
     
     for table in tables:
-        cursor.execute(f"SELECT COUNT(*) FROM {table}")
+        cursor.execute(f'SELECT COUNT(*) FROM "{table}"')
         count = cursor.fetchone()[0]
         
-        cursor.execute(f"SELECT * FROM {table} LIMIT 3")
+        cursor.execute(f'SELECT * FROM "{table}" LIMIT 3')
         samples = cursor.fetchall()
         
         result[table] = {

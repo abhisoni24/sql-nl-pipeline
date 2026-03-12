@@ -82,22 +82,22 @@ def schema_to_sqlite_ddl(
                     constraints.append("NOT NULL")
             
             constraint_str = " " + " ".join(constraints) if constraints else ""
-            column_defs.append(f"    {col_name} {sqlite_type}{constraint_str}")
+            column_defs.append(f'    "{col_name}" {sqlite_type}{constraint_str}')
         
         # Add composite primary key if needed
         if len(primary_keys) > 1:
-            pk_cols = ", ".join(primary_keys)
+            pk_cols = ", ".join(f'"{k}"' for k in primary_keys)
             column_defs.append(f"    PRIMARY KEY ({pk_cols})")
         
         # Add foreign key constraints
         fks = table_fks.get(table_name, [])
         for from_col, ref_table, ref_col in fks:
             column_defs.append(
-                f"    FOREIGN KEY ({from_col}) REFERENCES {ref_table}({ref_col})"
+                f'    FOREIGN KEY ("{from_col}") REFERENCES "{ref_table}"("{ref_col}")'
             )
         
         columns_sql = ",\n".join(column_defs)
-        ddl = f"CREATE TABLE IF NOT EXISTS {table_name} (\n{columns_sql}\n);"
+        ddl = f'CREATE TABLE IF NOT EXISTS "{table_name}" (\n{columns_sql}\n);'
         ddl_statements.append(ddl)
     
     return "\n\n".join(ddl_statements)
@@ -198,7 +198,7 @@ def get_column_elements(db_path: str, table_name: str, column_name: str) -> List
     """Get all values in a column."""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(f"SELECT DISTINCT {column_name} FROM {table_name};")
+    cursor.execute(f'SELECT DISTINCT "{column_name}" FROM "{table_name}";')
     elements = [row[0] for row in cursor.fetchall()]
     conn.close()
     return elements
