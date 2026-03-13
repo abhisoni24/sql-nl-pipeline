@@ -38,8 +38,6 @@ def create_engine(args) -> SQLEquivalenceEngine:
     """Create and configure the equivalence engine."""
     schema_path = getattr(args, 'schema', 'schemas/social_media.yaml')
     schema_cfg = load_from_yaml(schema_path)
-    schema = schema_cfg.get_legacy_schema()
-    foreign_keys = schema_cfg.get_fk_pairs()
 
     db_path = args.db_path or f"./test_dbs/{schema_cfg.schema_name}.sqlite"
     test_suite_dir = args.test_suite_dir or "./test_dbs"
@@ -51,10 +49,10 @@ def create_engine(args) -> SQLEquivalenceEngine:
     # Create database if it doesn't exist
     if not os.path.exists(db_path):
         print(f"Creating database at: {db_path}")
-        create_database_from_schema(db_path, schema, foreign_keys, overwrite=True)
+        create_database_from_schema(db_path, schema_config=schema_cfg, overwrite=True)
         
         print("Seeding database with sample data...")
-        row_counts = seed_database(db_path, schema, foreign_keys)
+        row_counts = seed_database(db_path, schema_config=schema_cfg)
         for table, count in row_counts.items():
             print(f"  {table}: {count} rows")
     
@@ -66,8 +64,7 @@ def create_engine(args) -> SQLEquivalenceEngine:
         max_distilled_dbs=args.max_distilled_dbs,
         order_matters=args.order_matters,
         cleanup_temp_dbs=not args.keep_temp_dbs,
-        schema=schema,
-        foreign_keys=foreign_keys,
+        schema_config=schema_cfg,
     )
     
     return SQLEquivalenceEngine(config)

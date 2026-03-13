@@ -87,9 +87,7 @@ def discover_schema_map(db_dir: str) -> dict:
 def setup_engine(schema_path: str, workspace: str) -> SQLEquivalenceEngine:
     """Create a seeded equivalence engine for one schema."""
     os.makedirs(workspace, exist_ok=True)
-    cfg = load_schema(schema_path)
-    schema = cfg.get_legacy_schema()
-    foreign_keys = cfg.get_fk_pairs()
+    schema_config = load_schema(schema_path)
 
     dest_db_dir = os.path.join(workspace, 'test_dbs')
     os.makedirs(dest_db_dir, exist_ok=True)
@@ -97,14 +95,13 @@ def setup_engine(schema_path: str, workspace: str) -> SQLEquivalenceEngine:
     from src.equivalence.schema_adapter import create_database_from_schema
     from src.equivalence.seed_database import seed_database
     base_db = os.path.join(dest_db_dir, 'base.sqlite')
-    create_database_from_schema(base_db, schema, foreign_keys, overwrite=True)
-    seed_database(base_db, schema, foreign_keys)
+    create_database_from_schema(base_db, schema_config=schema_config, overwrite=True)
+    seed_database(base_db, schema_config=schema_config)
 
     config = EquivalenceConfig(
         base_db_path=base_db,
         test_suite_dir=dest_db_dir,
-        schema=schema,
-        foreign_keys=foreign_keys,
+        schema_config=schema_config,
     )
     return SQLEquivalenceEngine(config)
 
@@ -214,16 +211,16 @@ def _get_or_create_worker_engine(config_template):
     from src.equivalence.seed_database import seed_database
     base_db = os.path.join(dest_db_dir, 'base.sqlite')
     create_database_from_schema(
-        base_db, config_template['schema'], config_template['foreign_keys'],
+        base_db,
+        schema_config=config_template['schema_config'],
         overwrite=True,
     )
-    seed_database(base_db, config_template['schema'], config_template['foreign_keys'])
+    seed_database(base_db, schema_config=config_template['schema_config'])
 
     config = EquivalenceConfig(
         base_db_path=base_db,
         test_suite_dir=dest_db_dir,
-        schema=config_template['schema'],
-        foreign_keys=config_template['foreign_keys'],
+        schema_config=config_template['schema_config'],
     )
     engine = SQLEquivalenceEngine(config)
     engine._current_schema = config_template['schema_name']
@@ -300,10 +297,33 @@ def main():
                         continue
     print(f"📋 {len(all_records):,} total records across {len(result_files)} files")
 
+    # 3b. Backfill missing complexity from baseline records
+    #     (systematic perturbations may have complexity="unknown" if generated
+    #      before the fix in 03_generate_systematic_perturbations.py)
+    baseline_complexity = {}
+    for r in all_records:
+        if r.get('perturbation_source') == 'baseline' and r.get('complexity', 'unknown') != 'unknown':
+            baseline_complexity[(r['schema_name'], r['query_id'])] = {
+                'complexity': r['complexity'],
+                'tables': r.get('tables'),
+            }
+    patched = 0
+    for r in all_records:
+        if r.get('complexity', 'unknown') == 'unknown':
+            lookup = baseline_complexity.get((r.get('schema_name'), r.get('query_id')))
+            if lookup:
+                r['complexity'] = lookup['complexity']
+                if lookup['tables'] is not None and not r.get('tables'):
+                    r['tables'] = lookup['tables']
+                patched += 1
+    if patched:
+        print(f"🔧 Backfilled complexity for {patched:,} records from baseline data")
+
     # 4. Filter to pending only
     pending = [r for r in all_records if _record_key(r) not in existing_keys]
     if not pending:
         print("✅ All records already evaluated — nothing to do.")
+        _repair_complexity(eval_path)
         return
 
     print(f"⏳ {len(pending):,} new records to evaluate")
@@ -322,8 +342,6 @@ def main():
             continue
 
         cfg = load_schema(schema_path)
-        schema = cfg.get_legacy_schema()
-        fks = cfg.get_fk_pairs()
 
         print(f"\n{'─' * 50}")
         print(f"Schema: {schema_name}  ({len(records):,} pending)")
@@ -335,8 +353,7 @@ def main():
         if args.parallel and len(records) > 50:
             engine_config = {
                 'schema_name': schema_name,
-                'schema': schema,
-                'foreign_keys': fks,
+                'schema_config': cfg,
             }
             tasks = [(r, engine_config) for r in records]
 
@@ -387,6 +404,53 @@ def main():
 
     print(f"\n✅ {total_new:,} new records evaluated → {eval_path}")
     print(f"   Total evaluated: {len(existing_keys) + total_new:,}")
+
+    # 7. Repair any "unknown" complexity in the output file using baseline lookup
+    _repair_complexity(eval_path)
+
+
+def _repair_complexity(eval_path: str):
+    """Patch complexity='unknown' records in the evaluated output file.
+
+    Builds a lookup from baseline records (which always have correct
+    complexity) and rewrites the file only if patches are needed.
+    """
+    if not os.path.exists(eval_path):
+        return
+
+    records = []
+    with open(eval_path) as f:
+        for line in f:
+            if line.strip():
+                records.append(json.loads(line))
+
+    # Build lookup from baseline records
+    baseline_complexity = {}
+    for r in records:
+        if r.get('perturbation_source') == 'baseline' and r.get('complexity', 'unknown') != 'unknown':
+            baseline_complexity[(r['schema_name'], r['query_id'])] = {
+                'complexity': r['complexity'],
+                'tables': r.get('tables'),
+            }
+
+    if not baseline_complexity:
+        return  # no baseline data to use as reference
+
+    patched = 0
+    for r in records:
+        if r.get('complexity', 'unknown') == 'unknown':
+            lookup = baseline_complexity.get((r.get('schema_name'), r.get('query_id')))
+            if lookup:
+                r['complexity'] = lookup['complexity']
+                if lookup['tables'] is not None and not r.get('tables'):
+                    r['tables'] = lookup['tables']
+                patched += 1
+
+    if patched:
+        with open(eval_path, 'w') as f:
+            for r in records:
+                f.write(json.dumps(r) + '\n')
+        print(f"🔧 Repaired complexity for {patched:,} records in {eval_path}")
 
 
 if __name__ == '__main__':

@@ -197,8 +197,6 @@ def setup_equivalence_engine(local_workspace='./local_eval_workspace',
 
     # Load schema from YAML
     schema_cfg = load_from_yaml(schema_path)
-    schema = schema_cfg.get_legacy_schema()
-    foreign_keys = schema_cfg.get_fk_pairs()
     schema_name = schema_cfg.schema_name
 
     print(f"📂 Setting up evaluation workspace (schema: {schema_name})...")
@@ -209,15 +207,14 @@ def setup_equivalence_engine(local_workspace='./local_eval_workspace',
     from src.equivalence.schema_adapter import create_database_from_schema
     from src.equivalence.seed_database import seed_database
     base_db = f'{dest_db_dir}/base.sqlite'
-    create_database_from_schema(base_db, schema, foreign_keys, overwrite=True)
-    seed_database(base_db, schema, foreign_keys)
+    create_database_from_schema(base_db, schema_config=schema_cfg, overwrite=True)
+    seed_database(base_db, schema_config=schema_cfg)
     print("✅ Base database created and seeded.")
 
     config = EquivalenceConfig(
         base_db_path=base_db,
         test_suite_dir=dest_db_dir,
-        schema=schema,
-        foreign_keys=foreign_keys,
+        schema_config=schema_cfg,
     )
     return SQLEquivalenceEngine(config)
 
@@ -309,11 +306,10 @@ def _get_or_create_worker_engine(config_template):
         from src.equivalence.schema_adapter import create_database_from_schema
         from src.equivalence.seed_database import seed_database
         base_db = f'{dest_db_dir}/base.sqlite'
-        schema = config_template.get('schema')
-        fks = config_template.get('foreign_keys')
-        if schema and fks:
-            create_database_from_schema(base_db, schema, fks, overwrite=True)
-            seed_database(base_db, schema, fks)
+        schema_config = config_template.get('schema_config')
+        if schema_config:
+            create_database_from_schema(base_db, schema_config=schema_config, overwrite=True)
+            seed_database(base_db, schema_config=schema_config)
         else:
             # Fallback: copy existing test_dbs
             src_db_dir = config_template['source_db_dir']
@@ -325,8 +321,7 @@ def _get_or_create_worker_engine(config_template):
         max_fuzz_iterations=config_template.get('max_fuzz_iterations', 100),
         max_distilled_dbs=config_template.get('max_distilled_dbs', 10),
         order_matters=config_template.get('order_matters', False),
-        schema=config_template.get('schema'),
-        foreign_keys=config_template.get('foreign_keys'),
+        schema_config=config_template.get('schema_config'),
     )
 
     _subprocess_engine = SQLEquivalenceEngine(config)
@@ -415,8 +410,7 @@ def evaluate_dataframe_parallel(
         'max_fuzz_iterations': engine.config.max_fuzz_iterations,
         'max_distilled_dbs': engine.config.max_distilled_dbs,
         'order_matters': engine.config.order_matters,
-        'schema': engine.config.schema,
-        'foreign_keys': engine.config.foreign_keys,
+        'schema_config': engine.config.schema_config,
     }
 
     new_count = 0

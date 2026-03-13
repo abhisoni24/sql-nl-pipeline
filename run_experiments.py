@@ -644,14 +644,13 @@ Examples:
 
     print(f"   🎯 Target Models: {models_to_run}")
 
-    # Pre-load schema contexts for all databases
+    # Pre-load schema configs for all databases
     schema_contexts = {}
     for p in db_paths:
         cfg = load_schema(str(p))
         if cfg.schema_name in schema_names:
             schema_contexts[cfg.schema_name] = {
-                'schema': cfg.get_legacy_schema(),
-                'foreign_keys': cfg.get_fk_pairs(),
+                'schema_config': cfg,
                 'dialect': cfg.dialect,
             }
 
@@ -690,8 +689,7 @@ Examples:
                 adapter_type=worker_args.pop('adapter_type'),
                 model_identifier=worker_args.pop('model_identifier'),
                 rate_limit=worker_args.pop('rate_limit', None),
-                schema=first_ctx['schema'],
-                foreign_keys=first_ctx['foreign_keys'],
+                schema_config=first_ctx['schema_config'],
                 dialect=first_ctx['dialect'],
                 **worker_args,
             )
@@ -702,7 +700,7 @@ Examples:
                 sctx = schema_contexts[sname]
                 worker._system_prompt = _build_system_prompt(sctx['dialect'])
                 worker._schema_context = _build_schema_context(
-                    sctx['schema'], sctx['foreign_keys']
+                    schema_config=sctx['schema_config']
                 )
 
                 schema_tasks = [t for t in all_tasks if t['schema_name'] == sname]

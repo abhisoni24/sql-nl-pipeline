@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from typing import Dict, Optional, List, Tuple
 from enum import Enum
 
+from src.core.schema_config import SchemaConfig
+
 
 class EquivalenceResult(Enum):
     """Result of an equivalence check."""
@@ -57,6 +59,9 @@ class EquivalenceConfig:
     
     # Foreign key relationships: {(from_table, to_table): (from_col, to_col)}
     foreign_keys: Optional[Dict[Tuple[str, str], Tuple[str, str]]] = None
+
+    # Canonical schema representation
+    schema_config: Optional[SchemaConfig] = None
     
     # Path to TestSuiteEval directory
     testsuite_eval_path: str = ""
@@ -69,3 +74,15 @@ class EquivalenceConfig:
     
     # Maximum rows to generate per table during seeding
     max_rows_per_table: int = 100
+
+    def resolved_schema(self) -> Optional[Dict[str, Dict[str, str]]]:
+        """Return legacy schema dict, preferring schema_config when available."""
+        if self.schema_config is not None:
+            return self.schema_config.get_legacy_schema()
+        return self.schema
+
+    def resolved_foreign_keys(self) -> Optional[Dict[Tuple[str, str], Tuple[str, str]]]:
+        """Return legacy FK dict, preferring schema_config when available."""
+        if self.schema_config is not None:
+            return self.schema_config.get_fk_pairs()
+        return self.foreign_keys

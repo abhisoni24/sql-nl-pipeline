@@ -27,7 +27,7 @@ class MixedSqlNlPerturbation(PerturbationStrategy):
 
     # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return not isinstance(ast, exp.Insert)
+        return True
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)

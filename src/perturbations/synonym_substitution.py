@@ -18,6 +18,9 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
         'select': ["Select", "Pick out", "Spot", "Single out", "choose"],
         'show': ["Show", "Display", "Bring up", "Give me a look at",
                  "Run a check for", "Produce a listing of"],
+        'insert': ["Add", "Insert", "Put", "Include", "Create"],
+        'update': ["Update", "Change", "Modify", "Adjust", "Edit"],
+        'delete': ["Remove", "Delete", "Drop", "Strip out", "Wipe out"],
     }
 
     # ── Hook override ──────────────────────────────────────────────
@@ -35,7 +38,7 @@ class SynonymSubstitutionPerturbation(PerturbationStrategy):
 
     # ── Core methods ───────────────────────────────────────────────
     def is_applicable(self, ast, nl_text, context):
-        return not isinstance(ast, (exp.Insert, exp.Update, exp.Delete))
+        return True
 
     def apply(self, nl_text, ast, rng, context):
         seed = context.get("seed", 42)

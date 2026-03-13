@@ -13,6 +13,7 @@ from .schema_adapter import create_database_from_schema
 from .seed_database import seed_database
 from .dql_equivalence import DQLEquivalenceChecker
 from .dml_equivalence import DMLEquivalenceChecker
+from src.core.schema_config import SchemaConfig
 
 
 class SQLEquivalenceEngine:
@@ -55,8 +56,8 @@ class SQLEquivalenceEngine:
         if os.path.exists(self.config.base_db_path):
             return
         
-        schema = self.config.schema
-        foreign_keys = self.config.foreign_keys
+        schema = self.config.resolved_schema()
+        foreign_keys = self.config.resolved_foreign_keys()
         
         if schema is None or foreign_keys is None:
             raise RuntimeError(
@@ -164,8 +165,9 @@ class SQLEquivalenceEngine:
     @classmethod
     def from_schema(
         cls,
-        schema: dict,
-        foreign_keys: dict,
+        schema: Optional[dict] = None,
+        foreign_keys: Optional[dict] = None,
+        schema_config: Optional[SchemaConfig] = None,
         db_path: str = "./test_dbs/base.sqlite",
         test_suite_dir: str = "./test_dbs",
         **config_kwargs
@@ -186,6 +188,15 @@ class SQLEquivalenceEngine:
         # Create directory
         os.makedirs(os.path.dirname(db_path) or ".", exist_ok=True)
         
+        if schema_config is not None:
+            schema = schema_config.get_legacy_schema()
+            foreign_keys = schema_config.get_fk_pairs()
+
+        if schema is None or foreign_keys is None:
+            raise ValueError(
+                "Schema inputs missing: provide either schema_config or both schema and foreign_keys"
+            )
+
         # Create database
         create_database_from_schema(db_path, schema, foreign_keys, overwrite=True)
         
@@ -199,6 +210,7 @@ class SQLEquivalenceEngine:
             test_suite_dir=test_suite_dir,
             schema=schema,
             foreign_keys=foreign_keys,
+            schema_config=schema_config,
             **config_kwargs
         )
         

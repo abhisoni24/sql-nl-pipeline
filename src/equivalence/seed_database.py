@@ -9,8 +9,10 @@ import sqlite3
 import random
 import string
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 import os
+
+from src.core.schema_config import SchemaConfig
 
 
 # Random data generators
@@ -73,8 +75,9 @@ def random_country_code() -> str:
 
 def seed_database(
     db_path: str,
-    schema: Dict[str, Dict[str, str]],
-    foreign_keys: Dict[Tuple[str, str], Tuple[str, str]],
+    schema: Optional[Dict[str, Dict[str, str]]] = None,
+    foreign_keys: Optional[Dict[Tuple[str, str], Tuple[str, str]]] = None,
+    schema_config: Optional[SchemaConfig] = None,
     min_rows: int = 30,
     max_rows: int = 100,
     seed: int = 42
@@ -93,6 +96,14 @@ def seed_database(
     Returns:
         Dictionary mapping table names to row counts
     """
+    if schema_config is not None:
+        schema = schema_config.get_legacy_schema()
+        foreign_keys = schema_config.get_fk_pairs()
+    elif schema is None or foreign_keys is None:
+        raise ValueError(
+            "Schema inputs missing: provide either schema_config or both schema and foreign_keys"
+        )
+
     random.seed(seed)
     
     conn = sqlite3.connect(db_path)

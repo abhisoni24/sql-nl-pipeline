@@ -3,6 +3,8 @@ import asyncio
 from typing import List, Dict, Any, Optional
 from tqdm.auto import tqdm
 
+from src.core.schema_config import SchemaConfig
+
 
 # Default SQL dialect (used when no schema is provided)
 _DEFAULT_DIALECT = "sqlite"
@@ -17,14 +19,24 @@ def _build_system_prompt(dialect: str = _DEFAULT_DIALECT) -> str:
     )
 
 
-def _build_schema_context(schema: Dict[str, Dict[str, str]],
-                           foreign_keys: Dict = None) -> str:
-    """Build human-readable schema context from a schema dict.
-    
-    Args:
-        schema: {table_name: {col_name: col_type, ...}, ...}
-        foreign_keys: optional FK dict for reference
-    """
+def _build_schema_context(
+    schema: Optional[Dict[str, Dict[str, str]]] = None,
+    foreign_keys: Optional[Dict] = None,
+    schema_config: Optional[SchemaConfig] = None,
+) -> str:
+    """Build human-readable schema context from SchemaConfig or legacy dicts."""
+    if schema_config is not None:
+        lines = [f"Database: {schema_config.schema_name}  (dialect: {schema_config.dialect})"]
+        lines.append("")
+        lines.append("Database Schema:")
+        for table, tdef in schema_config.tables.items():
+            col_strs = [f"{c.name} {c.col_type.upper()}" for c in tdef.columns.values()]
+            lines.append(f"- {table}({', '.join(col_strs)})")
+        return "\n".join(lines)
+
+    if schema is None:
+        return ""
+
     lines = ["Database Schema:"]
     for table, cols in schema.items():
         col_strs = [f"{c} {t.upper()}" for c, t in cols.items()]
@@ -40,6 +52,7 @@ class LLMWorker:
         adapter_type: str,
         model_identifier: str,
         rate_limit: Optional[Dict[str, Any]] = None,
+        schema_config: Optional[SchemaConfig] = None,
         schema: Optional[Dict[str, Dict[str, str]]] = None,
         foreign_keys: Optional[Dict] = None,
         dialect: str = _DEFAULT_DIALECT,
@@ -52,9 +65,12 @@ class LLMWorker:
         self._adapter = None
         
         # Build prompts from schema config
-        self._system_prompt = _build_system_prompt(dialect)
-        if schema is not None:
-            self._schema_context = _build_schema_context(schema, foreign_keys)
+        effective_dialect = schema_config.dialect if schema_config is not None else dialect
+        self._system_prompt = _build_system_prompt(effective_dialect)
+        if schema_config is not None:
+            self._schema_context = _build_schema_context(schema_config=schema_config)
+        elif schema is not None:
+            self._schema_context = _build_schema_context(schema=schema, foreign_keys=foreign_keys)
         else:
             # Fallback: no schema provided — callers must provide full prompts
             self._schema_context = ""

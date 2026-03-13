@@ -26,6 +26,8 @@ import sys
 from collections import Counter, defaultdict
 from datetime import datetime
 
+import sqlglot
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from src.utils.sql_utils import extract_sql
@@ -81,6 +83,17 @@ def check_extraction(record: dict) -> list:
         first_preamble_word = preamble_text.split()[0] if preamble_text else ''
         if first_preamble_word not in sql_clause_words:
             issues.append('english_preamble')
+
+    # 6. Parsable by sqlglot
+    try:
+        parsed = sqlglot.parse(extracted, read='sqlite', error_level=sqlglot.ErrorLevel.RAISE)
+        if not parsed or all(s is None for s in parsed):
+            issues.append('parse_empty')
+    except (sqlglot.errors.ParseError, sqlglot.errors.TokenError) as e:
+        issues.append(f'parse_error:{str(e)[:80]}')
+    except Exception as e:
+        # sqlglot can raise AttributeError/TypeError on severely malformed SQL
+        issues.append(f'parse_crash:{type(e).__name__}:{str(e)[:60]}')
 
     return issues
 
@@ -219,3 +232,151 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# Unit tests for extract_sql (run with pytest)
+# ─────────────────────────────────────────────────────────────────────────
+
+class TestExtractSQL:
+    """Unit tests for src.utils.sql_utils.extract_sql edge cases."""
+
+    # ── Code fence extraction ──────────────────────────────────────
+
+    def test_sql_code_fence(self):
+        text = "Here is your query:\n```sql\nSELECT * FROM users;\n```"
+        assert extract_sql(text) == "SELECT * FROM users;"
+
+    def test_unclosed_sql_code_fence(self):
+        text = "```sql\nSELECT id FROM orders"
+        assert extract_sql(text) == "SELECT id FROM orders"
+
+    def test_generic_code_fence(self):
+        text = "```\nDELETE FROM logs WHERE age > 30;\n```"
+        assert extract_sql(text) == "DELETE FROM logs WHERE age > 30;"
+
+    # ── Think block stripping ─────────────────────────────────────
+
+    def test_think_block_stripped(self):
+        text = "<think>I need to think about this...</think>SELECT name FROM employees"
+        result = extract_sql(text)
+        assert "think" not in result.lower()
+        assert result.startswith("SELECT")
+
+    def test_unterminated_think_block(self):
+        text = "<think>reasoning that never ends... SELECT * FROM users"
+        result = extract_sql(text)
+        assert result == ""
+
+    # ── gpt-oss-20b analysis prefix ───────────────────────────────
+
+    def test_analysis_prefix_stripped(self):
+        text = "analysisThe user wants a simple query.\n\nSELECT * FROM products"
+        result = extract_sql(text)
+        assert result == "SELECT * FROM products"
+
+    # ── Paragraph-level extraction (the main fix) ─────────────────
+
+    def test_paragraph_extraction_delete_with_prose(self):
+        """gpt-oss-20b: reasoning uses 'delete' as English, real SQL after \\n\\n."""
+        text = (
+            'We need to delete all authors with Id < 493. But also need to '
+            'delete related entries in PaperAuthor? The query says "Remove all '
+            'authors". So we need to delete from Author where Id < 493. Also '
+            'delete from PaperAuthor.\n\n'
+            'DELETE FROM PaperAuthor WHERE AuthorId < 493'
+        )
+        result = extract_sql(text)
+        assert result == "DELETE FROM PaperAuthor WHERE AuthorId < 493"
+
+    def test_paragraph_extraction_select_after_reasoning(self):
+        """Reasoning with 'select' used as English, SQL after paragraph break."""
+        text = (
+            "We need to select the right approach. Let me select the columns "
+            "that matter. The user wants to select from the table.\n\n"
+            "SELECT name, age FROM employees WHERE age > 30"
+        )
+        result = extract_sql(text)
+        assert result == "SELECT name, age FROM employees WHERE age > 30"
+
+    def test_paragraph_extraction_update_after_reasoning(self):
+        text = (
+            "We should update the records. Let me update the salary.\n\n"
+            "UPDATE employees SET salary = 50000 WHERE department = 'HR'"
+        )
+        result = extract_sql(text)
+        assert result == "UPDATE employees SET salary = 50000 WHERE department = 'HR'"
+
+    def test_paragraph_extraction_insert_after_reasoning(self):
+        text = (
+            "We need to insert a new record. Let me insert into the table.\n\n"
+            "INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com')"
+        )
+        result = extract_sql(text)
+        assert result == "INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com')"
+
+    def test_paragraph_extraction_picks_last_sql_block(self):
+        """When multiple paragraph blocks start with SQL, pick the last one."""
+        text = (
+            "SELECT 1 -- just testing\n\n"
+            "Actually that's wrong.\n\n"
+            "SELECT id, name FROM customers WHERE active = 1"
+        )
+        result = extract_sql(text)
+        assert result == "SELECT id, name FROM customers WHERE active = 1"
+
+    def test_paragraph_extraction_with_analysis_prefix(self):
+        """Full gpt-oss-20b pattern: analysis + prose + \\n\\n + SQL."""
+        text = (
+            "analysisWe need to produce SQL code to remove all authors with Id "
+            "less than 493. In SQLite, we can delete from Author. Provide only "
+            "SQL. No explanation. So output:\n\n"
+            "DELETE FROM Author WHERE Id < 493"
+        )
+        result = extract_sql(text)
+        assert result == "DELETE FROM Author WHERE Id < 493"
+
+    def test_paragraph_extraction_with_so_output_marker(self):
+        """Model says 'So output:' then gives SQL after newlines."""
+        text = (
+            "The user wants all papers. We need to select from Paper. "
+            "So output:\n\n"
+            "SELECT * FROM Paper"
+        )
+        result = extract_sql(text)
+        assert result == "SELECT * FROM Paper"
+
+    # ── No-semicolon regex without re.DOTALL ──────────────────────
+
+    def test_no_semicolon_single_line_sql(self):
+        """Bare SQL with no semicolon, no paragraph breaks — still extracted."""
+        text = "SELECT name FROM users WHERE id = 5"
+        result = extract_sql(text)
+        assert result == "SELECT name FROM users WHERE id = 5"
+
+    def test_no_dotall_prevents_greedy_prose_capture(self):
+        """Without re.DOTALL, each line is matched independently."""
+        text = (
+            "We need to delete something.\n"
+            "DELETE FROM Author WHERE Id < 10"
+        )
+        result = extract_sql(text)
+        assert result == "DELETE FROM Author WHERE Id < 10"
+
+    # ── Edge cases ────────────────────────────────────────────────
+
+    def test_empty_input(self):
+        assert extract_sql("") == ""
+
+    def test_error_prefix(self):
+        assert extract_sql("ERROR: timeout") == ""
+
+    def test_semicolon_terminated_takes_last(self):
+        text = "Some preamble text.\n\nSELECT 1;\n\nSELECT id FROM orders;"
+        result = extract_sql(text)
+        assert result == "SELECT id FROM orders;"
+
+    def test_with_clause(self):
+        text = "WITH cte AS (SELECT 1) SELECT * FROM cte"
+        result = extract_sql(text)
+        assert "WITH" in result and "cte" in result

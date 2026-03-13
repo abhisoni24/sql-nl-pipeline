@@ -34,9 +34,7 @@ def generate_dataset(schema_path, num_per_complexity=20):
 
 def validate_dataset(dataset, cfg):
     """Run structural validation checks on the generated dataset."""
-    schema = cfg.get_legacy_schema()
-    fks = cfg.get_fk_pairs()
-    known_tables = set(schema.keys())
+    known_tables = set(cfg.table_names)
     known_complexities = {"simple", "join", "advanced", "union", "insert", "update", "delete"}
     dialect = cfg.dialect
 

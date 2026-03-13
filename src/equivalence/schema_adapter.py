@@ -9,6 +9,8 @@ import sqlite3
 import os
 from typing import Dict, Tuple, List, Any, Optional
 
+from src.core.schema_config import SchemaConfig
+
 
 # Type mapping from our schema types to SQLite types
 TYPE_MAPPING = {
@@ -21,7 +23,7 @@ TYPE_MAPPING = {
 
 
 def schema_to_sqlite_ddl(
-    schema: Dict[str, Dict[str, str]], 
+    schema: Dict[str, Dict[str, str]],
     foreign_keys: Dict[Tuple[str, str], Tuple[str, str]],
     add_not_null: bool = True
 ) -> str:
@@ -103,10 +105,28 @@ def schema_to_sqlite_ddl(
     return "\n\n".join(ddl_statements)
 
 
+def _normalize_schema_inputs(
+    schema: Optional[Dict[str, Dict[str, str]]] = None,
+    foreign_keys: Optional[Dict[Tuple[str, str], Tuple[str, str]]] = None,
+    schema_config: Optional[SchemaConfig] = None,
+) -> Tuple[Dict[str, Dict[str, str]], Dict[Tuple[str, str], Tuple[str, str]]]:
+    """Resolve schema/fk inputs from either legacy dicts or SchemaConfig."""
+    if schema_config is not None:
+        return schema_config.get_legacy_schema(), schema_config.get_fk_pairs()
+
+    if schema is None or foreign_keys is None:
+        raise ValueError(
+            "Schema inputs missing: provide either schema_config or both schema and foreign_keys"
+        )
+
+    return schema, foreign_keys
+
+
 def create_database_from_schema(
     db_path: str,
-    schema: Dict[str, Dict[str, str]],
-    foreign_keys: Dict[Tuple[str, str], Tuple[str, str]],
+    schema: Optional[Dict[str, Dict[str, str]]] = None,
+    foreign_keys: Optional[Dict[Tuple[str, str], Tuple[str, str]]] = None,
+    schema_config: Optional[SchemaConfig] = None,
     overwrite: bool = False
 ) -> None:
     """
@@ -127,6 +147,7 @@ def create_database_from_schema(
     # Ensure directory exists
     os.makedirs(os.path.dirname(db_path) or ".", exist_ok=True)
     
+    schema, foreign_keys = _normalize_schema_inputs(schema, foreign_keys, schema_config)
     ddl = schema_to_sqlite_ddl(schema, foreign_keys, add_not_null=True)
     
     conn = sqlite3.connect(db_path)

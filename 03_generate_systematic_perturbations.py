@@ -79,8 +79,9 @@ def main():
         print(f"Schema: '{schema_name}', dialect: '{dialect}'")
 
         # Auto-load dictionary if a matching _dictionary.yaml exists
-        dict_path = args.schema.replace('.yaml', '_dictionary.yaml')
-        if dict_path != args.schema and os.path.exists(dict_path):
+        schema_dir = os.path.dirname(os.path.abspath(args.schema))
+        dict_path = os.path.join(schema_dir, f"{schema_name}_dictionary.yaml")
+        if os.path.exists(dict_path):
             from src.core.dictionary_builder import load_dictionary
             dictionary = load_dictionary(dict_path)
             syn_count = len(dictionary.table_synonyms) + len(dictionary.column_synonyms)
@@ -113,6 +114,8 @@ def main():
         output_item = {
             "id": query_item.get("id", i + 1),
             "sql": sql,
+            "complexity": query_item.get("complexity", "unknown"),
+            "tables": query_item.get("tables", []),
             "generated_perturbations": {
                 "original": {"nl_prompt": baseline_nl},
                 "single_perturbations": [],
