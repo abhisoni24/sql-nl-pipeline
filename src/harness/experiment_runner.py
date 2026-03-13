@@ -76,12 +76,21 @@ class ExperimentRunner:
         # Save results
         with open(self.output_path, 'a') as f:
             for task, response in zip(pending, responses):
+                if isinstance(response, dict):
+                    raw_response = response.get('generated_response', '')
+                    generated_sql = response.get('generated_sql')
+                else:
+                    raw_response = response
+                    generated_sql = None
+
                 result = {
                     **task,
                     'model_name': model_name,
-                    'generated_response': response,
+                    'generated_response': raw_response,
                     'timestamp': datetime.now().isoformat()
                 }
+                if generated_sql:
+                    result['generated_sql'] = generated_sql
                 f.write(json.dumps(result) + '\n')
                 self.processed_keys.add((task['job_id'], model_name))
         

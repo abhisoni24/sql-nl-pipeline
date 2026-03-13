@@ -1,13 +1,20 @@
 """
 VLLM Adapter for Evaluation Harness.
 """
+import json
+import inspect
 from typing import List, Dict, Any
 from .base import BaseModelAdapter
 try:
     from vllm import LLM, SamplingParams
+    try:
+        from vllm.sampling_params import StructuredOutputsParams
+    except Exception:
+        StructuredOutputsParams = None
 except ImportError:
     LLM = None
     SamplingParams = None
+    StructuredOutputsParams = None
 
 class VLLMAdapter(BaseModelAdapter):
     """Adapter for local open models via vLLM."""
@@ -21,7 +28,14 @@ class VLLMAdapter(BaseModelAdapter):
         # Configurable generation params (popped before passing to vLLM engine)
         self._max_tokens = kwargs.pop('max_tokens', 512)
         self._temperature = kwargs.pop('temperature', 0.0)
+        self._structured_output = kwargs.pop('structured_output', None)
+        self._structured_disable_fallback = kwargs.pop('structured_disable_fallback', False)
+
+        # Traditional SQL stop token (disabled automatically in structured mode)
         self._stop = kwargs.pop('stop', [";"])
+        if self._structured_output == 'json_sql':
+            self._stop = None
+
         self._system_prompt = kwargs.pop('system_prompt', None)
 
         # FIX: Disable custom multiprocessing for Colab compatibility
@@ -37,28 +51,64 @@ class VLLMAdapter(BaseModelAdapter):
         trust_remote_code = kwargs.get('trust_remote_code', True)
         dtype = kwargs.get('dtype', 'auto')
 
-        # Initialize vLLM engine
-        self.llm = LLM(
-            model=model_name,
-            tensor_parallel_size=tensor_parallel_size,
-            trust_remote_code=trust_remote_code,
-            max_model_len=max_model_len,
-            quantization=quantization,
-            dtype=dtype,
+        llm_kwargs = {
+            'model': model_name,
+            'tensor_parallel_size': tensor_parallel_size,
+            'trust_remote_code': trust_remote_code,
+            'max_model_len': max_model_len,
+            'quantization': quantization,
+            'dtype': dtype,
             # Colab stability settings:
-            disable_log_stats=True,
-            enforce_eager=enforce_eager,
-            gpu_memory_utilization=gpu_memory_utilization,
-        )
+            'disable_log_stats': True,
+            'enforce_eager': enforce_eager,
+            'gpu_memory_utilization': gpu_memory_utilization,
+        }
 
-        self.sampling_params = SamplingParams(
-            temperature=self._temperature,
-            top_p=1.0,
-            max_tokens=self._max_tokens,
-            stop=self._stop,
-        )
+        # Optional vLLM structured outputs engine config passthrough.
+        structured_outputs_config = kwargs.get('structured_outputs_config')
+        if structured_outputs_config is not None:
+            llm_kwargs['structured_outputs_config'] = structured_outputs_config
 
-    def generate(self, prompts: List[str]) -> List[str]:
+        # Initialize vLLM engine
+        self.llm = LLM(**llm_kwargs)
+
+        sampling_kwargs = {
+            'temperature': self._temperature,
+            'top_p': 1.0,
+            'max_tokens': self._max_tokens,
+            'stop': self._stop,
+        }
+
+        if self._structured_output == 'json_sql':
+            schema = {
+                'type': 'object',
+                'properties': {
+                    'sql': {'type': 'string'},
+                },
+                'required': ['sql'],
+                'additionalProperties': False,
+            }
+
+            param_names = set(inspect.signature(SamplingParams).parameters.keys())
+            if 'structured_outputs' in param_names and StructuredOutputsParams is not None:
+                sampling_kwargs['structured_outputs'] = StructuredOutputsParams(
+                    json=schema,
+                    disable_fallback=self._structured_disable_fallback,
+                )
+            elif 'guided_decoding' in param_names:
+                # Backward compatibility for older vLLM versions.
+                sampling_kwargs['guided_decoding'] = {'json': schema}
+            elif 'guided_json' in param_names:
+                sampling_kwargs['guided_json'] = schema
+            else:
+                raise RuntimeError(
+                    'structured_output=json_sql requested, but this vLLM '
+                    'build has no supported guided/structured decoding API.'
+                )
+
+        self.sampling_params = SamplingParams(**sampling_kwargs)
+
+    def generate(self, prompts: List[str]) -> List[Any]:
         # Apply chat template formatting for instruction-tuned models
         formatted_prompts = [self.format_prompt(p) for p in prompts]
         
@@ -69,7 +119,23 @@ class VLLMAdapter(BaseModelAdapter):
         for output in outputs:
             # vLLM returns RequestOutput objects
             generated_text = output.outputs[0].text
-            results.append(generated_text)
+            if self._structured_output == 'json_sql':
+                generated_sql = None
+                try:
+                    parsed = json.loads(generated_text)
+                    sql_val = parsed.get('sql')
+                    if isinstance(sql_val, str):
+                        generated_sql = sql_val
+                except Exception:
+                    # Fall back to legacy downstream extraction if parsing fails.
+                    pass
+
+                results.append({
+                    'generated_response': generated_text,
+                    'generated_sql': generated_sql,
+                })
+            else:
+                results.append(generated_text)
         return results
 
     def format_prompt(self, prompt: str) -> str:
@@ -100,4 +166,5 @@ class VLLMAdapter(BaseModelAdapter):
             "top_p": 1.0,
             "max_tokens": self._max_tokens,
             "stop": self._stop,
+            "structured_output": self._structured_output,
         }

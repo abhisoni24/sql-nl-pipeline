@@ -264,7 +264,7 @@ def _evaluate_single(args):
     record, engine_config_template = args
     engine = _get_or_create_worker_engine(engine_config_template)
 
-    generated_sql = extract_sql(record.get('generated_response', ''))
+    generated_sql = record.get('generated_sql') or extract_sql(record.get('generated_response', ''))
     gold_sql = record.get('gold_sql', '')
 
     try:
@@ -354,7 +354,7 @@ def evaluate_dataframe_sequential(
                 skipped += 1
                 continue
 
-            generated_sql = extract_sql(r.get('generated_response', ''))
+            generated_sql = r.get('generated_sql') or extract_sql(r.get('generated_response', ''))
             gold_sql = r.get('gold_sql', '')
 
             try:

@@ -270,7 +270,7 @@ def _evaluate_single(args):
     # Get or create engine using PID-based identity (created once per process)
     engine = _get_or_create_worker_engine(engine_config_template)
 
-    generated_sql = extract_sql(record.get('generated_response', ''))
+    generated_sql = record.get('generated_sql') or extract_sql(record.get('generated_response', ''))
     gold_sql = record.get('gold_sql', '')
 
     try:
@@ -364,7 +364,7 @@ def evaluate_dataframe_sequential(
                 skipped += 1
                 continue  # Opt 2: Skip already evaluated
 
-            generated_sql = extract_sql(r.get('generated_response', ''))
+            generated_sql = r.get('generated_sql') or extract_sql(r.get('generated_response', ''))
             gold_sql = r.get('gold_sql', '')
 
             try:

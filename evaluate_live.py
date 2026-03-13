@@ -237,7 +237,7 @@ def _get_or_create_worker_engine(config_template):
 def _evaluate_single(args):
     record, engine_config = args
     engine = _get_or_create_worker_engine(engine_config)
-    generated_sql = extract_sql(record.get('generated_response', ''))
+    generated_sql = record.get('generated_sql') or extract_sql(record.get('generated_response', ''))
     gold_sql = record.get('gold_sql', '')
 
     try:
@@ -383,7 +383,7 @@ def main():
 
             with open(eval_path, 'a') as out_f:
                 for r in tqdm(records, desc=f"  {schema_name}"):
-                    generated_sql = extract_sql(r.get('generated_response', ''))
+                    generated_sql = r.get('generated_sql') or extract_sql(r.get('generated_response', ''))
                     gold_sql = r.get('gold_sql', '')
                     try:
                         eq_result = check_equivalence_cached(engine, gold_sql, generated_sql)

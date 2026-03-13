@@ -27,6 +27,8 @@ models:
   - name: local-qwen3-coder-30b-a3b
     adapter_type: vllm
     model_identifier: Qwen/Qwen3-Coder-30B-A3B-Instruct
+    structured_output: json_sql
+    structured_disable_fallback: false
     max_model_len: 8192
     quantization: bitsandbytes
     load_format: bitsandbytes
@@ -42,12 +44,16 @@ models:
   - name: gpt-oss-20b
     adapter_type: vllm
     model_identifier: openai/gpt-oss-20b
+    structured_output: json_sql
+    structured_disable_fallback: false
     max_model_len: 8192
     hardware_notes: "A100 40GB"
 
   - name: llama3.1-8b
     adapter_type: vllm
     model_identifier: meta-llama/Llama-3.1-8B
+    structured_output: json_sql
+    structured_disable_fallback: false
     max_model_len: 8192
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
@@ -55,6 +61,8 @@ models:
   - name: llama-3-sqlcoder-8b
     adapter_type: vllm
     model_identifier: defog/llama-3-sqlcoder-8b
+    structured_output: json_sql
+    structured_disable_fallback: false
     max_model_len: 8192
     hardware_notes: "A100 40GB"
     # No rate_limit = no delays for local models
@@ -62,6 +70,8 @@ models:
   - name: sqlcoder-34b-alpha
     adapter_type: vllm
     model_identifier: defog/sqlcoder-34b-alpha
+    structured_output: json_sql
+    structured_disable_fallback: false
     quantization: bitsandbytes
     load_format: bitsandbytes
     max_model_len: 8192
@@ -71,6 +81,8 @@ models:
   - name: deepseek-coder-v2-lite
     adapter_type: vllm
     model_identifier: deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct
+    structured_output: json_sql
+    structured_disable_fallback: false
     max_model_len: 8192
     tp_size: 1
     hardware_notes: "A100 40GB"
